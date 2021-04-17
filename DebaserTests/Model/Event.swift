@@ -9,20 +9,24 @@ import XCTest
 @testable import Debaser
 
 class EventTest: XCTestCase {
-    func testallEventResponse() {
-        let response = try! JSONDecoder().decode([Event].self, from: data)
+    func testParseEventData() {
+        let response = try! JSONDecoder().decode([Event].self, from: eventData)
         
         XCTAssertEqual(response.count, 1)
         
         guard let event = response.first else {
+            XCTFail("There sholud be a parsed event available")
+            
             return
         }
         
-        XCTAssertEqual(event.name, "The Xy")
+        XCTAssertEqual(event.name, "The Xx")
+        XCTAssertEqual(event.date, "2010-01-19")
+        XCTAssertEqual(event.venue, "Medis")
     }
 }
 
-let data = Data("""
+let eventData = Data("""
 [
     {
         "EventId": "3736",
