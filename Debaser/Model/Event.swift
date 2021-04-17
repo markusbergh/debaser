@@ -14,6 +14,9 @@ struct Event: Decodable, Hashable, Identifiable {
     let description: String
     let ageLimit: String
     let image: String
+    let date: String
+    let room: String
+    let venue: String
 }
 
 extension Event {
@@ -24,5 +27,8 @@ extension Event {
         case description = "Description"
         case ageLimit = "Age"
         case image = "ImageUrl"
+        case date = "EventDate"
+        case room = "Room"
+        case venue = "Venue"
     }
 }

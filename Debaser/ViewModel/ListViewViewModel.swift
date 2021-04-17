@@ -12,6 +12,7 @@ class ListViewViewModel: ObservableObject {
     private let dateFormatter = DateFormatter()
     
     @Published var events = [Event]()
+    @Published var isShowingErrorAlert = false
     @Published private(set) var isLoading = false
     
     init(service: EventService = EventService()) {
@@ -99,11 +100,16 @@ extension ListViewViewModel {
                 case .success(let events):
                     self.events = events
                 case .failure(let error):
-                    print(error.description)
+                    
                     switch error {
+                    case .timeout:
+                        ()
                     default:
-                        self.events = []
+                        ()
                     }
+                    
+                    self.isShowingErrorAlert = true
+                    self.events = []
                 }
                 
                 self.isLoading = false

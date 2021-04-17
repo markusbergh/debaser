@@ -8,38 +8,44 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        TabView {
-            LatestEventView()
-                .tabItem {
-                    Image(systemName: "calendar")
-                    Text("Senaste")
-                }
-            
-            AllEventView()
-                .tabItem {
-                    Image(systemName: "list.triangle")
-                    Text("Alla")
-                }
-            
-            FavouritesView()
-                .tabItem {
-                    Image(systemName: "star")
-                    Text("Favoriter")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Inställningar")
-                }
+    @State var selectedTab: String = "mic"
+    @State var isShowingTabBar = false
+    
+    @StateObject var viewRouter: ViewRouter
 
+    var body: some View {
+        
+        ZStack(alignment: .bottom) {
+            VStack {
+                Spacer()
+                
+                let currentPage = viewRouter.currentPage
+                
+                switch currentPage {
+                case .list:
+                    EventListView(isShowingTabBar: $isShowingTabBar)
+                case .news:
+                    Text("News")
+                case .favourites:
+                    FavouritesView()
+                case .settings:
+                    SettingsView()
+                }
+                
+                Spacer()
+            }
+            
+            TabBar(selectedTab: $selectedTab)
+                .environmentObject(viewRouter)
+                .offset(y: isShowingTabBar ? 0 : 110)
+                .animation(Animation.easeInOut(duration: 0.2))
         }
+        .ignoresSafeArea()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewRouter: ViewRouter())
     }
 }
