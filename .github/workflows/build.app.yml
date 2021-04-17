@@ -1,0 +1,26 @@
+name: Debaser CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Unit testing [Swift]
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        run-config:
+          - { scheme: "DebaserTests", destination: "platform=iOS Simulator,OS=14.4,name=iPhone 12 Pro" }
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: xcodebuild clean test -scheme '${{ matrix.run-config["scheme"] }}' -destination '${{ matrix.run-config["destination"] }}' -showBuildTimingSummary
+
