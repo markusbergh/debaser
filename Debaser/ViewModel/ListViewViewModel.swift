@@ -5,30 +5,29 @@
 //  Created by Markus Bergh on 2021-03-24.
 //
 
+import Combine
 import Foundation
 
 class ListViewViewModel: ObservableObject {
     private let service: EventService
     private let dateFormatter = DateFormatter()
+    private var cancellable: AnyCancellable?
+    private var dateComponents = Calendar.current.dateComponents([.year], from: Date())
     
-    @Published var events = [Event]()
+    @Published var events = [EventViewModel]()
+    @Published var filteredEvents = [EventViewModel]()
     @Published var isShowingErrorAlert = false
+    @Published var currentSearch = ""
     @Published private(set) var isLoading = false
     
-    init(service: EventService = EventService()) {
-        self.service = service
-        
-        dateFormatter.dateFormat = "yyyyMMdd"
-    }
+    static let networkActivityPublisher = PassthroughSubject<Bool, Never>()
     
     var firstDayOfYear: String? {
-        var components = Calendar.current.dateComponents([.year], from: Date())
-        
-        components.calendar = Calendar.current
-        components.day = 1
-        components.month = 1
+        dateComponents.calendar = Calendar.current
+        dateComponents.day = 1
+        dateComponents.month = 1
                 
-        guard let date = components.date, components.isValidDate else {
+        guard let date = dateComponents.date, dateComponents.isValidDate else {
             return nil
         }
                 
@@ -36,16 +35,14 @@ class ListViewViewModel: ObservableObject {
     }
     
     var lastDayOfYear: String? {
-        var components = Calendar.current.dateComponents([.year], from: Date())
-        
-        guard let startDateOfYear = Calendar.current.date(from: components) else {
+        guard let startDateOfYear = Calendar.current.date(from: dateComponents) else {
             return nil
         }
 
-        components.year = 1
-        components.day = -1
+        dateComponents.year = 1
+        dateComponents.day = -1
         
-        guard let lastDateOfYear = Calendar.current.date(byAdding: components, to: startDateOfYear) else {
+        guard let lastDateOfYear = Calendar.current.date(byAdding: dateComponents, to: startDateOfYear) else {
             return nil
         }
         
@@ -62,6 +59,39 @@ class ListViewViewModel: ObservableObject {
         }
         
         return dateFormatter.string(from: date)
+    }
+    
+    init(service: EventService = EventService()) {
+        self.service = service
+        
+        configure()
+    }
+    
+    private func configure() {
+        configureDateFormatter()
+        configureSearchPublisher()
+    }
+    
+    private func configureDateFormatter() {
+        dateFormatter.dateFormat = "yyyyMMdd"
+    }
+    
+    private func configureSearchPublisher() {
+        cancellable = $currentSearch
+            .debounce(for: 0.25, scheduler: RunLoop.main)
+            .sink(receiveValue: { searchText in
+                guard !searchText.isEmpty else {
+                    self.filteredEvents = self.events
+                    
+                    return
+                }
+                
+                self.filteredEvents = self.events.filter { event in
+                    let title = event.title
+                    
+                    return title.contains(searchText)
+                }
+            })
     }
 }
 
@@ -94,11 +124,20 @@ extension ListViewViewModel {
         guard !isLoading else { return }
         isLoading = true
         
+        Self.networkActivityPublisher
+            .send(true)
+        
         service.getEvents(fromDate: from, toDate: to) { result in
+            DispatchQueue.main.async {
+                Self.networkActivityPublisher
+                    .send(false)
+            }
+            
             DispatchQueue.main.async {
                 switch result {
                 case .success(let events):
                     self.events = events
+                    self.filteredEvents = events
                 case .failure(let error):
                     
                     switch error {
@@ -109,7 +148,7 @@ extension ListViewViewModel {
                     }
                     
                     self.isShowingErrorAlert = true
-                    self.events = []
+                    self.filteredEvents = []
                 }
                 
                 self.isLoading = false

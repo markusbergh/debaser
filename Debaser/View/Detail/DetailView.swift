@@ -10,9 +10,9 @@ import SwiftUI
 struct DetailView: View {
     @StateObject var viewModel = DetailViewViewModel()
     
-    var event: Event
+    var event: EventViewModel
     
-    init(event: Event) {
+    init(event: EventViewModel) {
         self.event = event
     }
     
@@ -100,11 +100,11 @@ struct DetailBackButtonView: View {
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    var event: Event
+    var event: EventViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(event.name)
+            Text(event.title)
                 .font(Fonts.title.of(size: 53))
                 .padding(.bottom, 5)
             
@@ -198,9 +198,11 @@ struct DetailView_Previews: PreviewProvider {
             venue: "Strand"
         )
         
-        DetailView(event: event)
+        let model = EventViewModel(with: event)
         
-        DetailView(event: event)
+        DetailView(event: model)
+        
+        DetailView(event: model)
             .preferredColorScheme(.dark)
     }
 }

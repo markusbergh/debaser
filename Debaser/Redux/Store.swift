@@ -27,6 +27,6 @@ final class Store<State, Action>: ObservableObject {
 
 extension Store: StoreProtocol {
     func dispatch(_ action: Action) {
-        reducer(&state, action)
+        state = reducer(&state, action)
     }
 }

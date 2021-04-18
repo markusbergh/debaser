@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  Debaser
+
+  Created by Markus Bergh on 2021-04-18.
+  
+*/
+
+/// Settings
+"Settings" = "Settings";
+"Settings.Debaser" = "Debaser";
+"Settings.Debaser.About" = "About";
+"Settings.Services" = "Services";
+"Settings.Spotify.On" = "On";
+"Settings.Spotify.Off" = "Off";
+"Settings.Layout" = "Layout";
+"Settings.Layout.Images" = "Show images";
+"Settings.Layout.DarkMode" = "Dark mode";
+"Settings.Onboarding" = "Onboarding";
+"Settings.Onboarding.Show" = "Show onboarding";

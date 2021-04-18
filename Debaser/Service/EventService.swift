@@ -46,7 +46,7 @@ final class EventService {
     
     func getEvents(fromDate from: String,
                    toDate to: String,
-                   completion: @escaping (Result<[Event], ServiceError>) -> Void) {
+                   completion: @escaping (Result<[EventViewModel], ServiceError>) -> Void) {
         
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
             completion(.failure(.invalidURL))
@@ -81,16 +81,21 @@ final class EventService {
                 return data
             }
             .decode(type: [Event].self, decoder: JSONDecoder())
+            // Must define return type (ServiceError), otherwise a build error...
+            .mapError { error -> ServiceError in
+                switch error {
+                case is Decodable:
+                    return ServiceError.decodingError
+                default:
+                    return ServiceError.unknownError
+                }
+            }
             .sink(receiveCompletion: { result in
                 self.timeout?.invalidate()
                 
                 switch result {
                 case .failure(let error):
-                    if let _ = error as? DecodingError {
-                        completion(.failure(ServiceError.decodingError))
-                    } else if let error = error as? ServiceError {
-                        completion(.failure(error))
-                    }
+                    completion(.failure(error))
                 break
                 case .finished:
                     // All is good...
@@ -99,7 +104,13 @@ final class EventService {
              }, receiveValue: { events in
                 self.timeout?.invalidate()
                 
-                completion(.success(events))
+                var list = [EventViewModel]()
+                
+                for event in events {
+                    list.append(EventViewModel(with: event))
+                }
+                
+                completion(.success(list))
             })
 
         /*

@@ -26,19 +26,16 @@ struct RowCompactView: View {
         return dateFormatter.string(from: rawDate!)
     }
     
-    var event: Event
+    var event: EventViewModel
     var imageHeight: CGFloat?
     var willShowInfoBar = false
     
-    init(event: Event, imageHeight: CGFloat = 100, isShowingTabBar: Binding<Bool>) {
+    init(event: EventViewModel, imageHeight: CGFloat = 100, isShowingTabBar: Binding<Bool>) {
         self.event = event
         self.imageHeight = imageHeight
         self._isShowingTabBar = isShowingTabBar
         
-        title = event.name
-            .replacingOccurrences(of: "&amp;", with: "&")
-            .replacingOccurrences(of: "&gt;", with: ">")
-        
+        title = event.title
         date = event.date
     }
     
@@ -104,8 +101,10 @@ struct RowCompactView_Previews: PreviewProvider {
                           room: "Bar Brooklyn",
                           venue: "Strand")
         
+        let model = EventViewModel(with: event)
+        
         RowCompactView(
-            event: event,
+            event: model,
             isShowingTabBar: .constant(false)
         )
         .preferredColorScheme(.dark)

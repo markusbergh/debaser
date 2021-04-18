@@ -9,14 +9,10 @@ import SwiftUI
 
 struct ListView: View {
     @AppStorage("isDarkMode") var isDarkMode: Bool = true
-
     @StateObject var viewModel = ListViewViewModel()
     
-    @State private var didAppear: Bool = false
-    @State private var currentIndexToday: Int = 0
-    @State private var currentIndexWeek: Int = 0
+    @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
-    @State private var currentSearch: String = ""
     
     @Binding var isShowingTabBar: Bool
     
@@ -48,7 +44,7 @@ struct ListView: View {
                     headline: headline,
                     label: label,
                     isDarkMode: $isDarkMode,
-                    currentSearch: $currentSearch
+                    currentSearch: $viewModel.currentSearch
                 )
                 
                 PagerView()
@@ -79,15 +75,16 @@ struct ListView: View {
                     }
                     
                     LazyVGrid(columns: gridLayout, spacing: 30) {
-                        ForEach(0..<viewModel.events.count, id:\.self) { idx in
-                            let event = self.viewModel.events[idx]
-
+                        ForEach(0..<viewModel.filteredEvents.count, id:\.self) { idx in
+                            let event = self.viewModel.filteredEvents[idx]
+                            
                             RowCompactView(
                                 event: event,
                                 imageHeight: 150,
                                 isShowingTabBar: $isShowingTabBar
                             )
                             .frame(maxHeight: .infinity, alignment: .top)
+                            .id(event.id)
                         }
                     }
                 }
@@ -105,6 +102,12 @@ struct ListView: View {
                   message: Text("There was an error while fetching events"),
                   dismissButton: .default(Text("OK")))
         }
+        .onReceive(ListViewViewModel.networkActivityPublisher, perform: { isFetching in
+            isShowingActivityIndicator = isFetching
+        })
+        .overlay(
+            ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
+        )
         .onAppear {
             onAppear()
             
@@ -114,6 +117,27 @@ struct ListView: View {
     
     func onAppear() {
         viewModel.fetchAll()
+    }
+}
+
+struct ListProgressIndicatorView: View {
+    let isShowingActivityIndicator: Bool
+    
+    var body: some View {
+        if isShowingActivityIndicator {
+            VStack {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .progressIndicator))
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(50)
+                    .shadow(color: Color.black.opacity(0.25), radius: 5, x: 0, y: 0)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black.opacity(0.3))
+            .ignoresSafeArea()
+            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+        }
     }
 }
 

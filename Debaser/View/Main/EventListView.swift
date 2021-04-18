@@ -27,7 +27,7 @@ struct EventListView: View {
             .navigationBarHidden(true)
         }
         .onAppear {
-            // store.dispatch(.getEvents)
+            // store.dispatch(.getEvents(EventService()))
         }
     }
 }

@@ -14,16 +14,14 @@ struct RowView: View {
 
     private var title: String = ""
     
-    var event: Event
+    var event: EventViewModel
     var willShowInfoBar = false
     
-    init(event: Event, isShowingTabBar: Binding<Bool>) {
+    init(event: EventViewModel, isShowingTabBar: Binding<Bool>) {
         self.event = event
         self._isShowingTabBar = isShowingTabBar
         
-        title = event.name
-            .replacingOccurrences(of: "&amp;", with: "&")
-            .replacingOccurrences(of: "&gt;", with: ">")
+        title = event.title
     }
     
     var body: some View {
@@ -134,8 +132,10 @@ struct RowView_Previews: PreviewProvider {
                           room: "Bar Brooklyn",
                           venue: "Strand")
         
+        let model = EventViewModel(with: event)
+        
         RowView(
-            event: event,
+            event: model,
             isShowingTabBar: .constant(false)
         )
     }

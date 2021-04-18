@@ -17,6 +17,13 @@ public class ColorTheme {
 */
 
 extension Color {
+    /// Generic
+    static let toggleTint = Color("ToggleTint")
+    static let progressIndicator = Color("ProgressIndicator")
+    static let tabBarBackground = Color("TabBarBackground")
+    static let tabBarBorder = Color("TabBarBorder")
+    
+    /// List
     static let listTopGradientStart = Color("ListTopGradientStart")
     static let listTopGradientEnd = Color("ListTopGradientEnd")
     static let listBackground = Color("ListBackground")
@@ -25,14 +32,10 @@ extension Color {
     static let listRowStrokeGradientStart = Color("ListRowStrokeGradientStart")
     static let listRowStrokeGradientEnd = Color("ListRowStrokeGradientEnd")
     static let listDivider = Color("ListDivider")
-    
     static let listSearchBarBorder = Color("SearchBarBorder")
+    
+    /// Detail
     static let detailBackground = Color("DetailBackground")
-    static let toggleTint = Color("ToggleTint")
-    
-    static let tabBarBackground = Color("TabBarBackground")
-    static let tabBarBorder = Color("TabBarBorder")
-    
     static let detailContentBackground = Color("DetailContentBackground")
     static let detailSeparatorGradientStart = Color("DetailSeparatorGradientStart")
     static let detailSeparatorGradientEnd = Color("DetailSeparatorGradientEnd")
@@ -40,6 +43,12 @@ extension Color {
     static let detailViewMetaSecondary = Color("DetailViewMetaSecondary")
     static let detailViewMetaTertiary = Color("DetailViewMetaTertiary")
     static let detailBackButtonTint = Color("DetailBackButtonTint")
+    
+    /// Settings
+    static let settingsTopGradientStart = Color("SettingsTopGradientStart")
+    static let settingsTopGradientEnd = Color("SettingsTopGradientEnd")
+    static let settingsBackground = Color("SettingsBackground")
+    static let settingsListRowBackground = Color("SettingsListRowBackground")
 }
 
 extension UIColor {

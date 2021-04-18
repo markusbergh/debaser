@@ -15,12 +15,15 @@ struct AppState {
 
 // MARK: Reducer
 
-typealias Reducer<State, Action> = (inout State, Action) -> Void
+typealias Reducer<State, Action> = (inout State, Action) -> State
 
-func appReducer(state: inout AppState, action: AppAction) {
+func appReducer(state: inout AppState, action: AppAction) -> AppState {
+    let state = state
+    
     switch action {
-    case .getEvents:
-        
+    case .getEvents(let service):
         break
     }
+    
+    return state
 }
