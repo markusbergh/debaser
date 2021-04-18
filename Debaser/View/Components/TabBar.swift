@@ -20,9 +20,8 @@ struct TabBar: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            TabBarButton(image: "mic", type: .list, selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(image: "music.note.house", type: .list, selectedTab: $selectedTab, tabPoints: $tabPoints)
             TabBarButton(image: "heart", type: .favourites, selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "message", type: .news, selectedTab: $selectedTab, tabPoints: $tabPoints)
             TabBarButton(image: "gearshape", type: .settings, selectedTab: $selectedTab, tabPoints: $tabPoints)
         }
         .padding()

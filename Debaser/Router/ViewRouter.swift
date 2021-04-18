@@ -10,7 +10,6 @@ import SwiftUI
 enum Page {
     case list
     case favourites
-    case news
     case settings
 }
 

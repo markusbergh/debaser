@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var selectedTab: String = "mic"
+    @State var selectedTab: String = "music.note.house"
     @State var isShowingTabBar = false
     
     @StateObject var viewRouter: ViewRouter
@@ -24,8 +24,6 @@ struct ContentView: View {
                 switch currentPage {
                 case .list:
                     EventListView(isShowingTabBar: $isShowingTabBar)
-                case .news:
-                    Text("News")
                 case .favourites:
                     FavouritesView()
                 case .settings:
