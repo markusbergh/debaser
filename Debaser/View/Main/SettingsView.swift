@@ -88,10 +88,6 @@ struct SettingsView: View {
                     SettingsViewTopRectangle(),
                     alignment: .top
                 )
-                .background(
-                    Color.settingsBackground
-                        .ignoresSafeArea()
-                )
                 .navigationBarTitle(titleLabel, displayMode: .large)
                 
                 Spacer()
@@ -100,7 +96,10 @@ struct SettingsView: View {
                     .font(.system(size: 15))
                     .padding(.bottom, 90)
             }
-            
+            .background(
+                Color.settingsBackground
+                    .ignoresSafeArea()
+            )
         }
     }
 }
