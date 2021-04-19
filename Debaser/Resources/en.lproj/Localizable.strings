@@ -18,3 +18,6 @@
 "Settings.Layout.DarkMode" = "Dark mode";
 "Settings.Onboarding" = "Onboarding";
 "Settings.Onboarding.Show" = "Show onboarding";
+
+/// Detail
+"Detail.Buy.Tickets" = "Buy tickets here";

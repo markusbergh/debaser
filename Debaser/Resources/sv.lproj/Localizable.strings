@@ -18,3 +18,6 @@
 "Settings.Layout.DarkMode" = "Mörkt tema";
 "Settings.Onboarding" = "Startguide";
 "Settings.Onboarding.Show" = "Visa startguide";
+
+/// Detail
+"Detail.Buy.Tickets" = "Köp biljetter här";

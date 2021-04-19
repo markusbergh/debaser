@@ -153,11 +153,15 @@ struct DetailMainContentView: View {
 // MARK: Ticket button
 
 struct DetailBuyTicketButtonView: View {
+    private var ticketsLabel: LocalizedStringKey {
+        return "Detail.Buy.Tickets"
+    }
+    
     var body: some View {
         Button(action: {
             // TODO: Open url
         }) {
-            Text("Buy tickets here")
+            Text(ticketsLabel)
                 .font(.system(size: 17))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
