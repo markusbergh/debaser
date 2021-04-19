@@ -9,6 +9,18 @@ import SwiftUI
 
 enum Fonts: String {
     case title = "DelaGothicOne-Regular"
+    
+    func of(size: CGFloat) -> UIFont {
+        guard let customFont = UIFont(name: self.rawValue, size: size) else {
+            fatalError("""
+                Failed to load the font.
+                Make sure the font file is included in the project and the font name is spelled correctly.
+                """
+            )
+        }
+        
+        return customFont
+    }
 
     func of(size: CGFloat) -> Font {
         return Font.custom(self.rawValue, fixedSize: size)

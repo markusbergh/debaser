@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct DetailMetaView: View {
-    var image: String
+    var image: String?
     var label: String
+    var labelSize: CGFloat = 13
+    var labelColor: Color = .primary
     var tintColor: Color = .primary
     var backgroundColor: Color
     
     var body: some View {
         HStack(spacing: 2) {
-            Image(systemName: image)
+            if let image = image {
+                Image(systemName: image)
+            }
             
             Text(label)
-                .font(.system(size: 13))
+                .foregroundColor(labelColor)
+                .font(.system(size: labelSize))
         }
         .foregroundColor(tintColor)
         .padding(.vertical, 5)

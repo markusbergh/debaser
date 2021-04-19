@@ -99,15 +99,31 @@ struct DetailBackButtonView: View {
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
-    
+    @State private var height: CGFloat = .zero
+
     var event: EventViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            
+            /*
             Text(event.title)
                 .font(Fonts.title.of(size: 53))
                 .padding(.bottom, 5)
+            */
             
+            DetailMetaView(
+                label: event.venue,
+                labelSize: 15,
+                labelColor: colorScheme == .dark ? .black : .white,
+                backgroundColor: .primary
+            )
+            .padding(.bottom, 15)
+            
+            TitleView(title: event.title, dynamicHeight: $height)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.bottom, 15)
+                
             DetailMetaContainerView()
 
             SeparatorView()

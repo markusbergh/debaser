@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		850FB558260CB4DD001AD034 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850FB557260CB4DD001AD034 /* FavouritesView.swift */; };
+		8519D27A262DEE4300806839 /* TitleUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519D279262DEE4300806839 /* TitleUIView.swift */; };
 		8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */; };
 		852821282627716F007B83EC /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
 		8528213326277263007B83EC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
@@ -68,6 +69,7 @@
 
 /* Begin PBXFileReference section */
 		850FB557260CB4DD001AD034 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
+		8519D279262DEE4300806839 /* TitleUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleUIView.swift; sourceTree = "<group>"; };
 		8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DelaGothicOne-Regular.ttf"; sourceTree = "<group>"; };
 		8528213226277263007B83EC /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -141,6 +143,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8519D278262DEDF700806839 /* Representable */ = {
+			isa = PBXGroup;
+			children = (
+				8519D279262DEE4300806839 /* TitleUIView.swift */,
+			);
+			path = Representable;
+			sourceTree = "<group>";
+		};
 		852821252627710B007B83EC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +282,7 @@
 		856926DD260BE9A9004B1761 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8519D278262DEDF700806839 /* Representable */,
 				85C2ED91262AE7C900CA5CDF /* List */,
 				85D7D7FF2619F4F30073E3BA /* Detail */,
 				85D7D7FE2619F4D00073E3BA /* Components */,
@@ -500,6 +511,7 @@
 				85D7D7F82619F4550073E3BA /* DetailView.swift in Sources */,
 				85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */,
 				856926C7260BE234004B1761 /* Event.swift in Sources */,
+				8519D27A262DEE4300806839 /* TitleUIView.swift in Sources */,
 				852FBE9E26275CF200060A7E /* WillDisappearModifier.swift in Sources */,
 				85282140262787C0007B83EC /* DetailMetaView.swift in Sources */,
 				850FB558260CB4DD001AD034 /* FavouritesView.swift in Sources */,
