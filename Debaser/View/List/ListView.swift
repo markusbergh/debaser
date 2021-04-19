@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ListView: View {
-    @AppStorage("isDarkMode") var isDarkMode: Bool = true
+    @AppStorage("darkMode") var isDarkMode: Bool = false
     @StateObject var viewModel = ListViewViewModel()
     
     @State private var isShowingActivityIndicator = false
@@ -80,7 +80,7 @@ struct ListView: View {
                             
                             RowCompactView(
                                 event: event,
-                                imageHeight: 150,
+                                mediaHeight: 150,
                                 isShowingTabBar: $isShowingTabBar
                             )
                             .frame(maxHeight: .infinity, alignment: .top)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PagerView: View {
-    let testing: [Color] = [.gray, .black, .gray, .black]
+    let testing: [Color] = [.purple, .gray, .purple, .gray]
     
     @State var offset: CGFloat = 0
     
@@ -47,14 +47,14 @@ struct PagerView: View {
                             .frame(width: 7, height: 7)
                     }
                 }
-                .overlay(
-                    Capsule()
-                        .fill(Color.white)
-                        .frame(width: 18, height: 7)
-                        .offset(x: getOffset())
-                    ,
-                    alignment: .leading
-                )
+//                .overlay(
+//                    Capsule()
+//                        .fill(Color.white)
+//                        .frame(width: 14, height: 7)
+//                        .offset(x: getOffset())
+//                    ,
+//                    alignment: .leading
+//                )
                 .padding(.bottom, 25),
                 alignment: .bottom
             )
@@ -73,7 +73,7 @@ struct PagerView: View {
         let progress = offset / UIScreen.main.bounds.width
         
         // Spacing is 20, width is 7, == 27
-        return 28 * progress
+        return 32 * progress
     }
 }
 

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct RowCompactView: View {
+    @AppStorage("showImages") var showImages: Bool = true
     @StateObject var viewModel: RowViewViewModel = RowViewViewModel()
-    
     @State private var isShowingDetailView: Bool = false
     @State private var opacity: Double = 0
     @Binding var isShowingTabBar: Bool
@@ -27,12 +27,12 @@ struct RowCompactView: View {
     }
     
     var event: EventViewModel
-    var imageHeight: CGFloat?
+    var mediaHeight: CGFloat?
     var willShowInfoBar = false
     
-    init(event: EventViewModel, imageHeight: CGFloat = 100, isShowingTabBar: Binding<Bool>) {
+    init(event: EventViewModel, mediaHeight: CGFloat = 100, isShowingTabBar: Binding<Bool>) {
         self.event = event
-        self.imageHeight = imageHeight
+        self.mediaHeight = mediaHeight
         self._isShowingTabBar = isShowingTabBar
         
         title = event.title
@@ -52,12 +52,24 @@ struct RowCompactView: View {
                 }
             }) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Image(uiImage: viewModel.image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: imageHeight)
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .cornerRadius(15)
+                    if showImages {
+                        Image(uiImage: viewModel.image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: mediaHeight)
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .cornerRadius(15)
+                            .opacity(opacity)
+                            .onChange(of: viewModel.image) { _ in
+                                withAnimation {
+                                    opacity = 1.0
+                                }
+                            }
+                    } else {
+                        Rectangle()
+                            .fill(Color.listNoImageBackground)
+                            .frame(height: mediaHeight)
+                    }
 
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
@@ -75,14 +87,10 @@ struct RowCompactView: View {
                         .foregroundColor(.gray)
                         .padding(.top, 2)
                 }
-                .opacity(opacity)
-                .onChange(of: viewModel.image) { _ in
-                    withAnimation {
-                        opacity = 1.0
-                    }
-                }
                 .onAppear {
-                    viewModel.loadImage(with: event.image)
+                    if showImages {
+                        viewModel.loadImage(with: event.image)
+                    }
                 }
             }
         }

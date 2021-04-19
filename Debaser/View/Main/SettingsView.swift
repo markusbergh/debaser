@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var showImages = true
-    @State private var isDarkMode = false
+    @AppStorage("darkMode") var isDarkMode: Bool = false
+    @AppStorage("showImages") var showImages: Bool = true
     
     private var titleLabel: LocalizedStringKey {
         return "Settings"
@@ -48,50 +48,59 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationView {
-            Form {
-                Group {
-                    Section(header: Text(debaserLabel)) {
-                        NavigationLink(destination: Text("Om")) {
-                            Text(aboutLabel)
-                        }
-                    }
-                    
-                    Section(header: Text(servicesLabel)) {
-                        NavigationLink(destination: Text("Spotify")) {
-                            HStack {
-                                Text("Spotify")
-                                
-                                Spacer()
-                                
-                                Text(spotifyOffLabel)
+            VStack {
+                Form {
+                    Group {
+                        Section(header: Text(debaserLabel)) {
+                            NavigationLink(destination: Text("Om")) {
+                                Text(aboutLabel)
                             }
                         }
-                    }
-                    
-                    Section(header: Text("Layout")) {
-                        Toggle(imagesLabel, isOn: $showImages)
-                        Toggle(darkModeLabel, isOn: $isDarkMode)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-                    
-                    Section(header: Text(onboardingLabel)) {
-                        Button(onboardingShowLabel) {
-                            
+                        
+                        Section(header: Text(servicesLabel)) {
+                            NavigationLink(destination: Text("Spotify")) {
+                                HStack {
+                                    Text("Spotify")
+                                    
+                                    Spacer()
+                                    
+                                    Text(spotifyOffLabel)
+                                }
+                            }
                         }
-                        .foregroundColor(.primary)
+                        
+                        Section(header: Text("Layout")) {
+                            Toggle(imagesLabel, isOn: $showImages)
+                            Toggle(darkModeLabel, isOn: $isDarkMode)
+                        }
+                        .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
+                        
+                        Section(header: Text(onboardingLabel)) {
+                            Button(onboardingShowLabel) {
+                                
+                            }
+                            .foregroundColor(.primary)
+                        }
                     }
+                    .listRowBackground(Color.settingsListRowBackground)
                 }
-                .listRowBackground(Color.settingsListRowBackground)
+                .background(
+                    SettingsViewTopRectangle(),
+                    alignment: .top
+                )
+                .background(
+                    Color.settingsBackground
+                        .ignoresSafeArea()
+                )
+                .navigationBarTitle(titleLabel, displayMode: .large)
+                
+                Spacer()
+                
+                Text("v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)")
+                    .font(.system(size: 15))
+                    .padding(.bottom, 90)
             }
-            .background(
-                SettingsViewTopRectangle(),
-                alignment: .top
-            )
-            .background(
-                Color.settingsBackground
-                    .ignoresSafeArea()
-            )
-            .navigationBarTitle(titleLabel, displayMode: .large)
+            
         }
     }
 }

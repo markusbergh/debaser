@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct DebaserApp: App {
-    @AppStorage("isDarkMode") var isDarkMode: Bool = true
+    @AppStorage("darkMode") var isDarkMode: Bool = false
 
     @StateObject var viewRouter = ViewRouter()
     @StateObject var store = Store(initialState: AppState(), reducer: appReducer)

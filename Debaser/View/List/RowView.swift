@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RowView: View {
+    @AppStorage("showImages") var showImages: Bool = true
     @StateObject var viewModel: RowViewViewModel = RowViewViewModel()
     @State private var isShowingDetailView: Bool = false
     @Binding var isShowingTabBar: Bool
@@ -38,22 +39,29 @@ struct RowView: View {
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .frame(height: 175)
                         
-                        Image(uiImage: viewModel.image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: 175)
-                            .clipped()
-                            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                            .overlay(
-                                Rectangle().fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [.black, .clear]),
-                                        startPoint: .top,
-                                        endPoint: .bottom
+                        if showImages {
+                            Image(uiImage: viewModel.image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .frame(height: 175)
+                                .clipped()
+                                .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                                .overlay(
+                                    Rectangle().fill(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [.black, .clear]),
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
                                     )
                                 )
-                            )
+                        } else {
+                            Rectangle()
+                                .background(Color.red)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .frame(height: 175)
+                        }
 
                         Text(title)
                             .font(.system(size: 23, weight: .medium))
