@@ -15,7 +15,13 @@ struct EventViewModel {
                 .replacingOccurrences(of: "&gt;", with: ">")
         }
     }
-    var description: String = ""
+    var description: String = "" {
+        didSet {
+            description = description.replacingOccurrences(of: "&amp;", with: "&")
+                .replacingOccurrences(of: "&gt;", with: ">")
+                .replacingOccurrences(of: "&nbsp;", with: " ")
+        }
+    }
     var date: String = ""
     var venue: String = ""
     var image: String = ""
