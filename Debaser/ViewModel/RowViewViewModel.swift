@@ -10,7 +10,7 @@ import Combine
 
 class RowViewViewModel: ObservableObject {
     var cancellable: AnyCancellable? = nil
-    var imageLoader = ImageLoader()
+    var imageLoader = ImageLoader.shared
     
     @Published var image: UIImage = UIImage()
 }
@@ -26,12 +26,12 @@ extension RowViewViewModel {
         }
         
         cancellable = imageLoader.load(with: imageURL)
-            .sink(receiveValue: { data in
+            .sink(receiveValue: { [weak self] data in
                 guard let data = data else {
                     return
                 }
                 
-                self.image = UIImage(data: data)!
+                self?.image = UIImage(data: data)!
             })
     }
 }

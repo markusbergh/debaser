@@ -117,7 +117,8 @@ struct RowCompactView_Previews: PreviewProvider {
                           image: "https://debaser.se/img/10982.jpg",
                           date: "2010-01-19",
                           room: "Bar Brooklyn",
-                          venue: "Strand")
+                          venue: "Strand",
+                          ticketUrl: nil)
         
         let model = EventViewModel(with: event)
         

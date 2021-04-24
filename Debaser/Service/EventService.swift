@@ -32,7 +32,15 @@ enum ServiceError: Error {
 }
 
 final class EventService {
-    static let baseUrl = "https://debaser.se/debaser/api/?version=2&method=getevents&format=json"
+    static var baseUrl: String {
+        guard let infoDictPath = Bundle.main.path(forResource: "Debaser", ofType: "plist"),
+              let infoDict = NSDictionary(contentsOfFile: infoDictPath) as? [String: Any],
+              let baseURL = infoDict["kDebaserApiURL"] else {
+            fatalError("There must be an api url in property list")
+        }
+        
+        return "\(baseURL)/?version=2&method=getevents&format=json"
+    }
     
     private var timeout: Timer?
     private var cancellable: AnyCancellable?
@@ -44,6 +52,13 @@ final class EventService {
         }
     }
     
+    init(timeout: Timer? = nil, cancellable: AnyCancellable? = nil) {
+        self.timeout = timeout
+        self.cancellable = cancellable
+    }
+}
+
+extension EventService {
     func getPublisher(fromDate from: String, toDate to: String) -> AnyPublisher<[EventViewModel], ServiceError> {
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
             return Fail(error: ServiceError.invalidURL)

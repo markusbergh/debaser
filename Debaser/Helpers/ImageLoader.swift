@@ -14,7 +14,6 @@ final class ImageLoader {
     static let shared = ImageLoader()
     
     private let urlSession: URLSession
-    
     private var isLoading = false
     
     init(urlSession: URLSession = .shared) {
@@ -32,8 +31,7 @@ final class ImageLoader {
         guard let url = URL(string: imageURL) else {
             isLoading = false
             
-            return Just(nil)
-                .eraseToAnyPublisher()
+            return Empty().eraseToAnyPublisher()
         }
         
         return urlSession.dataTaskPublisher(for: url)
@@ -41,11 +39,10 @@ final class ImageLoader {
             .replaceError(with: nil)
             .receive(on: DispatchQueue.main)
             .handleEvents(
-                receiveOutput: {
-                    cache.setObject($0! as NSData,
-                                    forKey: url as NSURL)
+                receiveOutput: { [weak self] in
+                    cache.setObject($0! as NSData, forKey: url as NSURL)
                     
-                    self.isLoading = false
+                    self?.isLoading = false
                 }
             )
             .eraseToAnyPublisher()

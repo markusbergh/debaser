@@ -25,6 +25,7 @@ struct EventViewModel {
     var date: String = ""
     var venue: String = ""
     var image: String = ""
+    var ticketUrl: String?
     
     init(with event: Event) {
         configure(event: event)
@@ -37,5 +38,6 @@ struct EventViewModel {
         date = event.date
         venue = event.venue
         image = event.image
+        ticketUrl = event.ticketUrl
     }
 }

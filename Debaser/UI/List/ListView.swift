@@ -124,7 +124,7 @@ struct ListView: View {
             ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
         )
         .onAppear {
-            self.isShowingTabBar = true
+            isShowingTabBar = true
         }
     }
     

@@ -17,6 +17,7 @@ struct Event: Decodable, Hashable, Identifiable {
     let date: String
     let room: String
     let venue: String
+    let ticketUrl: String?
 }
 
 extension Event {
@@ -30,5 +31,6 @@ extension Event {
         case date = "EventDate"
         case room = "Room"
         case venue = "Venue"
+        case ticketUrl = "TicketUrl"
     }
 }

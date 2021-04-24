@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var viewModel = DetailViewViewModel()
     
     var event: EventViewModel
@@ -26,7 +27,7 @@ struct DetailView: View {
                             .environmentObject(viewModel)
                         
                         // Back button navigation
-                        // DetailBackButtonView()
+                        DetailBackButtonView()
                     }
                     
                     // Main content
@@ -83,14 +84,14 @@ struct DetailBackButtonView: View {
         }) {
             Image(systemName: "chevron.left.circle.fill")
                 .resizable()
+                .foregroundColor(Color.detailBackButtonTint)
                 .frame(width: 40, height: 40)
                 .background(
                     Circle()
                         .fill(Color.white)
                         .frame(width: 40, height: 40)
                 )
-                .offset(x: 35, y: 60)
-                .foregroundColor(.detailBackButtonTint)
+                .position(x: 25 + (40 / 2), y: 75)
         }
     }
 }
@@ -105,13 +106,6 @@ struct DetailMainContentView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
-            /*
-            Text(event.title)
-                .font(Fonts.title.of(size: 53))
-                .padding(.bottom, 5)
-            */
-            
             DetailMetaView(
                 label: event.venue,
                 labelSize: 15,
@@ -130,7 +124,7 @@ struct DetailMainContentView: View {
                 .frame(height: 10)
                 .padding(.bottom, 15)
             
-            DetailBuyTicketButtonView()
+            DetailBuyTicketButtonView(event: event)
             
             Text(event.description)
                 .font(.system(size: 19))
@@ -153,13 +147,17 @@ struct DetailMainContentView: View {
 // MARK: Ticket button
 
 struct DetailBuyTicketButtonView: View {
+    @State private var showTicketUrl = false
+    
     private var ticketsLabel: LocalizedStringKey {
         return "Detail.Buy.Tickets"
     }
     
+    var event: EventViewModel
+    
     var body: some View {
         Button(action: {
-            // TODO: Open url
+            showTicketUrl = true
         }) {
             Text(ticketsLabel)
                 .font(.system(size: 17))
@@ -175,6 +173,10 @@ struct DetailBuyTicketButtonView: View {
         }
         .foregroundColor(.primary)
         .padding(.bottom, 15)
+        .sheet(isPresented: $showTicketUrl) {
+            WebView(url: URL(string: event.ticketUrl!)!)
+                .ignoresSafeArea()
+        }
     }
 }
 
@@ -215,7 +217,8 @@ struct DetailView_Previews: PreviewProvider {
             image: "https://debaser.se/img/10982.jpg",
             date: "2010-01-19",
             room: "Bar Brooklyn",
-            venue: "Strand"
+            venue: "Strand",
+            ticketUrl: nil
         )
         
         let model = EventViewModel(with: event)

@@ -32,9 +32,7 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        let settings = self.settings(for: store.state.settings)
-        
-        return NavigationView {
+        NavigationView {
             VStack {
                 Form {
                     Group {
@@ -42,8 +40,8 @@ struct SettingsView: View {
                         SettingsSectionSpotify()
 
                         Section(header: Text("Layout")) {
-                            Toggle(darkModeLabel, isOn: settings.0)
-                            Toggle(imagesLabel, isOn: settings.1)
+                            Toggle(darkModeLabel, isOn: darkMode())
+                            Toggle(imagesLabel, isOn: showImages())
                         }
                         .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
 
@@ -75,9 +73,8 @@ struct SettingsView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
-
-
-    private func settings(for state: SettingsState) -> (Binding<Bool>, Binding<Bool>) {
+    
+    private func darkMode() -> Binding<Bool> {
         let darkMode = Binding<Bool>(
             get: {
                 return store.state.settings.darkMode.value
@@ -87,6 +84,10 @@ struct SettingsView: View {
             }
         )
 
+        return darkMode
+    }
+
+    private func showImages() -> Binding<Bool> {
         let showImages = Binding<Bool>(
             get: {
                 return store.state.settings.showImages.value
@@ -96,7 +97,7 @@ struct SettingsView: View {
             }
         )
 
-        return (darkMode, showImages)
+        return showImages
     }
 }
 

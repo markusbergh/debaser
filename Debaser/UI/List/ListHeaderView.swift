@@ -94,7 +94,6 @@ struct ListHeaderView: View {
                             .frame(width: 90)
                             .offset(y: 2)
                     }
-                    
                 }
             }
         }
@@ -103,7 +102,6 @@ struct ListHeaderView: View {
 
 struct ListHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        
         ForEach(ColorScheme.allCases, id:\.self) {
             ListHeaderView(
                 headline: "Stockholm",
