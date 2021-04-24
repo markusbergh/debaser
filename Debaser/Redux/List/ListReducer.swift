@@ -30,6 +30,8 @@ func listReducer(state: inout ListState, action: ListAction) -> ListState {
     case .getEventsComplete(let events):
         state.isFetching.send(false)
         state.events = events
+    default:
+        ()
     }
     
     return state

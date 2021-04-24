@@ -15,8 +15,4 @@ enum Tab {
 
 class TabViewRouter: ObservableObject {
     @Published var currentTab: Tab = .list
-    
-    init() {
-        print("init tabViewRoute")
-    }
 }

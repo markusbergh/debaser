@@ -13,6 +13,7 @@ struct ListView: View {
     
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
+    @State private var searchText = ""
     
     @Binding var isShowingTabBar: Bool
     
@@ -40,13 +41,25 @@ struct ListView: View {
     var body: some View {
         let darkMode = self.darkMode(for: store.state.settings)
         
+        let searchBinding = Binding(
+            get: {
+                return searchText
+            },
+            set: {
+                searchText = $0
+                
+                // Update store
+                store.dispatch(withAction: .list(.searchEvent(query: searchText)))
+            }
+        )
+        
         return ScrollView {
             VStack {
                 ListHeaderView(
                     headline: headline,
                     label: label,
                     isDarkMode: darkMode,
-                    currentSearch: $viewModel.currentSearch
+                    currentSearch: searchBinding
                 )
                 
                 PagerView()

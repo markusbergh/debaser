@@ -120,6 +120,8 @@ class DBSROnboardingViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        UserDefaults.standard.setValue(true, forKey: "seenOnboarding")
+        
         guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
         
         if var screenShotFrame = firstStepViewController.screenShot?.frame {
