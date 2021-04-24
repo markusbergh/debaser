@@ -8,5 +8,19 @@
 import Foundation
 
 enum AppAction {
-    case getEvents(EventService)
+    case list(ListAction)
+    case settings(SettingsAction)
+}
+
+enum ListAction {
+    case getSeenOnboarding
+    case showOnboarding
+    case getAllEvents
+}
+
+enum SettingsAction {
+    case getDarkMode
+    case setDarkMode(Bool)
+    case getShowImages
+    case setShowImages(Bool)
 }

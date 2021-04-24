@@ -95,7 +95,7 @@ struct DetailBackButtonView: View {
     }
 }
 
-// MARK: Text content
+// MARK: Main content
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme

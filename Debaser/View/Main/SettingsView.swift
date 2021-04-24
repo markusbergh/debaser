@@ -5,35 +5,20 @@
 //  Created by Markus Bergh on 2021-03-25.
 //
 
+import Combine
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("darkMode") var isDarkMode: Bool = false
-    @AppStorage("showImages") var showImages: Bool = true
-    
+    @EnvironmentObject var store: AppStore
+
     private var titleLabel: LocalizedStringKey {
         return "Settings"
     }
-    private var debaserLabel: LocalizedStringKey {
-        return "Settings.Debaser"
-    }
-    private var aboutLabel: LocalizedStringKey {
-        return "Settings.Debaser.About"
-    }
-    private var servicesLabel: LocalizedStringKey {
-        return "Settings.Services"
-    }
-    private var spotifyOnLabel: LocalizedStringKey {
-        return "Settings.Spotify.On"
-    }
-    private var spotifyOffLabel: LocalizedStringKey {
-        return "Settings.Spotify.Off"
+    private var darkModeLabel: LocalizedStringKey {
+        return "Settings.Layout.DarkMode"
     }
     private var imagesLabel: LocalizedStringKey {
         return "Settings.Layout.Images"
-    }
-    private var darkModeLabel: LocalizedStringKey {
-        return "Settings.Layout.DarkMode"
     }
     private var onboardingLabel: LocalizedStringKey {
         return "Settings.Onboarding"
@@ -47,37 +32,28 @@ struct SettingsView: View {
     }
 
     var body: some View {
-        NavigationView {
+        let settings = self.settings(for: store.state.settings)
+        
+        return NavigationView {
             VStack {
                 Form {
                     Group {
-                        Section(header: Text(debaserLabel)) {
-                            NavigationLink(destination: Text("Om")) {
-                                Text(aboutLabel)
-                            }
-                        }
-                        
-                        Section(header: Text(servicesLabel)) {
-                            NavigationLink(destination: Text("Spotify")) {
-                                HStack {
-                                    Text("Spotify")
-                                    
-                                    Spacer()
-                                    
-                                    Text(spotifyOffLabel)
-                                }
-                            }
-                        }
-                        
+                        SettingsSectionAbout()
+                        SettingsSectionSpotify()
+
                         Section(header: Text("Layout")) {
-                            Toggle(imagesLabel, isOn: $showImages)
-                            Toggle(darkModeLabel, isOn: $isDarkMode)
+                            Toggle(darkModeLabel, isOn: settings.0)
+                            Toggle(imagesLabel, isOn: settings.1)
                         }
                         .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-                        
+
                         Section(header: Text(onboardingLabel)) {
                             Button(onboardingShowLabel) {
-                                
+                                store.dispatch(
+                                    AppAction.list(
+                                        ListAction.showOnboarding
+                                    )
+                                )
                             }
                             .foregroundColor(.primary)
                         }
@@ -89,9 +65,9 @@ struct SettingsView: View {
                     alignment: .top
                 )
                 .navigationBarTitle(titleLabel, displayMode: .large)
-                
+
                 Spacer()
-                
+
                 Text("v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)")
                     .font(.system(size: 15))
                     .padding(.bottom, 90)
@@ -101,13 +77,45 @@ struct SettingsView: View {
                     .ignoresSafeArea()
             )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+
+
+    private func settings(for state: SettingsState) -> (Binding<Bool>, Binding<Bool>) {
+        let darkMode = Binding<Bool>(
+            get: {
+                return store.state.settings.darkMode.value
+            },
+            set: {
+                store.dispatch(
+                    AppAction.settings(
+                        SettingsAction.setDarkMode($0)
+                    )
+                )
+            }
+        )
+
+        let showImages = Binding<Bool>(
+            get: {
+                return store.state.settings.showImages.value
+            },
+            set: {
+                store.dispatch(
+                    AppAction.settings(
+                        SettingsAction.setShowImages($0)
+                    )
+                )
+            }
+        )
+
+        return (darkMode, showImages)
     }
 }
 
 struct SettingsViewTopRectangle: View {
     let colorStart = Color.settingsTopGradientStart
     let colorEnd = Color.settingsTopGradientEnd
-    
+
     var body: some View {
         Rectangle()
             .fill(
@@ -125,10 +133,64 @@ struct SettingsViewTopRectangle: View {
     }
 }
 
+struct SettingsSectionAbout: View {
+    private var debaserLabel: LocalizedStringKey {
+        return "Settings.Debaser"
+    }
+    private var aboutLabel: LocalizedStringKey {
+        return "Settings.Debaser.About"
+    }
+
+    var body: some View {
+        Section(header: Text(debaserLabel)) {
+            NavigationLink(destination: Text("Om")) {
+                Text(aboutLabel)
+            }
+        }
+    }
+}
+
+struct SettingsSectionSpotify: View {
+    private var servicesLabel: LocalizedStringKey {
+        return "Settings.Services"
+    }
+    private var spotifyOnLabel: LocalizedStringKey {
+        return "Settings.Spotify.On"
+    }
+    private var spotifyOffLabel: LocalizedStringKey {
+        return "Settings.Spotify.Off"
+    }
+
+    var body: some View {
+        Section(header: Text(servicesLabel)) {
+            NavigationLink(destination: Text("Spotify")) {
+                HStack {
+                    Text("Spotify")
+
+                    Spacer()
+
+                    Text(spotifyOffLabel)
+                }
+            }
+        }
+    }
+}
+
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
+        let state = SettingsState(
+            showImages: CurrentValueSubject<Bool, Never>(false),
+            darkMode: CurrentValueSubject<Bool, Never>(false),
+            spotifyConnection: nil
+        )
+
+        let store: Store<AppState, AppAction> = Store(
+            initialState: AppState(list: ListState(), settings: state),
+            reducer: appReducer
+        )
+
         SettingsView()
             .environment(\.locale, .init(identifier: "sv"))
-            .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+            .environmentObject(store)
     }
 }

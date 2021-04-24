@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ListView: View {
-    @AppStorage("darkMode") var isDarkMode: Bool = false
+    @EnvironmentObject var store: AppStore
     @StateObject var viewModel = ListViewViewModel()
     
     @State private var isShowingActivityIndicator = false
@@ -38,12 +38,14 @@ struct ListView: View {
     }
     
     var body: some View {
-        ScrollView {
+        let darkMode = self.darkMode(for: store.state.settings)
+        
+        return ScrollView {
             VStack {
                 ListHeaderView(
                     headline: headline,
                     label: label,
-                    isDarkMode: $isDarkMode,
+                    isDarkMode: darkMode,
                     currentSearch: $viewModel.currentSearch
                 )
                 
@@ -118,6 +120,23 @@ struct ListView: View {
     func onAppear() {
         viewModel.fetchAll()
     }
+    
+    private func darkMode(for state: SettingsState) -> Binding<Bool> {
+        let darkMode = Binding<Bool>(
+            get: {
+                return store.state.settings.darkMode.value
+            },
+            set: {
+                store.dispatch(
+                    AppAction.settings(
+                        SettingsAction.setShowImages($0)
+                    )
+                )
+            }
+        )
+        
+        return darkMode
+    }
 }
 
 struct ListProgressIndicatorView: View {
@@ -164,12 +183,17 @@ struct ListViewTopRectangle: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
+        let store: Store<AppState, AppAction> = Store(
+            initialState: AppState(list: ListState(), settings: SettingsState()),
+            reducer: appReducer
+        )
+        
         ListView(
             headline: "Stockholm",
             label: "Dagens konserter",
             isShowingTabBar: .constant(false)
         )
-        .preferredColorScheme(.dark)
+        .environmentObject(store)
     }
 }
 

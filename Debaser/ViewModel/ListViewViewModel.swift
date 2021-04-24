@@ -13,8 +13,8 @@ class ListViewViewModel: ObservableObject {
     private let dateFormatter = DateFormatter()
     private var cancellable: AnyCancellable?
     private var dateComponents = Calendar.current.dateComponents([.year], from: Date())
+    private var events = [EventViewModel]()
     
-    @Published var events = [EventViewModel]()
     @Published var filteredEvents = [EventViewModel]()
     @Published var isShowingErrorAlert = false
     @Published var currentSearch = ""
@@ -79,14 +79,16 @@ class ListViewViewModel: ObservableObject {
     private func configureSearchPublisher() {
         cancellable = $currentSearch
             .debounce(for: 0.25, scheduler: RunLoop.main)
-            .sink(receiveValue: { searchText in
+            .sink(receiveValue: { [weak self] searchText in
+                guard let strongSelf = self else { return }
+                
                 guard !searchText.isEmpty else {
-                    self.filteredEvents = self.events
+                    strongSelf.filteredEvents = strongSelf.events
                     
                     return
                 }
                 
-                self.filteredEvents = self.events.filter { event in
+                strongSelf.filteredEvents = strongSelf.events.filter { event in
                     let title = event.title
                     
                     return title.contains(searchText)
@@ -127,7 +129,7 @@ extension ListViewViewModel {
         Self.networkActivityPublisher
             .send(true)
         
-        service.getEvents(fromDate: from, toDate: to) { result in
+        service.getEvents(fromDate: from, toDate: to) { [weak self] result in
             DispatchQueue.main.async {
                 Self.networkActivityPublisher
                     .send(false)
@@ -136,8 +138,8 @@ extension ListViewViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let events):
-                    self.events = events
-                    self.filteredEvents = events
+                    self?.events = events
+                    self?.filteredEvents = events
                 case .failure(let error):
                     
                     switch error {
@@ -147,11 +149,11 @@ extension ListViewViewModel {
                         ()
                     }
                     
-                    self.isShowingErrorAlert = true
-                    self.filteredEvents = []
+                    self?.isShowingErrorAlert = true
+                    self?.filteredEvents = []
                 }
                 
-                self.isLoading = false
+                self?.isLoading = false
             }
         }
     }

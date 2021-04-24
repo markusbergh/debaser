@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RowCompactView: View {
-    @AppStorage("showImages") var showImages: Bool = true
+    @EnvironmentObject var store: AppStore
+
     @StateObject var viewModel: RowViewViewModel = RowViewViewModel()
     @State private var isShowingDetailView: Bool = false
     @State private var opacity: Double = 0
@@ -52,7 +53,7 @@ struct RowCompactView: View {
                 }
             }) {
                 VStack(alignment: .leading, spacing: 0) {
-                    if showImages {
+                    if store.state.settings.showImages.value {
                         Image(uiImage: viewModel.image)
                             .resizable()
                             .scaledToFill()
@@ -88,7 +89,7 @@ struct RowCompactView: View {
                         .padding(.top, 2)
                 }
                 .onAppear {
-                    if showImages {
+                    if store.state.settings.showImages.value {
                         viewModel.loadImage(with: event.image)
                     }
                 }
@@ -99,6 +100,11 @@ struct RowCompactView: View {
 
 struct RowCompactView_Previews: PreviewProvider {
     static var previews: some View {
+        let store: Store<AppState, AppAction> = Store(
+            initialState: AppState(list: ListState(), settings: SettingsState()),
+            reducer: appReducer
+        )
+        
         let event = Event(id: "1234",
                           name: "MR MS",
                           status: "Open",
@@ -111,10 +117,9 @@ struct RowCompactView_Previews: PreviewProvider {
         
         let model = EventViewModel(with: event)
         
-        RowCompactView(
-            event: model,
-            isShowingTabBar: .constant(false)
-        )
-        .preferredColorScheme(.dark)
+        RowCompactView(event: model,
+                       isShowingTabBar: .constant(false))
+            .preferredColorScheme(.dark)
+            .environmentObject(store)
     }
 }

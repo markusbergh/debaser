@@ -5,23 +5,25 @@
 //  Created by Markus Bergh on 2021-03-12.
 //
 
+import Combine
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var tabViewRouter: TabViewRouter
+
     @State var selectedTab: String = "music.note.house"
     @State var isShowingTabBar = false
-    
-    @StateObject var viewRouter: ViewRouter
+    @State var isShowingOnboarding = false
 
     var body: some View {
-        
         ZStack(alignment: .bottom) {
             VStack {
                 Spacer()
                 
-                let currentPage = viewRouter.currentPage
+                let currentTab = tabViewRouter.currentTab
                 
-                switch currentPage {
+                switch currentTab {
                 case .list:
                     EventListView(isShowingTabBar: $isShowingTabBar)
                 case .favourites:
@@ -34,16 +36,37 @@ struct ContentView: View {
             }
             
             TabBar(selectedTab: $selectedTab)
-                .environmentObject(viewRouter)
+                .environmentObject(tabViewRouter)
                 .offset(y: isShowingTabBar ? 0 : 110)
                 .animation(Animation.easeInOut(duration: 0.2))
         }
         .ignoresSafeArea()
+        .onAppear {
+            store.dispatch(
+                AppAction.list(
+                    ListAction.getSeenOnboarding
+                )
+            )
+        }
+        .onReceive(store.state.list.seenOnboarding) { hasSeen in
+            isShowingOnboarding = !hasSeen
+        }
+        .sheet(isPresented: $isShowingOnboarding) {
+            OnboardingView()
+                .ignoresSafeArea()
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewRouter: ViewRouter())
+        let store: Store<AppState, AppAction> = Store(
+            initialState: AppState(list: ListState(), settings: SettingsState()),
+            reducer: appReducer
+        )
+        
+        ContentView()
+            .environmentObject(store)
+            .environmentObject(TabViewRouter())
     }
 }

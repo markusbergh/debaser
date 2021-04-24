@@ -17,7 +17,7 @@ struct EventListView: View {
     
     var body: some View {
         NavigationView {
-            VStack {               
+            VStack {
                 ListView(
                     headline: "Stockholm",
                     label: "Dagens konserter",

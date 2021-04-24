@@ -9,15 +9,33 @@ import SwiftUI
 
 @main
 struct DebaserApp: App {
-    @AppStorage("darkMode") var isDarkMode: Bool = false
-
-    @StateObject var viewRouter = ViewRouter()
-    @StateObject var store = Store(initialState: AppState(), reducer: appReducer)
-        
+    // Application state
+    @StateObject var store: Store<AppState, AppAction> = Store(
+        initialState: AppState(list: ListState(), settings: SettingsState()),
+        reducer: appReducer
+    )
+    
+    // Tab state
+    @StateObject var tabViewRouter = TabViewRouter()
+    
+    // Theme
+    @State private var isDarkMode: Bool = false
+    
     var body: some Scene {
         WindowGroup {
-            ContentView(viewRouter: viewRouter)
+            ContentView()
+                .onReceive(store.state.settings.darkMode) { value in
+                    isDarkMode = value
+                }
+                .onAppear {
+                    store.dispatch(
+                        AppAction.settings(
+                            SettingsAction.getDarkMode
+                        )
+                    )
+                }
                 .environmentObject(store)
+                .environmentObject(tabViewRouter)
                 .preferredColorScheme(isDarkMode ? .dark : .light)
         }
     }

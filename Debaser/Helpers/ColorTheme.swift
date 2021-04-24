@@ -55,4 +55,8 @@ extension Color {
 extension UIColor {
     static let tabBarBackground = UIColor(named: "TabBarBackground")
     static let tabBarBorder = UIColor(named: "TabBarBorder")
+    
+    /// Onboarding
+    static let onboardingBackground = UIColor(named: "OnboardingBackground")
+    static let onboardingText = UIColor(named: "OnboardingText")
 }

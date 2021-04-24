@@ -14,7 +14,7 @@ enum TabBarStyle: CGFloat {
 }
 
 struct TabBar: View {
-    @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var tabViewRouter: TabViewRouter
     @Binding var selectedTab: String
     @State var tabPoints: [CGFloat] = []
     
@@ -32,62 +32,37 @@ struct TabBar: View {
         .padding(.horizontal)
         .padding(.bottom, TabBarStyle.paddingBottom.rawValue)
     }
-    
-//    func getCurvePoint() -> CGFloat {
-//        if tabPoints.isEmpty {
-//            return 10
-//        } else {
-//            switch selectedTab {
-//            case "star":
-//                return tabPoints[1]
-//            case "gearshape":
-//                return tabPoints[2]
-//            default:
-//                return tabPoints[0]
-//            }
-//        }
-//    }
 }
 
 struct TabBarButton: View {
     var image: String
-    var type: Page
+    var type: Tab
 
-    @EnvironmentObject var viewRouter: ViewRouter
+    @EnvironmentObject var tabViewRouter: TabViewRouter
     @Binding var selectedTab: String
     @Binding var tabPoints: [CGFloat]
         
     var body: some View {
-        GeometryReader { geometry -> AnyView in
-            let midX = geometry.frame(in: .global).midX
-            
-            DispatchQueue.main.async {
-                if tabPoints.count <= 3 {
-                    tabPoints.append(midX)
+        let tabBarButtonImage = "\(image)\(selectedTab == image ? ".fill" : "")"
+        
+        return AnyView(
+            Button(action: {
+                withAnimation {
+                    selectedTab = image
                 }
-            }
-            
-            let tabBarButtonImage = "\(image)\(selectedTab == image ? ".fill" : "")"
-            
-            return AnyView(
-                Button(action: {
-                    withAnimation {
-                        selectedTab = image
-                    }
-                        
-                    let generator = UISelectionFeedbackGenerator()
-                    generator.selectionChanged()
-                                        
-                    viewRouter.currentPage = type
-                }, label: {
-                    Image(systemName: tabBarButtonImage)
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundColor(.white)
-                })
-                .buttonStyle(ScaleButtonStyle())
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            )
-        }
+                    
+                let generator = UISelectionFeedbackGenerator()
+                generator.selectionChanged()
+                                    
+                tabViewRouter.currentTab = type
+            }, label: {
+                Image(systemName: tabBarButtonImage)
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundColor(.white)
+            })
+            .buttonStyle(ScaleButtonStyle())
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        )
         .frame(height: TabBarStyle.height.rawValue)
     }
 }
@@ -101,6 +76,7 @@ struct ScaleButtonStyle: ButtonStyle {
 
 struct TabBar_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewRouter: ViewRouter())
+        ContentView()
+            .environmentObject(TabViewRouter())
     }
 }
