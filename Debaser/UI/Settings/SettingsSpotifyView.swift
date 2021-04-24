@@ -23,6 +23,9 @@ struct SettingsSpotifyView: View {
                     footer: HStack {
                         Spacer()
                         Image("SpotifyLogotype")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 85)
                     }
                     .padding(.top, 5)
                     .frame(minWidth: 0, maxWidth: .infinity)
@@ -42,6 +45,9 @@ struct SettingsSpotifyView: View {
 
 struct SettingsSpotifyView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsSpotifyView()
+        ForEach(ColorScheme.allCases, id:\.self) {
+            SettingsSpotifyView()
+                .preferredColorScheme($0)
+        }
     }
 }

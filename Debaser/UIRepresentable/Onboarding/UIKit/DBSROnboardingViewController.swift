@@ -54,6 +54,7 @@ class DBSROnboardingViewController: UIViewController {
     private func setupPageControl() {
         pageController.dataSource = self
         pageController.delegate = self
+        pageController.view.translatesAutoresizingMaskIntoConstraints = false
         
         addChild(pageController)
         view.addSubview((pageController.view)!)
@@ -65,6 +66,13 @@ class DBSROnboardingViewController: UIViewController {
                                               animated: true,
                                               completion: nil)
         }
+        
+        NSLayoutConstraint.activate([
+            pageController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            pageController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
 
         // Add custom page control
         pageControl.currentPage = 0

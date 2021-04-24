@@ -70,5 +70,5 @@ extension UIColor {
     static let onboardingSpotifyButtonHighlight = UIColor(named: "OnboardingSpotifyButtonHighlight")
     static let onboardingSpotifyButtonLabel = UIColor(named: "OnboardingSpotifyButtonLabel")
     static let onboardingSpotifyButtonLabelHighlight = UIColor(named: "OnboardingSpotifyButtonLabelHighlight")
-
+    static let onboardingScreenBackground = UIColor(named: "OnboardingScreenBackground")
 }

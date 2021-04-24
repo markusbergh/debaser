@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uyq-yG-pis">
-    <device id="retina6_0" orientation="portrait" appearance="dark"/>
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -18,15 +18,15 @@
             <objects>
                 <viewController id="uyq-yG-pis" customClass="DBSROnboardingViewController" customModule="Debaser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="BYO-O4-DXS">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logotype" translatesAutoresizingMaskIntoConstraints="NO" id="uzj-Go-Sua">
-                                <rect key="frame" x="30" y="74" width="154" height="40"/>
+                                <rect key="frame" x="30" y="74" width="160" height="50"/>
                                 <color key="tintColor" name="OnboardingLogotypeTint"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="d78-Xh-e9s"/>
-                                    <constraint firstAttribute="width" constant="154" id="uT9-W3-wcI"/>
+                                    <constraint firstAttribute="height" constant="50" id="5av-GH-z9g"/>
+                                    <constraint firstAttribute="width" constant="160" id="uT9-W3-wcI"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -50,27 +50,27 @@
             <objects>
                 <viewController storyboardIdentifier="Page1ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VtN-La-MYS" customClass="DBSROnboardingStepViewController" customModule="Debaser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zib-8d-jcX">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5Z-gJ-mvL" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="183.99999999999997" width="330" height="430.33333333333326"/>
+                                <rect key="frame" x="30" y="181.33333333333334" width="315" height="449.33333333333326"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lyssna direkt via Spotify" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KGg-e5-igP">
-                                        <rect key="frame" x="20" y="20" width="290" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genom att koppla ditt Spotify-konto till Debaser kan du lyssna på artisten direkt i appen¹." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vl7-Bi-aqg">
-                                        <rect key="frame" x="20" y="97.666666666666686" width="290" height="54"/>
+                                        <rect key="frame" x="20" y="113.99999999999997" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kma-XD-FbW">
-                                        <rect key="frame" x="20" y="166.66666666666669" width="290" height="200"/>
-                                        <color key="backgroundColor" name="OnboardingImageViewBackgroundColor"/>
+                                    <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kma-XD-FbW" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="183" width="275" height="200"/>
+                                        <color key="backgroundColor" name="OnboardingScreenBackground"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="Vka-co-32f"/>
                                         </constraints>
@@ -80,9 +80,9 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Detta är endast möjligt för användare som har Premium-konto på Spotify." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="brp-Cw-MPx">
-                                        <rect key="frame" x="20" y="376.66666666666663" width="290" height="28.666666666666686"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¹ Detta är endast möjligt för användare som har Premium-konto på Spotify." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="brp-Cw-MPx">
+                                        <rect key="frame" x="25" y="393" width="265" height="31.333333333333314"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -97,8 +97,8 @@
                                     <constraint firstItem="Vl7-Bi-aqg" firstAttribute="leading" secondItem="R5Z-gJ-mvL" secondAttribute="leading" constant="20" id="Oz9-1l-sx8"/>
                                     <constraint firstAttribute="trailing" secondItem="KGg-e5-igP" secondAttribute="trailing" constant="20" id="QjG-HL-kEv"/>
                                     <constraint firstItem="Kma-XD-FbW" firstAttribute="leading" secondItem="R5Z-gJ-mvL" secondAttribute="leading" constant="20" id="VBh-Vp-FKy"/>
-                                    <constraint firstItem="brp-Cw-MPx" firstAttribute="leading" secondItem="R5Z-gJ-mvL" secondAttribute="leading" constant="20" id="aXu-Wb-L1j"/>
-                                    <constraint firstAttribute="trailing" secondItem="brp-Cw-MPx" secondAttribute="trailing" constant="20" id="ctv-he-hcz"/>
+                                    <constraint firstItem="brp-Cw-MPx" firstAttribute="leading" secondItem="R5Z-gJ-mvL" secondAttribute="leading" constant="25" id="aXu-Wb-L1j"/>
+                                    <constraint firstAttribute="trailing" secondItem="brp-Cw-MPx" secondAttribute="trailing" constant="25" id="ctv-he-hcz"/>
                                     <constraint firstItem="KGg-e5-igP" firstAttribute="leading" secondItem="R5Z-gJ-mvL" secondAttribute="leading" constant="20" id="r9C-sn-18E"/>
                                     <constraint firstItem="brp-Cw-MPx" firstAttribute="top" secondItem="Kma-XD-FbW" secondAttribute="bottom" constant="10" id="s5w-KS-Aen"/>
                                     <constraint firstAttribute="bottom" secondItem="brp-Cw-MPx" secondAttribute="bottom" constant="25" id="wu3-5X-Dpc"/>
@@ -111,12 +111,12 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="MEj-AF-fNJ"/>
+                        <viewLayoutGuide key="safeArea" id="nSK-oU-PTe"/>
                         <color key="backgroundColor" name="OnboardingBackground"/>
                         <constraints>
-                            <constraint firstItem="R5Z-gJ-mvL" firstAttribute="trailing" secondItem="MEj-AF-fNJ" secondAttribute="trailing" constant="-30" id="MED-Mg-6Le"/>
-                            <constraint firstItem="R5Z-gJ-mvL" firstAttribute="top" secondItem="MEj-AF-fNJ" secondAttribute="top" constant="140" id="bQG-Vw-GrL"/>
-                            <constraint firstItem="R5Z-gJ-mvL" firstAttribute="leading" secondItem="MEj-AF-fNJ" secondAttribute="leading" constant="30" id="sNq-RI-hPs"/>
+                            <constraint firstItem="R5Z-gJ-mvL" firstAttribute="centerY" secondItem="zib-8d-jcX" secondAttribute="centerY" id="5S4-JR-b6v"/>
+                            <constraint firstItem="R5Z-gJ-mvL" firstAttribute="trailing" secondItem="zib-8d-jcX" secondAttribute="trailing" constant="-30" id="MED-Mg-6Le"/>
+                            <constraint firstItem="R5Z-gJ-mvL" firstAttribute="leading" secondItem="zib-8d-jcX" secondAttribute="leading" constant="30" id="sNq-RI-hPs"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -124,127 +124,38 @@
             </objects>
             <point key="canvasLocation" x="-282.39999999999998" y="848.72563718140941"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="RNG-Ck-f69">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0ak-As-1U2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="2Mr-ia-Gmx" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Xgz-JZ-Vz1">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZIR-eo-9eH" customClass="DBSROnboardingButton" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="45" y="518" width="300" height="45"/>
-                                <color key="backgroundColor" name="OnboardingCloseButtonBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="94M-oB-HZ1"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <state key="normal" title="STÄNG">
-                                    <color key="titleColor" name="OnboardingCloseButtonTextColor"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="rounded">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pe7-8J-JQZ" customClass="DBSROnboardingButton" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="45" y="392" width="300" height="45"/>
-                                <color key="backgroundColor" red="0.1176470588" green="0.84313725490000002" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="mnZ-dS-GJ4"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <state key="normal" title="KOPPLA TILL SPOTIFY">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="rounded">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detta är endast möjligt för användare som har Premium-konto på Spotify." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7a-g6-OQu">
-                                <rect key="frame" x="45" y="447" width="300" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" name="OnboardingText"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SpotifyIconMedium" translatesAutoresizingMaskIntoConstraints="NO" id="EqC-zk-clZ">
-                                <rect key="frame" x="170.66666666666666" y="323" width="49" height="49"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nästan klart! 🏄🏻‍♀️ Hur vill du göra?" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hLP-J4-RWG">
-                                <rect key="frame" x="20" y="124" width="350" height="84"/>
-                                <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="36"/>
-                                <color key="textColor" name="OnboardingText"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="mPn-4a-6sd"/>
-                        <color key="backgroundColor" name="OnboardingBackground"/>
-                        <constraints>
-                            <constraint firstItem="mPn-4a-6sd" firstAttribute="trailing" secondItem="hLP-J4-RWG" secondAttribute="trailing" constant="20" id="0Pu-sn-fCd"/>
-                            <constraint firstItem="EqC-zk-clZ" firstAttribute="top" secondItem="hLP-J4-RWG" secondAttribute="bottom" constant="115" id="3Oe-sJ-IhY"/>
-                            <constraint firstItem="hLP-J4-RWG" firstAttribute="top" secondItem="mPn-4a-6sd" secondAttribute="top" constant="80" id="4eD-da-340"/>
-                            <constraint firstItem="c7a-g6-OQu" firstAttribute="top" secondItem="Pe7-8J-JQZ" secondAttribute="bottom" constant="10" id="8kK-sb-ODa"/>
-                            <constraint firstItem="hLP-J4-RWG" firstAttribute="leading" secondItem="mPn-4a-6sd" secondAttribute="leading" constant="20" id="AMq-qC-qT1"/>
-                            <constraint firstItem="Pe7-8J-JQZ" firstAttribute="leading" secondItem="mPn-4a-6sd" secondAttribute="leading" constant="45" id="BmL-ap-3bL"/>
-                            <constraint firstItem="c7a-g6-OQu" firstAttribute="trailing" secondItem="Pe7-8J-JQZ" secondAttribute="trailing" id="Hxf-VJ-yNb"/>
-                            <constraint firstItem="ZIR-eo-9eH" firstAttribute="top" secondItem="c7a-g6-OQu" secondAttribute="bottom" constant="35" id="NpL-rU-sW5"/>
-                            <constraint firstItem="EqC-zk-clZ" firstAttribute="centerX" secondItem="Xgz-JZ-Vz1" secondAttribute="centerX" id="Tw6-p4-hdm"/>
-                            <constraint firstItem="Pe7-8J-JQZ" firstAttribute="top" secondItem="EqC-zk-clZ" secondAttribute="bottom" constant="20" id="WZc-sD-1g2"/>
-                            <constraint firstItem="Pe7-8J-JQZ" firstAttribute="leading" secondItem="c7a-g6-OQu" secondAttribute="leading" id="e6G-UL-jBR"/>
-                            <constraint firstItem="mPn-4a-6sd" firstAttribute="trailing" secondItem="Pe7-8J-JQZ" secondAttribute="trailing" constant="45" id="kdp-zn-URc"/>
-                            <constraint firstItem="ZIR-eo-9eH" firstAttribute="leading" secondItem="mPn-4a-6sd" secondAttribute="leading" constant="45" id="mLS-rs-EhO"/>
-                            <constraint firstItem="mPn-4a-6sd" firstAttribute="trailing" secondItem="ZIR-eo-9eH" secondAttribute="trailing" constant="45" id="swO-AC-HfK"/>
-                        </constraints>
-                    </view>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="1920" y="1550"/>
-        </scene>
         <!--Onboarding Step View Controller-->
         <scene sceneID="L5P-7v-lE0">
             <objects>
                 <viewController storyboardIdentifier="Page2ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Yml-Xl-c5n" customClass="DBSROnboardingStepViewController" customModule="Debaser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WO9-qh-RD3">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1X8-J9-c7V" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="184.00000000000003" width="330" height="391.66666666666674"/>
+                                <rect key="frame" x="30" y="202" width="315" height="408"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dela konserter med iMessage" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fyo-ZN-1Lx">
-                                        <rect key="frame" x="20" y="20" width="290" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Med tillägget till iMessage är det enkelt för dig att dela konserter med andra som du vill gå med." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9D-gf-jb7">
-                                        <rect key="frame" x="20" y="97.666666666666686" width="290" height="54"/>
+                                        <rect key="frame" x="20" y="114" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVn-5j-IT7">
-                                        <rect key="frame" x="20" y="166.66666666666669" width="290" height="200"/>
-                                        <color key="backgroundColor" name="OnboardingImageViewBackgroundColor"/>
+                                    <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVn-5j-IT7" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="183" width="275" height="200"/>
+                                        <color key="backgroundColor" name="OnboardingScreenBackground"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="mMB-8o-w81"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="rounded">
-                                                <real key="value" value="10"/>
+                                                <real key="value" value="5"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -273,7 +184,7 @@
                         <viewLayoutGuide key="safeArea" id="YUK-RK-fcc"/>
                         <color key="backgroundColor" name="OnboardingBackground"/>
                         <constraints>
-                            <constraint firstItem="1X8-J9-c7V" firstAttribute="top" secondItem="YUK-RK-fcc" secondAttribute="top" constant="140" id="BlC-zR-svG"/>
+                            <constraint firstItem="1X8-J9-c7V" firstAttribute="centerY" secondItem="YUK-RK-fcc" secondAttribute="centerY" constant="-5" id="MRQ-VC-W0p"/>
                             <constraint firstItem="1X8-J9-c7V" firstAttribute="trailing" secondItem="YUK-RK-fcc" secondAttribute="trailing" constant="-30" id="PlZ-fD-jLd"/>
                             <constraint firstItem="1X8-J9-c7V" firstAttribute="leading" secondItem="YUK-RK-fcc" secondAttribute="leading" constant="30" id="uYd-Lk-bvF"/>
                         </constraints>
@@ -288,33 +199,33 @@
             <objects>
                 <viewController storyboardIdentifier="Page3ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kj9-UJ-y45" customClass="DBSROnboardingStepViewController" customModule="Debaser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Bfe-JL-8Bc">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSk-tM-fgi" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="184.00000000000003" width="330" height="391.66666666666674"/>
+                                <rect key="frame" x="30" y="202" width="315" height="408"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sök fram dina favoriter" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ1-TP-tL0">
-                                        <rect key="frame" x="20" y="20" width="290" height="67.666666666666671"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Håll koll på dina favoriter" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ1-TP-tL0">
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Du kan enkelt hitta spelning du är ute efter och spara ned den till din favoritlista ifall du inte vill glömma" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4i-oq-Vsg">
-                                        <rect key="frame" x="20" y="97.666666666666686" width="290" height="54"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Du kan enkelt hitta den spelning du är ute efter och spara ned den till din favoritlista ifall du inte vill glömma." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4i-oq-Vsg">
+                                        <rect key="frame" x="20" y="114" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adS-09-hzF">
-                                        <rect key="frame" x="20" y="166.66666666666669" width="290" height="200"/>
-                                        <color key="backgroundColor" name="OnboardingImageViewBackgroundColor"/>
+                                    <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adS-09-hzF" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="183" width="275" height="200"/>
+                                        <color key="backgroundColor" name="OnboardingScreenBackground"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="bbC-aq-zPI"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="rounded">
-                                                <real key="value" value="10"/>
+                                                <real key="value" value="5"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -344,8 +255,8 @@
                         <color key="backgroundColor" name="OnboardingBackground"/>
                         <constraints>
                             <constraint firstItem="PSk-tM-fgi" firstAttribute="leading" secondItem="nqo-xF-CHi" secondAttribute="leading" constant="30" id="LHc-a7-nBN"/>
-                            <constraint firstItem="PSk-tM-fgi" firstAttribute="top" secondItem="nqo-xF-CHi" secondAttribute="top" constant="140" id="MDf-jl-XqX"/>
                             <constraint firstItem="PSk-tM-fgi" firstAttribute="trailing" secondItem="nqo-xF-CHi" secondAttribute="trailing" constant="-30" id="gVT-S6-ZjZ"/>
+                            <constraint firstItem="PSk-tM-fgi" firstAttribute="centerY" secondItem="nqo-xF-CHi" secondAttribute="centerY" constant="-5" id="suP-Wd-xYT"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -358,26 +269,26 @@
             <objects>
                 <viewController storyboardIdentifier="Page4ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="wRO-8n-Eyr" customClass="DBSROnboardingStepViewController" customModule="Debaser" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LRa-kQ-ZND">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVa-Hr-Lkk" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="184" width="330" height="425"/>
+                                <rect key="frame" x="30" y="193.66666666666663" width="315" height="425"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nästan klart! 🏄‍♀️ Hur vill du göra?" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVz-sl-cr1">
-                                        <rect key="frame" x="20" y="20" width="290" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kiw-n3-wcU" customClass="DBSROnboardingSpotifyButton" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="239" width="280" height="45"/>
+                                        <rect key="frame" x="25" y="248.66666666666663" width="265" height="45"/>
                                         <color key="backgroundColor" name="OnboardingSpotifyButton"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="SeX-cH-FYj"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                        <state key="normal" title="KOPPLA TILL SPOTIFY">
+                                        <state key="normal" title="ANSLUT TILL SPOTIFY¹">
                                             <color key="titleColor" name="OnboardingSpotifyButtonLabel"/>
                                         </state>
                                         <state key="selected">
@@ -395,14 +306,14 @@
                                             <action selector="showSpotifySettings:" destination="wRO-8n-Eyr" eventType="touchUpInside" id="hQF-66-21R"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detta är endast möjligt för användare som har Premium-konto på Spotify." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fuc-gI-1eC">
-                                        <rect key="frame" x="30" y="294" width="270" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¹ Detta är endast möjligt för användare som har Premium-konto på Spotify." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fuc-gI-1eC">
+                                        <rect key="frame" x="30" y="298.66666666666663" width="255" height="31.333333333333314"/>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZo-Xc-csF" customClass="DBSROnboardingCloseButton" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="355" width="280" height="45"/>
+                                        <rect key="frame" x="25" y="355" width="265" height="45"/>
                                         <color key="backgroundColor" name="OnboardingCloseButton"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="Guv-kg-R4h"/>
@@ -424,10 +335,10 @@
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SpotifyIcon" translatesAutoresizingMaskIntoConstraints="NO" id="woG-cV-YnH">
-                                        <rect key="frame" x="137.66666666666666" y="169" width="55" height="55"/>
+                                        <rect key="frame" x="127.66666666666666" y="173.66666666666666" width="60" height="60"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="55" id="QCk-h9-7ia"/>
-                                            <constraint firstAttribute="height" constant="55" id="snw-3S-l3e"/>
+                                            <constraint firstAttribute="width" constant="60" id="QCk-h9-7ia"/>
+                                            <constraint firstAttribute="height" constant="60" id="snw-3S-l3e"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
@@ -437,7 +348,7 @@
                                     <constraint firstAttribute="height" constant="425" id="1Zn-ca-FTK"/>
                                     <constraint firstAttribute="trailing" secondItem="Kiw-n3-wcU" secondAttribute="trailing" constant="25" id="72N-9l-PyJ"/>
                                     <constraint firstItem="hZo-Xc-csF" firstAttribute="leading" secondItem="dVa-Hr-Lkk" secondAttribute="leading" constant="25" id="GHr-6K-F9g"/>
-                                    <constraint firstItem="fuc-gI-1eC" firstAttribute="top" secondItem="Kiw-n3-wcU" secondAttribute="bottom" constant="10" id="HTf-X0-7ZT"/>
+                                    <constraint firstItem="fuc-gI-1eC" firstAttribute="top" secondItem="Kiw-n3-wcU" secondAttribute="bottom" constant="5" id="HTf-X0-7ZT"/>
                                     <constraint firstItem="Kiw-n3-wcU" firstAttribute="leading" secondItem="dVa-Hr-Lkk" secondAttribute="leading" constant="25" id="LfA-u9-K5W"/>
                                     <constraint firstItem="Kiw-n3-wcU" firstAttribute="top" secondItem="woG-cV-YnH" secondAttribute="bottom" constant="15" id="TeB-wk-J4U"/>
                                     <constraint firstItem="fuc-gI-1eC" firstAttribute="leading" secondItem="dVa-Hr-Lkk" secondAttribute="leading" constant="30" id="Ua3-4l-g4h"/>
@@ -460,9 +371,9 @@
                         <viewLayoutGuide key="safeArea" id="PZg-si-yap"/>
                         <color key="backgroundColor" name="OnboardingBackground"/>
                         <constraints>
-                            <constraint firstItem="dVa-Hr-Lkk" firstAttribute="top" secondItem="PZg-si-yap" secondAttribute="top" constant="140" id="Cej-XH-1jS"/>
                             <constraint firstItem="dVa-Hr-Lkk" firstAttribute="trailing" secondItem="PZg-si-yap" secondAttribute="trailing" constant="-30" id="E8F-Xa-YxV"/>
                             <constraint firstItem="dVa-Hr-Lkk" firstAttribute="leading" secondItem="PZg-si-yap" secondAttribute="leading" constant="30" id="Xbj-Im-TzI"/>
+                            <constraint firstItem="dVa-Hr-Lkk" firstAttribute="centerY" secondItem="PZg-si-yap" secondAttribute="centerY" constant="-4.8333333333333712" id="iVz-2e-G1y"/>
                         </constraints>
                     </view>
                     <connections>
@@ -479,13 +390,7 @@
     </scenes>
     <designables>
         <designable name="Kiw-n3-wcU">
-            <size key="intrinsicContentSize" width="154" height="29"/>
-        </designable>
-        <designable name="Pe7-8J-JQZ">
-            <size key="intrinsicContentSize" width="154" height="29"/>
-        </designable>
-        <designable name="ZIR-eo-9eH">
-            <size key="intrinsicContentSize" width="49" height="29"/>
+            <size key="intrinsicContentSize" width="159" height="29"/>
         </designable>
         <designable name="hZo-Xc-csF">
             <size key="intrinsicContentSize" width="49" height="29"/>
@@ -494,7 +399,6 @@
     <resources>
         <image name="Logotype" width="136" height="36"/>
         <image name="SpotifyIcon" width="27" height="26"/>
-        <image name="SpotifyIconMedium" width="49" height="49"/>
         <namedColor name="ListRowBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -502,25 +406,19 @@
             <color red="0.38823529411764707" green="0.82352941176470584" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingCloseButton">
-            <color red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="OnboardingCloseButtonBackgroundColor">
-            <color red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89999997615814209" green="0.89999997615814209" blue="0.89999997615814209" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingCloseButtonLabel">
-            <color red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.12999999523162842" green="0.12999999523162842" blue="0.12999999523162842" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingCloseButtonLabelHighlight">
-            <color red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="OnboardingCloseButtonTextColor">
-            <color red="0.12941176470588237" green="0.12941176470588237" blue="0.12941176470588237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="OnboardingImageViewBackgroundColor">
-            <color red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.12999999523162842" green="0.12999999523162842" blue="0.12999999523162842" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingLogotypeTint">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="OnboardingScreenBackground">
+            <color red="0.92100000381469727" green="0.92100000381469727" blue="0.92100000381469727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingSpotifyButton">
             <color red="0.11764705882352941" green="0.84313725490196079" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
