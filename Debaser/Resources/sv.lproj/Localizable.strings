@@ -10,9 +10,11 @@
 "Settings" = "Inställningar";
 "Settings.Debaser" = "Debaser";
 "Settings.Debaser.About" = "Om";
+"Settings.Debaser.History.Title" = "Om Debaser";
+"Settings.Debaser.History.Label" = "Historia";
 "Settings.Services" = "Tjänster";
-"Settings.Spotify.On" = "På";
-"Settings.Spotify.Off" = "Av";
+"Settings.Spotify.On" = "Ansluten";
+"Settings.Spotify.Off" = "Ej ansluten";
 "Settings.Layout" = "Layout";
 "Settings.Layout.Images" = "Visa bilder";
 "Settings.Layout.DarkMode" = "Mörkt tema";

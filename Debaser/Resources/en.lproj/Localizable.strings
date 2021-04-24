@@ -10,9 +10,11 @@
 "Settings" = "Settings";
 "Settings.Debaser" = "Debaser";
 "Settings.Debaser.About" = "About";
+"Settings.Debaser.History.Title" = "About Debaser";
+"Settings.Debaser.History.Label" = "History";
 "Settings.Services" = "Services";
-"Settings.Spotify.On" = "On";
-"Settings.Spotify.Off" = "Off";
+"Settings.Spotify.On" = "Connected";
+"Settings.Spotify.Off" = "No connection";
 "Settings.Layout" = "Layout";
 "Settings.Layout.Images" = "Show images";
 "Settings.Layout.DarkMode" = "Dark mode";

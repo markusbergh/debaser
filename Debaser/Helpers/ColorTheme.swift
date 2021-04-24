@@ -50,6 +50,7 @@ extension Color {
     static let settingsTopGradientEnd = Color("SettingsTopGradientEnd")
     static let settingsBackground = Color("SettingsBackground")
     static let settingsListRowBackground = Color("SettingsListRowBackground")
+    static let settingsAccent = Color("SettingsAccent")
 }
 
 extension UIColor {
@@ -61,4 +62,13 @@ extension UIColor {
     static let onboardingText = UIColor(named: "OnboardingText")
     static let onboardingSkipLabel = UIColor(named: "OnboardingSkipButtonLabel")
     static let onboardingSkipLabelHighlight = UIColor(named: "OnboardingSkipHighlight")
+    static let onboardingCloseButton = UIColor(named: "OnboardingCloseButton")
+    static let onboardingCloseButtonHighlight = UIColor(named: "OnboardingCloseButtonHighlight")
+    static let onboardingCloseButtonLabel = UIColor(named: "OnboardingCloseButtonLabel")
+    static let onboardingCloseButtonLabelHighlight = UIColor(named: "OnboardingCloseButtonLabelHighlight")
+    static let onboardingSpotifyButton = UIColor(named: "OnboardingSpotifyButton")
+    static let onboardingSpotifyButtonHighlight = UIColor(named: "OnboardingSpotifyButtonHighlight")
+    static let onboardingSpotifyButtonLabel = UIColor(named: "OnboardingSpotifyButtonLabel")
+    static let onboardingSpotifyButtonLabelHighlight = UIColor(named: "OnboardingSpotifyButtonLabelHighlight")
+
 }

@@ -49,6 +49,8 @@
 		859943442634357700128A73 /* ListReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859943432634357700128A73 /* ListReducer.swift */; };
 		8599435C26344F9600128A73 /* OnboardingActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8599435B26344F9600128A73 /* OnboardingActions.swift */; };
 		8599436426344FD900128A73 /* OnboardingReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8599436326344FD900128A73 /* OnboardingReducer.swift */; };
+		85A8BAE62634C2A600E591A1 /* SettingsSpotifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8BAE52634C2A600E591A1 /* SettingsSpotifyView.swift */; };
+		85A8BAEB2634C2BC00E591A1 /* SettingsAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A8BAEA2634C2BC00E591A1 /* SettingsAboutView.swift */; };
 		85B0606C2627A8BF006D2D9D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B0606B2627A8BF006D2D9D /* Store.swift */; };
 		85B060762627A927006D2D9D /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B060752627A927006D2D9D /* Actions.swift */; };
 		85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B0607A2627A96E006D2D9D /* Reducer.swift */; };
@@ -134,6 +136,8 @@
 		859943432634357700128A73 /* ListReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListReducer.swift; sourceTree = "<group>"; };
 		8599435B26344F9600128A73 /* OnboardingActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingActions.swift; sourceTree = "<group>"; };
 		8599436326344FD900128A73 /* OnboardingReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingReducer.swift; sourceTree = "<group>"; };
+		85A8BAE52634C2A600E591A1 /* SettingsSpotifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSpotifyView.swift; sourceTree = "<group>"; };
+		85A8BAEA2634C2BC00E591A1 /* SettingsAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAboutView.swift; sourceTree = "<group>"; };
 		85B0606B2627A8BF006D2D9D /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		85B060752627A927006D2D9D /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		85B0607A2627A96E006D2D9D /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 				858E1DF626346ADB00C3E941 /* TabBar */,
 				85C2ED91262AE7C900CA5CDF /* List */,
 				85D7D7FF2619F4F30073E3BA /* Detail */,
+				85A8BAE42634C29300E591A1 /* Settings */,
 				85D7D7FE2619F4D00073E3BA /* Components */,
 				855310D2260C8BFA00F0D5F7 /* EventListView.swift */,
 				850FB557260CB4DD001AD034 /* FavouritesView.swift */,
@@ -420,6 +425,15 @@
 				8599436326344FD900128A73 /* OnboardingReducer.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		85A8BAE42634C29300E591A1 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				85A8BAE52634C2A600E591A1 /* SettingsSpotifyView.swift */,
+				85A8BAEA2634C2BC00E591A1 /* SettingsAboutView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		85B0606A2627A8AF006D2D9D /* Redux */ = {
@@ -649,6 +663,7 @@
 				856926C7260BE234004B1761 /* Event.swift in Sources */,
 				8519D27A262DEE4300806839 /* TitleLabel.swift in Sources */,
 				8599435C26344F9600128A73 /* OnboardingActions.swift in Sources */,
+				85A8BAE62634C2A600E591A1 /* SettingsSpotifyView.swift in Sources */,
 				85303376262E1E2400C93D1B /* DBSROnboardingStepViewController.swift in Sources */,
 				852FBE9E26275CF200060A7E /* WillDisappearModifier.swift in Sources */,
 				85282140262787C0007B83EC /* DetailMetaView.swift in Sources */,
@@ -664,6 +679,7 @@
 				85BC0B2C2616592600589240 /* RowViewViewModel.swift in Sources */,
 				8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */,
 				85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */,
+				85A8BAEB2634C2BC00E591A1 /* SettingsAboutView.swift in Sources */,
 				8530336A262E1D9700C93D1B /* TitleView.swift in Sources */,
 				85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */,
 				85303386262F6DF200C93D1B /* UIDevice+Extension.swift in Sources */,

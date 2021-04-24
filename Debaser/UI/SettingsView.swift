@@ -71,6 +71,7 @@ struct SettingsView: View {
                     .ignoresSafeArea()
             )
         }
+        .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
@@ -132,7 +133,7 @@ struct SettingsSectionAbout: View {
 
     var body: some View {
         Section(header: Text(debaserLabel)) {
-            NavigationLink(destination: Text("Om")) {
+            NavigationLink(destination: SettingsAboutView()) {
                 Text(aboutLabel)
             }
         }
@@ -152,9 +153,12 @@ struct SettingsSectionSpotify: View {
 
     var body: some View {
         Section(header: Text(servicesLabel)) {
-            NavigationLink(destination: Text("Spotify")) {
+            NavigationLink(destination: SettingsSpotifyView()) {
                 HStack {
-                    Text("Spotify")
+                    HStack {
+                        Image("SpotifyIcon")
+                        Text("Spotify")
+                    }
 
                     Spacer()
 

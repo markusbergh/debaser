@@ -26,3 +26,19 @@ import UIKit
         layer.cornerRadius = rounded
     }
 }
+
+class DBSROnboardingSpotifyButton: DBSROnboardingButton {
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? UIColor.onboardingSpotifyButtonHighlight : UIColor.onboardingSpotifyButton
+        }
+    }
+}
+
+class DBSROnboardingCloseButton: DBSROnboardingButton {
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? UIColor.onboardingCloseButtonHighlight : UIColor.onboardingCloseButton
+        }
+    }
+}
