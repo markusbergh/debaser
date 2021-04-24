@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ListHeaderView: View {
+    private var searchPlaceholder: LocalizedStringKey {
+        return "List.Search"
+    }
+    
     var headline: String
     var label: String
     
@@ -30,7 +34,7 @@ struct ListHeaderView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Image("Logotype")
+            Image("Icon")
                 .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
@@ -38,7 +42,7 @@ struct ListHeaderView: View {
                 .frame(width: 50)
                 .padding(.bottom, 10)
             
-            TextField("Sök konsert", text: $currentSearch)
+            TextField(searchPlaceholder, text: $currentSearch)
                 .padding()
                 .cornerRadius(10)
                 .overlay(

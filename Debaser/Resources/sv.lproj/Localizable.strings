@@ -6,6 +6,9 @@
   
 */
 
+/// List
+"List.Search" = "Sök konsert";
+
 /// Settings
 "Settings" = "Inställningar";
 "Settings.Debaser" = "Debaser";
