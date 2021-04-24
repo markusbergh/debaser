@@ -49,6 +49,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isShowingOnboarding) {
             OnboardingView()
+                .background(Color(UIColor.onboardingBackground!))
                 .ignoresSafeArea()
         }
     }

@@ -11,11 +11,12 @@ import UIKit
 class DBSROnboardingStepViewController: UIViewController {
 
     // MARK: Public
-    
     @IBOutlet var screenShot: UIImageView!
     
     var pageIndex = 0
     var isAnimated = false
+
+    /*
 
     // MARK: Private
     
@@ -125,19 +126,20 @@ class DBSROnboardingStepViewController: UIViewController {
             */
         }
     }
+    */
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Reset for last step
-        spotifyLogo?.alpha = 0.0
-        spotifyLogo?.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        spotifyInfoText?.alpha = 0.0
-        spotifyInfoText?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
-        spotifyButton?.alpha = 0.0
-        spotifyButton?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        closeButton?.alpha = 0.0
-        closeButton?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//        spotifyLogo?.alpha = 0.0
+//        spotifyLogo?.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+//        spotifyInfoText?.alpha = 0.0
+//        spotifyInfoText?.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+//        spotifyButton?.alpha = 0.0
+//        spotifyButton?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//        closeButton?.alpha = 0.0
+//        closeButton?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
     }
     
     override func viewDidAppear(_ animated: Bool) {

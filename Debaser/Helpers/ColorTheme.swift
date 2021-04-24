@@ -59,4 +59,6 @@ extension UIColor {
     /// Onboarding
     static let onboardingBackground = UIColor(named: "OnboardingBackground")
     static let onboardingText = UIColor(named: "OnboardingText")
+    static let onboardingSkipLabel = UIColor(named: "OnboardingSkipButtonLabel")
+    static let onboardingSkipLabelHighlight = UIColor(named: "OnboardingSkipHighlight")
 }

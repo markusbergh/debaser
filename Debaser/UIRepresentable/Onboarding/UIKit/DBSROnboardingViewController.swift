@@ -18,24 +18,7 @@ class DBSROnboardingViewController: UIViewController {
     private lazy var pageControl = UIPageControl(frame: .zero)
     private lazy var skipButton = UIButton()
     
-    @IBOutlet private var debaserLogotypeTopConstraint: NSLayoutConstraint! {
-        didSet {
-            /*
-            if UIDevice.current.screenType == .iPhone5 {
-                debaserLogotypeTopConstraint.constant = 10.0
-            }
-            */
-        }
-    }
-    @IBOutlet private var debaserLogotype: UIImageView! {
-        didSet {
-            /*
-            if UIDevice.current.screenType == .iPhone5 {
-                debaserLogotype.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            }
-            */
-        }
-    }
+    @IBOutlet private var debaserLogotype: UIImageView!
     
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [newPageViewController(page: "Page1"),
@@ -44,19 +27,27 @@ class DBSROnboardingViewController: UIViewController {
                 newPageViewController(page: "Page4")]
     }()
     
+    var usesDarkMode: Bool = false
+    
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //view.backgroundColor = UIColor.onboardingBackground
-        
+                
+        // Set dark theme
+        overrideUserInterfaceStyle = usesDarkMode ? .dark : .light
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+                
         // Add custom page controller
         setupPageControl()
-
+        
         // Add skip button
         setupSkipButton()
-
+        
+        // Bring logotype forward
         view.bringSubviewToFront(debaserLogotype)
     }
     
@@ -74,37 +65,27 @@ class DBSROnboardingViewController: UIViewController {
                                               animated: true,
                                               completion: nil)
         }
-//
-//        // Add custom page control
-//        pageControl.currentPage = 0
-//        pageControl.numberOfPages = orderedViewControllers.count
-//        //pageControl.pageIndicatorTintColor = UIColor.DBSRPalette.onboardingPageControlColor
-//        //pageControl.currentPageIndicatorTintColor = UIColor.DBSRPalette.onboardingPageControlActiveColor
-//        pageControl.translatesAutoresizingMaskIntoConstraints = false
-//        pageControl.isUserInteractionEnabled = false
-//        view.addSubview(pageControl)
-//
-////        var pageControlHeightAnchorConstant: CGFloat
-////        switch UIDevice.current.screenType {
-////        case .iPhone6:
-////            pageControlHeightAnchorConstant = 75
-////        default:
-////            pageControlHeightAnchorConstant = 100
-////        }
-////
-////        NSLayoutConstraint.activate([
-////            pageControl.widthAnchor.constraint(equalToConstant: view.frame.size.width),
-////            pageControl.heightAnchor.constraint(equalToConstant: pageControlHeightAnchorConstant),
-////            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-////        ])
+
+        // Add custom page control
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = orderedViewControllers.count
+        //pageControl.pageIndicatorTintColor = UIColor.DBSRPalette.onboardingPageControlColor
+        //pageControl.currentPageIndicatorTintColor = UIColor.DBSRPalette.onboardingPageControlActiveColor
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.isUserInteractionEnabled = false
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.widthAnchor.constraint(equalToConstant: view.frame.size.width),
+            pageControl.heightAnchor.constraint(equalToConstant: 100),
+            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
     
     private func setupSkipButton() {
-        /*
         skipButton.setTitle("Hoppa över", for: .normal)
-        skipButton.setTitleColor(UIColor.DBSRPalette.onboardingSkipButtonTextColor, for: .normal)
-        skipButton.setTitleColor(UIColor.DBSRPalette.onboardingSkipButtonHighlightColor, for: .highlighted)
-        skipButton.titleLabel?.font = UIFont(name: "Avenir-Heavy", size: 16)
+        skipButton.setTitleColor(UIColor.onboardingSkipLabel, for: .normal)
+        skipButton.setTitleColor(UIColor.onboardingSkipLabelHighlight, for: .highlighted)
         skipButton.translatesAutoresizingMaskIntoConstraints = false
         skipButton.addTarget(self, action: #selector(dismissOnboarding), for: .touchUpInside)
         view.addSubview(skipButton)
@@ -113,30 +94,29 @@ class DBSROnboardingViewController: UIViewController {
             skipButton.widthAnchor.constraint(lessThanOrEqualToConstant: view.frame.size.width / 2),
             skipButton.centerYAnchor.constraint(equalTo: pageControl.centerYAnchor),
             skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            ])
-        */
+        ])
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UserDefaults.standard.setValue(true, forKey: "seenOnboarding")
+        //UserDefaults.standard.setValue(true, forKey: "seenOnboarding")
         
-        guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
+        //guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
         
-        if var screenShotFrame = firstStepViewController.screenShot?.frame {
-            screenShotFrame.origin.y -= 20
-            
-            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
-                firstStepViewController.screenShot?.alpha = 1.0
-                firstStepViewController.screenShot?.frame = screenShotFrame
-            })
-        }
+//        if var screenShotFrame = firstStepViewController.screenShot?.frame {
+//            screenShotFrame.origin.y -= 20
+//            
+//            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
+//                firstStepViewController.screenShot?.alpha = 1.0
+//                firstStepViewController.screenShot?.frame = screenShotFrame
+//            })
+//        }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
+//    override var preferredStatusBarStyle: UIStatusBarStyle {
+//        return .lightContent
+//    }
     
     private func newPageViewController(page: String) -> UIViewController {
         return UIStoryboard(name: DBSROnboardingViewController.storyboardName, bundle: nil).instantiateViewController(withIdentifier: "\(page)ViewController")
@@ -151,18 +131,18 @@ extension DBSROnboardingViewController: UIPageViewControllerDataSource {
         guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
         }
-        
+
         let previousIndex = viewControllerIndex - 1
-        
+
         guard previousIndex >= 0 else { return nil }
         guard orderedViewControllers.count > previousIndex else { return nil }
-        
+
         guard let stepViewController = orderedViewControllers[previousIndex] as? DBSROnboardingStepViewController else {
             return nil
         }
-        
+
         stepViewController.pageIndex = previousIndex
-        
+
         return stepViewController
     }
     
@@ -170,18 +150,18 @@ extension DBSROnboardingViewController: UIPageViewControllerDataSource {
         guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
         }
-        
+
         let nextIndex = viewControllerIndex + 1
         let orderedViewControllersCount = orderedViewControllers.count
-        
+
         guard orderedViewControllersCount != nextIndex, orderedViewControllersCount > nextIndex else { return nil }
-        
+
         guard let stepViewController = orderedViewControllers[nextIndex] as? DBSROnboardingStepViewController else {
             return nil
         }
-        
+
         stepViewController.pageIndex = nextIndex
-        
+
         return stepViewController
     }
 }
