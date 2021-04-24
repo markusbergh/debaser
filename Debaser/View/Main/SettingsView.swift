@@ -49,11 +49,7 @@ struct SettingsView: View {
 
                         Section(header: Text(onboardingLabel)) {
                             Button(onboardingShowLabel) {
-                                store.dispatch(
-                                    AppAction.list(
-                                        ListAction.showOnboarding
-                                    )
-                                )
+                                store.dispatch(withAction: .onboarding(.showOnboarding))
                             }
                             .foregroundColor(.primary)
                         }
@@ -87,11 +83,7 @@ struct SettingsView: View {
                 return store.state.settings.darkMode.value
             },
             set: {
-                store.dispatch(
-                    AppAction.settings(
-                        SettingsAction.setDarkMode($0)
-                    )
-                )
+                store.dispatch(withAction:.settings(.setDarkMode($0)))
             }
         )
 
@@ -100,11 +92,7 @@ struct SettingsView: View {
                 return store.state.settings.showImages.value
             },
             set: {
-                store.dispatch(
-                    AppAction.settings(
-                        SettingsAction.setShowImages($0)
-                    )
-                )
+                store.dispatch(withAction: .settings(.setShowImages($0)))
             }
         )
 
@@ -178,14 +166,12 @@ struct SettingsSectionSpotify: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let state = SettingsState(
-            showImages: CurrentValueSubject<Bool, Never>(false),
-            darkMode: CurrentValueSubject<Bool, Never>(false),
-            spotifyConnection: nil
-        )
-
         let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(list: ListState(), settings: state),
+            initialState: AppState(
+                list: ListState(),
+                settings: SettingsState(),
+                onboarding: OnboardingState()
+            ),
             reducer: appReducer
         )
 

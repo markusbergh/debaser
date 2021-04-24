@@ -101,7 +101,11 @@ struct RowCompactView: View {
 struct RowCompactView_Previews: PreviewProvider {
     static var previews: some View {
         let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(list: ListState(), settings: SettingsState()),
+            initialState: AppState(
+                list: ListState(),
+                settings: SettingsState(),
+                onboarding: OnboardingState()
+            ),
             reducer: appReducer
         )
         

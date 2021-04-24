@@ -9,16 +9,19 @@ import SwiftUI
 
 @main
 struct DebaserApp: App {
-    // Application state
     @StateObject var store: Store<AppState, AppAction> = Store(
-        initialState: AppState(list: ListState(), settings: SettingsState()),
-        reducer: appReducer
+        initialState: AppState(
+            list: ListState(),
+            settings: SettingsState(),
+            onboarding: OnboardingState()
+        ),
+        reducer: appReducer,
+        middlewares: [
+            listMiddleware(service: EventService())
+        ]
     )
     
-    // Tab state
     @StateObject var tabViewRouter = TabViewRouter()
-    
-    // Theme
     @State private var isDarkMode: Bool = false
     
     var body: some Scene {
@@ -28,11 +31,7 @@ struct DebaserApp: App {
                     isDarkMode = value
                 }
                 .onAppear {
-                    store.dispatch(
-                        AppAction.settings(
-                            SettingsAction.getDarkMode
-                        )
-                    )
+                    store.dispatch(withAction: .settings(.getDarkMode))
                 }
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)

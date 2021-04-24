@@ -77,8 +77,8 @@ struct ListView: View {
                     }
                     
                     LazyVGrid(columns: gridLayout, spacing: 30) {
-                        ForEach(0..<viewModel.filteredEvents.count, id:\.self) { idx in
-                            let event = self.viewModel.filteredEvents[idx]
+                        ForEach(0..<store.state.list.events.count, id:\.self) { idx in
+                            let event = store.state.list.events[idx]
                             
                             RowCompactView(
                                 event: event,
@@ -111,14 +111,8 @@ struct ListView: View {
             ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
         )
         .onAppear {
-            onAppear()
-            
             self.isShowingTabBar = true
         }
-    }
-    
-    func onAppear() {
-        viewModel.fetchAll()
     }
     
     private func darkMode(for state: SettingsState) -> Binding<Bool> {
@@ -127,11 +121,7 @@ struct ListView: View {
                 return store.state.settings.darkMode.value
             },
             set: {
-                store.dispatch(
-                    AppAction.settings(
-                        SettingsAction.setShowImages($0)
-                    )
-                )
+                store.dispatch(withAction: .settings(.setDarkMode($0)))
             }
         )
         
@@ -184,7 +174,11 @@ struct ListViewTopRectangle: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(list: ListState(), settings: SettingsState()),
+            initialState: AppState(
+                list: ListState(),
+                settings: SettingsState(),
+                onboarding: OnboardingState()
+            ),
             reducer: appReducer
         )
         
