@@ -104,7 +104,7 @@ struct ListView: View {
                   message: Text("There was an error while fetching events"),
                   dismissButton: .default(Text("OK")))
         }
-        .onReceive(ListViewViewModel.networkActivityPublisher, perform: { isFetching in
+        .onReceive(store.state.list.isFetching, perform: { isFetching in
             isShowingActivityIndicator = isFetching
         })
         .overlay(
