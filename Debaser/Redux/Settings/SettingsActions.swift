@@ -12,4 +12,7 @@ enum SettingsAction {
     case setDarkMode(Bool)
     case getShowImages
     case setShowImages(Bool)
+    case getHideCancelled
+    case setHideCancelled(Bool)
+
 }

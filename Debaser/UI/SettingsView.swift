@@ -20,6 +20,9 @@ struct SettingsView: View {
     private var imagesLabel: LocalizedStringKey {
         return "Settings.Layout.Images"
     }
+    private var cancelledLabel: LocalizedStringKey {
+        return "Settings.Layout.HideCancelled"
+    }
     private var onboardingLabel: LocalizedStringKey {
         return "Settings.Onboarding"
     }
@@ -41,6 +44,7 @@ struct SettingsView: View {
                     Section(header: Text("Layout")) {
                         Toggle(darkModeLabel, isOn: darkMode())
                         Toggle(imagesLabel, isOn: showImages())
+                        Toggle(cancelledLabel, isOn: hideCancelled())
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
 
@@ -88,6 +92,19 @@ struct SettingsView: View {
             },
             set: {
                 store.dispatch(withAction: .settings(.setShowImages($0)))
+            }
+        )
+
+        return showImages
+    }
+    
+    private func hideCancelled() -> Binding<Bool> {
+        let showImages = Binding<Bool>(
+            get: {
+                return store.state.settings.hideCancelled.value
+            },
+            set: {
+                store.dispatch(withAction: .settings(.setHideCancelled($0)))
             }
         )
 

@@ -16,7 +16,8 @@ struct ListView: View {
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
     @State private var searchText = ""
-        
+    
+    var listBottomPadding: CGFloat = .zero
     var headline: String
     var label: LocalizedStringKey
     var gridLayout: [GridItem] = []
@@ -35,6 +36,8 @@ struct ListView: View {
             repeating: .init(.flexible(), spacing: 30),
             count: numColumns
         )
+        
+        listBottomPadding = TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + totalPadding + 15
     }
     
     var body: some View {
@@ -89,8 +92,10 @@ struct ListView: View {
                     }
                     
                     LazyVGrid(columns: gridLayout, spacing: 30) {
-                        ForEach(0..<store.state.list.events.count, id:\.self) { idx in
-                            let event = store.state.list.events[idx]
+                        let events = getEvents()
+                        
+                        ForEach(0..<events.count, id:\.self) { idx in
+                            let event = events[idx]
                             
                             RowCompactView(
                                 event: event,
@@ -100,6 +105,7 @@ struct ListView: View {
                             .id(event.id)
                         }
                     }
+                    .padding(.bottom, listBottomPadding)
                 }
             }
             .padding(totalPadding)
@@ -126,6 +132,22 @@ struct ListView: View {
         .overlay(
             ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
         )
+    }
+    
+    private func getEvents() -> [EventViewModel] {
+        var events = store.state.list.events
+        
+        if store.state.settings.hideCancelled.value == true {
+            events = events.filter({ event -> Bool in
+                guard let slug = event.slug else {
+                    return true
+                }
+                
+                return !slug.contains("cancelled")
+            })
+        }
+
+        return events
     }
     
     private func darkMode(for state: SettingsState) -> Binding<Bool> {

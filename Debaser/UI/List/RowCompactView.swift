@@ -46,6 +46,13 @@ struct RowCompactView: View {
                 isShowingDetailView = true
                 
                 store.dispatch(withAction: .list(.hideTabBar))
+                
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder),
+                    to: nil,
+                    from: nil,
+                    for: nil
+                )
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     RowCompactImageView(mediaHeight: mediaHeight)
