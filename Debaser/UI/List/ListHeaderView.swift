@@ -23,6 +23,9 @@ struct ListHeaderView: View {
         self.label = label
         self._isDarkMode = isDarkMode
         self._currentSearch = currentSearch
+        
+        // For easier text handling...
+        UITextField.appearance().clearButtonMode = .whileEditing
     }
     
     private var dateFormatter: DateFormatter = {

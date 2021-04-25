@@ -44,6 +44,7 @@ extension Color {
     static let detailViewMetaSecondary = Color("DetailViewMetaSecondary")
     static let detailViewMetaTertiary = Color("DetailViewMetaTertiary")
     static let detailBackButtonTint = Color("DetailBackButtonTint")
+    static let detailFavouriteRibbonBackground = Color("DetailFavouriteRibbonBackground")
     
     /// Settings
     static let settingsTopGradientStart = Color("SettingsTopGradientStart")

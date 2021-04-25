@@ -10,20 +10,11 @@ import SwiftUI
 struct RowView: View {
     @AppStorage("showImages") var showImages: Bool = true
     @StateObject var viewModel: RowViewViewModel = RowViewViewModel()
+    
     @State private var isShowingDetailView: Bool = false
-    @Binding var isShowingTabBar: Bool
-
-    private var title: String = ""
     
     var event: EventViewModel
-    var willShowInfoBar = false
-    
-    init(event: EventViewModel, isShowingTabBar: Binding<Bool>) {
-        self.event = event
-        self._isShowingTabBar = isShowingTabBar
-        
-        title = event.title
-    }
+    var willShowInfoBar = true
     
     var body: some View {
         NavigationLink(
@@ -31,20 +22,20 @@ struct RowView: View {
             isActive: $isShowingDetailView
         ) {
             Button(action: {
-                self.isShowingTabBar = true
+                // TODO:
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {
                         Rectangle()
                             .frame(minWidth: 0, maxWidth: .infinity)
-                            .frame(height: 175)
+                            .frame(height: 150)
                         
                         if showImages {
                             Image(uiImage: viewModel.image)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(minWidth: 0, maxWidth: .infinity)
-                                .frame(height: 175)
+                                .frame(height: 150)
                                 .clipped()
                                 .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
                                 .overlay(
@@ -60,36 +51,36 @@ struct RowView: View {
                             Rectangle()
                                 .background(Color.red)
                                 .frame(minWidth: 0, maxWidth: .infinity)
-                                .frame(height: 175)
+                                .frame(height: 150)
                         }
 
-                        Text(title)
-                            .font(.system(size: 23, weight: .medium))
+                        Text(event.title)
+                            .lineLimit(2)
+                            .font(Fonts.title.of(size: 31))
                             .foregroundColor(.white)
                             .shadow(color: .black, radius: 1, x: 0, y: 0)
                             .frame(minWidth: 0, maxWidth: 275, alignment: .leading)
-                            .offset(x: 20, y: 20)
+                            .offset(x: 20, y: 15)
                             .multilineTextAlignment(.leading)
                     }
                     .cornerRadius(15)
 
                     if willShowInfoBar {
                         HStack(spacing: 15) {
-                            Spacer()
-                            Group {
-                                Text("24 SEP")
-                                    .fontWeight(.bold)
-                                Text("18:00")
-                                    .fontWeight(.bold)
-                                Text("250 SEK")
-                                    .fontWeight(.bold)
-                            }
-                            .font(
-                                .system(
-                                    size: 16,
-                                    weight: .bold,
-                                    design: .default
-                                )
+                            DetailMetaView(
+                                image: "person",
+                                label: "20 år",
+                                backgroundColor: .detailViewMetaPrimary
+                            )
+                            DetailMetaView(
+                                image: "banknote",
+                                label: "150 kr",
+                                backgroundColor: .detailViewMetaSecondary
+                            )
+                            DetailMetaView(
+                                image: "clock",
+                                label: "18:00",
+                                backgroundColor: .detailViewMetaTertiary
                             )
                         }
                         .padding()
@@ -101,11 +92,12 @@ struct RowView: View {
                         .fill(Color.listRowBackground)
                         .cornerRadius(15)
                         .shadow(
-                            color: Color.listRowShadowBackground.opacity(0.2),
+                            color: Color.black.opacity(0.25),
                             radius: 20,
-                            x: 0.0,
-                            y: 10.0
+                            x: 0,
+                            y: -5
                         )
+
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 15, style: .circular)
@@ -147,9 +139,6 @@ struct RowView_Previews: PreviewProvider {
         
         let model = EventViewModel(with: event)
         
-        RowView(
-            event: model,
-            isShowingTabBar: .constant(false)
-        )
+        RowView(event: model)
     }
 }

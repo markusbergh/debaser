@@ -11,8 +11,7 @@ struct RowCompactView: View {
     @EnvironmentObject var store: AppStore
     @StateObject var viewModel = RowViewViewModel()
 
-    @State private var isShowingDetailView: Bool = false
-    @Binding var isShowingTabBar: Bool
+    @State private var isShowingDetailView = false
 
     private var title: String = ""
     private var date: String = ""
@@ -30,10 +29,9 @@ struct RowCompactView: View {
     var mediaHeight: CGFloat
     var willShowInfoBar = false
     
-    init(event: EventViewModel, mediaHeight: CGFloat = 100, isShowingTabBar: Binding<Bool>) {
+    init(event: EventViewModel, mediaHeight: CGFloat = 100) {
         self.event = event
         self.mediaHeight = mediaHeight
-        self._isShowingTabBar = isShowingTabBar
         
         title = event.title
         date = event.date
@@ -45,11 +43,13 @@ struct RowCompactView: View {
             isActive: $isShowingDetailView
         ) {
             Button(action: {
-                self.isShowingDetailView = true
+                isShowingDetailView = true
                 
-                withAnimation {
-                    self.isShowingTabBar = false
-                }
+//                withAnimation {
+//                    self.isShowingTabBar = false
+//                }
+                
+                store.dispatch(withAction: .list(.hideTabBar))
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     RowCompactImageView(mediaHeight: mediaHeight)
@@ -119,6 +119,7 @@ struct RowCompactImageView: View {
             Rectangle()
                 .fill(Color.listNoImageBackground)
                 .frame(height: mediaHeight)
+                .cornerRadius(15)
         }
     }
     
@@ -193,8 +194,7 @@ struct RowCompactView_Previews: PreviewProvider {
         
         let model = EventViewModel(with: event)
         
-        RowCompactView(event: model,
-                       isShowingTabBar: .constant(false))
+        RowCompactView(event: model)
             .preferredColorScheme(.dark)
             .environmentObject(store)
     }

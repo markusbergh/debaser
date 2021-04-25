@@ -12,4 +12,7 @@ enum ListAction {
     case getEventsComplete(events: [EventViewModel])
     case getEventsError(error: ServiceError?)
     case searchEvent(query: String)
+    case toggleFavourite(Bool, EventViewModel)
+    case hideTabBar
+    case showTabBar
 }

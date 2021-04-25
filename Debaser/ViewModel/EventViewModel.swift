@@ -7,12 +7,18 @@
 
 import Foundation
 
-struct EventViewModel {
+struct EventViewModel: Hashable {
     var id: String = ""
     var title: String = "" {
         didSet {
             title = title.replacingOccurrences(of: "&amp;", with: "&")
                 .replacingOccurrences(of: "&gt;", with: ">")
+
+            guard let trimmedTitle = trim(value: &title, withRegex: "\\S[^->|]+[^ \\W].") else {
+                return
+            }
+            
+            title = trimmedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     var subHeader: String = "" {
@@ -35,7 +41,9 @@ struct EventViewModel {
     var image: String = ""
     var admission: String = "" {
         didSet {
-            guard let trimmedAdmission = trim(value: &admission, withRegex: "\\d{1,3} kr") else {
+            var lowerAdmission = admission.lowercased()
+
+            guard let trimmedAdmission = trim(value: &lowerAdmission, withRegex: "\\d{1,3} kr") else {
                 // Quick and dirty check if admission might be for free
                 if admission.contains("Fri") {
                     isFreeAdmission = true
@@ -49,6 +57,8 @@ struct EventViewModel {
     }
     var ageLimit: String = "" {
         didSet {
+            ageLimit = ageLimit.lowercased()
+            
             guard let trimmedAgeLimit = trim(value: &ageLimit, withRegex: "\\d{1,2}") else {
                 return
             }

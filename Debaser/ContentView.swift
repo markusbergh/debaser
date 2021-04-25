@@ -8,6 +8,8 @@
 import Combine
 import SwiftUI
 
+typealias AppStore = Store<AppState, AppAction>
+
 struct ContentView: View {
     @EnvironmentObject var store: AppStore
     @EnvironmentObject var tabViewRouter: TabViewRouter
@@ -15,7 +17,6 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
 
     @State var selectedTab: String = "music.note.house"
-    @State var isShowingTabBar = false
     @State var isShowingOnboarding = false
 
     var body: some View {
@@ -27,7 +28,7 @@ struct ContentView: View {
                 
                 switch currentTab {
                 case .list:
-                    EventListView(isShowingTabBar: $isShowingTabBar)
+                    EventListView()
                 case .favourites:
                     FavouritesView()
                 case .settings:
@@ -39,7 +40,7 @@ struct ContentView: View {
             
             TabBar(selectedTab: $selectedTab)
                 .environmentObject(tabViewRouter)
-                .offset(y: isShowingTabBar ? 0 : 110)
+                .offset(y: store.state.list.isShowingTabBar ? 0 : 110)
                 .animation(Animation.easeInOut(duration: 0.2))
         }
         .ignoresSafeArea()

@@ -9,22 +9,20 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var store: AppStore
+    
     @StateObject var viewModel = ListViewViewModel()
     
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
     @State private var searchText = ""
-    
-    @Binding var isShowingTabBar: Bool
-    
+        
     var headline: String
     var label: LocalizedStringKey
     var gridLayout: [GridItem] = []
     
-    init(headline: String, label: LocalizedStringKey, isShowingTabBar: Binding<Bool>) {
+    init(headline: String, label: LocalizedStringKey) {
         self.headline = headline
         self.label = label
-        self._isShowingTabBar = isShowingTabBar
         
         var numColumns = 2
         
@@ -95,8 +93,7 @@ struct ListView: View {
                             
                             RowCompactView(
                                 event: event,
-                                mediaHeight: 150,
-                                isShowingTabBar: $isShowingTabBar
+                                mediaHeight: 150
                             )
                             .frame(maxHeight: .infinity, alignment: .top)
                             .id(event.id)
@@ -111,7 +108,7 @@ struct ListView: View {
             alignment: .top
         )
         .background(Color.listBackground)
-            .edgesIgnoringSafeArea(.bottom)
+        .edgesIgnoringSafeArea(.bottom)
         .alert(isPresented: $viewModel.isShowingErrorAlert) {
             Alert(title: Text("Error"),
                   message: Text("There was an error while fetching events"),
@@ -123,9 +120,6 @@ struct ListView: View {
         .overlay(
             ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
         )
-        .onAppear {
-            isShowingTabBar = true
-        }
     }
     
     private func darkMode(for state: SettingsState) -> Binding<Bool> {
@@ -197,8 +191,7 @@ struct ListView_Previews: PreviewProvider {
         
         ListView(
             headline: "Stockholm",
-            label: "Dagens konserter",
-            isShowingTabBar: .constant(false)
+            label: "Dagens konserter"
         )
         .environmentObject(store)
     }

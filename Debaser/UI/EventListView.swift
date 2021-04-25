@@ -7,12 +7,9 @@
 
 import SwiftUI
 
-typealias AppStore = Store<AppState, AppAction>
-
 struct EventListView: View {
     @EnvironmentObject var store: AppStore
 
-    @Binding var isShowingTabBar: Bool
     @State private var totalPadding: CGFloat = 20
     
     private var todayLabel: LocalizedStringKey {
@@ -24,8 +21,7 @@ struct EventListView: View {
             VStack {
                 ListView(
                     headline: "Stockholm",
-                    label: todayLabel,
-                    isShowingTabBar: $isShowingTabBar
+                    label: todayLabel
                 )
             }
             .navigationBarHidden(true)
@@ -38,7 +34,7 @@ struct EventListView: View {
 
 struct EventListView_Previews: PreviewProvider {
     static var previews: some View {
-        EventListView(isShowingTabBar: .constant(true))
+        EventListView()
             .preferredColorScheme(.dark)
     }
 }

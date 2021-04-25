@@ -13,7 +13,7 @@ class TitleLabel: UILabel {
                 
         font = Fonts.title.of(size: 49)
         numberOfLines = 0
-        lineBreakMode = .byCharWrapping
+        lineBreakMode = .byWordWrapping
         
         setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -33,12 +33,10 @@ class TitleLabel: UILabel {
         let style = NSMutableParagraphStyle()
         let lineHeight = self.font.pointSize - self.font.ascender + self.font.capHeight
 
-        let offset = -lineHeight / 2 * 0.6
+        let offset = -(lineHeight / 2) * -0.1
         let range = NSMakeRange(0, self.text!.count)
         
-        //style.maximumLineHeight = lineHeight
-        //style.minimumLineHeight = lineHeight
-        style.lineHeightMultiple = 0.6
+        style.lineHeightMultiple = 0.8
         style.alignment = self.textAlignment
         
         string.addAttribute(.paragraphStyle, value: style, range: range)
