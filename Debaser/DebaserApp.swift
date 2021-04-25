@@ -32,6 +32,8 @@ struct DebaserApp: App {
                 }
                 .onAppear {
                     store.dispatch(withAction: .settings(.getDarkMode))
+                    store.dispatch(withAction: .settings(.getHideCancelled))
+                    store.dispatch(withAction: .settings(.getShowImages))
                 }
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)

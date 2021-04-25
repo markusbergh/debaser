@@ -37,7 +37,7 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
         state.showImages.send(willShow)
     case .getHideCancelled:
         let willHide = UserDefaults.standard.bool(forKey: "hideCancelled")
-        state.darkMode.send(willHide)
+        state.hideCancelled.send(willHide)
     case .setHideCancelled(let willHide):
         saveUserDefaults(value: willHide, forKey: "hideCancelled")
         state.hideCancelled.send(willHide)
