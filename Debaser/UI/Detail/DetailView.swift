@@ -94,7 +94,7 @@ struct DetailTopImageView: View {
     var body: some View {
         GeometryReader { geometry -> DetailImageView in
             var width =  geometry.size.width
-            var height = geometry.size.height + geometry.frame(in: .local).minY
+            var height = geometry.size.height + geometry.frame(in: .global).minY
             var offsetY = -geometry.frame(in: .global).minY
             
             if geometry.frame(in: .global).minY <= 0 {
