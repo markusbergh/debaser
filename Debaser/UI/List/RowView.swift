@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct RowView: View {
-    @AppStorage("showImages") var showImages: Bool = true
-    @StateObject var viewModel: RowViewViewModel = RowViewViewModel()
-    
+    @EnvironmentObject var store: AppStore
+    @StateObject var viewModel = RowViewViewModel()
+
     @State private var isShowingDetailView: Bool = false
     
     var event: EventViewModel
@@ -22,7 +22,9 @@ struct RowView: View {
             isActive: $isShowingDetailView
         ) {
             Button(action: {
-                // TODO:
+                isShowingDetailView = true
+                
+                store.dispatch(withAction: .list(.hideTabBar))
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {
@@ -30,7 +32,7 @@ struct RowView: View {
                             .frame(minWidth: 0, maxWidth: .infinity)
                             .frame(height: 150)
                         
-                        if showImages {
+                        if store.state.settings.showImages.value == true {
                             Image(uiImage: viewModel.image)
                                 .resizable()
                                 .scaledToFill()
@@ -122,23 +124,8 @@ struct RowView: View {
 
 struct RowView_Previews: PreviewProvider {
     static var previews: some View {
-        let event = Event(id: "1234",
-                          name: "MR MS",
-                          subHeader: "",
-                          status: "Open",
-                          description: "Lorem ipsum dolor",
-                          ageLimit: "18 år",
-                          image: "https://debaser.se/img/10982.jpg",
-                          date: "2010-01-19",
-                          open: "Öppnar kl 18:30",
-                          room: "Bar Brooklyn",
-                          venue: "Strand",
-                          slug: nil,
-                          admission: "Fri entre",
-                          ticketUrl: nil)
+        let event = MockEventViewModel.event
         
-        let model = EventViewModel(with: event)
-        
-        RowView(event: model)
+        RowView(event: event)
     }
 }

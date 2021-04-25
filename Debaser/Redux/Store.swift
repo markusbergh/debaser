@@ -46,3 +46,16 @@ extension Store: StoreProtocol {
         }
     }
 }
+
+// MARK: Mock store
+
+class MockStore: ObservableObject {
+    static let store = Store(
+        initialState: AppState(
+            list: ListState(),
+            settings: SettingsState(),
+            onboarding: OnboardingState()
+        ),
+        reducer: appReducer
+    )
+}

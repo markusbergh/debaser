@@ -33,43 +33,36 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                Form {
-                    Group {
-                        SettingsSectionAbout()
-                        SettingsSectionSpotify()
+            Form {
+                Group {
+                    SettingsSectionAbout()
+                    SettingsSectionSpotify()
 
-                        Section(header: Text("Layout")) {
-                            Toggle(darkModeLabel, isOn: darkMode())
-                            Toggle(imagesLabel, isOn: showImages())
-                        }
-                        .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-
-                        Section(header: Text(onboardingLabel)) {
-                            Button(onboardingShowLabel) {
-                                store.dispatch(withAction: .onboarding(.showOnboarding))
-                            }
-                            .foregroundColor(.primary)
-                        }
+                    Section(header: Text("Layout")) {
+                        Toggle(darkModeLabel, isOn: darkMode())
+                        Toggle(imagesLabel, isOn: showImages())
                     }
-                    .listRowBackground(Color.settingsListRowBackground)
+                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
+
+                    Section(header: Text(onboardingLabel)) {
+                        Button(onboardingShowLabel) {
+                            store.dispatch(withAction: .onboarding(.showOnboarding))
+                        }
+                        .foregroundColor(.primary)
+                    }
                 }
-                .background(
-                    SettingsViewTopRectangle(),
-                    alignment: .top
-                )
-                .navigationBarTitle(titleLabel, displayMode: .large)
-
-                Spacer()
-
-                Text("v\(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)")
-                    .font(.system(size: 15))
-                    .padding(.bottom, 90)
+                .listRowBackground(Color.settingsListRowBackground)
             }
+            .background(
+                SettingsViewTopRectangle(),
+                alignment: .top
+            )
             .background(
                 Color.settingsBackground
                     .ignoresSafeArea()
             )
+
+            .navigationBarTitle(titleLabel, displayMode: .large)
         }
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())

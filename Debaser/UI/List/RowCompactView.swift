@@ -45,10 +45,6 @@ struct RowCompactView: View {
             Button(action: {
                 isShowingDetailView = true
                 
-//                withAnimation {
-//                    self.isShowingTabBar = false
-//                }
-                
                 store.dispatch(withAction: .list(.hideTabBar))
             }) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -168,33 +164,10 @@ struct RowCompactImageViewModifier: ViewModifier {
 
 struct RowCompactView_Previews: PreviewProvider {
     static var previews: some View {
-        let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(
-                list: ListState(),
-                settings: SettingsState(),
-                onboarding: OnboardingState()
-            ),
-            reducer: appReducer
-        )
+        let store = MockStore.store
+        let event = MockEventViewModel.event
         
-        let event = Event(id: "1234",
-                          name: "MR MS",
-                          subHeader: "",
-                          status: "Open",
-                          description: "Lorem ipsum dolor",
-                          ageLimit: "18 år",
-                          image: "https://debaser.se/img/10982.jpg",
-                          date: "2010-01-19",
-                          open: "Öppnar kl 18:30",
-                          room: "Bar Brooklyn",
-                          venue: "Strand",
-                          slug: nil,
-                          admission: "Fri entre",
-                          ticketUrl: nil)
-        
-        let model = EventViewModel(with: event)
-        
-        RowCompactView(event: model)
+        RowCompactView(event: event)
             .preferredColorScheme(.dark)
             .environmentObject(store)
     }

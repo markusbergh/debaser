@@ -12,6 +12,9 @@
 "List.Event.Cancelled" = "Inställt";
 "List.Event.Postponed" = "Framflyttat";
 
+/// Favourites
+"Favourites.Empty" = "Inga favoriter sparade";
+
 /// Detail
 "Detail.Age" = "%@ år";
 

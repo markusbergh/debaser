@@ -15,6 +15,9 @@
 /// Detail
 "Detail.Age" = "Age %@";
 
+/// Favourites
+"Favourites.Empty" = "No favourites saved";
+
 /// Onboarding
 "Onboarding.Step1.Header" = "Use Spotify to preview";
 "Onboarding.Step1.Body" = "By connecting your Spotify account to Debaser you can preview the artists immediately in the app¹.";

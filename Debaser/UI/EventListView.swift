@@ -27,14 +27,19 @@ struct EventListView: View {
             .navigationBarHidden(true)
         }
         .onAppear {
-            store.dispatch(withAction: .list(.getEventsRequest))
+            if store.state.list.events.isEmpty {
+                store.dispatch(withAction: .list(.getEventsRequest))
+            }
         }
     }
 }
 
 struct EventListView_Previews: PreviewProvider {
     static var previews: some View {
+        let store = MockStore.store
+
         EventListView()
             .preferredColorScheme(.dark)
+            .environmentObject(store)
     }
 }

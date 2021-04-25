@@ -9,9 +9,18 @@ import SwiftUI
 
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var store: AppStore
     @StateObject var viewModel = DetailViewViewModel()
     
     var event: EventViewModel
+    
+    private var cancelledLabel: String {
+        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
+    }
+    
+    private var postponedLabel: String {
+        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
+    }
     
     init(event: EventViewModel) {
         self.event = event
@@ -37,6 +46,27 @@ struct DetailView: View {
                         .frame(maxWidth: .infinity)
                     }
                     
+                    HStack {
+                        if event.isCancelled {
+                            DetailMetaView(
+                                label: cancelledLabel,
+                                labelSize: 17,
+                                labelColor: .white,
+                                backgroundColor: .red
+                            )
+                        } else if event.isPostponed {
+                            DetailMetaView(
+                                label: postponedLabel,
+                                labelSize: 17,
+                                labelColor: .white,
+                                backgroundColor: .red
+                            )
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .offset(y: -10)
+                    .padding(-10)
+                    
                     // Main content
                     DetailMainContentView(event: event)
                 }
@@ -45,8 +75,12 @@ struct DetailView: View {
             .ignoresSafeArea()
             .frame(height: geometry.size.height)
             .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
             .onAppear {
                 viewModel.loadImage(with: event.image)
+            }
+            .onDisappear {
+                store.dispatch(withAction: .list(.showTabBar))
             }
         }
     }
@@ -89,8 +123,6 @@ struct DetailBackButtonView: View {
     var body: some View {
         Button(action: {
             self.presentationMode.wrappedValue.dismiss()
-            
-            store.dispatch(withAction: .list(.showTabBar))
         }) {
             Image(systemName: "chevron.left.circle.fill")
                 .resizable()
@@ -114,18 +146,10 @@ struct DetailMainContentView: View {
 
     var event: EventViewModel
     
-    private var cancelledLabel: String {
-        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
-    }
-    
-    private var postponedLabel: String {
-        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
-    }
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top) {
-                Text("25/4")
+                Text(event.getShortDate())
                     .font(.system(size: 15))
                     .frame(minHeight: 20)
                     .padding(.horizontal, 15)
@@ -141,23 +165,7 @@ struct DetailMainContentView: View {
                     labelColor: colorScheme == .dark ? .black : .white,
                     backgroundColor: .primary
                 )
-                
-                if event.isCancelled {
-                    DetailMetaView(
-                        label: cancelledLabel,
-                        labelSize: 15,
-                        labelColor: .white,
-                        backgroundColor: .red
-                    )
-                } else if event.isPostponed {
-                    DetailMetaView(
-                        label: postponedLabel,
-                        labelSize: 15,
-                        labelColor: .white,
-                        backgroundColor: .red
-                    )
-                }
-                
+
                 Spacer()
                 
                 DetailFavouriteButtonView(event: event)
@@ -165,6 +173,7 @@ struct DetailMainContentView: View {
             .padding(.bottom, 25)
 
             TitleView(title: event.title, dynamicHeight: $height)
+                .fixedSize(horizontal: true, vertical: false)
                 .padding(.bottom, 10)
                 
             DetailMetaContainerView(
@@ -191,9 +200,7 @@ struct DetailMainContentView: View {
         .background(Color.detailContentBackground)
         .cornerRadius(25)
         .shadow(
-            color: Color.black.opacity(
-                colorScheme == .light ? 0.25 : 0.1
-            ),
+            color: Color.black.opacity(colorScheme == .light ? 0.25 : 0.1),
             radius: 20,
             x: 0,
             y: -5
@@ -202,85 +209,7 @@ struct DetailMainContentView: View {
     }
 }
 
-// MARK: Favourite
-
-struct DetailFavouriteButtonView: View {
-    @EnvironmentObject var store: AppStore
-    @State private var isFavourite = false
-    
-    var event: EventViewModel
-
-    var body: some View {
-        Button(action: {
-            isFavourite.toggle()
-            
-            let generator = UISelectionFeedbackGenerator()
-            generator.selectionChanged()
-            
-            store.dispatch(withAction: .list(.toggleFavourite(isFavourite, event)))
-        }) {
-            Image(systemName: isFavourite ? "heart.fill" : "heart" )
-                .resizable()
-                .frame(width: 30, height: 30)
-        }
-        .frame(width: 60, height: 40)
-        .foregroundColor(.red)
-        .background(
-            Capsule()
-                .fill(Color.detailFavouriteRibbonBackground)
-                .frame(width: 60, height: 110)
-                .offset(x: 0, y: -25)
-        )
-        .offset(x: 0)
-        .onAppear {
-            let match = store.state.list.favourites.firstIndex(where: { event -> Bool in
-                return self.event.id == event.id
-            })
-            
-            if match != nil {
-                isFavourite = true
-            }
-        }
-    }
-}
-
-// MARK: Ticket button
-
-struct DetailBuyTicketButtonView: View {
-    @State private var showTicketUrl = false
-    
-    private var ticketsLabel: LocalizedStringKey {
-        return "Detail.Buy.Tickets"
-    }
-    
-    var event: EventViewModel
-    
-    var body: some View {
-        Button(action: {
-            showTicketUrl = true
-        }) {
-            Text(ticketsLabel)
-                .font(.system(size: 17))
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(
-                    Capsule().stroke(
-                        Color.primary
-                    )
-                )
-        }
-        .disabled(event.isCancelled)
-        .opacity(event.isCancelled ? 0.5 : 1)
-        .foregroundColor(.primary)
-        .padding(.top, 15)
-        .sheet(isPresented: $showTicketUrl) {
-            WebView(url: URL(string: event.ticketUrl!)!)
-                .ignoresSafeArea()
-        }
-    }
-}
-
-// MARK: Meta view
+// MARK: Meta container view
 
 struct DetailMetaContainerView: View {
     var ageLimit: String
@@ -329,35 +258,19 @@ struct DetailDescriptionView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(
-                list: ListState(),
-                settings: SettingsState(),
-                onboarding: OnboardingState()
-            ),
-            reducer: appReducer
-        )
+        let store = MockStore.store
+        let event = MockEventViewModel.event
         
-        let event = Event(
-            id: "1234",
-            name: "The Good Favourite",
-            subHeader: "This is a sub",
-            status: "Open",
-            description: "The Other Favorites is the long time duo project of Carson McKee and Josh Turner. Perhaps best known for their performances on YouTube, which have garnered millions of views. The Other Favorites are now based out of Brooklyn, NY. Together, Turner and McKee bring their shared influences of folk, bluegrass and classic rock into a modern framework; one distinguished by incisive songwriting, virtuosic guitar work and tight two-part harmony.\n\nReina del Cid is a singer songwriter and leader of the eponymous folk rock band based in Los Angeles. Her song-a-week video series, Sunday Mornings with Reina del Cid, has amassed 40 million views on YouTube and collected a diverse following made up of everyone from jamheads to college students to white-haired intelligentsia. In 2011 she began collaborating with Toni Lindgren, who is the lead guitarist on all three of Del Cid’s albums, as well as a frequent and much beloved guest on the Sunday Morning videos. The two have adapted their sometimes hard-hitting rock ballads and catchy pop riffs into a special acoustic duo set.",
-            ageLimit: "18 år",
-            image: "https://debaser.se/img/10982.jpg",
-            date: "2010-01-19",
-            open: "Öppnar kl 18:30",
-            room: "Bar Brooklyn",
-            venue: "Strand",
-            slug: nil,
-            admission: "250 kr",
-            ticketUrl: nil
-        )
+        /*
+        ForEach(ColorScheme.allCases, id:\.self) {
+            DetailView(event: event)
+                .preferredColorScheme(.dark)
+                .environmentObject(store)
+                .preferredColorScheme($0)
+        }
+        */
         
-        let model = EventViewModel(with: event)
-        
-        DetailView(event: model)
+        DetailView(event: event)
             .preferredColorScheme(.dark)
             .environmentObject(store)
     }
