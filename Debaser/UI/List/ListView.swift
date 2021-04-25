@@ -12,6 +12,7 @@ struct ListView: View {
     
     @StateObject var viewModel = ListViewViewModel()
     
+    @State private var isShowingErrorAlert = false
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
     @State private var searchText = ""
@@ -109,13 +110,18 @@ struct ListView: View {
         )
         .background(Color.listBackground)
         .edgesIgnoringSafeArea(.bottom)
-        .alert(isPresented: $viewModel.isShowingErrorAlert) {
-            Alert(title: Text("Error"),
-                  message: Text("There was an error while fetching events"),
+        .alert(isPresented: $isShowingErrorAlert) {
+            Alert(title: Text("List.Error.Title"),
+                  message: Text("List.Error.Message"),
                   dismissButton: .default(Text("OK")))
         }
         .onReceive(store.state.list.isFetching, perform: { isFetching in
             isShowingActivityIndicator = isFetching
+        })
+        .onChange(of: store.state.list.fetchError, perform: { error in
+            if let _ = error {
+                isShowingErrorAlert = true
+            }
         })
         .overlay(
             ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)

@@ -11,6 +11,8 @@
 "List.Search" = "Search concert";
 "List.Event.Cancelled" = "Cancelled";
 "List.Event.Postponed" = "Postponed";
+"List.Error.Title" = "Oh, no!";
+"List.Error.Message" = "Something went wrong while fetching events, please try again.";
 
 /// Detail
 "Detail.Age" = "Age %@";

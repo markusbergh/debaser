@@ -11,6 +11,8 @@
 "List.Search" = "Sök konsert";
 "List.Event.Cancelled" = "Inställt";
 "List.Event.Postponed" = "Framflyttat";
+"List.Error.Title" = "Åh, nej!";
+"List.Error.Message" = "Tyvärr gick något fel när konserter skulle hämtas, vänligen försök igen.";
 
 /// Favourites
 "Favourites.Empty" = "Inga favoriter sparade";
