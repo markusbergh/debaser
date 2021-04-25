@@ -11,7 +11,9 @@ struct TitleView: UIViewRepresentable {
     typealias UIViewType = UILabel
     
     var title: String
-    @Binding var dynamicHeight: CGFloat
+    
+    var innnerPadding: CGFloat = 25
+    var outerPadding: CGFloat = 25
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -24,7 +26,7 @@ struct TitleView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        uiView.preferredMaxLayoutWidth = 300
+        uiView.preferredMaxLayoutWidth = UIScreen.main.bounds.width - ((innnerPadding + outerPadding) * 2)
     }
     
     class Coordinator: NSObject {

@@ -13,7 +13,6 @@ class TitleLabel: UILabel {
                 
         font = Fonts.title.of(size: 49)
         numberOfLines = 0
-        lineBreakMode = .byWordWrapping
         
         setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -38,11 +37,12 @@ class TitleLabel: UILabel {
         
         style.lineHeightMultiple = 0.8
         style.alignment = self.textAlignment
+        style.lineBreakMode = .byWordWrapping
         
         string.addAttribute(.paragraphStyle, value: style, range: range)
         string.addAttribute(.baselineOffset, value: offset, range: range)
 
-        self.attributedText = string
+        attributedText = string
     }
     
     required init?(coder: NSCoder) {

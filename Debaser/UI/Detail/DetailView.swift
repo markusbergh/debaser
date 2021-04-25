@@ -141,7 +141,6 @@ struct DetailBackButtonView: View {
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
-    @State private var height: CGFloat = .zero
     @State private var isFavourite = false
 
     var event: EventViewModel
@@ -152,7 +151,7 @@ struct DetailMainContentView: View {
                 Text(event.getShortDate())
                     .font(.system(size: 15))
                     .frame(minHeight: 20)
-                    .padding(.horizontal, 15)
+                    .padding(.horizontal, 12)
                     .padding(.vertical, 5)
                     .background(
                         Capsule()
@@ -172,8 +171,8 @@ struct DetailMainContentView: View {
             }
             .padding(.bottom, 25)
 
-            TitleView(title: event.title, dynamicHeight: $height)
-                .fixedSize(horizontal: true, vertical: false)
+            TitleView(title: event.title, innnerPadding: 25, outerPadding: 25)
+                .fixedSize(horizontal: false, vertical: false)
                 .padding(.bottom, 10)
                 
             DetailMetaContainerView(
