@@ -9,6 +9,11 @@
 /// List
 "List.Today" = "Today's concerts";
 "List.Search" = "Search concert";
+"List.Event.Cancelled" = "Cancelled";
+"List.Event.Postponed" = "Postponed";
+
+/// Detail
+"Detail.Age" = "Age %@";
 
 /// Onboarding
 "Onboarding.Step1.Header" = "Use Spotify to preview";

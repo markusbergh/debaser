@@ -20,13 +20,7 @@ struct DetailImageView: View {
             .frame(width: width, height: height)
             .mask(
                 Rectangle()
-                    .cornerRadius(
-                        50,
-                        corners: [
-                            .bottomLeft,
-                            .bottomRight
-                        ]
-                    )
+                    .cornerRadius(50, corners: [.bottomLeft, .bottomRight])
             )
             .clipped()
             .offset(y: offsetY)

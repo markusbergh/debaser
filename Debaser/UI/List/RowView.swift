@@ -132,13 +132,17 @@ struct RowView_Previews: PreviewProvider {
     static var previews: some View {
         let event = Event(id: "1234",
                           name: "MR MS",
+                          subHeader: "",
                           status: "Open",
                           description: "Lorem ipsum dolor",
                           ageLimit: "18 år",
                           image: "https://debaser.se/img/10982.jpg",
                           date: "2010-01-19",
+                          open: "Öppnar kl 18:30",
                           room: "Bar Brooklyn",
                           venue: "Strand",
+                          slug: nil,
+                          admission: "Fri entre",
                           ticketUrl: nil)
         
         let model = EventViewModel(with: event)

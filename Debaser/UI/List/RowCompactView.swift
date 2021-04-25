@@ -18,7 +18,7 @@ struct RowCompactView: View {
     private var date: String = ""
     private var formattedDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-mm-dd"
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
         let rawDate = dateFormatter.date(from: date)
         dateFormatter.dateFormat = "d MMM"
@@ -59,6 +59,13 @@ struct RowCompactView: View {
                                 viewModel.loadImage(with: event.image)
                             }
                         }
+                        .modifier(
+                            RowCompactImageViewModifier(
+                                isCancelled: event.isCancelled,
+                                isPostponed: event.isPostponed,
+                                maxHeight: mediaHeight
+                            )
+                        )
 
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
@@ -120,6 +127,44 @@ struct RowCompactImageView: View {
     }
 }
 
+struct RowCompactImageViewModifier: ViewModifier {
+    var isCancelled = false
+    var isPostponed = false
+    var maxHeight: CGFloat
+    
+    func body(content: Content) -> some View {
+        if isCancelled {
+            return AnyView(
+                ZStack(alignment: .center) {
+                    content
+                    Text("List.Event.Cancelled")
+                        .font(.system(size: 19))
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, maxHeight: maxHeight)
+                        .foregroundColor(.white)
+                        .background(Color.black.opacity(0.5))
+                        .cornerRadius(15)
+                }
+            )
+        } else if isPostponed {
+            return AnyView(
+                ZStack(alignment: .center) {
+                    content
+                    Text("List.Event.Postponed")
+                        .font(.system(size: 19))
+                        .fontWeight(.bold)
+                        .frame(maxWidth: .infinity, maxHeight: maxHeight)
+                        .foregroundColor(.white)
+                        .background(Color.black.opacity(0.5))
+                        .cornerRadius(15)
+                }
+            )
+        } else {
+            return AnyView(content)
+        }
+    }
+}
+
 struct RowCompactView_Previews: PreviewProvider {
     static var previews: some View {
         let store: Store<AppState, AppAction> = Store(
@@ -133,13 +178,17 @@ struct RowCompactView_Previews: PreviewProvider {
         
         let event = Event(id: "1234",
                           name: "MR MS",
+                          subHeader: "",
                           status: "Open",
                           description: "Lorem ipsum dolor",
                           ageLimit: "18 år",
                           image: "https://debaser.se/img/10982.jpg",
                           date: "2010-01-19",
+                          open: "Öppnar kl 18:30",
                           room: "Bar Brooklyn",
                           venue: "Strand",
+                          slug: nil,
+                          admission: "Fri entre",
                           ticketUrl: nil)
         
         let model = EventViewModel(with: event)

@@ -12,7 +12,7 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
     return { state, action in
         switch action {
         case .list(.getEventsRequest):
-            guard let firstDate = ListMiddlewareHelper.firstDayOfYear, let lastDate = ListMiddlewareHelper.lastDayOfYear else {
+            guard let firstDate = ListMiddlewareHelper.today, let lastDate = ListMiddlewareHelper.lastDayOfYear else {
                 return Empty().eraseToAnyPublisher()
             }
             
@@ -64,6 +64,10 @@ struct ListMiddlewareHelper {
     }()
     
     static var events = [EventViewModel]()
+    
+    static var today: String? {
+        return dateFormatter.string(from: Date())
+    }
     
     static var firstDayOfYear: String? = {
         dateComponents.calendar = Calendar.current

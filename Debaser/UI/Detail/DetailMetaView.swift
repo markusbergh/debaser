@@ -25,6 +25,7 @@ struct DetailMetaView: View {
                 .foregroundColor(labelColor)
                 .font(.system(size: labelSize))
         }
+        .frame(minHeight: 20)
         .foregroundColor(tintColor)
         .padding(.vertical, 5)
         .padding(.horizontal, 10)
@@ -32,7 +33,6 @@ struct DetailMetaView: View {
             Capsule()
                 .fill(backgroundColor)
         )
-
     }
 }
 

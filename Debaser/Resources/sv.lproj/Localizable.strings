@@ -9,6 +9,11 @@
 /// List
 "List.Today" = "Dagens konserter";
 "List.Search" = "Sök konsert";
+"List.Event.Cancelled" = "Inställt";
+"List.Event.Postponed" = "Framflyttat";
+
+/// Detail
+"Detail.Age" = "%@ år";
 
 /// Onboarding
 "Onboarding.Step1.Header" = "Lyssna direkt via Spotify";

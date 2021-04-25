@@ -11,11 +11,11 @@ class TitleLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: .zero)
                 
-        font = Fonts.title.of(size: 51)
+        font = Fonts.title.of(size: 49)
         numberOfLines = 0
-        lineBreakMode = .byWordWrapping
+        lineBreakMode = .byCharWrapping
         
-        setContentCompressionResistancePriority(.required, for: .vertical)
+        setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
@@ -33,11 +33,12 @@ class TitleLabel: UILabel {
         let style = NSMutableParagraphStyle()
         let lineHeight = self.font.pointSize - self.font.ascender + self.font.capHeight
 
-        let offset = self.font.capHeight - self.font.ascender
+        let offset = -lineHeight / 2 * 0.6
         let range = NSMakeRange(0, self.text!.count)
         
-        style.maximumLineHeight = lineHeight
-        style.minimumLineHeight = lineHeight
+        //style.maximumLineHeight = lineHeight
+        //style.minimumLineHeight = lineHeight
+        style.lineHeightMultiple = 0.6
         style.alignment = self.textAlignment
         
         string.addAttribute(.paragraphStyle, value: style, range: range)
