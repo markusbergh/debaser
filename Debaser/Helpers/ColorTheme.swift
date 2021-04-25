@@ -51,6 +51,9 @@ extension Color {
     static let settingsBackground = Color("SettingsBackground")
     static let settingsListRowBackground = Color("SettingsListRowBackground")
     static let settingsAccent = Color("SettingsAccent")
+    
+    /// Onboarding
+    static let onboardingBackground = Color("OnboardingBackground")
 }
 
 extension UIColor {

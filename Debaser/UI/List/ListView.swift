@@ -18,10 +18,10 @@ struct ListView: View {
     @Binding var isShowingTabBar: Bool
     
     var headline: String
-    var label: String
+    var label: LocalizedStringKey
     var gridLayout: [GridItem] = []
     
-    init(headline: String, label: String, isShowingTabBar: Binding<Bool>) {
+    init(headline: String, label: LocalizedStringKey, isShowingTabBar: Binding<Bool>) {
         self.headline = headline
         self.label = label
         self._isShowingTabBar = isShowingTabBar

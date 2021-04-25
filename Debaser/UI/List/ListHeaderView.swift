@@ -13,12 +13,12 @@ struct ListHeaderView: View {
     }
     
     var headline: String
-    var label: String
+    var label: LocalizedStringKey
     
     @Binding var isDarkMode: Bool
     @Binding var currentSearch: String
     
-    init(headline: String, label: String, isDarkMode: Binding<Bool>, currentSearch: Binding<String>) {
+    init(headline: String, label: LocalizedStringKey, isDarkMode: Binding<Bool>, currentSearch: Binding<String>) {
         self.headline = headline
         self.label = label
         self._isDarkMode = isDarkMode

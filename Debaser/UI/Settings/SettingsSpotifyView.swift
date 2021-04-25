@@ -10,16 +10,29 @@ import SwiftUI
 struct SettingsSpotifyView: View {
     @State private var isConnected = false
     
+    private var headerLabel: LocalizedStringKey {
+        return "Settings.Spotify.Connection"
+    }
+    private var connectionLabel: LocalizedStringKey {
+        return "Settings.Spotify.Connection.Label"
+    }
+    private var noConnectionLabel: LocalizedStringKey {
+        return "Settings.Spotify.Connection.Off"
+    }
+    private var offLabel: LocalizedStringKey {
+        return "Settings.Spotify.Off"
+    }
+    
     var body: some View {
         VStack {
             Form {
-                Section(header: Text("Anslutning")) {
-                    Toggle("Ej ansluten", isOn: $isConnected)
+                Section(header: Text(headerLabel)) {
+                    Toggle(offLabel, isOn: $isConnected)
                 }
                 .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
                 
                 Section(
-                    header: Text("Ansluten som:"),
+                    header: Text(connectionLabel),
                     footer: HStack {
                         Spacer()
                         Image("SpotifyLogotype")
@@ -30,7 +43,7 @@ struct SettingsSpotifyView: View {
                     .padding(.top, 5)
                     .frame(minWidth: 0, maxWidth: .infinity)
                 ) {
-                    Text("Ingen aktiv anslutning")
+                    Text(noConnectionLabel)
                         .foregroundColor(.gray)
                 }
             }

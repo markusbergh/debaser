@@ -22,6 +22,13 @@ import UIKit
         }
     }
     
+    @IBInspectable var localisedKey: String? {
+        didSet {
+            guard let key = localisedKey else { return }
+            setTitle(NSLocalizedString(key, comment: ""), for: .normal)
+        }
+    }
+    
     func updateCornerRadius() {
         layer.cornerRadius = rounded
     }

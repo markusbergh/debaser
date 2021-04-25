@@ -13,6 +13,7 @@ class RowViewViewModel: ObservableObject {
     var imageLoader = ImageLoader.shared
     
     @Published var image: UIImage = UIImage()
+    @Published var isLoaded: Bool = false
 }
 
 extension RowViewViewModel {
@@ -20,7 +21,8 @@ extension RowViewViewModel {
         guard let url = URL(string: imageURL) else { return }
         
         if let data = imageLoader.cached(with: url as NSURL) {
-            self.image = UIImage(data: data as Data)!
+            image = UIImage(data: data as Data)!
+            isLoaded = true
         
             return
         }
@@ -31,7 +33,10 @@ extension RowViewViewModel {
                     return
                 }
                 
-                self?.image = UIImage(data: data)!
+                if let image = UIImage(data: data) {
+                    self?.image = image
+                    self?.isLoaded = true
+                }
             })
     }
 }

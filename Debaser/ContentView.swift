@@ -11,6 +11,8 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var store: AppStore
     @EnvironmentObject var tabViewRouter: TabViewRouter
+    
+    @Environment(\.colorScheme) var colorScheme
 
     @State var selectedTab: String = "music.note.house"
     @State var isShowingTabBar = false
@@ -49,8 +51,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isShowingOnboarding) {
             OnboardingView()
-                .background(Color(UIColor.onboardingBackground!))
+                .background(Color.onboardingBackground)
                 .ignoresSafeArea()
+                .preferredColorScheme(colorScheme)
         }
     }
 }

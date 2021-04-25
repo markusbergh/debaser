@@ -9,10 +9,9 @@ import SwiftUI
 
 struct RowCompactView: View {
     @EnvironmentObject var store: AppStore
+    @StateObject var viewModel = RowViewViewModel()
 
-    @StateObject var viewModel: RowViewViewModel = RowViewViewModel()
     @State private var isShowingDetailView: Bool = false
-    @State private var opacity: Double = 0
     @Binding var isShowingTabBar: Bool
 
     private var title: String = ""
@@ -28,7 +27,7 @@ struct RowCompactView: View {
     }
     
     var event: EventViewModel
-    var mediaHeight: CGFloat?
+    var mediaHeight: CGFloat
     var willShowInfoBar = false
     
     init(event: EventViewModel, mediaHeight: CGFloat = 100, isShowingTabBar: Binding<Bool>) {
@@ -53,24 +52,13 @@ struct RowCompactView: View {
                 }
             }) {
                 VStack(alignment: .leading, spacing: 0) {
-                    if store.state.settings.showImages.value {
-                        Image(uiImage: viewModel.image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: mediaHeight)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .cornerRadius(15)
-                            .opacity(opacity)
-                            .onChange(of: viewModel.image) { _ in
-                                withAnimation {
-                                    opacity = 1.0
-                                }
+                    RowCompactImageView(mediaHeight: mediaHeight)
+                        .environmentObject(viewModel)
+                        .onAppear {
+                            if showImagesIfNeeded() {
+                                viewModel.loadImage(with: event.image)
                             }
-                    } else {
-                        Rectangle()
-                            .fill(Color.listNoImageBackground)
-                            .frame(height: mediaHeight)
-                    }
+                        }
 
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
@@ -88,13 +76,47 @@ struct RowCompactView: View {
                         .foregroundColor(.gray)
                         .padding(.top, 2)
                 }
-                .onAppear {
-                    if store.state.settings.showImages.value {
-                        viewModel.loadImage(with: event.image)
-                    }
-                }
             }
         }
+    }
+    
+    func showImagesIfNeeded() -> Bool {
+        return store.state.settings.showImages.value == true
+    }
+}
+
+struct RowCompactImageView: View {
+    @EnvironmentObject var store: AppStore
+    @EnvironmentObject var viewModel: RowViewViewModel
+    @State private var opacity: Double = 0
+
+    var mediaHeight: CGFloat?
+
+    var body: some View {
+        if showImagesIfNeeded() {
+            Image(uiImage: viewModel.image)
+                .resizable()
+                .scaledToFill()
+                .frame(height: mediaHeight)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .cornerRadius(15)
+                .opacity(opacity)
+                .onReceive(viewModel.$isLoaded) { isLoaded in
+                    if isLoaded {
+                        withAnimation {
+                            opacity = 1.0
+                        }
+                    }
+                }
+        } else {
+            Rectangle()
+                .fill(Color.listNoImageBackground)
+                .frame(height: mediaHeight)
+        }
+    }
+    
+    func showImagesIfNeeded() -> Bool {
+        return store.state.settings.showImages.value == true
     }
 }
 

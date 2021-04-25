@@ -15,12 +15,16 @@ struct EventListView: View {
     @Binding var isShowingTabBar: Bool
     @State private var totalPadding: CGFloat = 20
     
+    private var todayLabel: LocalizedStringKey {
+        return "List.Today"
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
                 ListView(
                     headline: "Stockholm",
-                    label: "Dagens konserter",
+                    label: todayLabel,
                     isShowingTabBar: $isShowingTabBar
                 )
             }

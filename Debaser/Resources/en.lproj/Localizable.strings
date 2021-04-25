@@ -7,7 +7,21 @@
 */
 
 /// List
+"List.Today" = "Today's concerts";
 "List.Search" = "Search concert";
+
+/// Onboarding
+"Onboarding.Step1.Header" = "Use Spotify to preview";
+"Onboarding.Step1.Body" = "By connecting your Spotify account to Debaser you can preview the artists immediately in the app¹.";
+"Onboarding.Step1.Info" = "¹ This requires a premium account at Spotify.";
+"Onboarding.Step2.Header" = "Share gigs with iMessage";
+"Onboarding.Step2.Body" = "With the extension to iMessage it is easy and quick to share the event with your friends.";
+"Onboarding.Step3.Header" = "Find that upcoming gig";
+"Onboarding.Step3.Body" = "You can easily search for that gig you need to attend and also save it in your favourites in case you need a reminder.";
+"Onboarding.Step4.Header" = "Almost done! 🏄‍♀️ What is next?";
+"Onboarding.Step4.Button.Connect" = "CONNECT TO SPOTIFY¹";
+"Onboarding.Step4.Button.Close" = "CLOSE";
+"Onboarding.Step4.Info" = "¹ This requires a premium account at Spotify.";
 
 /// Settings
 "Settings" = "Settings";
@@ -16,8 +30,11 @@
 "Settings.Debaser.History.Title" = "About Debaser";
 "Settings.Debaser.History.Label" = "History";
 "Settings.Services" = "Services";
+"Settings.Spotify.Connection" = "Connection";
 "Settings.Spotify.On" = "Connected";
 "Settings.Spotify.Off" = "No connection";
+"Settings.Spotify.Connection.Label" = "Connected as:";
+"Settings.Spotify.Connection.Off" = "No active connection";
 "Settings.Layout" = "Layout";
 "Settings.Layout.Images" = "Show images";
 "Settings.Layout.DarkMode" = "Dark mode";
