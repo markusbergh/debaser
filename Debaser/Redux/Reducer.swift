@@ -14,11 +14,13 @@ struct AppState {
     var list: ListState
     var settings: SettingsState
     var onboarding: OnboardingState
+    var spotify: SpotifyState
     
-    init(list: ListState, settings: SettingsState, onboarding: OnboardingState) {
+    init(list: ListState, settings: SettingsState, onboarding: OnboardingState, spotify: SpotifyState) {
         self.list = list
         self.settings = settings
         self.onboarding = onboarding
+        self.spotify = spotify
     }
 }
 
@@ -52,6 +54,13 @@ func appReducer(state: inout AppState, action: AppAction) -> AppState {
                                      action: onboardingAction)
         
         state.onboarding = newState
+    case .spotify(let spotifyAction):
+        var newState = state.spotify
+        
+        newState = spotifyReducer(state: &newState,
+                                  action: spotifyAction)
+        
+        state.spotify = newState
     }
     
     return state

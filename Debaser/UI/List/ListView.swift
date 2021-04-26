@@ -208,14 +208,7 @@ struct ListViewTopRectangle: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(
-                list: ListState(),
-                settings: SettingsState(),
-                onboarding: OnboardingState()
-            ),
-            reducer: appReducer
-        )
+        let store = MockStore.store
         
         ListView(
             headline: "Stockholm",

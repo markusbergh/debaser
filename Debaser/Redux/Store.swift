@@ -54,7 +54,8 @@ class MockStore: ObservableObject {
         initialState: AppState(
             list: ListState(),
             settings: SettingsState(),
-            onboarding: OnboardingState()
+            onboarding: OnboardingState(),
+            spotify: SpotifyState()
         ),
         reducer: appReducer
     )

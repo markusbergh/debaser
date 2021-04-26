@@ -11,4 +11,5 @@ enum AppAction {
     case list(ListAction)
     case settings(SettingsAction)
     case onboarding(OnboardingAction)
+    case spotify(SpotifyAction)
 }

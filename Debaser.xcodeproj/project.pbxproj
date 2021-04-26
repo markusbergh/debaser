@@ -71,6 +71,13 @@
 		85EEB96126203C1F00DFC238 /* DetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEB96026203C1F00DFC238 /* DetailViewViewModel.swift */; };
 		85EEB96626203FDB00DFC238 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEB96526203FDB00DFC238 /* RoundedCorner.swift */; };
 		85EEB96B2620404000DFC238 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEB96A2620404000DFC238 /* View+Extension.swift */; };
+		85FCAF11263723B800A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */; };
+		85FCAF12263723B800A0BC89 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */; };
+		85FCAF13263723B800A0BC89 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */; };
+		85FCAF15263723FA00A0BC89 /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF14263723FA00A0BC89 /* SpotifyService.swift */; };
+		85FCAF242637286F00A0BC89 /* SettingsSpotifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */; };
+		85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */; };
+		85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +169,14 @@
 		85EEB96026203C1F00DFC238 /* DetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewViewModel.swift; sourceTree = "<group>"; };
 		85EEB96526203FDB00DFC238 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		85EEB96A2620404000DFC238 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
+		85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAuthentication.framework; sourceTree = "<group>"; };
+		85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyMetadata.framework; sourceTree = "<group>"; };
+		85FCAF14263723FA00A0BC89 /* SpotifyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
+		85FCAF1C2637246700A0BC89 /* Debaser-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Debaser-Bridging-Header.h"; sourceTree = "<group>"; };
+		85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSpotifyViewModel.swift; sourceTree = "<group>"; };
+		85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyActions.swift; sourceTree = "<group>"; };
+		85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReducer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +184,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85FCAF11263723B800A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */,
+				85FCAF13263723B800A0BC89 /* SpotifyMetadata.framework in Frameworks */,
+				85FCAF12263723B800A0BC89 /* SpotifyAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +299,7 @@
 				855B1A2C25FB5B5C00C7A219 /* Debaser */,
 				855B1A3E25FB5B5F00C7A219 /* DebaserTests */,
 				855B1A4925FB5B5F00C7A219 /* DebaserUITests */,
+				85FCAF0D263723A100A0BC89 /* Frameworks */,
 				855B1A2B25FB5B5C00C7A219 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -306,9 +325,9 @@
 				856926C5260BE229004B1761 /* Model */,
 				85B0606A2627A8AF006D2D9D /* Redux */,
 				85CB6BC9261F96360065B897 /* Extensions */,
-				85D7D8002619F5150073E3BA /* Helpers */,
 				855B1A2D25FB5B5C00C7A219 /* DebaserApp.swift */,
 				855B1A2F25FB5B5C00C7A219 /* ContentView.swift */,
+				85FCAF1C2637246700A0BC89 /* Debaser-Bridging-Header.h */,
 				852821252627710B007B83EC /* Resources */,
 				855B1A3325FB5B5F00C7A219 /* Preview Content */,
 			);
@@ -354,6 +373,7 @@
 			isa = PBXGroup;
 			children = (
 				856926CF260BE24B004B1761 /* EventService.swift */,
+				85FCAF14263723FA00A0BC89 /* SpotifyService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -365,6 +385,7 @@
 				85BC0B2B2616592600589240 /* RowViewViewModel.swift */,
 				85EEB96026203C1F00DFC238 /* DetailViewViewModel.swift */,
 				85EEAB21262B25F70000B85E /* EventViewModel.swift */,
+				85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -378,6 +399,7 @@
 				85D7D7FF2619F4F30073E3BA /* Detail */,
 				85A8BAE42634C29300E591A1 /* Settings */,
 				85D7D7FE2619F4D00073E3BA /* Components */,
+				85D7D8002619F5150073E3BA /* Helpers */,
 				855310D2260C8BFA00F0D5F7 /* EventListView.swift */,
 				850FB557260CB4DD001AD034 /* FavouritesView.swift */,
 				855310D7260C8C0600F0D5F7 /* SettingsView.swift */,
@@ -412,8 +434,8 @@
 		85994323263434DC00128A73 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				8599431E263434D800128A73 /* ListMiddlewares.swift */,
 				8599432A2634350F00128A73 /* ListActions.swift */,
+				8599431E263434D800128A73 /* ListMiddlewares.swift */,
 				859943432634357700128A73 /* ListReducer.swift */,
 			);
 			path = List;
@@ -449,6 +471,7 @@
 		85B0606A2627A8AF006D2D9D /* Redux */ = {
 			isa = PBXGroup;
 			children = (
+				85FCAF2826372E1300A0BC89 /* Spotify */,
 				8599435A26344F8100128A73 /* Onboarding */,
 				85994324263434E600128A73 /* Settings */,
 				85994323263434DC00128A73 /* List */,
@@ -519,6 +542,25 @@
 				8528213226277263007B83EC /* Fonts.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		85FCAF0D263723A100A0BC89 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */,
+				85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */,
+				85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		85FCAF2826372E1300A0BC89 /* Spotify */ = {
+			isa = PBXGroup;
+			children = (
+				85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */,
+				85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */,
+			);
+			path = Spotify;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -663,6 +705,7 @@
 				8528213826277AF6007B83EC /* SeparatorView.swift in Sources */,
 				856926D0260BE24B004B1761 /* EventService.swift in Sources */,
 				855B1A3025FB5B5C00C7A219 /* ContentView.swift in Sources */,
+				85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */,
 				85994326263434F500128A73 /* SettingsActions.swift in Sources */,
 				851F7A092635E73B00806FF8 /* DetailBuyTicketButtonView.swift in Sources */,
 				85D7D8022619F52C0073E3BA /* ImageLoader.swift in Sources */,
@@ -692,6 +735,7 @@
 				85BC0B27261658D600589240 /* RowView.swift in Sources */,
 				856926D6260BE9A2004B1761 /* ListViewViewModel.swift in Sources */,
 				855B1A2E25FB5B5C00C7A219 /* DebaserApp.swift in Sources */,
+				85FCAF242637286F00A0BC89 /* SettingsSpotifyViewModel.swift in Sources */,
 				85BC0B2C2616592600589240 /* RowViewViewModel.swift in Sources */,
 				8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */,
 				85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */,
@@ -707,6 +751,8 @@
 				85B0606C2627A8BF006D2D9D /* Store.swift in Sources */,
 				855310D3260C8BFA00F0D5F7 /* EventListView.swift in Sources */,
 				855310D8260C8C0600F0D5F7 /* SettingsView.swift in Sources */,
+				85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */,
+				85FCAF15263723FA00A0BC89 /* SpotifyService.swift in Sources */,
 				8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */,
 				85616EDE262992E50018C955 /* ListHeaderView.swift in Sources */,
 				8599436426344FD900128A73 /* OnboardingReducer.swift in Sources */,
@@ -815,6 +861,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "Debaser/Debaser-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -869,6 +916,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "Debaser/Debaser-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -883,6 +931,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Debaser/Preview Content\"";
 				DEVELOPMENT_TEAM = 57MDPUFGC8;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = Debaser/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -905,6 +957,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Debaser/Preview Content\"";
 				DEVELOPMENT_TEAM = 57MDPUFGC8;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
 				INFOPLIST_FILE = Debaser/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (

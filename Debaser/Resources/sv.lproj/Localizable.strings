@@ -45,6 +45,7 @@
 "Settings.Spotify.Connection.Off" = "Ingen aktiv anslutning";
 "Settings.Spotify.On" = "Ansluten";
 "Settings.Spotify.Off" = "Ej ansluten";
+"Settings.Spotify.DisplayName" = "Display name: ";
 "Settings.Layout" = "Layout";
 "Settings.Layout.Images" = "Visa bilder";
 "Settings.Layout.DarkMode" = "Mörkt tema";

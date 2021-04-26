@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct SettingsSpotifyView: View {
+    @EnvironmentObject var store: AppStore
+
+    @State private var willShowSpotifyLogin = false
+    @State private var isConnectedToggle = false
     @State private var isConnected = false
-    
+    @State private var toggleLabel: LocalizedStringKey = "Settings.Spotify.Off"
+
     private var headerLabel: LocalizedStringKey {
         return "Settings.Spotify.Connection"
     }
@@ -19,17 +24,24 @@ struct SettingsSpotifyView: View {
     private var noConnectionLabel: LocalizedStringKey {
         return "Settings.Spotify.Connection.Off"
     }
-    private var offLabel: LocalizedStringKey {
-        return "Settings.Spotify.Off"
-    }
     
     var body: some View {
         VStack {
             Form {
                 Section(header: Text(headerLabel)) {
-                    Toggle(offLabel, isOn: $isConnected)
+                    Toggle(isOn: $isConnectedToggle) {
+                        Text(toggleLabel)
+                            .foregroundColor(isConnected ? .green : .primary)
+                    }
+                    .onChange(of: isConnectedToggle, perform: { isOn in
+                        if isOn {
+                            store.dispatch(withAction: .spotify(.requestLogin))
+                        } else {
+                            store.dispatch(withAction: .spotify(.requestLogout))
+                        }
+                    })
+                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
                 }
-                .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
                 
                 Section(
                     header: Text(connectionLabel),
@@ -43,14 +55,64 @@ struct SettingsSpotifyView: View {
                     .padding(.top, 5)
                     .frame(minWidth: 0, maxWidth: .infinity)
                 ) {
-                    Text(noConnectionLabel)
-                        .foregroundColor(.gray)
+                    if !isConnected {
+                        Text(noConnectionLabel)
+                            .foregroundColor(.gray)
+                    } else if let currentUser = SpotifyService.shared.currentUser {
+                        Text(currentUser.displayName)
+                            .foregroundColor(.primary)
+                    }
                 }
             }
             .background(
                 SettingsViewTopRectangle(),
                 alignment: .top
             )
+        }
+        .onChange(of: store.state.spotify.isRequesting) { isRequesting in
+            willShowSpotifyLogin = isRequesting
+        }
+        .onChange(of: store.state.spotify.isLoggedIn) { isLoggedIn in
+            isConnected = isLoggedIn
+            
+            if isConnected && willShowSpotifyLogin {
+                willShowSpotifyLogin = false
+            } else if isConnected {
+                toggleLabel = "Settings.Spotify.On"
+            } else if !isConnected {
+                toggleLabel = "Settings.Spotify.Off"
+            }
+        }
+        .onChange(of: store.state.spotify.requestError) { error in
+            guard let error = error else { return }
+            
+            switch error {
+            case .authError, .unknown:
+                willShowSpotifyLogin = false
+                isConnected = false
+                isConnectedToggle = false
+            default:
+                ()
+            }
+        }
+        .onAppear {
+            if store.state.spotify.isLoggedIn == true {
+                isConnected = true
+                isConnectedToggle = true
+                toggleLabel = "Settings.Spotify.On"
+            }
+        }
+        .sheet(isPresented: $willShowSpotifyLogin) {
+            if let auth = SpotifyService.shared.auth {
+                WebView(url: auth.spotifyWebAuthenticationURL()) {
+                    // Maybe this can be checked somewhere else?
+                    isConnected = SpotifyService.shared.isLoggedIn
+                    
+                    if isConnected {
+                        toggleLabel = "Settings.Spotify.On"
+                    }
+                }
+            }
         }
         .navigationTitle("Spotify")
     }

@@ -22,6 +22,9 @@ struct DetailView: View {
         return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
     }
     
+    @State private var canPreviewArtist = false
+    @State private var isStreaming = false
+
     init(event: EventViewModel) {
         self.event = event
     }
@@ -44,8 +47,54 @@ struct DetailView: View {
                         .padding(.horizontal, 25)
                         .padding(.top, 50)
                         .frame(maxWidth: .infinity)
+                        
+                        if canPreviewArtist {
+                            ZStack {
+                                VStack(spacing: 20) {
+                                    Button(action: {
+                                        isStreaming.toggle()
+                                        
+                                        if isStreaming {
+                                            SpotifyService.shared.playTrackForArtist()
+                                        } else {
+                                            SpotifyService.shared.playPauseStream()
+                                        }
+                                    }) {
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 60, height: 60)
+                                            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
+                                            .overlay(
+                                                Image(systemName: isStreaming ? "pause.fill" : "play.fill")
+                                                    .resizable()
+                                                    .foregroundColor(.green)
+                                                    .frame(width: 22, height: 22)
+                                                    .offset(x: isStreaming ? 0 : 2)
+                                                    .animation(nil)
+                                            )
+                                    }
+                                    .scaleEffect(isStreaming ? 1.05 : 1)
+                                    .animation(.easeInOut(duration: 0.35))
+                                    
+                                    HStack {
+                                        Text("Powered by")
+                                            .font(.system(size: 15))
+                                        
+                                        Image("SpotifyLogotype")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 25)
+
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                }
+                            }
+                            .transition(.opacity)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        }
                     }
                     
+                    /*
                     HStack {
                         if event.isCancelled {
                             DetailMetaView(
@@ -66,6 +115,7 @@ struct DetailView: View {
                     .frame(maxWidth: .infinity)
                     .offset(y: -10)
                     .padding(-10)
+                    */
                     
                     // Main content
                     DetailMainContentView(event: event)
@@ -76,8 +126,23 @@ struct DetailView: View {
             .frame(height: geometry.size.height)
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
+            .onChange(of: store.state.spotify.hasTracksForCurrentArtist) { hasTracks in
+                if hasTracks {
+                    DispatchQueue.main.async {
+                        withAnimation {
+                            canPreviewArtist = true
+                        }
+                    }
+                }
+            }
             .onAppear {
+                // Load image
                 viewModel.loadImage(with: event.image)
+                
+                // Search for artist if eligible to do so
+                if store.state.spotify.isLoggedIn == true {
+                    store.dispatch(withAction: .spotify(.requestSearchArtist(event.title)))
+                }
             }
             .onDisappear {
                 store.dispatch(withAction: .list(.showTabBar))

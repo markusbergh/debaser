@@ -75,7 +75,8 @@ struct FavouritesView_Previews: PreviewProvider {
                     initialState: AppState(
                         list: listState,
                         settings: SettingsState(),
-                        onboarding: OnboardingState()
+                        onboarding: OnboardingState(),
+                        spotify: SpotifyState()
                     ),
                     reducer: appReducer
                 )
@@ -87,7 +88,8 @@ struct FavouritesView_Previews: PreviewProvider {
                     initialState: AppState(
                         list: emptyListStae,
                         settings: SettingsState(),
-                        onboarding: OnboardingState()
+                        onboarding: OnboardingState(),
+                        spotify: SpotifyState()
                     ),
                     reducer: appReducer
                 )

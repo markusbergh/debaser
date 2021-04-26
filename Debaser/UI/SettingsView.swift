@@ -151,14 +151,13 @@ struct SettingsSectionAbout: View {
 }
 
 struct SettingsSectionSpotify: View {
+    @EnvironmentObject var store: AppStore
+
     private var servicesLabel: LocalizedStringKey {
         return "Settings.Services"
     }
-    private var spotifyOnLabel: LocalizedStringKey {
-        return "Settings.Spotify.On"
-    }
-    private var spotifyOffLabel: LocalizedStringKey {
-        return "Settings.Spotify.Off"
+    private var spotifyLabel: LocalizedStringKey {
+        return store.state.spotify.isLoggedIn ? "Settings.Spotify.On" : "Settings.Spotify.Off"
     }
 
     var body: some View {
@@ -172,7 +171,7 @@ struct SettingsSectionSpotify: View {
 
                     Spacer()
 
-                    Text(spotifyOffLabel)
+                    Text(spotifyLabel)
                 }
             }
         }
@@ -181,14 +180,7 @@ struct SettingsSectionSpotify: View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        let store: Store<AppState, AppAction> = Store(
-            initialState: AppState(
-                list: ListState(),
-                settings: SettingsState(),
-                onboarding: OnboardingState()
-            ),
-            reducer: appReducer
-        )
+        let store = MockStore.store
 
         SettingsView()
             .environment(\.locale, .init(identifier: "sv"))
