@@ -233,6 +233,7 @@ struct DetailMetaContainerView: View {
                 backgroundColor: .detailViewMetaTertiary
             )
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.bottom, 15)
     }
 }
@@ -271,6 +272,7 @@ struct DetailView_Previews: PreviewProvider {
         
         DetailView(event: event)
             .preferredColorScheme(.dark)
+            .environment(\.locale, .init(identifier: "en"))
             .environmentObject(store)
     }
 }

@@ -17,6 +17,7 @@
 		8528213326277263007B83EC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
 		8528213826277AF6007B83EC /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213726277AF6007B83EC /* SeparatorView.swift */; };
 		85282140262787C0007B83EC /* DetailMetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213F262787C0007B83EC /* DetailMetaView.swift */; };
+		852A343926362AF800677B9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 852A343826362AF800677B9D /* LaunchScreen.storyboard */; };
 		852FBE9E26275CF200060A7E /* WillDisappearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */; };
 		8530336A262E1D9700C93D1B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303369262E1D9700C93D1B /* TitleView.swift */; };
 		85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8530336E262E1E2400C93D1B /* DBSROnboardingView.swift */; };
@@ -100,6 +101,7 @@
 		8528213226277263007B83EC /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		8528213726277AF6007B83EC /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		8528213F262787C0007B83EC /* DetailMetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMetaView.swift; sourceTree = "<group>"; };
+		852A343826362AF800677B9D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WillDisappearModifier.swift; sourceTree = "<group>"; };
 		85303369262E1D9700C93D1B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		8530336E262E1E2400C93D1B /* DBSROnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				858E1E0126346E6100C3E941 /* Debaser.plist */,
 				855B1A3625FB5B5F00C7A219 /* Info.plist */,
 				854E296C262CB0C0003AC567 /* Localizable.strings */,
+				852A343826362AF800677B9D /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -628,6 +631,7 @@
 				855B1A3225FB5B5F00C7A219 /* Assets.xcassets in Resources */,
 				852821282627716F007B83EC /* DelaGothicOne-Regular.ttf in Resources */,
 				858E1E0226346E6100C3E941 /* Debaser.plist in Resources */,
+				852A343926362AF800677B9D /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

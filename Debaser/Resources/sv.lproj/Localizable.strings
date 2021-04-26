@@ -14,11 +14,11 @@
 "List.Error.Title" = "Åh, nej!";
 "List.Error.Message" = "Tyvärr gick något fel när konserter skulle hämtas, vänligen försök igen.";
 
-/// Favourites
-"Favourites.Empty" = "Inga favoriter sparade";
-
 /// Detail
 "Detail.Age" = "%@ år";
+
+/// Favourites
+"Favourites.Empty" = "Inga favoriter sparade";
 
 /// Onboarding
 "Onboarding.Step1.Header" = "Lyssna direkt via Spotify";

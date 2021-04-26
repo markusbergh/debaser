@@ -24,13 +24,13 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
     
     switch action {
     case .getDarkMode:
-        let darkMode = UserDefaults.standard.bool(forKey: "darkMode")
+        let darkMode = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? true
         state.darkMode.send(darkMode)
     case .setDarkMode(let isOn):
         saveUserDefaults(value: isOn, forKey: "darkMode")
         state.darkMode.send(isOn)
     case .getShowImages:
-        let willShow = UserDefaults.standard.bool(forKey: "showImages")
+        let willShow = UserDefaults.standard.object(forKey: "showImages") as? Bool ?? true
         state.showImages.send(willShow)
     case .setShowImages(let willShow):
         saveUserDefaults(value: willShow, forKey: "showImages")
