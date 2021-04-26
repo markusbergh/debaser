@@ -78,6 +78,7 @@
 		85FCAF242637286F00A0BC89 /* SettingsSpotifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */; };
 		85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */; };
 		85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */; };
+		85FCAF3D26375F4B00A0BC89 /* DetailViewStreamProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF3C26375F4B00A0BC89 /* DetailViewStreamProgress.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +178,7 @@
 		85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSpotifyViewModel.swift; sourceTree = "<group>"; };
 		85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyActions.swift; sourceTree = "<group>"; };
 		85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReducer.swift; sourceTree = "<group>"; };
+		85FCAF3C26375F4B00A0BC89 /* DetailViewStreamProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewStreamProgress.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +212,7 @@
 		8519D278262DEDF700806839 /* UIRepresentable */ = {
 			isa = PBXGroup;
 			children = (
+				85FCAF41263767BC00A0BC89 /* DetailViewStreamProgress */,
 				858E1E09263485F600C3E941 /* WebView */,
 				85303364262E1D4B00C93D1B /* Onboarding */,
 				85303368262E1D7F00C93D1B /* TitleView */,
@@ -563,6 +566,14 @@
 			path = Spotify;
 			sourceTree = "<group>";
 		};
+		85FCAF41263767BC00A0BC89 /* DetailViewStreamProgress */ = {
+			isa = PBXGroup;
+			children = (
+				85FCAF3C26375F4B00A0BC89 /* DetailViewStreamProgress.swift */,
+			);
+			path = DetailViewStreamProgress;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -739,6 +750,7 @@
 				85BC0B2C2616592600589240 /* RowViewViewModel.swift in Sources */,
 				8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */,
 				85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */,
+				85FCAF3D26375F4B00A0BC89 /* DetailViewStreamProgress.swift in Sources */,
 				85A8BAEB2634C2BC00E591A1 /* SettingsAboutView.swift in Sources */,
 				8530336A262E1D9700C93D1B /* TitleView.swift in Sources */,
 				85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */,

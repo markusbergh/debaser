@@ -18,6 +18,7 @@ struct WebView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<WebView>) -> SFSafariViewController {
         let safariView = SFSafariViewController(url: url)
+        safariView.preferredBarTintColor = .red
         safariView.delegate = context.coordinator
         
         return safariView
@@ -33,19 +34,7 @@ struct WebView: UIViewControllerRepresentable {
         }
         
         func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-            /*
-            if SpotifyService.shared.isLoggedIn {
-                
-            } else {
-                print("Not logged in, just cancelled?")
-            }
-            */
-            
             parent.didFinish?()
-            
-//            if let didFinish = parent.didFinish {
-//                didFinish()
-//            }
         }
     }
 }

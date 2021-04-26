@@ -53,7 +53,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
 
         guard let auth = self.auth else { return }
 
-        auth.clientID = ""
+        auth.clientID = "bebe3d1ed01a4d9ba8d9fe2351d20936"
         auth.redirectURL = URL(string: "debaser-spotify-login://callback")
         auth.requestedScopes = [SPTAuthStreamingScope]
 

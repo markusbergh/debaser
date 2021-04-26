@@ -61,6 +61,8 @@ struct SettingsSpotifyView: View {
                     } else if let currentUser = SpotifyService.shared.currentUser {
                         Text(currentUser.displayName)
                             .foregroundColor(.primary)
+                    } else {
+                        Text("")
                     }
                 }
             }

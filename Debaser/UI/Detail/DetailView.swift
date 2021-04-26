@@ -33,14 +33,12 @@ struct DetailView: View {
         GeometryReader { geometry in
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    // Top content
                     ZStack(alignment: .topLeading) {
                         DetailTopImageView()
                             .environmentObject(viewModel)
                         
                         HStack {
-                            // Back button navigation
-                            DetailBackButtonView()
+                            DetailBackButtonView(isStreaming: $isStreaming)
                             
                             Spacer()
                         }
@@ -49,48 +47,7 @@ struct DetailView: View {
                         .frame(maxWidth: .infinity)
                         
                         if canPreviewArtist {
-                            ZStack {
-                                VStack(spacing: 20) {
-                                    Button(action: {
-                                        isStreaming.toggle()
-                                        
-                                        if isStreaming {
-                                            SpotifyService.shared.playTrackForArtist()
-                                        } else {
-                                            SpotifyService.shared.playPauseStream()
-                                        }
-                                    }) {
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 60, height: 60)
-                                            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
-                                            .overlay(
-                                                Image(systemName: isStreaming ? "pause.fill" : "play.fill")
-                                                    .resizable()
-                                                    .foregroundColor(.green)
-                                                    .frame(width: 22, height: 22)
-                                                    .offset(x: isStreaming ? 0 : 2)
-                                                    .animation(nil)
-                                            )
-                                    }
-                                    .scaleEffect(isStreaming ? 1.05 : 1)
-                                    .animation(.easeInOut(duration: 0.35))
-                                    
-                                    HStack {
-                                        Text("Powered by")
-                                            .font(.system(size: 15))
-                                        
-                                        Image("SpotifyLogotype")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 25)
-
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                }
-                            }
-                            .transition(.opacity)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            DetailSpotifyPlayerView(isStreaming: $isStreaming)
                         }
                     }
                     
@@ -135,6 +92,9 @@ struct DetailView: View {
                     }
                 }
             }
+            .onChange(of: isStreaming) {
+                $0 ? SpotifyService.shared.playTrackForArtist() : SpotifyService.shared.playPauseStream()
+            }
             .onAppear {
                 // Load image
                 viewModel.loadImage(with: event.image)
@@ -146,8 +106,73 @@ struct DetailView: View {
             }
             .onDisappear {
                 store.dispatch(withAction: .list(.showTabBar))
+                SpotifyService.shared.playPauseStream()
             }
         }
+    }
+}
+
+// MARK: Spotify player
+
+struct DetailSpotifyPlayerView: View {
+    @Binding var isStreaming: Bool
+    
+    @State private var streamProgress: CGFloat = 0.0
+    private let streamPositionDidUpdate = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamDidChangePosition"))
+
+    var body: some View {
+        ZStack {
+            VStack(spacing: 20) {
+                ZStack {
+                    Button(action: {
+                        isStreaming.toggle()
+                        streamProgress = 0.0
+                    }) {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 60, height: 60)
+                            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
+                            .overlay(
+                                Image(systemName: isStreaming ? "pause.fill" : "play.fill")
+                                    .resizable()
+                                    .foregroundColor(.green)
+                                    .frame(width: 22, height: 22)
+                                    .offset(x: isStreaming ? 0 : 2)
+                                    .animation(nil)
+                            )
+                            .overlay(
+                                DetailViewStreamProgress(streamProgress: streamProgress)
+                                    .onReceive(streamPositionDidUpdate, perform: { notification in
+                                        guard let streamPositionObject = notification.object as? NSDictionary,
+                                              let currentStreamPosition = streamPositionObject["current"] as? CGFloat else {
+                                            return
+                                        }
+                                        
+                                        // Update stream progress state
+                                        streamProgress = currentStreamPosition / 100.0
+                                    })
+                            )
+                    }
+                    
+                }
+                .scaleEffect(isStreaming ? 1.05 : 1)
+                .animation(.easeInOut(duration: 0.35))
+                
+                HStack {
+                    Text("Powered by")
+                        .font(.system(size: 15))
+                    
+                    Image("SpotifyLogotype")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 25)
+
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+        .transition(.opacity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -184,10 +209,12 @@ struct DetailTopImageView: View {
 struct DetailBackButtonView: View {
     @EnvironmentObject var store: AppStore
     @Environment(\.presentationMode) var presentationMode
+    @Binding var isStreaming: Bool
 
     var body: some View {
         Button(action: {
             self.presentationMode.wrappedValue.dismiss()
+            isStreaming = false
         }) {
             Image(systemName: "chevron.left.circle.fill")
                 .resizable()

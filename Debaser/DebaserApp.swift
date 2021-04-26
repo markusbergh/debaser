@@ -27,7 +27,7 @@ struct DebaserApp: App {
     @State private var isDarkMode: Bool = false
     
     private let auth = SPTAuth()
-    private let userAuthenticatedWithSpotify = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserAuthenticated"))
+    private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
     
     init() {
         configureSpotifyConnection()
@@ -48,7 +48,7 @@ struct DebaserApp: App {
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)
                 .preferredColorScheme(isDarkMode ? .dark : .light)
-                .onReceive(userAuthenticatedWithSpotify) { _ in
+                .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(withAction: .spotify(.requestLoginComplete))
                 }
                 .onOpenURL{ url in
