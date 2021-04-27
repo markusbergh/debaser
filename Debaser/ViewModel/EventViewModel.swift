@@ -161,7 +161,7 @@ class MockEventViewModel {
             open: "Öppnar kl 18:30",
             room: "Bar Brooklyn",
             venue: "Strand",
-            slug: "postponed",
+            slug: "",
             admission: "250 kr",
             ticketUrl: nil
         )

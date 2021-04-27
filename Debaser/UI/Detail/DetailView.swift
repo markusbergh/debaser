@@ -14,14 +14,6 @@ struct DetailView: View {
     
     var event: EventViewModel
     
-    private var cancelledLabel: String {
-        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
-    }
-    
-    private var postponedLabel: String {
-        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
-    }
-    
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
 
@@ -50,29 +42,6 @@ struct DetailView: View {
                             DetailSpotifyPlayerView(isStreaming: $isStreaming)
                         }
                     }
-                    
-                    /*
-                    HStack {
-                        if event.isCancelled {
-                            DetailMetaView(
-                                label: cancelledLabel,
-                                labelSize: 17,
-                                labelColor: .white,
-                                backgroundColor: .red
-                            )
-                        } else if event.isPostponed {
-                            DetailMetaView(
-                                label: postponedLabel,
-                                labelSize: 17,
-                                labelColor: .white,
-                                backgroundColor: .red
-                            )
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .offset(y: -10)
-                    .padding(-10)
-                    */
                     
                     // Main content
                     DetailMainContentView(event: event)
@@ -166,7 +135,8 @@ struct DetailSpotifyPlayerView: View {
                         .fontWeight(.heavy)
                         .textCase(.uppercase)
                         .font(.system(size: 11))
-                    
+                        .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
+
                     Image("SpotifyLogotype")
                         .resizable()
                         .scaledToFit()
@@ -239,21 +209,44 @@ struct DetailBackButtonView: View {
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var isFavourite = false
+    private var cancelledLabel: String {
+        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
+    }
+    
+    private var postponedLabel: String {
+        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
+    }
 
     var event: EventViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top) {
-                Text(event.getShortDate())
-                    .font(.system(size: 15))
-                    .frame(minHeight: 20)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 5)
-                    .background(
-                        Capsule()
-                            .strokeBorder(lineWidth: 1.0)
+                if event.isCancelled {
+                    DetailMetaView(
+                        label: cancelledLabel,
+                        labelSize: 17,
+                        labelColor: .white,
+                        backgroundColor: .red
                     )
+                } else if event.isPostponed {
+                    DetailMetaView(
+                        label: postponedLabel,
+                        labelSize: 17,
+                        labelColor: .white,
+                        backgroundColor: .red
+                    )
+                } else {
+                    Text(event.getShortDate())
+                        .font(.system(size: 15))
+                        .frame(minHeight: 20)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 5)
+                        .background(
+                            Capsule()
+                                .strokeBorder(lineWidth: 1.0)
+                        )
+                }
                 
                 DetailMetaView(
                     label: event.venue,
@@ -266,7 +259,7 @@ struct DetailMainContentView: View {
                 
                 DetailFavouriteButtonView(event: event)
             }
-            .padding(.bottom, 25)
+            .padding(.bottom, 35)
 
             TitleView(title: event.title, innnerPadding: 25, outerPadding: 25)
                 .fixedSize(horizontal: false, vertical: false)
@@ -313,7 +306,13 @@ struct DetailMetaContainerView: View {
     var open: String
     
     var body: some View {
-        HStack {
+        var formattedAdmission = admission
+        
+        if admission.contains("Fri") {
+            formattedAdmission = NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission information")
+        }
+        
+        return HStack {
             DetailMetaView(
                 image: "person",
                 label: ageLimit,
@@ -321,7 +320,7 @@ struct DetailMetaContainerView: View {
             )
             DetailMetaView(
                 image: "banknote",
-                label: admission,
+                label: formattedAdmission,
                 backgroundColor: .detailViewMetaSecondary
             )
             DetailMetaView(
@@ -346,10 +345,12 @@ struct DetailDescriptionView: View {
             Text(subHeader)
                 .font(.system(size: 19))
                 .fontWeight(.semibold)
+                .lineSpacing(2)
         }
 
         Text(description)
             .font(.system(size: 19))
+            .lineSpacing(2)
     }
 }
 
