@@ -10,7 +10,7 @@ import Foundation
 struct EventViewModel: Codable, Hashable, Identifiable {
     static let titleRegexPattern = #"\S[^->|]+[^ \W]."#
     static let admissionRegexPattern = #"\d{1,3} kr"#
-    static let ageRegexPattern = #"\d{1,2} år"#
+    static let ageRegexPattern = "\\d{1,2}"
     static let openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
     static let openRegexAdditionalPattern = #"\d{1,2}"#
     
