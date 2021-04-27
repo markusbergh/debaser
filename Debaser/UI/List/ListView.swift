@@ -10,8 +10,6 @@ import SwiftUI
 struct ListView: View {
     @EnvironmentObject var store: AppStore
     
-    @StateObject var viewModel = ListViewViewModel()
-    
     @State private var isShowingErrorAlert = false
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20

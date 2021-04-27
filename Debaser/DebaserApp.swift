@@ -24,7 +24,10 @@ struct DebaserApp: App {
     )
     
     @StateObject var tabViewRouter = TabViewRouter()
+    
     @State private var isDarkMode: Bool = false
+    @State private var eventReceivedId: String = ""
+    @State private var eventReceived: EventViewModel? = nil
     
     private let auth = SPTAuth()
     private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
@@ -55,6 +58,14 @@ struct DebaserApp: App {
                     if auth.canHandle(auth.redirectURL) && url.absoluteString.hasPrefix(auth.redirectURL.absoluteString) {
                         handleSpotifyLoginCallbackURL(url)
                     }
+                    
+                    if canHandleMessageEventURL(url: url), !eventReceivedId.isEmpty {
+                        presentModalViewForEvent()
+                    }
+                }
+                .sheet(item: $eventReceived) { event in
+                    DetailView(event: event, canNavigateBack: false)
+                        .environmentObject(store)
                 }
         }
     }
@@ -111,5 +122,45 @@ private extension DebaserApp {
             let notificationName = Notification.Name(rawValue: SpotifyNotification.LoginSuccessful.rawValue)
             NotificationCenter.default.post(name: notificationName, object: nil)
         })
+    }
+}
+
+// MARK: iMessage Extension
+
+extension DebaserApp {
+    func canHandleMessageEventURL(url: URL) -> Bool {
+        guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return false
+        }
+        
+        guard let queryItems = urlComponents.queryItems else {
+            return false
+        }
+        
+        guard !queryItems.isEmpty else {
+            return false
+        }
+        
+        // Look for an event id
+        for queryItem in queryItems where queryItem.name == "eventId" {
+            eventReceivedId = queryItem.value ?? ""
+            
+            return true
+        }
+        
+        return false
+    }
+
+}
+
+// MARK: Modal
+
+extension DebaserApp {
+    func presentModalViewForEvent() {
+        let matchedEvent = store.state.list.events.first(where: { event in
+            event.id == eventReceivedId
+        })
+        
+        eventReceived = matchedEvent
     }
 }

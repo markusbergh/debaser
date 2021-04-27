@@ -99,7 +99,7 @@ class ListViewViewModel: ObservableObject {
 
 extension ListViewViewModel {
     func fetchAll() {
-        guard let fromDate = firstDayOfYear, let toDate = lastDayOfYear else {
+        guard let fromDate = today, let toDate = lastDayOfYear else {
             return
         }
         

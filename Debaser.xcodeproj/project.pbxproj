@@ -59,6 +59,21 @@
 		85B060762627A927006D2D9D /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B060752627A927006D2D9D /* Actions.swift */; };
 		85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B0607A2627A96E006D2D9D /* Reducer.swift */; };
 		85B060832628390F006D2D9D /* DetailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B060822628390F006D2D9D /* DetailImageView.swift */; };
+		85B4498326383E9900C095FA /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85B4498226383E9900C095FA /* Messages.framework */; };
+		85B4498B26383E9C00C095FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B4498A26383E9C00C095FA /* Assets.xcassets */; };
+		85B4498F26383E9C00C095FA /* iMessage.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 85B4498126383E9900C095FA /* iMessage.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		85B4499B26383EF800C095FA /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B4499826383EF800C095FA /* MessagesTableViewCell.swift */; };
+		85B4499D26383EF800C095FA /* MessagesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85B4499A26383EF800C095FA /* MessagesTableViewCell.xib */; };
+		85B449A726383F1900C095FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B449A626383F1900C095FA /* Main.storyboard */; };
+		85B449D42638444200C095FA /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */; };
+		85B449D9263847CA00C095FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855B1A3125FB5B5F00C7A219 /* Assets.xcassets */; };
+		85B449DF2638485200C095FA /* MessagesViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B449DE2638485200C095FA /* MessagesViewViewModel.swift */; };
+		85B449ED263849BA00C095FA /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926CF260BE24B004B1761 /* EventService.swift */; };
+		85B449F2263849D900C095FA /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEAB21262B25F70000B85E /* EventViewModel.swift */; };
+		85B449F7263849E500C095FA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926C6260BE234004B1761 /* Event.swift */; };
+		85B44A0526384C4F00C095FA /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
+		85B44A0A26384EEE00C095FA /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
+		85B44A1926385A2200C095FA /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B44A1826385A2200C095FA /* MessagesViewController.swift */; };
 		85B5CDDE261EFC1E00A55398 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */; };
 		85B5CDE3261F0F0800A55398 /* RowCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDE2261F0F0800A55398 /* RowCompactView.swift */; };
 		85BC0B27261658D600589240 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B26261658D600589240 /* RowView.swift */; };
@@ -79,9 +94,6 @@
 		85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */; };
 		85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */; };
 		85FCAF3D26375F4B00A0BC89 /* DetailViewStreamProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF3C26375F4B00A0BC89 /* DetailViewStreamProgress.swift */; };
-		85FCAF452637DD5E00A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */; platformFilter = ios; };
-		85FCAF462637DD5E00A0BC89 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */; platformFilter = ios; };
-		85FCAF472637DD5E00A0BC89 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,7 +111,28 @@
 			remoteGlobalIDString = 855B1A2925FB5B5C00C7A219;
 			remoteInfo = Debaser;
 		};
+		85B4498D26383E9C00C095FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 855B1A2225FB5B5C00C7A219 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 85B4498026383E9900C095FA;
+			remoteInfo = iMessage;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		85B4499026383E9C00C095FA /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				85B4498F26383E9C00C095FA /* iMessage.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8508E14B2634E1E0007FA049 /* DBSROnboardingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSROnboardingLabel.swift; sourceTree = "<group>"; };
@@ -161,6 +194,15 @@
 		85B060752627A927006D2D9D /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		85B0607A2627A96E006D2D9D /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		85B060822628390F006D2D9D /* DetailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageView.swift; sourceTree = "<group>"; };
+		85B4498126383E9900C095FA /* iMessage.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iMessage.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		85B4498226383E9900C095FA /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
+		85B4498A26383E9C00C095FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		85B4498C26383E9C00C095FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85B4499826383EF800C095FA /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
+		85B4499A26383EF800C095FA /* MessagesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessagesTableViewCell.xib; sourceTree = "<group>"; };
+		85B449A626383F1900C095FA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		85B449DE2638485200C095FA /* MessagesViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewViewModel.swift; sourceTree = "<group>"; };
+		85B44A1826385A2200C095FA /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		85B5CDE2261F0F0800A55398 /* RowCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCompactView.swift; sourceTree = "<group>"; };
 		85BC0B26261658D600589240 /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowView.swift; sourceTree = "<group>"; };
@@ -199,9 +241,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85FCAF452637DD5E00A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */,
-				85FCAF462637DD5E00A0BC89 /* SpotifyAuthentication.framework in Frameworks */,
-				85FCAF472637DD5E00A0BC89 /* SpotifyMetadata.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +248,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85B4497E26383E9900C095FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85B4498326383E9900C095FA /* Messages.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +355,7 @@
 				855B1A2C25FB5B5C00C7A219 /* Debaser */,
 				855B1A3E25FB5B5F00C7A219 /* DebaserTests */,
 				855B1A4925FB5B5F00C7A219 /* DebaserUITests */,
+				85B4498426383E9900C095FA /* iMessage */,
 				85FCAF0D263723A100A0BC89 /* Frameworks */,
 				855B1A2B25FB5B5C00C7A219 /* Products */,
 			);
@@ -319,6 +367,7 @@
 				855B1A2A25FB5B5C00C7A219 /* Debaser.app */,
 				855B1A3B25FB5B5F00C7A219 /* DebaserTests.xctest */,
 				855B1A4625FB5B5F00C7A219 /* DebaserUITests.xctest */,
+				85B4498126383E9900C095FA /* iMessage.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -491,6 +540,20 @@
 			path = Redux;
 			sourceTree = "<group>";
 		};
+		85B4498426383E9900C095FA /* iMessage */ = {
+			isa = PBXGroup;
+			children = (
+				85B4499A26383EF800C095FA /* MessagesTableViewCell.xib */,
+				85B4499826383EF800C095FA /* MessagesTableViewCell.swift */,
+				85B44A1826385A2200C095FA /* MessagesViewController.swift */,
+				85B449DE2638485200C095FA /* MessagesViewViewModel.swift */,
+				85B449A626383F1900C095FA /* Main.storyboard */,
+				85B4498A26383E9C00C095FA /* Assets.xcassets */,
+				85B4498C26383E9C00C095FA /* Info.plist */,
+			);
+			path = iMessage;
+			sourceTree = "<group>";
+		};
 		85C2ED91262AE7C900CA5CDF /* List */ = {
 			isa = PBXGroup;
 			children = (
@@ -559,6 +622,7 @@
 				85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */,
 				85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */,
 				85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */,
+				85B4498226383E9900C095FA /* Messages.framework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -590,10 +654,12 @@
 				855B1A2625FB5B5C00C7A219 /* Sources */,
 				855B1A2725FB5B5C00C7A219 /* Frameworks */,
 				855B1A2825FB5B5C00C7A219 /* Resources */,
+				85B4499026383E9C00C095FA /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				85B4498E26383E9C00C095FA /* PBXTargetDependency */,
 			);
 			name = Debaser;
 			productName = Debaser;
@@ -636,6 +702,23 @@
 			productReference = 855B1A4625FB5B5F00C7A219 /* DebaserUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		85B4498026383E9900C095FA /* iMessage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85B4499326383E9C00C095FA /* Build configuration list for PBXNativeTarget "iMessage" */;
+			buildPhases = (
+				85B4497D26383E9900C095FA /* Sources */,
+				85B4497E26383E9900C095FA /* Frameworks */,
+				85B4497F26383E9900C095FA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iMessage;
+			productName = iMessage;
+			productReference = 85B4498126383E9900C095FA /* iMessage.appex */;
+			productType = "com.apple.product-type.app-extension.messages";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -656,6 +739,9 @@
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = 855B1A2925FB5B5C00C7A219;
 					};
+					85B4498026383E9900C095FA = {
+						CreatedOnToolsVersion = 12.4;
+					};
 				};
 			};
 			buildConfigurationList = 855B1A2525FB5B5C00C7A219 /* Build configuration list for PBXProject "Debaser" */;
@@ -675,6 +761,7 @@
 				855B1A2925FB5B5C00C7A219 /* Debaser */,
 				855B1A3A25FB5B5F00C7A219 /* DebaserTests */,
 				855B1A4525FB5B5F00C7A219 /* DebaserUITests */,
+				85B4498026383E9900C095FA /* iMessage */,
 			);
 		};
 /* End PBXProject section */
@@ -705,6 +792,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85B4497F26383E9900C095FA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85B4498B26383E9C00C095FA /* Assets.xcassets in Resources */,
+				85B4499D26383EF800C095FA /* MessagesTableViewCell.xib in Resources */,
+				85B44A0A26384EEE00C095FA /* DelaGothicOne-Regular.ttf in Resources */,
+				85B449D9263847CA00C095FA /* Assets.xcassets in Resources */,
+				85B449A726383F1900C095FA /* Main.storyboard in Resources */,
+				85B44A0526384C4F00C095FA /* Debaser.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -794,6 +894,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		85B4497D26383E9900C095FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85B449D42638444200C095FA /* ColorTheme.swift in Sources */,
+				85B44A1926385A2200C095FA /* MessagesViewController.swift in Sources */,
+				85B449F2263849D900C095FA /* EventViewModel.swift in Sources */,
+				85B449DF2638485200C095FA /* MessagesViewViewModel.swift in Sources */,
+				85B449ED263849BA00C095FA /* EventService.swift in Sources */,
+				85B449F7263849E500C095FA /* Event.swift in Sources */,
+				85B4499B26383EF800C095FA /* MessagesTableViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -807,6 +921,11 @@
 			isa = PBXTargetDependency;
 			target = 855B1A2925FB5B5C00C7A219 /* Debaser */;
 			targetProxy = 855B1A4725FB5B5F00C7A219 /* PBXContainerItemProxy */;
+		};
+		85B4498E26383E9C00C095FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 85B4498026383E9900C095FA /* iMessage */;
+			targetProxy = 85B4498D26383E9C00C095FA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -944,6 +1063,7 @@
 		855B1A5025FB5B5F00C7A219 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -970,6 +1090,7 @@
 		855B1A5125FB5B5F00C7A219 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -1013,6 +1134,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Debaser.app/Debaser";
@@ -1039,6 +1161,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Debaser.app/Debaser";
@@ -1059,6 +1182,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Debaser;
@@ -1079,9 +1203,54 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Debaser;
+			};
+			name = Release;
+		};
+		85B4499126383E9C00C095FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 57MDPUFGC8;
+				INFOPLIST_FILE = iMessage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser.iMessage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		85B4499226383E9C00C095FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 57MDPUFGC8;
+				INFOPLIST_FILE = iMessage/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser.iMessage;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1120,6 +1289,15 @@
 			buildConfigurations = (
 				855B1A5625FB5B5F00C7A219 /* Debug */,
 				855B1A5725FB5B5F00C7A219 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		85B4499326383E9C00C095FA /* Build configuration list for PBXNativeTarget "iMessage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85B4499126383E9C00C095FA /* Debug */,
+				85B4499226383E9C00C095FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

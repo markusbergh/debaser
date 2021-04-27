@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Messages View Controller-->
+        <scene sceneID="7MM-of-jgj">
+            <objects>
+                <viewController id="ObA-dk-sSI" customClass="MessagesViewController" customModule="iMessage" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cop-lu-VJT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hitta spelningar i Stockholm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92Y-n4-pJa">
+                                <rect key="frame" x="30" y="116" width="260" height="50"/>
+                                <color key="backgroundColor" name="iMessageLabelBackground"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="CTD-oh-1Oi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="S6j-CI-GmR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ooC-EN-ECk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ooC-EN-ECk" firstAttribute="trailing" secondItem="92Y-n4-pJa" secondAttribute="trailing" constant="30" id="CEW-1U-Fbf"/>
+                            <constraint firstItem="92Y-n4-pJa" firstAttribute="top" secondItem="S6j-CI-GmR" secondAttribute="bottom" constant="60" id="GJp-3f-mmd"/>
+                            <constraint firstItem="S6j-CI-GmR" firstAttribute="trailing" secondItem="ooC-EN-ECk" secondAttribute="trailing" id="cxq-JN-64o"/>
+                            <constraint firstItem="S6j-CI-GmR" firstAttribute="leading" secondItem="ooC-EN-ECk" secondAttribute="leading" id="gFu-NT-E4k"/>
+                            <constraint firstItem="S6j-CI-GmR" firstAttribute="top" secondItem="ooC-EN-ECk" secondAttribute="top" id="hfm-rg-z2U"/>
+                            <constraint firstItem="92Y-n4-pJa" firstAttribute="leading" secondItem="ooC-EN-ECk" secondAttribute="leading" constant="30" id="p82-Fb-iBW"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="320"/>
+                    <connections>
+                        <outlet property="infoLabel" destination="92Y-n4-pJa" id="s3Y-mL-rYn"/>
+                        <outlet property="searchField" destination="S6j-CI-GmR" id="V0X-Sk-VeL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="31.884057971014496" y="34.239130434782609"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="iMessageLabelBackground">
+            <color red="0.035000000149011612" green="0.72500002384185791" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

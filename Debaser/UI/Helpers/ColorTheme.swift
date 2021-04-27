@@ -58,6 +58,12 @@ extension Color {
 }
 
 extension UIColor {
+    /// List
+    static let listTopGradientStart = UIColor(named: "ListTopGradientStart")
+    static let listTopGradientEnd = UIColor(named: "ListTopGradientEnd")
+    static let listBackground = UIColor(named: "ListBackground")
+    
+    /// Tab Bar
     static let tabBarBackground = UIColor(named: "TabBarBackground")
     static let tabBarBorder = UIColor(named: "TabBarBorder")
     
@@ -75,4 +81,7 @@ extension UIColor {
     static let onboardingSpotifyButtonLabel = UIColor(named: "OnboardingSpotifyButtonLabel")
     static let onboardingSpotifyButtonLabelHighlight = UIColor(named: "OnboardingSpotifyButtonLabelHighlight")
     static let onboardingScreenBackground = UIColor(named: "OnboardingScreenBackground")
+    
+    /// iMessage Extension
+    static let iMessageLabelBackground = UIColor(named: "iMessageLabelBackground")
 }

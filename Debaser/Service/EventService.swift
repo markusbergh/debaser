@@ -34,9 +34,12 @@ enum ServiceError: Error {
 final class EventService {
     static var baseUrl: String {
         guard let infoDictPath = Bundle.main.path(forResource: "Debaser", ofType: "plist"),
-              let infoDict = NSDictionary(contentsOfFile: infoDictPath) as? [String: Any],
-              let baseURL = infoDict["kDebaserApiURL"] else {
-            fatalError("There must be an api url in property list")
+              let infoDict = NSDictionary(contentsOfFile: infoDictPath) as? [String: Any] else {
+            fatalError("Found no property list for api")
+        }
+        
+        guard let baseURL = infoDict["kDebaserApiURL"] else {
+            fatalError("There must be an url in property list")
         }
         
         return "\(baseURL)/?version=2&method=getevents&format=json"

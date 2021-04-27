@@ -13,12 +13,14 @@ struct DetailView: View {
     @StateObject var viewModel = DetailViewViewModel()
     
     var event: EventViewModel
+    var canNavigateBack: Bool
     
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
 
-    init(event: EventViewModel) {
+    init(event: EventViewModel, canNavigateBack: Bool = true) {
         self.event = event
+        self.canNavigateBack = canNavigateBack
     }
     
     var body: some View {
@@ -29,14 +31,16 @@ struct DetailView: View {
                         DetailTopImageView()
                             .environmentObject(viewModel)
                         
-                        HStack {
-                            DetailBackButtonView(isStreaming: $isStreaming)
-                            
-                            Spacer()
+                        if canNavigateBack {
+                            HStack {
+                                DetailBackButtonView(isStreaming: $isStreaming)
+                                
+                                Spacer()
+                            }
+                            .padding(.horizontal, 25)
+                            .padding(.top, 50)
+                            .frame(maxWidth: .infinity)
                         }
-                        .padding(.horizontal, 25)
-                        .padding(.top, 50)
-                        .frame(maxWidth: .infinity)
                         
                         if canPreviewArtist {
                             DetailSpotifyPlayerView(isStreaming: $isStreaming)
