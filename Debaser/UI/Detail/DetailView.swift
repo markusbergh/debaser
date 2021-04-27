@@ -106,7 +106,10 @@ struct DetailView: View {
             }
             .onDisappear {
                 store.dispatch(withAction: .list(.showTabBar))
-                SpotifyService.shared.playPauseStream()
+                
+                if isStreaming {
+                    SpotifyService.shared.playPauseStream()
+                }
             }
         }
     }
