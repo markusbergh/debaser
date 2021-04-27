@@ -36,18 +36,13 @@ func listReducer(state: inout ListState, action: ListAction) -> ListState {
     case .getEventsComplete(let events):
         state.isFetching.send(false)
         state.events = events
-    case .toggleFavourite(let isFavourite, let event):
-        if !isFavourite {
-            let indexOf = state.favourites.firstIndex(where: { (item) -> Bool in
-                item.id == event.id
-            })
-            
-            if let matchingIndex = indexOf {
-                state.favourites.remove(at: matchingIndex)
-            }
-        } else {
-            state.favourites.append(event)
-        }
+    case .toggleFavourite:
+        state.isFetching.send(true)
+    case .toggleFavouriteComplete(let events):
+        state.isFetching.send(false)
+        state.favourites = events
+    case .getFavouritesComplete(let events):
+        state.favourites = events
     case .hideTabBar:
         state.isShowingTabBar = false
     case .showTabBar:

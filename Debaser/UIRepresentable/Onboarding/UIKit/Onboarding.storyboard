@@ -461,10 +461,10 @@
     </scenes>
     <designables>
         <designable name="Kiw-n3-wcU">
-            <size key="intrinsicContentSize" width="241" height="29"/>
+            <size key="intrinsicContentSize" width="159" height="29"/>
         </designable>
         <designable name="hZo-Xc-csF">
-            <size key="intrinsicContentSize" width="222" height="29"/>
+            <size key="intrinsicContentSize" width="49" height="29"/>
         </designable>
     </designables>
     <resources>

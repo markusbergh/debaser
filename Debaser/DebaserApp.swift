@@ -44,6 +44,7 @@ struct DebaserApp: App {
                 }
                 .onAppear {
                     store.dispatch(withAction: .spotify(.initialize))
+                    store.dispatch(withAction: .list(.getFavouritesRequest))
                     store.dispatch(withAction: .settings(.getDarkMode))
                     store.dispatch(withAction: .settings(.getHideCancelled))
                     store.dispatch(withAction: .settings(.getShowImages))
@@ -63,7 +64,7 @@ struct DebaserApp: App {
                         presentModalViewForEvent()
                     }
                 }
-                .sheet(item: $eventReceived) { event in
+                .sheet(item: $eventReceived) { event in                    
                     DetailView(event: event, canNavigateBack: false)
                         .environmentObject(store)
                 }

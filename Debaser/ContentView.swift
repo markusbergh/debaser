@@ -51,10 +51,7 @@ struct ContentView: View {
             isShowingOnboarding = !hasSeen
         }
         .sheet(isPresented: $isShowingOnboarding) {
-            OnboardingView()
-                .background(Color.onboardingBackground)
-                .ignoresSafeArea()
-                .preferredColorScheme(colorScheme)
+            Text("Hej")
         }
     }
 }

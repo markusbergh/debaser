@@ -15,16 +15,16 @@ struct OnboardingView: UIViewControllerRepresentable {
     }
     
     func makeUIViewController(context: Context) -> UIViewController {
-        let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
+//        let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
+//
+//        guard let onboardingViewController = storyboard.instantiateInitialViewController() as? DBSROnboardingViewController else {
+//            return UIViewController()
+//        }
+//
+//        // Set dark mode according to store
+//        onboardingViewController.usesDarkMode = store.state.settings.darkMode.value
         
-        guard let onboardingViewController = storyboard.instantiateInitialViewController() as? DBSROnboardingViewController else {
-            return UIViewController()
-        }
-        
-        // Set dark mode according to store
-        onboardingViewController.usesDarkMode = store.state.settings.darkMode.value
-        
-        return onboardingViewController
+        return UIViewController()
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}

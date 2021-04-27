@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EventViewModel: Hashable, Identifiable {
+struct EventViewModel: Codable, Hashable, Identifiable {
     var id: String = ""
     var title: String = "" {
         didSet {

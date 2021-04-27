@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Event: Decodable, Hashable, Identifiable {
+struct Event: Codable, Hashable, Identifiable {
     let id: String
     let name: String
     let subHeader: String

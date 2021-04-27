@@ -12,7 +12,7 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
     return { state, action in
         switch action {
         case .list(.getEventsRequest):
-            guard let firstDate = ListMiddlewareHelper.today, let lastDate = ListMiddlewareHelper.lastDayOfYear else {
+            guard let firstDate = ListMiddlewareDateHelper.today, let lastDate = ListMiddlewareDateHelper.lastDayOfYear else {
                 return Empty().eraseToAnyPublisher()
             }
             
@@ -23,15 +23,16 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
                     Just(AppAction.list(.getEventsError(error: error)))
                 }
                 .eraseToAnyPublisher()
+            
         case .list(.searchEvent(let searchQuery)):
-            if ListMiddlewareHelper.events.isEmpty {
-                ListMiddlewareHelper.events = state.list.events
+            if ListMiddlewareSearchHelper.events.isEmpty {
+                ListMiddlewareSearchHelper.events = state.list.events
             }
             
             guard !searchQuery.isEmpty else {
                 // Reset data with saved reference
                 return CurrentValueSubject<AppAction, Never>(
-                    AppAction.list(.getEventsComplete(events: ListMiddlewareHelper.events))
+                    AppAction.list(.getEventsComplete(events: ListMiddlewareSearchHelper.events))
                 )
                 .eraseToAnyPublisher()
             }
@@ -39,13 +40,40 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
             return Just(searchQuery)
                 .subscribe(on: RunLoop.main)
                 .map { text in
-                    let filteredEvents = ListMiddlewareHelper.events.filter { event in
+                    let filteredEvents = ListMiddlewareSearchHelper.events.filter { event in
                         return event.title.contains(text)
                     }
                     
                     return AppAction.list(.getEventsComplete(events: filteredEvents))
                 }
                 .eraseToAnyPublisher()
+        
+        case .list(.getFavouritesRequest):
+            guard let events = ListMiddlewareFavouritesHelper.getAll() else {
+                return Just(AppAction.list(.getFavouritesError))
+                    .eraseToAnyPublisher()
+            }
+
+            return Just(events)
+                .subscribe(on: RunLoop.main)
+                .map { events in
+                    return AppAction.list(.getFavouritesComplete(events))
+                }
+                .eraseToAnyPublisher()
+            
+        case .list(.toggleFavourite(let event)):
+            guard let events = ListMiddlewareFavouritesHelper.save(event) else {
+                return Just(AppAction.list(.toggleFavouriteError))
+                    .eraseToAnyPublisher()
+            }
+            
+            return Just(events)
+                .subscribe(on: RunLoop.main)
+                .map { events in
+                    return AppAction.list(.toggleFavouriteComplete(events))
+                }
+                .eraseToAnyPublisher()
+            
         default:
             break
         }
@@ -54,17 +82,20 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
     }
 }
 
-struct ListMiddlewareHelper {
+struct ListMiddlewareSearchHelper {
+    static var events = [EventViewModel]()
+}
+
+struct ListMiddlewareDateHelper {
     private static var dateComponents = Calendar.current.dateComponents([.year], from: Date())
+    
     private static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
         
         return dateFormatter
     }()
-    
-    static var events = [EventViewModel]()
-    
+
     static var today: String? {
         return dateFormatter.string(from: Date())
     }
@@ -95,4 +126,79 @@ struct ListMiddlewareHelper {
         
         return dateFormatter.string(from: lastDateOfYear)
     }()
+}
+
+struct ListMiddlewareFavouritesHelper {
+    static func getAll() -> [EventViewModel]? {
+        let userDefaults = UserDefaults.standard
+
+        guard let data = userDefaults.object(forKey: "SavedEvents") as? Data else {
+            return nil
+        }
+        
+        let decoder = JSONDecoder()
+        
+        guard let storedList = try? decoder.decode([EventViewModel].self, from: data) else {
+            return nil
+        }
+        
+        return storedList
+    }
+    
+    static func save(_ event: EventViewModel) -> [EventViewModel]? {
+        let userDefaults = UserDefaults.standard
+        
+        guard let storedList = userDefaults.object(forKey: "SavedEvents") else {
+            // No previous list available so create a new one
+            let eventList = [event]
+            
+            let encoder = JSONEncoder()
+            
+            if let encodedList = try? encoder.encode(eventList) {
+                userDefaults.setValue(encodedList, forKey: "SavedEvents")
+            }
+            
+            return [event]
+        }
+        
+        // Try and update available list
+        return update(for: event, with: storedList)
+    }
+    
+    static func update(for event: EventViewModel, with data: Any) -> [EventViewModel]? {
+        guard let data = data as? Data else {
+            return nil
+        }
+        
+        let userDefaults = UserDefaults.standard
+        
+        let encoder = JSONEncoder()
+        let decoder = JSONDecoder()
+        
+        if var storedList = try? decoder.decode([EventViewModel].self, from: data) {
+            for (index, storedEvent) in storedList.enumerated() {
+                // Match found, so remove it
+                if storedEvent.id == event.id {
+                    storedList.remove(at: index)
+                    
+                    if let updatedList = try? encoder.encode(storedList) {
+                        userDefaults.setValue(updatedList, forKey: "SavedEvents")
+                    }
+                    
+                    return storedList
+                }
+            }
+
+            // Otherwise just add event to list
+            storedList.append(event)
+
+            if let updatedList = try? encoder.encode(storedList) {
+                userDefaults.setValue(updatedList, forKey: "SavedEvents")
+            }
+
+            return storedList
+        }
+        
+        return nil
+    }
 }
