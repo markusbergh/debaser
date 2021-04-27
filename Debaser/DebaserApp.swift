@@ -64,8 +64,9 @@ struct DebaserApp: App {
                         presentModalViewForEvent()
                     }
                 }
-                .sheet(item: $eventReceived) { event in                    
+                .sheet(item: $eventReceived) { event in
                     DetailView(event: event, canNavigateBack: false)
+                        .preferredColorScheme(isDarkMode ? .dark : .light)
                         .environmentObject(store)
                 }
         }

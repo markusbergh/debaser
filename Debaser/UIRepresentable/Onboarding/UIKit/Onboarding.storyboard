@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uyq-yG-pis">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uyq-yG-pis">
     <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -269,7 +269,7 @@
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adS-09-hzF" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
                                         <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen2" translatesAutoresizingMaskIntoConstraints="NO" id="n3h-Bl-s5D">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen3" translatesAutoresizingMaskIntoConstraints="NO" id="n3h-Bl-s5D">
                                                 <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="3ZS-ju-Rmj"/>
@@ -461,16 +461,17 @@
     </scenes>
     <designables>
         <designable name="Kiw-n3-wcU">
-            <size key="intrinsicContentSize" width="159" height="29"/>
+            <size key="intrinsicContentSize" width="241" height="29"/>
         </designable>
         <designable name="hZo-Xc-csF">
-            <size key="intrinsicContentSize" width="49" height="29"/>
+            <size key="intrinsicContentSize" width="222" height="29"/>
         </designable>
     </designables>
     <resources>
         <image name="Logotype" width="136" height="36"/>
         <image name="OnboardingScreen1" width="880" height="1774"/>
         <image name="OnboardingScreen2" width="880" height="1774"/>
+        <image name="OnboardingScreen3" width="880" height="1774"/>
         <image name="SpotifyIcon" width="27" height="26"/>
         <namedColor name="ListRowBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
