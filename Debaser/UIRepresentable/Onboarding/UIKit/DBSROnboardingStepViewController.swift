@@ -39,20 +39,20 @@ class DBSROnboardingStepViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        guard let screenShot = self.screenShot else { return }
+        
+        if pageIndex > 0, !isAnimated {
+            var screenShotFrame = screenShot.frame
+            screenShotFrame.origin.y -= 20
 
-//        guard let screenShot = self.screenShot else { return }
-//
-//        if pageIndex > 0, !isAnimated {
-//            var screenShotFrame = screenShot.frame
-//            screenShotFrame.origin.y -= 20
-//
-//            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: { [weak self] in
-//                self?.screenShot.alpha = 1.0
-//                self?.screenShot.frame = screenShotFrame
-//
-//                self?.isAnimated = true
-//                }, completion: nil)
-//        }
+            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: { [weak self] in
+                self?.screenShot.alpha = 1.0
+                self?.screenShot.frame = screenShotFrame
+
+                self?.isAnimated = true
+                }, completion: nil)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

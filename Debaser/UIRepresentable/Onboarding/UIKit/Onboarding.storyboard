@@ -76,9 +76,20 @@
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kma-XD-FbW" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
                                         <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen1" translatesAutoresizingMaskIntoConstraints="NO" id="MF2-G8-mPv">
+                                                <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="CZ0-OI-5er"/>
+                                                    <constraint firstAttribute="width" constant="150" id="MjB-W7-zI6"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
                                         <color key="backgroundColor" name="OnboardingScreenBackground"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="Vka-co-32f"/>
+                                            <constraint firstItem="MF2-G8-mPv" firstAttribute="centerX" secondItem="Kma-XD-FbW" secondAttribute="centerX" id="Xzb-tR-27F"/>
+                                            <constraint firstItem="MF2-G8-mPv" firstAttribute="top" secondItem="Kma-XD-FbW" secondAttribute="top" constant="50" id="ltq-Ni-Soh"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="rounded">
@@ -128,10 +139,13 @@
                             <constraint firstItem="R5Z-gJ-mvL" firstAttribute="leading" secondItem="zib-8d-jcX" secondAttribute="leading" constant="30" id="sNq-RI-hPs"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="screenShot" destination="MF2-G8-mPv" id="84N-YL-2Gc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nfa-FZ-QLg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-282.39999999999998" y="848.72563718140941"/>
+            <point key="canvasLocation" x="-282.39999999999998" y="848.27586206896558"/>
         </scene>
         <!--Onboarding Step View Controller-->
         <scene sceneID="L5P-7v-lE0">
@@ -164,8 +178,19 @@
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVn-5j-IT7" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
                                         <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen2" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-1O-YED">
+                                                <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="7yx-xD-HkW"/>
+                                                    <constraint firstAttribute="width" constant="150" id="NZS-Fq-O6J"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
                                         <color key="backgroundColor" name="OnboardingScreenBackground"/>
                                         <constraints>
+                                            <constraint firstItem="yhH-1O-YED" firstAttribute="centerX" secondItem="RVn-5j-IT7" secondAttribute="centerX" id="ZIr-ai-HoA"/>
+                                            <constraint firstItem="yhH-1O-YED" firstAttribute="top" secondItem="RVn-5j-IT7" secondAttribute="top" constant="50" id="hWd-IP-gc5"/>
                                             <constraint firstAttribute="height" constant="200" id="mMB-8o-w81"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
@@ -204,6 +229,9 @@
                             <constraint firstItem="1X8-J9-c7V" firstAttribute="leading" secondItem="YUK-RK-fcc" secondAttribute="leading" constant="30" id="uYd-Lk-bvF"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="screenShot" destination="yhH-1O-YED" id="XBM-E8-mcJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RF8-hO-Gei" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -229,7 +257,7 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="localisedKey" value="Onboarding.Step3.Header"/>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Du kan enkelt hitta den spelning du är ute efter och spara ned den till din favoritlista ifall du inte vill glömma." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4i-oq-Vsg" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Du kan enkelt hitta en spelning du är ute efter och spara ned den till din favoritlista så du inte missar den." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4i-oq-Vsg" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
                                         <rect key="frame" x="20" y="97.666666666666657" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
@@ -240,9 +268,20 @@
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adS-09-hzF" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
                                         <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen2" translatesAutoresizingMaskIntoConstraints="NO" id="n3h-Bl-s5D">
+                                                <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="3ZS-ju-Rmj"/>
+                                                    <constraint firstAttribute="width" constant="150" id="Ia8-0A-LCm"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
                                         <color key="backgroundColor" name="OnboardingScreenBackground"/>
                                         <constraints>
+                                            <constraint firstItem="n3h-Bl-s5D" firstAttribute="top" secondItem="adS-09-hzF" secondAttribute="top" constant="50" id="JGV-6J-7em"/>
                                             <constraint firstAttribute="height" constant="200" id="bbC-aq-zPI"/>
+                                            <constraint firstItem="n3h-Bl-s5D" firstAttribute="centerX" secondItem="adS-09-hzF" secondAttribute="centerX" id="f1a-Ky-gAl"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="rounded">
@@ -280,6 +319,9 @@
                             <constraint firstItem="PSk-tM-fgi" firstAttribute="centerY" secondItem="nqo-xF-CHi" secondAttribute="centerY" constant="-5" id="suP-Wd-xYT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="screenShot" destination="n3h-Bl-s5D" id="qba-Ou-0lR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QWu-Io-fGh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -419,14 +461,16 @@
     </scenes>
     <designables>
         <designable name="Kiw-n3-wcU">
-            <size key="intrinsicContentSize" width="159" height="29"/>
+            <size key="intrinsicContentSize" width="241" height="29"/>
         </designable>
         <designable name="hZo-Xc-csF">
-            <size key="intrinsicContentSize" width="49" height="29"/>
+            <size key="intrinsicContentSize" width="222" height="29"/>
         </designable>
     </designables>
     <resources>
         <image name="Logotype" width="136" height="36"/>
+        <image name="OnboardingScreen1" width="880" height="1774"/>
+        <image name="OnboardingScreen2" width="880" height="1774"/>
         <image name="SpotifyIcon" width="27" height="26"/>
         <namedColor name="ListRowBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

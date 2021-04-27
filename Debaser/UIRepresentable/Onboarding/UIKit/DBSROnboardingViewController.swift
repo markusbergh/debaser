@@ -110,21 +110,17 @@ class DBSROnboardingViewController: UIViewController {
         
         UserDefaults.standard.setValue(true, forKey: "seenOnboarding")
         
-        //guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
+        guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
         
-//        if var screenShotFrame = firstStepViewController.screenShot?.frame {
-//            screenShotFrame.origin.y -= 20
-//            
-//            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
-//                firstStepViewController.screenShot?.alpha = 1.0
-//                firstStepViewController.screenShot?.frame = screenShotFrame
-//            })
-//        }
+        if var screenShotFrame = firstStepViewController.screenShot?.frame {
+            screenShotFrame.origin.y -= 20
+            
+            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
+                firstStepViewController.screenShot?.alpha = 1.0
+                firstStepViewController.screenShot?.frame = screenShotFrame
+            })
+        }
     }
-    
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        return .lightContent
-//    }
     
     private func newPageViewController(page: String) -> UIViewController {
         return UIStoryboard(name: DBSROnboardingViewController.storyboardName, bundle: nil).instantiateViewController(withIdentifier: "\(page)ViewController")
