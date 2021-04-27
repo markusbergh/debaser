@@ -1,5 +1,5 @@
-Nostalgia
-=========
+Debaser iOS
+===========
 
 This application for iOS uses Debaser's open public API to list upcoming concerts in their venues in Stockholm. 
 
