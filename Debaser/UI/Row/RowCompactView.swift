@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RowCompactView: View {
     @EnvironmentObject var store: AppStore
-    @StateObject var viewModel = RowViewViewModel()
+    @StateObject var viewModel = ImageViewModel()
 
     @State private var isShowingDetailView = false
 
@@ -97,7 +97,7 @@ struct RowCompactView: View {
 
 struct RowCompactImageView: View {
     @EnvironmentObject var store: AppStore
-    @EnvironmentObject var viewModel: RowViewViewModel
+    @EnvironmentObject var viewModel: ImageViewModel
     @State private var opacity: Double = 0
 
     var mediaHeight: CGFloat?

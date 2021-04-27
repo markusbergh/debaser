@@ -154,7 +154,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
     // MARK: - Authenticaion Delegate
 
     // After a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
-    internal func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController!) {
+    internal func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController) {
         print("[SpotifyService]: User is authenticated")
 
         isLoggedIn = true
@@ -168,7 +168,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
 
     // MARK: - Track player Delegate
 
-    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didChangePosition position: TimeInterval) {
+    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePosition position: TimeInterval) {
         guard let player = self.player else { return }
 
         // Get progress
@@ -183,15 +183,15 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
         NotificationCenter.default.post(name: Notification.Name(rawValue: "spotifyStreamDidChangePosition"), object: metaDurationDict)
     }
 
-    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStartPlayingTrack trackUri: String!) {
+    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStartPlayingTrack trackUri: String) {
         print("[SpotifyService]: didStartPlayingTrack", trackUri)
     }
 
-    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController!, didStopPlayingTrack trackUri: String!) {
+    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStopPlayingTrack trackUri: String) {
         print("[SpotifyService]: didStopPlayingTrack", trackUri)
     }
 
-    internal func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController!) {
+    internal func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
         print("[SpotifyService]: audioStreamingDidLogout")
     }
 

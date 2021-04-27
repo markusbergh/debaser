@@ -8,32 +8,32 @@
 import Foundation
 
 struct EventViewModel: Codable, Hashable, Identifiable {
+    static let titleRegexPattern = #"\S[^->|]+[^ \W]."#
+    static let admissionRegexPattern = #"\d{1,3} kr"#
+    static let ageRegexPattern = #"\d{1,2} år"#
+    static let openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
+    static let openRegexAdditionalPattern = #"\d{1,2}"#
+    
     var id: String = ""
     var title: String = "" {
         didSet {
-            title = title.replacingOccurrences(of: "&amp;", with: "&")
-                .replacingOccurrences(of: "&gt;", with: ">")
+            title = trimWithObscureCharacters(title)
 
-            guard let trimmedTitle = trim(value: &title, withRegex: "\\S[^->|]+[^ \\W].") else {
+            guard let parsed = parse(value: &title, withRegex: EventViewModel.titleRegexPattern) else {
                 return
             }
             
-            title = trimmedTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            title = parsed.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
     var subHeader: String = "" {
         didSet {
-            subHeader = subHeader.replacingOccurrences(of: "&amp;", with: "&")
-                .replacingOccurrences(of: "&gt;", with: ">")
-                .replacingOccurrences(of: "&nbsp;", with: " ")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
+            subHeader = trimWithObscureCharacters(subHeader)
         }
     }
     var description: String = "" {
         didSet {
-            description = description.replacingOccurrences(of: "&amp;", with: "&")
-                .replacingOccurrences(of: "&gt;", with: ">")
-                .replacingOccurrences(of: "&nbsp;", with: " ")
+            description = trimWithObscureCharacters(description)
         }
     }
     var date: String = ""
@@ -43,23 +43,23 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         didSet {
             var lowerAdmission = admission.lowercased()
 
-            guard let trimmedAdmission = trim(value: &lowerAdmission, withRegex: "\\d{1,3} kr") else {
+            guard let parsedValue = parse(value: &lowerAdmission, withRegex: EventViewModel.admissionRegexPattern) else {
                 // Quick and dirty check if admission might be for free
-                if admission.contains("Fri") {
+                if lowerAdmission.contains("fri") {
                     isFreeAdmission = true
                 }
                 
                 return
             }
             
-            admission = trimmedAdmission
+            admission = parsedValue
         }
     }
     var ageLimit: String = "" {
         didSet {
             ageLimit = ageLimit.lowercased()
             
-            guard let trimmedAgeLimit = trim(value: &ageLimit, withRegex: "\\d{1,2}") else {
+            guard let parsedValue = parse(value: &ageLimit, withRegex: EventViewModel.ageRegexPattern) else {
                 return
             }
             
@@ -69,23 +69,25 @@ struct EventViewModel: Codable, Hashable, Identifiable {
                 return String(format: localizedAgeLimit, value)
             }
             
-            ageLimit = formattedAgeLimit(trimmedAgeLimit)
+            // Needs a formatted string with value
+            ageLimit = formattedAgeLimit(parsedValue)
         }
     }
     var open: String = "" {
         didSet {
-            guard let trimmedOpen = trim(value: &open, withRegex: "\\d{1,2}[.:]\\d{1,2}") else {
-                // Try and parse differently
-                guard let trimmedOpen = trim(value: &open, withRegex: "\\d{1,2}") else {
+            guard let parsedValue = parse(value: &open, withRegex: EventViewModel.openRegexPattern) else {
+                
+                // I still do not trust you, try and parse once more
+                guard let parsedValue = parse(value: &open, withRegex: EventViewModel.openRegexAdditionalPattern) else {
                     return
                 }
             
-                open = "\(trimmedOpen):00"
+                open = "\(parsedValue):00"
         
                 return
             }
             
-            open = trimmedOpen.replacingOccurrences(of: ".", with: ":")
+            open = parsedValue.replacingOccurrences(of: ".", with: ":")
         }
     }
     var slug: String?
@@ -117,7 +119,7 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         ticketUrl = event.ticketUrl
     }
     
-    private func trim(value: inout String, withRegex regex: String) -> String? {
+    private func parse(value: inout String, withRegex regex: String) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)
         let regex = try! NSRegularExpression(pattern: regex)
         
@@ -127,6 +129,13 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         }
         
         return String(value[stringRange])
+    }
+    
+    private func trimWithObscureCharacters(_ value: String) -> String {
+        return value.replacingOccurrences(of: "&amp;", with: "&")
+            .replacingOccurrences(of: "&gt;", with: ">")
+            .replacingOccurrences(of: "&nbsp;", with: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
 

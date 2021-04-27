@@ -10,7 +10,7 @@ import SwiftUI
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var store: AppStore
-    @StateObject var viewModel = DetailViewViewModel()
+    @StateObject var viewModel = ImageViewModel()
     
     var event: EventViewModel
     var canNavigateBack: Bool
@@ -158,7 +158,7 @@ struct DetailSpotifyPlayerView: View {
 // MARK: Top image
 
 struct DetailTopImageView: View {
-    @EnvironmentObject var viewModel: DetailViewViewModel
+    @EnvironmentObject var viewModel: ImageViewModel
     
     var body: some View {
         GeometryReader { geometry -> DetailImageView in

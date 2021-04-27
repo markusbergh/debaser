@@ -42,7 +42,6 @@
 		85616EDE262992E50018C955 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85616EDD262992E50018C955 /* ListHeaderView.swift */; };
 		856926C7260BE234004B1761 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926C6260BE234004B1761 /* Event.swift */; };
 		856926D0260BE24B004B1761 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926CF260BE24B004B1761 /* EventService.swift */; };
-		856926D6260BE9A2004B1761 /* ListViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926D5260BE9A2004B1761 /* ListViewViewModel.swift */; };
 		856926DF260BE9B2004B1761 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926DE260BE9B2004B1761 /* ListView.swift */; };
 		858E1E0226346E6100C3E941 /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
 		858E1E0B2634860C00C3E941 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E1E0A2634860C00C3E941 /* WebView.swift */; };
@@ -77,20 +76,18 @@
 		85B5CDDE261EFC1E00A55398 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */; };
 		85B5CDE3261F0F0800A55398 /* RowCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDE2261F0F0800A55398 /* RowCompactView.swift */; };
 		85BC0B27261658D600589240 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B26261658D600589240 /* RowView.swift */; };
-		85BC0B2C2616592600589240 /* RowViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* RowViewViewModel.swift */; };
+		85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* ImageViewModel.swift */; };
 		85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */; };
 		85D7D7F82619F4550073E3BA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D7D7F72619F4550073E3BA /* DetailView.swift */; };
 		85D7D8022619F52C0073E3BA /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D7D8012619F52C0073E3BA /* ImageLoader.swift */; };
 		85EA85A92620FD6900F6D93A /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EA85A82620FD6900F6D93A /* TabBar.swift */; };
 		85EEAB22262B25F70000B85E /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEAB21262B25F70000B85E /* EventViewModel.swift */; };
-		85EEB96126203C1F00DFC238 /* DetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEB96026203C1F00DFC238 /* DetailViewViewModel.swift */; };
 		85EEB96626203FDB00DFC238 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEB96526203FDB00DFC238 /* RoundedCorner.swift */; };
 		85EEB96B2620404000DFC238 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEB96A2620404000DFC238 /* View+Extension.swift */; };
 		85FCAF11263723B800A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */; };
 		85FCAF12263723B800A0BC89 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */; };
 		85FCAF13263723B800A0BC89 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */; };
 		85FCAF15263723FA00A0BC89 /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF14263723FA00A0BC89 /* SpotifyService.swift */; };
-		85FCAF242637286F00A0BC89 /* SettingsSpotifyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */; };
 		85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */; };
 		85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */; };
 		85FCAF3D26375F4B00A0BC89 /* DetailViewStreamProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF3C26375F4B00A0BC89 /* DetailViewStreamProgress.swift */; };
@@ -177,7 +174,6 @@
 		85616EDD262992E50018C955 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		856926C6260BE234004B1761 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		856926CF260BE24B004B1761 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
-		856926D5260BE9A2004B1761 /* ListViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewViewModel.swift; sourceTree = "<group>"; };
 		856926DE260BE9B2004B1761 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		858E1E0126346E6100C3E941 /* Debaser.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debaser.plist; sourceTree = "<group>"; };
 		858E1E0A2634860C00C3E941 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -206,13 +202,12 @@
 		85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		85B5CDE2261F0F0800A55398 /* RowCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCompactView.swift; sourceTree = "<group>"; };
 		85BC0B26261658D600589240 /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowView.swift; sourceTree = "<group>"; };
-		85BC0B2B2616592600589240 /* RowViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowViewViewModel.swift; sourceTree = "<group>"; };
+		85BC0B2B2616592600589240 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
 		85D7D7F72619F4550073E3BA /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		85D7D8012619F52C0073E3BA /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		85EA85A82620FD6900F6D93A /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		85EEAB21262B25F70000B85E /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
-		85EEB96026203C1F00DFC238 /* DetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewViewModel.swift; sourceTree = "<group>"; };
 		85EEB96526203FDB00DFC238 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
 		85EEB96A2620404000DFC238 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyAudioPlayback.framework; sourceTree = "<group>"; };
@@ -220,7 +215,6 @@
 		85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyMetadata.framework; sourceTree = "<group>"; };
 		85FCAF14263723FA00A0BC89 /* SpotifyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
 		85FCAF1C2637246700A0BC89 /* Debaser-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Debaser-Bridging-Header.h"; sourceTree = "<group>"; };
-		85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSpotifyViewModel.swift; sourceTree = "<group>"; };
 		85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyActions.swift; sourceTree = "<group>"; };
 		85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReducer.swift; sourceTree = "<group>"; };
 		85FCAF3C26375F4B00A0BC89 /* DetailViewStreamProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewStreamProgress.swift; sourceTree = "<group>"; };
@@ -419,6 +413,15 @@
 			path = DebaserUITests;
 			sourceTree = "<group>";
 		};
+		85639D1A26389C890098465C /* Row */ = {
+			isa = PBXGroup;
+			children = (
+				85BC0B26261658D600589240 /* RowView.swift */,
+				85B5CDE2261F0F0800A55398 /* RowCompactView.swift */,
+			);
+			path = Row;
+			sourceTree = "<group>";
+		};
 		856926C5260BE229004B1761 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,11 +442,8 @@
 		856926D4260BE978004B1761 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				856926D5260BE9A2004B1761 /* ListViewViewModel.swift */,
-				85BC0B2B2616592600589240 /* RowViewViewModel.swift */,
-				85EEB96026203C1F00DFC238 /* DetailViewViewModel.swift */,
+				85BC0B2B2616592600589240 /* ImageViewModel.swift */,
 				85EEAB21262B25F70000B85E /* EventViewModel.swift */,
-				85FCAF232637286F00A0BC89 /* SettingsSpotifyViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -454,9 +454,10 @@
 				858E1DF726346AE500C3E941 /* Separator */,
 				858E1DF626346ADB00C3E941 /* TabBar */,
 				85C2ED91262AE7C900CA5CDF /* List */,
+				85639D1A26389C890098465C /* Row */,
 				85D7D7FF2619F4F30073E3BA /* Detail */,
 				85A8BAE42634C29300E591A1 /* Settings */,
-				85D7D7FE2619F4D00073E3BA /* Components */,
+				85D7D7FE2619F4D00073E3BA /* Pager */,
 				85D7D8002619F5150073E3BA /* Helpers */,
 				855310D2260C8BFA00F0D5F7 /* EventListView.swift */,
 				850FB557260CB4DD001AD034 /* FavouritesView.swift */,
@@ -559,8 +560,6 @@
 			children = (
 				856926DE260BE9B2004B1761 /* ListView.swift */,
 				85616EDD262992E50018C955 /* ListHeaderView.swift */,
-				85BC0B26261658D600589240 /* RowView.swift */,
-				85B5CDE2261F0F0800A55398 /* RowCompactView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -584,12 +583,12 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		85D7D7FE2619F4D00073E3BA /* Components */ = {
+		85D7D7FE2619F4D00073E3BA /* Pager */ = {
 			isa = PBXGroup;
 			children = (
 				855B1F85261E686F001E206F /* PagerView.swift */,
 			);
-			path = Components;
+			path = Pager;
 			sourceTree = "<group>";
 		};
 		85D7D7FF2619F4F30073E3BA /* Detail */ = {
@@ -830,7 +829,6 @@
 				855B1F86261E686F001E206F /* PagerView.swift in Sources */,
 				85EA85A92620FD6900F6D93A /* TabBar.swift in Sources */,
 				85EEB96626203FDB00DFC238 /* RoundedCorner.swift in Sources */,
-				85EEB96126203C1F00DFC238 /* DetailViewViewModel.swift in Sources */,
 				85D7D7F82619F4550073E3BA /* DetailView.swift in Sources */,
 				85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */,
 				85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */,
@@ -850,10 +848,8 @@
 				8508E14C2634E1E0007FA049 /* DBSROnboardingLabel.swift in Sources */,
 				851F7A042635E71700806FF8 /* DetailFavouriteButtonView.swift in Sources */,
 				85BC0B27261658D600589240 /* RowView.swift in Sources */,
-				856926D6260BE9A2004B1761 /* ListViewViewModel.swift in Sources */,
 				855B1A2E25FB5B5C00C7A219 /* DebaserApp.swift in Sources */,
-				85FCAF242637286F00A0BC89 /* SettingsSpotifyViewModel.swift in Sources */,
-				85BC0B2C2616592600589240 /* RowViewViewModel.swift in Sources */,
+				85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */,
 				8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */,
 				85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */,
 				85FCAF3D26375F4B00A0BC89 /* DetailViewStreamProgress.swift in Sources */,
