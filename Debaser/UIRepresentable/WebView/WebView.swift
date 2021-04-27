@@ -18,7 +18,6 @@ struct WebView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<WebView>) -> SFSafariViewController {
         let safariView = SFSafariViewController(url: url)
-        safariView.preferredBarTintColor = .red
         safariView.delegate = context.coordinator
         
         return safariView

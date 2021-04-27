@@ -110,9 +110,6 @@ private extension DebaserApp {
             // Fire away notification
             let notificationName = Notification.Name(rawValue: SpotifyNotification.LoginSuccessful.rawValue)
             NotificationCenter.default.post(name: notificationName, object: nil)
-            
-            // Dispatch
-            store.dispatch(withAction: .spotify(.requestLoginComplete))
         })
     }
 }

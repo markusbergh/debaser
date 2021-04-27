@@ -64,25 +64,22 @@ struct ListView: View {
                     currentSearch: searchBinding
                 )
                 
-                PagerView()
-                    .frame(height: 175)
-                    .cornerRadius(15)
-                    .transition(.opacity)
-
-                Spacer().frame(height: 30)
-                    
-                VStack(spacing: 10) {
-                    HStack {
-                        Text("Veckans konserter")
-                            .font(.system(size: 17))
-                        Spacer()
+                if searchText.isEmpty {
+                    Spacer().frame(height: 30)
+                        
+                    VStack(spacing: 10) {
+                        HStack {
+                            Text("Veckans konserter")
+                                .font(.system(size: 17))
+                            Spacer()
+                        }
                     }
+                    
+                    Divider()
+                        .background(Color.listDivider)
+                        .padding(.top, 15)
+                        .padding(.bottom, 15)
                 }
-                
-                Divider()
-                    .background(Color.listDivider)
-                    .padding(.top, 15)
-                    .padding(.bottom, 15)
                 
                 VStack(spacing: 10) {
                     HStack {

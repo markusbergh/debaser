@@ -172,6 +172,7 @@ struct SettingsSectionSpotify: View {
                     Spacer()
 
                     Text(spotifyLabel)
+                        .foregroundColor(store.state.spotify.isLoggedIn ? .green : .primary)
                 }
             }
         }

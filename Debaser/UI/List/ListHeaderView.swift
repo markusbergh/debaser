@@ -46,6 +46,7 @@ struct ListHeaderView: View {
                 .padding(.bottom, 10)
             
             TextField(searchPlaceholder, text: $currentSearch)
+                .disableAutocorrection(true)
                 .padding()
                 .cornerRadius(10)
                 .overlay(
@@ -54,53 +55,60 @@ struct ListHeaderView: View {
                 )
                 .padding(.bottom, 20)
             
-            VStack(spacing: 0) {
-                HStack(alignment: .lastTextBaseline) {
-                    Text(Date(), formatter: dateFormatter)
-                        .font(.system(size: 17))
-                    
-                    Divider()
-                        .background(Color.listDivider)
-                        .padding(.leading, 5)
-                        .padding(.trailing, 5)
-                        .frame(maxHeight: 50)
-                    
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text(label)
-                            .font(.system(size: 15))
-                        Text(headline)
-                            .font(.system(size: 29, weight: .bold))
-                    }
-                    
-                    Spacer()
-                    
-                    VStack(alignment: .trailing, spacing: 5) {
-                        Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .transition(
-                                .asymmetric(
-                                    insertion: AnyTransition.offset(x: -10, y: 0)
-                                        .combined(
-                                            with: AnyTransition.opacity.animation(
-                                                Animation.easeIn(duration: 0.25).delay(0.25)
+            if currentSearch.isEmpty {
+                VStack(spacing: 10) {
+                    HStack(alignment: .lastTextBaseline) {
+                        Text(Date(), formatter: dateFormatter)
+                            .font(.system(size: 17))
+                        
+                        Divider()
+                            .background(Color.listDivider)
+                            .padding(.leading, 5)
+                            .padding(.trailing, 5)
+                            .frame(maxHeight: 50)
+                        
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(label)
+                                .font(.system(size: 15))
+                            Text(headline)
+                                .font(.system(size: 29, weight: .bold))
+                        }
+                        
+                        Spacer()
+                        
+                        VStack(alignment: .trailing, spacing: 5) {
+                            Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .transition(
+                                    .asymmetric(
+                                        insertion: AnyTransition.offset(x: -10, y: 0)
+                                            .combined(
+                                                with: AnyTransition.opacity.animation(
+                                                    Animation.easeIn(duration: 0.25).delay(0.25)
+                                                )
+                                            ),
+                                        removal: AnyTransition.offset(x: 10, y: 0)
+                                            .combined(
+                                                with: AnyTransition.opacity.animation(
+                                                    .easeOut(duration: 0.25)
+                                                )
                                             )
-                                        ),
-                                    removal: AnyTransition.offset(x: 10, y: 0)
-                                        .combined(
-                                            with: AnyTransition.opacity.animation(
-                                                .easeOut(duration: 0.25)
-                                            )
-                                        )
+                                    )
                                 )
-                            )
-                            .id("\(isDarkMode)")
+                                .id("\(isDarkMode)")
 
-                        Toggle("", isOn: $isDarkMode.animation())
-                            .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
-                            .frame(width: 90)
-                            .offset(y: 2)
+                            Toggle("", isOn: $isDarkMode.animation())
+                                .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
+                                .frame(width: 90)
+                                .offset(y: 2)
+                        }
                     }
+                    
+                    PagerView()
+                        .frame(height: 175)
+                        .cornerRadius(15)
+                        .transition(.opacity)
                 }
             }
         }

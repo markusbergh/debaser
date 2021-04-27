@@ -114,6 +114,7 @@ struct SettingsSpotifyView: View {
                         toggleLabel = "Settings.Spotify.On"
                     }
                 }
+                .ignoresSafeArea()
             }
         }
         .navigationTitle("Spotify")

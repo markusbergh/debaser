@@ -163,7 +163,9 @@ struct DetailSpotifyPlayerView: View {
                 
                 HStack {
                     Text("Powered by")
-                        .font(.system(size: 15))
+                        .fontWeight(.heavy)
+                        .textCase(.uppercase)
+                        .font(.system(size: 11))
                     
                     Image("SpotifyLogotype")
                         .resizable()
