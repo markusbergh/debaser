@@ -10,8 +10,6 @@ import SwiftUI
 struct FavouritesView: View {
     @EnvironmentObject var store: AppStore
     
-    @State private var degress = 0.0
-    
     private var emptyLabel: LocalizedStringKey {
         return "Favourites.Empty"
     }

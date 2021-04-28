@@ -112,8 +112,8 @@ struct SettingsView: View {
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
 
                     Section(header: Text("Layout")) {
-                        Toggle(imagesLabel, isOn: showImages)
                         Toggle(cancelledLabel, isOn: hideCancelled)
+                        Toggle(imagesLabel, isOn: showImages)
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
 
