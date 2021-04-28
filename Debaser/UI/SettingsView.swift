@@ -14,8 +14,11 @@ struct SettingsView: View {
     private var titleLabel: LocalizedStringKey {
         return "Settings"
     }
-    private var darkModeLabel: LocalizedStringKey {
-        return "Settings.Layout.DarkMode"
+    private var themeLabel: LocalizedStringKey {
+        return "Settings.Theme"
+    }
+    private var themeToggleLabel: LocalizedStringKey {
+        return darkMode.wrappedValue ? "Settings.Theme.DarkMode" : "Settings.Theme.NormalMode"
     }
     private var imagesLabel: LocalizedStringKey {
         return "Settings.Layout.Images"
@@ -40,11 +43,29 @@ struct SettingsView: View {
                 Group {
                     SettingsSectionAbout()
                     SettingsSectionSpotify()
+                    
+                    Section(header: Text(themeLabel)) {
+                        Toggle("Standard", isOn: systemColorScheme)
+                
+                        Toggle(isOn: darkMode.animation(.easeInOut)) {
+                            HStack {
+                                Group {
+                                    Text(themeToggleLabel)
+
+                                    Image(systemName: darkMode.wrappedValue ? "moon.fill" : "sun.max")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                }
+                                .opacity(systemColorScheme.wrappedValue ?  0.5 : 1.0)
+                            }
+                        }
+                        .disabled(systemColorScheme.wrappedValue)
+                    }
+                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
 
                     Section(header: Text("Layout")) {
-                        Toggle(darkModeLabel, isOn: darkMode())
-                        Toggle(imagesLabel, isOn: showImages())
-                        Toggle(cancelledLabel, isOn: hideCancelled())
+                        Toggle(imagesLabel, isOn: showImages)
+                        Toggle(cancelledLabel, isOn: hideCancelled)
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
 
@@ -72,21 +93,32 @@ struct SettingsView: View {
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    private func darkMode() -> Binding<Bool> {
-        let darkMode = Binding<Bool>(
+    private var systemColorScheme: Binding<Bool> {
+        return Binding<Bool>(
+            get: {
+                return store.state.settings.systemColorScheme.value
+            },
+            set: {
+                store.dispatch(withAction:.settings(.setOverrideColorScheme($0)))
+            }
+        )
+    }
+    
+    private var darkMode: Binding<Bool> {
+        return Binding<Bool>(
             get: {
                 return store.state.settings.darkMode.value
             },
-            set: {
-                store.dispatch(withAction:.settings(.setDarkMode($0)))
+            set: { newValue in
+                withAnimation {
+                    store.dispatch(withAction:.settings(.setDarkMode(newValue)))
+                }
             }
         )
-
-        return darkMode
     }
-
-    private func showImages() -> Binding<Bool> {
-        let showImages = Binding<Bool>(
+    
+    private var showImages: Binding<Bool> {
+        return Binding<Bool>(
             get: {
                 return store.state.settings.showImages.value
             },
@@ -94,12 +126,10 @@ struct SettingsView: View {
                 store.dispatch(withAction: .settings(.setShowImages($0)))
             }
         )
-
-        return showImages
     }
     
-    private func hideCancelled() -> Binding<Bool> {
-        let showImages = Binding<Bool>(
+    private var hideCancelled: Binding<Bool> {
+        return Binding<Bool>(
             get: {
                 return store.state.settings.hideCancelled.value
             },
@@ -107,8 +137,6 @@ struct SettingsView: View {
                 store.dispatch(withAction: .settings(.setHideCancelled($0)))
             }
         )
-
-        return showImages
     }
 }
 

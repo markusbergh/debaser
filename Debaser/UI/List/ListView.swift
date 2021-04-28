@@ -64,14 +64,36 @@ struct ListView: View {
                 
                 if searchText.isEmpty {
                     Spacer().frame(height: 30)
-                        
+                    
+                    PagerView()
+                        .frame(height: 175)
+                        .cornerRadius(15)
+                        .transition(.opacity)
+                    
+                    /*
                     VStack(spacing: 10) {
                         HStack {
                             Text("Veckans konserter")
                                 .font(.system(size: 17))
                             Spacer()
                         }
+                        
+                        LazyVGrid(columns: gridLayout, spacing: 30) {
+                            let events = getWeekEvents()
+                            
+                            ForEach(0..<events.count, id:\.self) { idx in
+                                let event = events[idx]
+                                
+                                RowCompactView(
+                                    event: event,
+                                    mediaHeight: 150
+                                )
+                                .frame(maxHeight: .infinity, alignment: .top)
+                                .id(event.id)
+                            }
+                        }
                     }
+                    */
                     
                     Divider()
                         .background(Color.listDivider)
@@ -133,16 +155,43 @@ struct ListView: View {
         var events = store.state.list.events
         
         if store.state.settings.hideCancelled.value == true {
-            events = events.filter({ event -> Bool in
-                guard let slug = event.slug else {
-                    return true
-                }
-                
-                return !slug.contains("cancelled")
-            })
+            events = filterHideCancelledEvents(events: events)
         }
 
         return events
+    }
+    
+    private func getWeekEvents() -> [EventViewModel] {
+        var events = store.state.list.events
+        
+        if store.state.settings.hideCancelled.value == true {
+            events = filterHideCancelledEvents(events: events)
+        }
+        
+        events = events.filter({ event -> Bool in
+            let calendar = Calendar.current
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            if let date = dateFormatter.date(from: event.date) {
+                return calendar.isDateInThisWeek(date)
+            }
+            
+            return true
+        })
+        
+        return events
+    }
+    
+    private func filterHideCancelledEvents(events: [EventViewModel]) -> [EventViewModel] {
+        return events.filter({ event -> Bool in
+            guard let slug = event.slug else {
+                return true
+            }
+            
+            return !slug.contains("cancelled")
+        })
     }
     
     private func darkMode(for state: SettingsState) -> Binding<Bool> {

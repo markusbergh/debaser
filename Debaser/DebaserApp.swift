@@ -25,7 +25,7 @@ struct DebaserApp: App {
     
     @StateObject var tabViewRouter = TabViewRouter()
     
-    @State private var isDarkMode: Bool = false
+    @State private var colorScheme: ColorScheme = .light
     @State private var eventReceivedId: String = ""
     @State private var eventReceived: EventViewModel? = nil
     
@@ -40,7 +40,10 @@ struct DebaserApp: App {
         WindowGroup {
             ContentView()
                 .onReceive(store.state.settings.darkMode) { value in
-                    isDarkMode = value
+                    switch value {
+                    case true: colorScheme = .dark
+                    case false: colorScheme = .light
+                    }
                 }
                 .onAppear {
                     store.dispatch(withAction: .spotify(.initialize))
@@ -51,7 +54,7 @@ struct DebaserApp: App {
                 }
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)
-                .preferredColorScheme(isDarkMode ? .dark : .light)
+                .preferredColorScheme(store.state.settings.systemColorScheme.value ? nil : colorScheme )
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(withAction: .spotify(.requestLoginComplete))
                 }
@@ -66,7 +69,7 @@ struct DebaserApp: App {
                 }
                 .sheet(item: $eventReceived) { event in
                     DetailView(event: event, canNavigateBack: false)
-                        .preferredColorScheme(isDarkMode ? .dark : .light)
+                        .preferredColorScheme(colorScheme)
                         .environmentObject(store)
                 }
         }

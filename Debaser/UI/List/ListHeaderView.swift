@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ListHeaderView: View {
+    @EnvironmentObject var store: AppStore
+
     private var searchPlaceholder: LocalizedStringKey {
         return "List.Search"
     }
@@ -82,15 +84,15 @@ struct ListHeaderView: View {
                                 .frame(width: 20, height: 20)
                                 .transition(
                                     .asymmetric(
-                                        insertion: AnyTransition.offset(x: -10, y: 0)
+                                        insertion: .offset(x: -10, y: 0)
                                             .combined(
-                                                with: AnyTransition.opacity.animation(
-                                                    Animation.easeIn(duration: 0.25).delay(0.25)
+                                                with: .opacity.animation(
+                                                    .easeIn(duration: 0.25).delay(0.25)
                                                 )
                                             ),
-                                        removal: AnyTransition.offset(x: 10, y: 0)
+                                        removal: .offset(x: 10, y: 0)
                                             .combined(
-                                                with: AnyTransition.opacity.animation(
+                                                with: .opacity.animation(
                                                     .easeOut(duration: 0.25)
                                                 )
                                             )
@@ -102,13 +104,9 @@ struct ListHeaderView: View {
                                 .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
                                 .frame(width: 90)
                                 .offset(y: 2)
+                                .disabled(store.state.settings.systemColorScheme.value)
                         }
                     }
-                    
-                    PagerView()
-                        .frame(height: 175)
-                        .cornerRadius(15)
-                        .transition(.opacity)
                 }
             }
         }

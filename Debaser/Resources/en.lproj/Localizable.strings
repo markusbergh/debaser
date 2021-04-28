@@ -50,6 +50,9 @@
 "Settings.Layout.Images" = "Show images";
 "Settings.Layout.DarkMode" = "Dark mode";
 "Settings.Layout.HideCancelled" = "Hide cancelled events";
+"Settings.Theme" = "Theme";
+"Settings.Theme.DarkMode" = "Dark";
+"Settings.Theme.NormalMode" = "Normal";
 "Settings.Onboarding" = "Onboarding";
 "Settings.Onboarding.Show" = "Show onboarding";
 

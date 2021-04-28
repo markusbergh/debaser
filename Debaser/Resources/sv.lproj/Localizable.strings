@@ -50,6 +50,9 @@
 "Settings.Layout.Images" = "Visa bilder";
 "Settings.Layout.DarkMode" = "Mörkt tema";
 "Settings.Layout.HideCancelled" = "Dölj inställda event";
+"Settings.Theme" = "Tema";
+"Settings.Theme.DarkMode" = "Mörk";
+"Settings.Theme.NormalMode" = "Normal";
 "Settings.Onboarding" = "Startguide";
 "Settings.Onboarding.Show" = "Visa startguide";
 

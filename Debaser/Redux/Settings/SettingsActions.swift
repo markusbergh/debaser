@@ -8,6 +8,8 @@
 import Foundation
 
 enum SettingsAction {
+    case getOverrideColorScheme
+    case setOverrideColorScheme(Bool)
     case getDarkMode
     case setDarkMode(Bool)
     case getShowImages

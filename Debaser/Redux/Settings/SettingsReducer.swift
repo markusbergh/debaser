@@ -12,6 +12,7 @@ import Foundation
 
 struct SettingsState {
     var showImages = CurrentValueSubject<Bool, Never>(true)
+    var systemColorScheme = CurrentValueSubject<Bool, Never>(true)
     var darkMode = CurrentValueSubject<Bool, Never>(false)
     var hideCancelled = CurrentValueSubject<Bool, Never>(false)
     var spotifyConnection: [String: Any]?
@@ -23,8 +24,14 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
     let state = state
     
     switch action {
+    case .getOverrideColorScheme:
+        let overrideColorScheme = UserDefaults.standard.object(forKey: "overrideColorScheme") as? Bool ?? false
+        state.systemColorScheme.send(overrideColorScheme)
+    case .setOverrideColorScheme(let isOn):
+        saveUserDefaults(value: isOn, forKey: "overrideColorScheme")
+        state.systemColorScheme.send(isOn)
     case .getDarkMode:
-        let darkMode = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? true
+        let darkMode = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? false
         state.darkMode.send(darkMode)
     case .setDarkMode(let isOn):
         saveUserDefaults(value: isOn, forKey: "darkMode")
