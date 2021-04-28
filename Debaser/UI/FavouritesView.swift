@@ -10,6 +10,8 @@ import SwiftUI
 struct FavouritesView: View {
     @EnvironmentObject var store: AppStore
     
+    @State private var degress = 0.0
+    
     private var emptyLabel: LocalizedStringKey {
         return "Favourites.Empty"
     }
@@ -37,14 +39,14 @@ struct FavouritesView: View {
                                 
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 40, height: 40)
+                                    .frame(width: 35, height: 35)
                                     .overlay(
                                         Image(systemName: "heart.fill")
                                             .resizable()
-                                            .frame(width: 20, height: 20)
+                                            .frame(width: 16, height: 16)
                                             .foregroundColor(.red)
                                     )
-                                    .offset(x: -20, y: 25)
+                                    .offset(x: -25, y: 30)
                             }
                         }
                     }

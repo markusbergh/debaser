@@ -51,23 +51,16 @@ struct RowView: View {
                             .padding(.top, 30)
                             .padding(.leading, 25)
                     }
+                    
+                    HStack(spacing: 10) {
+                        Text(event.listDate)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
 
-                    HStack(spacing: 15) {
-                        DetailMetaView(
-                            image: "person",
-                            label: "20 år",
-                            backgroundColor: .detailViewMetaPrimary
-                        )
-                        DetailMetaView(
-                            image: "banknote",
-                            label: "150 kr",
-                            backgroundColor: .detailViewMetaSecondary
-                        )
-                        DetailMetaView(
-                            image: "clock",
-                            label: "18:00",
-                            backgroundColor: .detailViewMetaTertiary
-                        )
+                        Spacer()
+
+                        Text(event.venue)
+                            .foregroundColor(.white)
                     }
                     .padding()
                 }

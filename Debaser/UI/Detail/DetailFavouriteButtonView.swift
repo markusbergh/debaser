@@ -10,12 +10,41 @@ import SwiftUI
 struct DetailFavouriteButtonView: View {
     @EnvironmentObject var store: AppStore
     @State private var isFavourite = false
+
+    func transition(insertionFor favourite: Bool) -> AnyTransition {
+        let duration: Double = 0.5
+        let anim: Animation = .easeInOut(duration: duration)
+        
+        if !favourite {
+            return .identity
+        }
+
+        return .scale(scale: 0).animation(anim).combined(
+            with: .opacity.animation(anim)
+        )
+    }
+    
+    func transition(removalFor favourite: Bool) -> AnyTransition {
+        let duration: Double = 0.5
+        let anim: Animation = .easeInOut(duration: duration)
+        
+        if !favourite {
+            return .asymmetric(
+                insertion: .opacity.animation(anim),
+                removal: .opacity.animation(anim)
+            )
+        }
+        
+        return .scale.animation(anim)
+    }
     
     var event: EventViewModel
 
     var body: some View {
         Button(action: {
-            isFavourite.toggle()
+            withAnimation {
+                isFavourite.toggle()
+            }
             
             let generator = UISelectionFeedbackGenerator()
             generator.selectionChanged()
@@ -25,6 +54,13 @@ struct DetailFavouriteButtonView: View {
             Image(systemName: isFavourite ? "heart.fill" : "heart" )
                 .resizable()
                 .frame(width: 30, height: 30)
+                .transition(
+                    .asymmetric(
+                        insertion: transition(insertionFor: isFavourite),
+                        removal: transition(removalFor: isFavourite)
+                    )
+                )
+                .id("is_favourite_active_\(isFavourite)")
         }
         .frame(width: 60, height: 40)
         .foregroundColor(.red)
@@ -44,6 +80,7 @@ struct DetailFavouriteButtonView: View {
                 isFavourite = true
             }
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
