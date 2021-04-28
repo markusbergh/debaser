@@ -69,7 +69,7 @@ extension UIColor {
     /// Onboarding
     static let onboardingBackground = UIColor(named: "OnboardingBackground")
     static let onboardingText = UIColor(named: "OnboardingText")
-    static let onboardingSkipLabel = UIColor(named: "OnboardingSkipButtonLabel")
+    static let onboardingSkipLabel = UIColor(named: "OnboardingSkipLabel")
     static let onboardingSkipLabelHighlight = UIColor(named: "OnboardingSkipHighlight")
     static let onboardingCloseButton = UIColor(named: "OnboardingCloseButton")
     static let onboardingCloseButtonHighlight = UIColor(named: "OnboardingCloseButtonHighlight")
@@ -80,6 +80,8 @@ extension UIColor {
     static let onboardingSpotifyButtonLabel = UIColor(named: "OnboardingSpotifyButtonLabel")
     static let onboardingSpotifyButtonLabelHighlight = UIColor(named: "OnboardingSpotifyButtonLabelHighlight")
     static let onboardingScreenBackground = UIColor(named: "OnboardingScreenBackground")
+    static let onboardingPageControlColor = UIColor(named: "OnboardingPageControlColor")
+    static let onboardingPageControlActiveColor = UIColor(named: "OnboardingPageControlActiveColor")
     
     /// iMessage Extension
     static let iMessageLabelBackground = UIColor(named: "iMessageLabelBackground")

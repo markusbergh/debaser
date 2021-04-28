@@ -15,6 +15,7 @@ class DBSROnboardingStepViewController: UIViewController {
     
     var pageIndex = 0
     var isAnimated = false
+    var hasAppeared = false
     
     // MARK: Private
     

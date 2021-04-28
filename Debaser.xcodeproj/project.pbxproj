@@ -266,9 +266,9 @@
 			isa = PBXGroup;
 			children = (
 				85FCAF41263767BC00A0BC89 /* DetailViewStreamProgress */,
-				858E1E09263485F600C3E941 /* WebView */,
 				85303364262E1D4B00C93D1B /* Onboarding */,
 				85303368262E1D7F00C93D1B /* TitleView */,
+				858E1E09263485F600C3E941 /* WebView */,
 			);
 			path = UIRepresentable;
 			sourceTree = "<group>";

@@ -27,28 +27,59 @@ class DBSROnboardingViewController: UIViewController {
                 newPageViewController(page: "Page4")]
     }()
     
-    var usesDarkMode: Bool = false
+    var usesDarkMode = false
+    var hasAppeared = false
     
     // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         // Set dark theme
         overrideUserInterfaceStyle = usesDarkMode ? .dark : .light
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        hasAppeared = false
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if !hasAppeared {
+            // Add custom page controller
+            setupPageControl()
+            
+            // Add skip button
+            setupSkipButton()
+            
+            // Bring logotype forward
+            view.bringSubviewToFront(debaserLogotype)
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if !hasAppeared {
+            UserDefaults.standard.setValue(true, forKey: "seenOnboarding")
+            
+            guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
+            
+            if var screenShotFrame = firstStepViewController.screenShot?.frame {
+                screenShotFrame.origin.y -= 20
                 
-        // Add custom page controller
-        setupPageControl()
-        
-        // Add skip button
-        setupSkipButton()
-        
-        // Bring logotype forward
-        view.bringSubviewToFront(debaserLogotype)
+                UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
+                    firstStepViewController.screenShot?.alpha = 1.0
+                    firstStepViewController.screenShot?.frame = screenShotFrame
+                })
+            }
+            
+            // State
+            hasAppeared = true
+        }
     }
     
     private func setupPageControl() {
@@ -77,8 +108,8 @@ class DBSROnboardingViewController: UIViewController {
         // Add custom page control
         pageControl.currentPage = 0
         pageControl.numberOfPages = orderedViewControllers.count
-        //pageControl.pageIndicatorTintColor = UIColor.DBSRPalette.onboardingPageControlColor
-        //pageControl.currentPageIndicatorTintColor = UIColor.DBSRPalette.onboardingPageControlActiveColor
+        pageControl.pageIndicatorTintColor = UIColor.onboardingPageControlColor
+        pageControl.currentPageIndicatorTintColor = UIColor.onboardingPageControlActiveColor
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.isUserInteractionEnabled = false
         view.addSubview(pageControl)
@@ -103,23 +134,6 @@ class DBSROnboardingViewController: UIViewController {
             skipButton.centerYAnchor.constraint(equalTo: pageControl.centerYAnchor),
             skipButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        UserDefaults.standard.setValue(true, forKey: "seenOnboarding")
-        
-        guard let firstStepViewController = pageController.viewControllers?.first as? DBSROnboardingStepViewController else { return }
-        
-        if var screenShotFrame = firstStepViewController.screenShot?.frame {
-            screenShotFrame.origin.y -= 20
-            
-            UIView.animate(withDuration: 0.4, delay: 0, options: .curveEaseOut, animations: {
-                firstStepViewController.screenShot?.alpha = 1.0
-                firstStepViewController.screenShot?.frame = screenShotFrame
-            })
-        }
     }
     
     private func newPageViewController(page: String) -> UIViewController {

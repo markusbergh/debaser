@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uyq-yG-pis">
-    <device id="retina5_9" orientation="portrait" appearance="dark"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -54,10 +54,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5Z-gJ-mvL" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="189.66666666666663" width="315" height="433"/>
+                                <rect key="frame" x="30" y="181.33333333333334" width="315" height="449.33333333333326"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lyssna direkt via Spotify" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KGg-e5-igP" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="275" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -66,7 +66,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genom att koppla ditt Spotify-konto till Debaser kan du lyssna på artisten direkt i appen¹." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vl7-Bi-aqg" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="97.666666666666657" width="275" height="54"/>
+                                        <rect key="frame" x="20" y="113.99999999999997" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -75,9 +75,9 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kma-XD-FbW" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
+                                        <rect key="frame" x="20" y="183" width="275" height="200"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen1" translatesAutoresizingMaskIntoConstraints="NO" id="MF2-G8-mPv">
+                                            <imageView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen1" translatesAutoresizingMaskIntoConstraints="NO" id="MF2-G8-mPv">
                                                 <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="CZ0-OI-5er"/>
@@ -98,7 +98,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¹ Detta är endast möjligt för användare som har Premium-konto på Spotify." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="brp-Cw-MPx" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="25" y="376.66666666666674" width="265" height="31.333333333333314"/>
+                                        <rect key="frame" x="25" y="393" width="265" height="31.333333333333314"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -107,7 +107,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" name="ListRowBackground"/>
+                                <color key="backgroundColor" name="OnboardingContentBackground"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Vl7-Bi-aqg" firstAttribute="top" secondItem="KGg-e5-igP" secondAttribute="bottom" constant="10" id="7ln-0d-5Q0"/>
@@ -156,10 +156,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1X8-J9-c7V" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="210.33333333333334" width="315" height="391.66666666666663"/>
+                                <rect key="frame" x="30" y="202" width="315" height="408"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dela konserter med iMessage" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fyo-ZN-1Lx" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="275" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -168,7 +168,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Med tillägget till iMessage är det enkelt för dig att dela konserter med andra som du vill gå med." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9D-gf-jb7" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="97.666666666666657" width="275" height="54"/>
+                                        <rect key="frame" x="20" y="114" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -177,9 +177,9 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVn-5j-IT7" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
+                                        <rect key="frame" x="20" y="183" width="275" height="200"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen2" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-1O-YED">
+                                            <imageView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen2" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-1O-YED">
                                                 <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="7yx-xD-HkW"/>
@@ -200,7 +200,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="ListRowBackground"/>
+                                <color key="backgroundColor" name="OnboardingContentBackground"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Fyo-ZN-1Lx" firstAttribute="leading" secondItem="1X8-J9-c7V" secondAttribute="leading" constant="20" id="Ep8-Ur-6tF"/>
@@ -246,10 +246,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PSk-tM-fgi" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                <rect key="frame" x="30" y="210.33333333333334" width="315" height="391.66666666666663"/>
+                                <rect key="frame" x="30" y="202" width="315" height="408"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Håll koll på dina favoriter" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJ1-TP-tL0" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="275" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -258,7 +258,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Du kan enkelt hitta en spelning du är ute efter och spara ned den till din favoritlista så du inte missar den." lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4i-oq-Vsg" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="97.666666666666657" width="275" height="54"/>
+                                        <rect key="frame" x="20" y="114" width="275" height="54"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -267,9 +267,9 @@
                                         </userDefinedRuntimeAttributes>
                                     </label>
                                     <view opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="adS-09-hzF" customClass="DBSROnboardingView" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="166.66666666666663" width="275" height="200"/>
+                                        <rect key="frame" x="20" y="183" width="275" height="200"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen3" translatesAutoresizingMaskIntoConstraints="NO" id="n3h-Bl-s5D">
+                                            <imageView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="OnboardingScreen3" translatesAutoresizingMaskIntoConstraints="NO" id="n3h-Bl-s5D">
                                                 <rect key="frame" x="62.666666666666686" y="50" width="150" height="275"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="275" id="3ZS-ju-Rmj"/>
@@ -290,7 +290,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="ListRowBackground"/>
+                                <color key="backgroundColor" name="OnboardingContentBackground"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="N4i-oq-Vsg" firstAttribute="top" secondItem="aJ1-TP-tL0" secondAttribute="bottom" constant="10" id="2X3-Sd-a3l"/>
@@ -339,7 +339,7 @@
                                 <rect key="frame" x="30" y="193.66666666666663" width="315" height="425"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nästan klart! 🏄‍♀️ Hur vill du göra?" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVz-sl-cr1" customClass="DBSROnboardingLabel" customModule="Debaser" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="275" height="67.666666666666671"/>
+                                        <rect key="frame" x="20" y="20" width="275" height="84"/>
                                         <fontDescription key="fontDescription" name="DelaGothicOne-Regular" family="Dela Gothic One" pointSize="29"/>
                                         <color key="textColor" name="OnboardingText"/>
                                         <nil key="highlightedColor"/>
@@ -413,7 +413,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" name="ListRowBackground"/>
+                                <color key="backgroundColor" name="OnboardingContentBackground"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="425" id="1Zn-ca-FTK"/>
@@ -473,11 +473,8 @@
         <image name="OnboardingScreen2" width="880" height="1774"/>
         <image name="OnboardingScreen3" width="880" height="1774"/>
         <image name="SpotifyIcon" width="27" height="26"/>
-        <namedColor name="ListRowBackground">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="OnboardingBackground">
-            <color red="0.38823529411764707" green="0.82352941176470584" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.039215686274509803" green="0.72941176470588232" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingCloseButton">
             <color red="0.89999997615814209" green="0.89999997615814209" blue="0.89999997615814209" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -488,11 +485,14 @@
         <namedColor name="OnboardingCloseButtonLabelHighlight">
             <color red="0.12999999523162842" green="0.12999999523162842" blue="0.12999999523162842" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="OnboardingContentBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="OnboardingLogotypeTint">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingScreenBackground">
-            <color red="0.92100000381469727" green="0.92100000381469727" blue="0.92100000381469727" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.039215686274509803" green="0.72941176470588232" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OnboardingSpotifyButton">
             <color red="0.11764705882352941" green="0.84313725490196079" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
