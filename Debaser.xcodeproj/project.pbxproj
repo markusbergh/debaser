@@ -336,7 +336,7 @@
 		855090432621FDC1000C88BF /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				85C352DE2633419700520184 /* TabRouter */,
+				855090442621FDCB000C88BF /* TabViewRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -568,14 +568,6 @@
 				85616EDD262992E50018C955 /* ListHeaderView.swift */,
 			);
 			path = List;
-			sourceTree = "<group>";
-		};
-		85C352DE2633419700520184 /* TabRouter */ = {
-			isa = PBXGroup;
-			children = (
-				855090442621FDCB000C88BF /* TabViewRouter.swift */,
-			);
-			path = TabRouter;
 			sourceTree = "<group>";
 		};
 		85CB6BC9261F96360065B897 /* Extensions */ = {
