@@ -11,18 +11,18 @@ class TitleLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: .zero)
                 
-        font = Fonts.title.of(size: 49)
-        numberOfLines = 0
-        
         setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
-    convenience init(title: String) {
+    convenience init(title: String, fontSize: CGFloat, lineLimit: Int, textColor: UIColor) {
         self.init()
         
         text = title
-        
+        font = Fonts.title.of(size: fontSize)
+        self.textColor = textColor
+        numberOfLines = lineLimit
+
         configureWithMinimumLinespacing()
     }
     

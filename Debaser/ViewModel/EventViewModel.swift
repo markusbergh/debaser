@@ -121,14 +121,33 @@ struct EventViewModel: Codable, Hashable, Identifiable {
     
     private func parse(value: inout String, withRegex regex: String) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)
-        let regex = try! NSRegularExpression(pattern: regex)
+        var matchRange: Range<String.Index>?
         
-        guard let match = regex.firstMatch(in: value, options: [], range: range),
-              let stringRange = Range(match.range(at: 0), in: value) else {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            
+            autoreleasepool {
+                guard let match = regex.firstMatch(in: value, options: [], range: range) else {
+                    return
+                }
+                
+                let range = match.range(at: 0)
+
+                guard let stringRange = Range(range, in: value) else {
+                    return
+                }
+                
+                matchRange = stringRange
+            }
+            
+            guard let matchRange = matchRange else {
+                return nil
+            }
+
+            return String(value[matchRange])
+        } catch {
             return nil
         }
-        
-        return String(value[stringRange])
     }
     
     private func trimWithObscureCharacters(_ value: String) -> String {
@@ -140,15 +159,28 @@ struct EventViewModel: Codable, Hashable, Identifiable {
 }
 
 extension EventViewModel {
-    func getShortDate() -> String {
+    var shortDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        guard let date = dateFormatter.date(from: self.date) else {
+        guard let date = dateFormatter.date(from: date) else {
             return ""
         }
         
         dateFormatter.dateFormat = "d/M"
+        
+        return dateFormatter.string(from: date)
+    }
+    
+    var listDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let date = dateFormatter.date(from: date) else {
+            return ""
+        }
+        
+        dateFormatter.dateFormat = "d MMM"
         
         return dateFormatter.string(from: date)
     }

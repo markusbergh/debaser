@@ -76,6 +76,10 @@ struct DetailView: View {
                 if store.state.spotify.isLoggedIn == true {
                     store.dispatch(withAction: .spotify(.requestSearchArtist(event.title)))
                 }
+                
+                if store.state.list.isShowingTabBar == true {
+                    store.dispatch(withAction: .list(.hideTabBar))
+                }
             }
             .onDisappear {
                 store.dispatch(withAction: .list(.showTabBar))
@@ -241,7 +245,7 @@ struct DetailMainContentView: View {
                         backgroundColor: .red
                     )
                 } else {
-                    Text(event.getShortDate())
+                    Text(event.shortDate)
                         .font(.system(size: 15))
                         .frame(minHeight: 20)
                         .padding(.horizontal, 12)

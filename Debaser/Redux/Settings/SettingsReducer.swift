@@ -25,7 +25,7 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
     
     switch action {
     case .getOverrideColorScheme:
-        let overrideColorScheme = UserDefaults.standard.object(forKey: "overrideColorScheme") as? Bool ?? false
+        let overrideColorScheme = UserDefaults.standard.object(forKey: "overrideColorScheme") as? Bool ?? true
         state.systemColorScheme.send(overrideColorScheme)
     case .setOverrideColorScheme(let isOn):
         saveUserDefaults(value: isOn, forKey: "overrideColorScheme")

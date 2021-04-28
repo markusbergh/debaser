@@ -33,7 +33,6 @@ extension Color {
     static let listRowStrokeGradientEnd = Color("ListRowStrokeGradientEnd")
     static let listDivider = Color("ListDivider")
     static let listSearchBarBorder = Color("SearchBarBorder")
-    static let listNoImageBackground = Color("ListNoImageBackground")
     
     /// Detail
     static let detailBackground = Color("DetailBackground")

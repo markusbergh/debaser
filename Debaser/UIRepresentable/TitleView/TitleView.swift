@@ -14,13 +14,16 @@ struct TitleView: UIViewRepresentable {
     
     var innnerPadding: CGFloat = 25
     var outerPadding: CGFloat = 25
+    var fontSize: CGFloat = 49
+    var lineLimit: Int = 0
+    var textColor: UIColor = .label
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
     func makeUIView(context: Context) -> UIViewType {
-        let view = TitleLabel(title: title)
+        let view = TitleLabel(title: title, fontSize: fontSize, lineLimit: lineLimit, textColor: textColor)
 
         return view
     }

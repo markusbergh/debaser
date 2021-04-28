@@ -13,28 +13,16 @@ struct RowCompactView: View {
 
     @State private var isShowingDetailView = false
 
-    private var title: String = ""
-    private var date: String = ""
-    private var formattedDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        let rawDate = dateFormatter.date(from: date)
-        dateFormatter.dateFormat = "d MMM"
-        
-        return dateFormatter.string(from: rawDate!)
-    }
-    
     var event: EventViewModel
     var mediaHeight: CGFloat
-    var willShowInfoBar = false
     
     init(event: EventViewModel, mediaHeight: CGFloat = 100) {
         self.event = event
         self.mediaHeight = mediaHeight
-        
-        title = event.title
-        date = event.date
+    }
+    
+    var isFavourite: Bool {
+        return store.state.list.favourites.contains(where: { self.event.id == $0.id })
     }
     
     var body: some View {
@@ -69,14 +57,17 @@ struct RowCompactView: View {
                                 maxHeight: mediaHeight
                             )
                         )
+                        .modifier(
+                            RowCompactFavouriteViewModifier(isFavourite: isFavourite)
+                        )
 
-                    Text(title)
+                    Text(event.title)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(.primary)
                         .textCase(.uppercase)
                         .padding(.top, 10)
                     
-                    Text(formattedDate)
+                    Text(event.listDate)
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.gray)
                         .padding(.top, 2)
@@ -88,6 +79,7 @@ struct RowCompactView: View {
                 }
             }
         }
+        .accentColor(Color.clear)
     }
     
     func showImagesIfNeeded() -> Bool {
@@ -98,6 +90,7 @@ struct RowCompactView: View {
 struct RowCompactImageView: View {
     @EnvironmentObject var store: AppStore
     @EnvironmentObject var viewModel: ImageViewModel
+
     @State private var opacity: Double = 0
 
     var mediaHeight: CGFloat?
@@ -120,7 +113,7 @@ struct RowCompactImageView: View {
                 }
         } else {
             Rectangle()
-                .fill(Color.listNoImageBackground)
+                .fill(Color.listRowBackground)
                 .frame(height: mediaHeight)
                 .cornerRadius(15)
         }
@@ -131,12 +124,40 @@ struct RowCompactImageView: View {
     }
 }
 
+struct RowCompactFavouriteViewModifier: ViewModifier {
+    var isFavourite = false
+    
+    func body(content: Content) -> some View {
+        ZStack(alignment: .topTrailing) {
+            content
+            
+            if isFavourite {
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 30, height: 30)
+                    .overlay(
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .frame(width: 15, height: 15)
+                            .foregroundColor(.red)
+                    )
+                    .offset(x: -10, y: 10)
+            }
+        }
+    }
+}
+
 struct RowCompactImageViewModifier: ViewModifier {
+    @EnvironmentObject var store: AppStore
+
     var isCancelled = false
     var isPostponed = false
+    
     var maxHeight: CGFloat
     
     func body(content: Content) -> some View {
+        let opacity = store.state.settings.showImages.value ? 0.5 : 0.0
+    
         if isCancelled {
             return AnyView(
                 ZStack(alignment: .center) {
@@ -146,7 +167,7 @@ struct RowCompactImageViewModifier: ViewModifier {
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .foregroundColor(.white)
-                        .background(Color.black.opacity(0.5))
+                        .background(Color.black.opacity(opacity))
                         .cornerRadius(15)
                 }
             )
@@ -159,7 +180,7 @@ struct RowCompactImageViewModifier: ViewModifier {
                         .fontWeight(.bold)
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .foregroundColor(.white)
-                        .background(Color.black.opacity(0.5))
+                        .background(Color.black.opacity(opacity))
                         .cornerRadius(15)
                 }
             )

@@ -82,6 +82,7 @@ struct ListHeaderView: View {
                             Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
                                 .resizable()
                                 .frame(width: 20, height: 20)
+                                .opacity(store.state.settings.systemColorScheme.value ? 0.5 : 1.0)
                                 .transition(
                                     .asymmetric(
                                         insertion: .offset(x: -10, y: 0)

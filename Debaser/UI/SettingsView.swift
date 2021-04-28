@@ -33,73 +33,15 @@ struct SettingsView: View {
         return "Settings.Onboarding.Show"
     }
     
-    init() {
-        UITableView.appearance().backgroundColor = .clear
-    }
-
-    var body: some View {
-        NavigationView {
-            Form {
-                Group {
-                    SettingsSectionAbout()
-                    SettingsSectionSpotify()
-                    
-                    Section(header: Text(themeLabel)) {
-                        Toggle("Standard", isOn: systemColorScheme)
-                
-                        Toggle(isOn: darkMode.animation(.easeInOut)) {
-                            HStack {
-                                Group {
-                                    Text(themeToggleLabel)
-
-                                    Image(systemName: darkMode.wrappedValue ? "moon.fill" : "sun.max")
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
-                                }
-                                .opacity(systemColorScheme.wrappedValue ?  0.5 : 1.0)
-                            }
-                        }
-                        .disabled(systemColorScheme.wrappedValue)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-
-                    Section(header: Text("Layout")) {
-                        Toggle(imagesLabel, isOn: showImages)
-                        Toggle(cancelledLabel, isOn: hideCancelled)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-
-                    Section(header: Text(onboardingLabel)) {
-                        Button(onboardingShowLabel) {
-                            store.dispatch(withAction: .onboarding(.showOnboarding))
-                        }
-                        .foregroundColor(.primary)
-                    }
-                }
-                .listRowBackground(Color.settingsListRowBackground)
-            }
-            .background(
-                SettingsViewTopRectangle(),
-                alignment: .top
-            )
-            .background(
-                Color.settingsBackground
-                    .ignoresSafeArea()
-            )
-
-            .navigationBarTitle(titleLabel, displayMode: .large)
-        }
-        .accentColor(.settingsAccent)
-        .navigationViewStyle(StackNavigationViewStyle())
-    }
-    
     private var systemColorScheme: Binding<Bool> {
         return Binding<Bool>(
             get: {
                 return store.state.settings.systemColorScheme.value
             },
-            set: {
-                store.dispatch(withAction:.settings(.setOverrideColorScheme($0)))
+            set: { newValue in
+                withAnimation {
+                    store.dispatch(withAction:.settings(.setOverrideColorScheme(newValue)))
+                }
             }
         )
     }
@@ -137,6 +79,66 @@ struct SettingsView: View {
                 store.dispatch(withAction: .settings(.setHideCancelled($0)))
             }
         )
+    }
+    
+    init() {
+        UITableView.appearance().backgroundColor = .clear
+    }
+
+    var body: some View {
+        NavigationView {
+            Form {
+                Group {
+                    SettingsSectionAbout()
+                    SettingsSectionSpotify()
+                    
+                    Section(header: Text(themeLabel)) {
+                        Toggle("System", isOn: systemColorScheme.animation(.easeInOut))
+                
+                        if !systemColorScheme.wrappedValue {
+                            Toggle(isOn: darkMode.animation(.easeInOut)) {
+                                HStack(spacing: darkMode.wrappedValue ? 10 : 5) {
+                                    Group {
+                                        Text(themeToggleLabel)
+
+                                        Image(systemName: darkMode.wrappedValue ? "moon.fill" : "sun.max")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
+
+                    Section(header: Text("Layout")) {
+                        Toggle(imagesLabel, isOn: showImages)
+                        Toggle(cancelledLabel, isOn: hideCancelled)
+                    }
+                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
+
+                    Section(header: Text(onboardingLabel)) {
+                        Button(onboardingShowLabel) {
+                            store.dispatch(withAction: .onboarding(.showOnboarding))
+                        }
+                        .foregroundColor(.primary)
+                    }
+                }
+                .listRowBackground(Color.settingsListRowBackground)
+            }
+            .background(
+                SettingsViewTopRectangle(),
+                alignment: .top
+            )
+            .background(
+                Color.settingsBackground
+                    .ignoresSafeArea()
+            )
+
+            .navigationBarTitle(titleLabel, displayMode: .large)
+        }
+        .accentColor(.settingsAccent)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

@@ -24,6 +24,7 @@ struct DebaserApp: App {
     )
     
     @StateObject var tabViewRouter = TabViewRouter()
+    @StateObject var carouselState = UIStateModel()
     
     @State private var colorScheme: ColorScheme = .light
     @State private var eventReceivedId: String = ""
@@ -46,15 +47,19 @@ struct DebaserApp: App {
                     }
                 }
                 .onAppear {
-                    store.dispatch(withAction: .spotify(.initialize))
                     store.dispatch(withAction: .list(.getFavouritesRequest))
+                    store.dispatch(withAction: .spotify(.initialize))
+                    store.dispatch(withAction: .settings(.getOverrideColorScheme))
                     store.dispatch(withAction: .settings(.getDarkMode))
                     store.dispatch(withAction: .settings(.getHideCancelled))
                     store.dispatch(withAction: .settings(.getShowImages))
                 }
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)
-                .preferredColorScheme(store.state.settings.systemColorScheme.value ? nil : colorScheme )
+                .environmentObject(carouselState)
+                .preferredColorScheme(
+                    store.state.settings.systemColorScheme.value ? nil : colorScheme
+                )
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(withAction: .spotify(.requestLoginComplete))
                 }
@@ -69,7 +74,9 @@ struct DebaserApp: App {
                 }
                 .sheet(item: $eventReceived) { event in
                     DetailView(event: event, canNavigateBack: false)
-                        .preferredColorScheme(colorScheme)
+                        .preferredColorScheme(
+                            store.state.settings.systemColorScheme.value ? nil : colorScheme
+                        )
                         .environmentObject(store)
                 }
         }

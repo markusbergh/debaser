@@ -35,15 +35,18 @@ struct FavouritesView: View {
                             ZStack(alignment: .topTrailing) {
                                 RowView(event: event)
                                 
-                                Image(systemName: "heart.fill")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                                    .foregroundColor(.red)
-                                    .offset(x: -20, y: 30)
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 40, height: 40)
+                                    .overlay(
+                                        Image(systemName: "heart.fill")
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                            .foregroundColor(.red)
+                                    )
+                                    .offset(x: -20, y: 25)
                             }
                         }
-                        
-                        Spacer()
                     }
                     .padding(.top, 10)
                     .padding(.horizontal, 15)
@@ -54,8 +57,10 @@ struct FavouritesView: View {
                     ListViewTopRectangle(),
                     alignment: .top
                 )
-                .background(Color.listBackground)
-                .edgesIgnoringSafeArea(.bottom)
+                .background(
+                    Color.listBackground
+                        .edgesIgnoringSafeArea(.bottom)
+                )
             }
             .navigationViewStyle(StackNavigationViewStyle())
         }

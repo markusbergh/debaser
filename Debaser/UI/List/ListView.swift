@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var store: AppStore
-    
+    @EnvironmentObject var carouselState: UIStateModel
+        
     @State private var isShowingErrorAlert = false
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
@@ -31,7 +32,7 @@ struct ListView: View {
         }
         
         gridLayout = Array(
-            repeating: .init(.flexible(), spacing: 30),
+            repeating: .init(.flexible(), spacing: 20),
             count: numColumns
         )
         
@@ -63,37 +64,18 @@ struct ListView: View {
                 )
                 
                 if searchText.isEmpty {
-                    Spacer().frame(height: 30)
+                    Spacer().frame(height: 15)
                     
-                    PagerView()
-                        .frame(height: 175)
-                        .cornerRadius(15)
-                        .transition(.opacity)
-                    
-                    /*
-                    VStack(spacing: 10) {
-                        HStack {
-                            Text("Veckans konserter")
-                                .font(.system(size: 17))
-                            Spacer()
-                        }
-                        
-                        LazyVGrid(columns: gridLayout, spacing: 30) {
-                            let events = getWeekEvents()
-                            
-                            ForEach(0..<events.count, id:\.self) { idx in
-                                let event = events[idx]
-                                
-                                RowCompactView(
-                                    event: event,
-                                    mediaHeight: 150
-                                )
-                                .frame(maxHeight: .infinity, alignment: .top)
-                                .id(event.id)
-                            }
-                        }
-                    }
-                    */
+                    let events = getTodayEvents()
+                    let cards = getCardsForCarousel(events: events)
+                                        
+                    SnapCarousel(
+                        UIState: carouselState,
+                        spacing: 16,
+                        widthOfHiddenCards: 16,
+                        cardHeight: 200,
+                        items: cards
+                    )
                     
                     Divider()
                         .background(Color.listDivider)
@@ -108,7 +90,7 @@ struct ListView: View {
                         Spacer()
                     }
                     
-                    LazyVGrid(columns: gridLayout, spacing: 30) {
+                    LazyVGrid(columns: gridLayout, spacing: 20) {
                         let events = getEvents()
                         
                         ForEach(0..<events.count, id:\.self) { idx in
@@ -151,6 +133,18 @@ struct ListView: View {
         )
     }
     
+    private func getCardsForCarousel(events: [EventViewModel]) -> [Card] {
+        var cards: [Card] = []
+        
+        for (index, event) in events.enumerated() {
+            cards.append(
+                Card(id: index, event: event)
+            )
+        }
+        
+        return cards
+    }
+    
     private func getEvents() -> [EventViewModel] {
         var events = store.state.list.events
         
@@ -158,6 +152,29 @@ struct ListView: View {
             events = filterHideCancelledEvents(events: events)
         }
 
+        return events
+    }
+    
+    private func getTodayEvents() -> [EventViewModel] {
+        var events = store.state.list.events
+        
+        if store.state.settings.hideCancelled.value == true {
+            events = filterHideCancelledEvents(events: events)
+        }
+
+        events = events.filter({ event -> Bool in
+            let calendar = Calendar.current
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            if let date = dateFormatter.date(from: event.date) {
+                return calendar.isDateInToday(date) || calendar.isDateInTomorrow(date)
+            }
+            
+            return true
+        })
+        
         return events
     }
     
