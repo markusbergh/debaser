@@ -154,6 +154,8 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         return value.replacingOccurrences(of: "&amp;", with: "&")
             .replacingOccurrences(of: "&gt;", with: ">")
             .replacingOccurrences(of: "&nbsp;", with: " ")
+            .replacingOccurrences(of: "&quot;", with: "\"")
+            .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }
