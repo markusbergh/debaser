@@ -28,8 +28,10 @@ struct DetailView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {
-                        DetailTopImageView()
-                            .environmentObject(viewModel)
+                        if store.state.settings.showImages.value {
+                            DetailTopImageView()
+                                .environmentObject(viewModel)
+                        }
                         
                         if canNavigateBack {
                             HStack {

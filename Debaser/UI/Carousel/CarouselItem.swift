@@ -70,29 +70,36 @@ struct CarouselItemContent: View {
                 )
             }) {
                 ZStack(alignment: .center) {
-                    Image(uiImage: viewModel.image)
-                        .resizable()
-                        .scaledToFill()
-                        .opacity(opacity)
-                        .onReceive(viewModel.$isLoaded) { isLoaded in
-                            if isLoaded {
-                                withAnimation {
-                                    opacity = 1.0
+                    if store.state.settings.showImages.value == true {
+                        Image(uiImage: viewModel.image)
+                            .resizable()
+                            .scaledToFill()
+                            .opacity(opacity)
+                            .onReceive(viewModel.$isLoaded) { isLoaded in
+                                if isLoaded {
+                                    withAnimation {
+                                        opacity = 1.0
+                                    }
                                 }
                             }
-                        }
+                            .onAppear {
+                                viewModel.loadImage(with: event.image)
+                            }
+                    } else {
+                        Rectangle()
+                            //.background(Color.clear)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
                     
                     Text(event.title)
                         .font(Fonts.title.of(size: 27))
                         .foregroundColor(.white)
                         .lineLimit(3)
-                        .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 0)
+                        .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
                 }
             }
             .buttonStyle(PlainButtonStyle())
-            .onAppear {
-                viewModel.loadImage(with: event.image)
-            }
         }
+        .accentColor(.clear)
     }
 }

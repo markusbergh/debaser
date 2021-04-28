@@ -12,6 +12,14 @@ struct RowCompactView: View {
     @StateObject var viewModel = ImageViewModel()
 
     @State private var isShowingDetailView = false
+    
+    private var isFavourite: Bool {
+        return store.state.list.favourites.contains(where: { self.event.id == $0.id })
+    }
+    
+    private var showImagesIfNeeded: Bool {
+        return store.state.settings.showImages.value == true
+    }
 
     var event: EventViewModel
     var mediaHeight: CGFloat
@@ -20,11 +28,7 @@ struct RowCompactView: View {
         self.event = event
         self.mediaHeight = mediaHeight
     }
-    
-    var isFavourite: Bool {
-        return store.state.list.favourites.contains(where: { self.event.id == $0.id })
-    }
-    
+        
     var body: some View {
         NavigationLink(
             destination: DetailView(event: event),
@@ -46,7 +50,7 @@ struct RowCompactView: View {
                     RowCompactImageView(mediaHeight: mediaHeight)
                         .environmentObject(viewModel)
                         .onAppear {
-                            if showImagesIfNeeded() {
+                            if showImagesIfNeeded {
                                 viewModel.loadImage(with: event.image)
                             }
                         }
@@ -58,7 +62,9 @@ struct RowCompactView: View {
                             )
                         )
                         .modifier(
-                            RowCompactFavouriteViewModifier(isFavourite: isFavourite)
+                            RowCompactFavouriteViewModifier(
+                                isFavourite: isFavourite
+                            )
                         )
 
                     Text(event.title)
@@ -78,12 +84,9 @@ struct RowCompactView: View {
                         .padding(.top, 2)
                 }
             }
+            .buttonStyle(PlainButtonStyle())
         }
-        .accentColor(Color.clear)
-    }
-    
-    func showImagesIfNeeded() -> Bool {
-        return store.state.settings.showImages.value == true
+        .accentColor(.clear)
     }
 }
 
@@ -92,11 +95,15 @@ struct RowCompactImageView: View {
     @EnvironmentObject var viewModel: ImageViewModel
 
     @State private var opacity: Double = 0
+    
+    private var showImagesIfNeeded: Bool {
+        return store.state.settings.showImages.value == true
+    }
 
     var mediaHeight: CGFloat?
 
     var body: some View {
-        if showImagesIfNeeded() {
+        if showImagesIfNeeded {
             Image(uiImage: viewModel.image)
                 .resizable()
                 .scaledToFill()
@@ -117,10 +124,6 @@ struct RowCompactImageView: View {
                 .frame(height: mediaHeight)
                 .cornerRadius(15)
         }
-    }
-    
-    func showImagesIfNeeded() -> Bool {
-        return store.state.settings.showImages.value == true
     }
 }
 

@@ -88,8 +88,9 @@ struct RowView: View {
                     viewModel.loadImage(with: event.image)
                 }
             }
-            .accentColor(.clear)
+            .buttonStyle(PlainButtonStyle())
         }
+        .accentColor(.clear)
     }
 }
 
