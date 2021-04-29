@@ -34,7 +34,7 @@ struct FavouritesView: View {
                         ForEach(store.state.list.favourites, id:\.self) { event in
                             ZStack(alignment: .topTrailing) {
                                 RowView(event: event)
-                                
+
                                 Circle()
                                     .fill(Color.white)
                                     .frame(width: 35, height: 35)

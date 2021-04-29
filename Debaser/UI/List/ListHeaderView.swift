@@ -78,34 +78,36 @@ struct ListHeaderView: View {
                         
                         Spacer()
                         
-                        VStack(alignment: .trailing, spacing: 5) {
-                            Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                                .opacity(store.state.settings.systemColorScheme.value ? 0.5 : 1.0)
-                                .transition(
-                                    .asymmetric(
-                                        insertion: .offset(x: -10, y: 0)
-                                            .combined(
-                                                with: .opacity.animation(
-                                                    .easeIn(duration: 0.25).delay(0.25)
+                        if store.state.settings.systemColorScheme.value == false {
+                            VStack(alignment: .trailing, spacing: 5) {
+                                Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .opacity(store.state.settings.systemColorScheme.value ? 0.5 : 1.0)
+                                    .transition(
+                                        .asymmetric(
+                                            insertion: .offset(x: -10, y: 0)
+                                                .combined(
+                                                    with: .opacity.animation(
+                                                        .easeIn(duration: 0.25).delay(0.25)
+                                                    )
+                                                ),
+                                            removal: .offset(x: 10, y: 0)
+                                                .combined(
+                                                    with: .opacity.animation(
+                                                        .easeOut(duration: 0.25)
+                                                    )
                                                 )
-                                            ),
-                                        removal: .offset(x: 10, y: 0)
-                                            .combined(
-                                                with: .opacity.animation(
-                                                    .easeOut(duration: 0.25)
-                                                )
-                                            )
+                                        )
                                     )
-                                )
-                                .id("\(isDarkMode)")
+                                    .id("\(isDarkMode)")
 
-                            Toggle("", isOn: $isDarkMode.animation())
-                                .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
-                                .frame(width: 90)
-                                .offset(y: 2)
-                                .disabled(store.state.settings.systemColorScheme.value)
+                                Toggle("", isOn: $isDarkMode.animation())
+                                    .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
+                                    .frame(width: 90)
+                                    .offset(y: 2)
+                                    .disabled(store.state.settings.systemColorScheme.value)
+                            }
                         }
                     }
                 }

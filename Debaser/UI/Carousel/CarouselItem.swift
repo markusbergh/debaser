@@ -87,15 +87,24 @@ struct CarouselItemContent: View {
                             }
                     } else {
                         Rectangle()
-                            //.background(Color.clear)
+                            .background(Color.clear)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     
-                    Text(event.title)
-                        .font(Fonts.title.of(size: 27))
-                        .foregroundColor(.white)
-                        .lineLimit(3)
-                        .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
+                    GeometryReader { geometry -> AnyView in
+                        let midX = geometry.frame(in: .local).midX
+                        let midY = geometry.frame(in: .local).midY
+                        
+                        return AnyView(
+                            Text(event.title)
+                                .font(Fonts.title.of(size: 27))
+                                .foregroundColor(.white)
+                                .lineLimit(3)
+                                .frame(width: 250)
+                                .position(x: midX, y: midY)
+                                .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
+                        )
+                    }
                 }
             }
             .buttonStyle(PlainButtonStyle())
