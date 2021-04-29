@@ -77,18 +77,12 @@ struct DebaserWidgetEntry: TimelineEntry {
 }
 
 struct MetaData : View {
-    @Environment(\.widgetFamily) var widgetFamily
-    
     var text: String
-    
-    var isSmall: Bool {
-        return widgetFamily == .systemSmall
-    }
     
     var body: some View {
         Text(text)
-            .fontWeight(.bold)
-            .font(.system(size: isSmall ? 11 : 13))
+            .fontWeight(.semibold)
+            .font(.system(size: 13))
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
             .foregroundColor(.white)
@@ -107,12 +101,13 @@ struct TopView : View {
     }
     
     var body: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .center) {
             Image("Icon")
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.white)
-                .frame(width: widgetFamily == .systemSmall ? 30 : 50)
+                .frame(width: widgetFamily == .systemSmall ? 45 : 50)
+                .offset(x: -3)
             
             Spacer()
             
