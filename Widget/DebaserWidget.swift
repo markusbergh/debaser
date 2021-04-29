@@ -182,7 +182,11 @@ struct WidgetEntryView: View {
     var entry: DebaserWidgetEntry
     var schemes = "debaser-widget://"
     
-    func generateURL(id: String) -> String {
+    func generateURL(id: String?) -> String {
+        guard let id = id else {
+            return "invalid"
+        }
+        
         var components = URLComponents()
         
         let queryItemEvent = URLQueryItem(name: "eventId", value: id)
@@ -204,6 +208,7 @@ struct WidgetEntryView: View {
             WidgetBackground(entry: entry)
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .widgetURL(URL(string: generateURL(id: entry.event?.id)))
     }
 }
 
