@@ -23,10 +23,10 @@
 "Favourites.Empty" = "No favourites saved";
 
 /// Onboarding
-"Onboarding.Skip" = "Skip this";
+"Onboarding.Skip" = "Skip";
 "Onboarding.Step1.Header" = "Use Spotify to preview";
 "Onboarding.Step1.Body" = "By connecting your Spotify account to Debaser you can preview the artists immediately in the app¹.";
-"Onboarding.Step1.Info" = "¹ This requires a premium account at Spotify.";
+"Onboarding.Step1.Info" = "¹ Requires a premium account with Spotify.";
 "Onboarding.Step2.Header" = "Share gigs with iMessage";
 "Onboarding.Step2.Body" = "With the extension to iMessage it is easy and quick to share the event with your friends.";
 "Onboarding.Step3.Header" = "Find that upcoming gig";
@@ -34,7 +34,7 @@
 "Onboarding.Step4.Header" = "Almost done! 🏄‍♀️ What is next?";
 "Onboarding.Step4.Button.Connect" = "CONNECT TO SPOTIFY¹";
 "Onboarding.Step4.Button.Close" = "CLOSE";
-"Onboarding.Step4.Info" = "¹ This requires a premium account with Spotify.";
+"Onboarding.Step4.Info" = "¹ Requires a premium account with Spotify.";
 
 /// Settings
 "Settings" = "Settings";
