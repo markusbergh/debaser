@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol DBSROnboardingDelegate: AnyObject {
+    func showSpotifySettings()
+}
+
 class DBSROnboardingViewController: UIViewController {
     
     private static let storyboardName = "Onboarding"
@@ -29,6 +33,7 @@ class DBSROnboardingViewController: UIViewController {
     
     var usesDarkMode = false
     var hasAppeared = false
+    weak var onboardingViewDelegate: OnboardingViewDelegate?
     
     // MARK: Lifecycle
     
@@ -98,6 +103,11 @@ class DBSROnboardingViewController: UIViewController {
                                               completion: nil)
         }
         
+        if let lastViewController = orderedViewControllers.last {
+            guard let spotifyViewController = lastViewController as? DBSROnboardingStepViewController else { return }
+            spotifyViewController.delegate = self
+        }
+        
         NSLayoutConstraint.activate([
             pageController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             pageController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -138,6 +148,14 @@ class DBSROnboardingViewController: UIViewController {
     
     private func newPageViewController(page: String) -> UIViewController {
         return UIStoryboard(name: DBSROnboardingViewController.storyboardName, bundle: nil).instantiateViewController(withIdentifier: "\(page)ViewController")
+    }
+}
+
+// MARK: - OnboardingViewDelegate
+
+extension DBSROnboardingViewController: DBSROnboardingDelegate {
+    func showSpotifySettings() {
+        onboardingViewDelegate?.showSpotifySettings()
     }
 }
 

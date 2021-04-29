@@ -188,22 +188,31 @@ struct SettingsSectionSpotify: View {
     private var spotifyLabel: LocalizedStringKey {
         return store.state.spotify.isLoggedIn ? "Settings.Spotify.On" : "Settings.Spotify.Off"
     }
+    
+    @State private var showSpotifySettings = false
 
     var body: some View {
         Section(header: Text(servicesLabel)) {
-            NavigationLink(destination: SettingsSpotifyView()) {
-                HStack {
+            NavigationLink(destination: SettingsSpotifyView(), isActive: $showSpotifySettings) {
+                Button(action: {
+                    showSpotifySettings = true
+                }) {
                     HStack {
-                        Image("SpotifyIcon")
-                        Text("Spotify")
+                        HStack {
+                            Image("SpotifyIcon")
+                            Text("Spotify")
+                        }
+
+                        Spacer()
+
+                        Text(spotifyLabel)
+                            .foregroundColor(store.state.spotify.isLoggedIn ? .green : .primary)
                     }
-
-                    Spacer()
-
-                    Text(spotifyLabel)
-                        .foregroundColor(store.state.spotify.isLoggedIn ? .green : .primary)
                 }
             }
+        }
+        .onReceive(store.state.settings.pushToSpotifySettings) { _ in
+            showSpotifySettings = true
         }
     }
 }

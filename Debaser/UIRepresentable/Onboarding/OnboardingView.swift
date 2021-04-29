@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+protocol OnboardingViewDelegate: AnyObject {
+    func showSpotifySettings()
+}
+
 struct OnboardingView: UIViewControllerRepresentable {
     @EnvironmentObject var store: AppStore
 
@@ -23,17 +27,26 @@ struct OnboardingView: UIViewControllerRepresentable {
 
         // Set dark mode according to store
         onboardingViewController.usesDarkMode = store.state.settings.darkMode.value
+        
+        // View delegate
+        onboardingViewController.onboardingViewDelegate = context.coordinator
 
         return onboardingViewController
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
     
-    class Coordinator: NSObject {
+    class Coordinator: NSObject, OnboardingViewDelegate {
         var parent: OnboardingView
         
         init(_ view: OnboardingView) {
             parent = view
+        }
+        
+        func showSpotifySettings() {
+            let store = parent.store
+            
+            store.dispatch(withAction: .settings(.pushToSpotifySettings))
         }
     }
 }

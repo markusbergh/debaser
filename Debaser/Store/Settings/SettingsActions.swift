@@ -16,4 +16,5 @@ enum SettingsAction {
     case setShowImages(Bool)
     case getHideCancelled
     case setHideCancelled(Bool)
+    case pushToSpotifySettings
 }

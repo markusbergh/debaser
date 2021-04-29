@@ -16,6 +16,7 @@ class DBSROnboardingStepViewController: UIViewController {
     var pageIndex = 0
     var isAnimated = false
     var hasAppeared = false
+    weak var delegate: DBSROnboardingDelegate?
     
     // MARK: Private
     
@@ -88,20 +89,6 @@ class DBSROnboardingStepViewController: UIViewController {
     @IBAction func showSpotifySettings(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
         
-        /*
-
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        guard let tabBarController = delegate.window?.rootViewController as? DBSRTabBarController else { return }
-        
-        // Go to settings tab
-        tabBarController.selectedIndex = 3
-        
-        // Perform segue on settings
-        if let settingsNavigationController = tabBarController.viewControllers?.last as? UINavigationController,
-            let settingsViewController = settingsNavigationController.viewControllers[0] as? DBSRSettingsViewController {
-            settingsViewController.performSegue(withIdentifier: "spotifySegue", sender: nil)
-        }
- 
-        */
+        delegate?.showSpotifySettings()        
     }
 }
