@@ -8,14 +8,6 @@
 import SwiftUI
 import UIKit
 
-/*
-public class ColorTheme {
-    private struct Palette {
-        static let listTopGradientStart = UIColor(named: "ListTopGradientStart")
-    }
-}
-*/
-
 extension Color {
     /// Generic
     static let toggleTint = Color("ToggleTint")
