@@ -64,6 +64,10 @@ struct DebaserApp: App {
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(withAction: .spotify(.requestLoginComplete))
                 }
+                .onReceive(store.state.settings.hideCancelled) { _ in
+                    // Reset state due to change in settings, regardless of change
+                    carouselState.reset()
+                }
                 .onChange(of: store.state.list.events, perform: { _ in
                     if shouldOpenModal {
                         presentModalViewForEvent()

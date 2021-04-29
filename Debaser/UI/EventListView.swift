@@ -27,6 +27,11 @@ struct EventListView: View {
             .navigationBarHidden(true)
         }
         .onAppear {
+            // We might be search... and have an empty result
+            if !store.state.list.currentSearch.isEmpty {
+                return
+            }
+            
             if store.state.list.events.isEmpty {
                 store.dispatch(withAction: .list(.getEventsRequest))
             }

@@ -41,7 +41,7 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
                 .subscribe(on: RunLoop.main)
                 .map { text in
                     let filteredEvents = ListMiddlewareSearchHelper.events.filter { event in
-                        return event.title.contains(text)
+                        return event.title.lowercased().contains(text.lowercased())
                     }
                     
                     return AppAction.list(.getEventsComplete(events: filteredEvents))

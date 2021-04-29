@@ -10,6 +10,8 @@
 "List.Today" = "Today's concerts";
 "List.All" = "All concerts";
 "List.Search" = "Search concert";
+"List.Search.Result" = "Search results";
+"List.Search.Result.Empty" = "No events found";
 "List.Event.Cancelled" = "Cancelled";
 "List.Event.Postponed" = "Postponed";
 "List.Error.Title" = "Oh, no!";

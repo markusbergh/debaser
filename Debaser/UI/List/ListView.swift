@@ -14,57 +14,61 @@ struct ListView: View {
     @State private var isShowingErrorAlert = false
     @State private var isShowingActivityIndicator = false
     @State private var totalPadding: CGFloat = 20
-    @State private var searchText = ""
+    @State private var midY: CGFloat = .zero
     
-    var listBottomPadding: CGFloat = .zero
     var headline: String
     var label: LocalizedStringKey
-    var gridLayout: [GridItem] = []
-    
-    init(headline: String, label: LocalizedStringKey) {
-        self.headline = headline
-        self.label = label
-        
-        var numColumns = 2
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            numColumns = 2
-        }
-        
-        gridLayout = Array(
-            repeating: .init(.flexible(), spacing: 20),
-            count: numColumns
-        )
-        
-        listBottomPadding = TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + totalPadding + 15
+
+    private var listLabel: LocalizedStringKey {
+        return store.state.list.currentSearch.isEmpty ? "List.All" : "List.Search.Result"
     }
     
-    var body: some View {
-        let darkMode = self.darkMode(for: store.state.settings)
-        
-        let searchBinding = Binding(
+    private var gridLayout: [GridItem] {
+        return Array(repeating: .init(.flexible(), spacing: 20), count: 2)
+    }
+
+    private var listBottomPadding: CGFloat {
+        return TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + totalPadding + 15
+    }
+    
+    private var darkMode: Binding<Bool> {
+        let darkMode = Binding<Bool>(
             get: {
-                return searchText
+                return store.state.settings.darkMode.value
             },
             set: {
-                searchText = $0
-                
-                // Update store
-                store.dispatch(withAction: .list(.searchEvent(query: searchText)))
+                store.dispatch(withAction: .settings(.setDarkMode($0)))
             }
         )
         
+        return darkMode
+    }
+    
+    private var currentSearch: Binding<String> {
+        let currentSearch = Binding(
+            get: {
+                return store.state.list.currentSearch
+            },
+            set: {
+                store.dispatch(withAction: .list(.searchEvent(query: $0)))
+            }
+        )
+        
+        return currentSearch
+    }
+    
+    var body: some View {
         ScrollView {
             VStack {
                 ListHeaderView(
                     headline: headline,
                     label: label,
                     isDarkMode: darkMode,
-                    currentSearch: searchBinding
+                    currentSearch: currentSearch
                 )
                 
-                if searchText.isEmpty {
-                    Spacer().frame(height: 15)
+                if store.state.list.currentSearch.isEmpty {
+                    Spacer().frame(height: 10)
                     
                     let events = getTodayEvents()
                     let cards = getCardsForCarousel(events: events)
@@ -80,18 +84,29 @@ struct ListView: View {
                     Divider()
                         .background(Color.listDivider)
                         .padding(.top, 15)
-                        .padding(.bottom, 15)
+                        .padding(.bottom, 10)
                 }
                 
-                VStack(spacing: 10) {
-                    HStack {
-                        Text("List.All")
-                            .font(.system(size: 17))
+                let events = getEvents()
+                
+                VStack {
+                    HStack(spacing: 0) {
+                        if events == nil, !store.state.list.currentSearch.isEmpty {
+                            Text("List.Search.Result.Empty")
+                                .font(.system(size: 17))
+                                .fontWeight(.medium)
+                        } else {
+                            Text(listLabel)
+                                .font(.system(size: 17))
+                        }
+                        
                         Spacer()
                     }
-                    
+                }
+                .frame(maxWidth: .infinity)
+                
+                if let events = events {
                     LazyVGrid(columns: gridLayout, spacing: 20) {
-                        let events = getEvents()
                         
                         ForEach(0..<events.count, id:\.self) { idx in
                             let event = events[idx]
@@ -107,8 +122,8 @@ struct ListView: View {
                     .padding(.bottom, listBottomPadding)
                 }
             }
-            .padding(totalPadding)
         }
+        .padding(totalPadding)
         .background(
             ListViewTopRectangle(),
             alignment: .top
@@ -145,14 +160,14 @@ struct ListView: View {
         return cards
     }
     
-    private func getEvents() -> [EventViewModel] {
+    private func getEvents() -> [EventViewModel]? {
         var events = store.state.list.events
         
         if store.state.settings.hideCancelled.value == true {
             events = filterHideCancelledEvents(events: events)
         }
 
-        return events
+        return events.isEmpty ? nil : events
     }
     
     private func getTodayEvents() -> [EventViewModel] {
@@ -210,19 +225,6 @@ struct ListView: View {
             return !slug.contains("cancelled")
         })
     }
-    
-    private func darkMode(for state: SettingsState) -> Binding<Bool> {
-        let darkMode = Binding<Bool>(
-            get: {
-                return store.state.settings.darkMode.value
-            },
-            set: {
-                store.dispatch(withAction: .settings(.setDarkMode($0)))
-            }
-        )
-        
-        return darkMode
-    }
 }
 
 struct ListProgressIndicatorView: View {
@@ -278,4 +280,3 @@ struct ListView_Previews: PreviewProvider {
         .environmentObject(store)
     }
 }
-
