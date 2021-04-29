@@ -134,7 +134,6 @@ struct SettingsView: View {
                 Color.settingsBackground
                     .ignoresSafeArea()
             )
-
             .navigationBarTitle(titleLabel, displayMode: .large)
         }
         .accentColor(.settingsAccent)

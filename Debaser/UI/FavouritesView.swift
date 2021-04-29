@@ -53,6 +53,7 @@ struct FavouritesView: View {
                     .frame(maxWidth: .infinity)
                     .navigationTitle("Favoriter")
                 }
+                .padding(.top, 0.5)
                 .background(
                     ListViewTopRectangle(),
                     alignment: .top

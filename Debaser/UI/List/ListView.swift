@@ -54,7 +54,7 @@ struct ListView: View {
             }
         )
         
-        return ScrollView {
+        ScrollView {
             VStack {
                 ListHeaderView(
                     headline: headline,
