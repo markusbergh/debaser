@@ -55,8 +55,6 @@
 		857F1F21263B2A68005BB985 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
 		857F1F24263B2D0C005BB985 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		857F1F25263B2E15005BB985 /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
-		857F1F2A263B3514005BB985 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F1F29263B3513005BB985 /* TitleLabel.swift */; };
-		857F1F2B263B3514005BB985 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F1F27263B3512005BB985 /* TitleView.swift */; };
 		858E1E0226346E6100C3E941 /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
 		858E1E0B2634860C00C3E941 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E1E0A2634860C00C3E941 /* WebView.swift */; };
 		8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8599431E263434D800128A73 /* ListMiddlewares.swift */; };
@@ -207,8 +205,6 @@
 		857F1F10263B1307005BB985 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		857F1F12263B1307005BB985 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		857F1F1E263B19A5005BB985 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
-		857F1F27263B3512005BB985 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
-		857F1F29263B3513005BB985 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		858E1E0126346E6100C3E941 /* Debaser.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Debaser.plist; sourceTree = "<group>"; };
 		858E1E0A2634860C00C3E941 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		8599431E263434D800128A73 /* ListMiddlewares.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMiddlewares.swift; sourceTree = "<group>"; };
@@ -518,30 +514,12 @@
 		857F1F0C263B1306005BB985 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
-				857F1F26263B3512005BB985 /* TitleView */,
 				857F1F0D263B1306005BB985 /* DebaserWidget.swift */,
 				857F1F1E263B19A5005BB985 /* ColorTheme.swift */,
 				857F1F10263B1307005BB985 /* Assets.xcassets */,
 				857F1F12263B1307005BB985 /* Info.plist */,
 			);
 			path = Widget;
-			sourceTree = "<group>";
-		};
-		857F1F26263B3512005BB985 /* TitleView */ = {
-			isa = PBXGroup;
-			children = (
-				857F1F28263B3513005BB985 /* UIKit */,
-				857F1F27263B3512005BB985 /* TitleView.swift */,
-			);
-			path = TitleView;
-			sourceTree = "<group>";
-		};
-		857F1F28263B3513005BB985 /* UIKit */ = {
-			isa = PBXGroup;
-			children = (
-				857F1F29263B3513005BB985 /* TitleLabel.swift */,
-			);
-			path = UIKit;
 			sourceTree = "<group>";
 		};
 		858E1DF626346ADB00C3E941 /* TabBar */ = {
@@ -1008,10 +986,8 @@
 				857F1F1F263B19A5005BB985 /* ColorTheme.swift in Sources */,
 				857F1F1B263B149B005BB985 /* EventService.swift in Sources */,
 				857F1F1C263B15FD005BB985 /* EventViewModel.swift in Sources */,
-				857F1F2A263B3514005BB985 /* TitleLabel.swift in Sources */,
 				857F1F21263B2A68005BB985 /* Fonts.swift in Sources */,
 				857F1F0E263B1306005BB985 /* DebaserWidget.swift in Sources */,
-				857F1F2B263B3514005BB985 /* TitleView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
