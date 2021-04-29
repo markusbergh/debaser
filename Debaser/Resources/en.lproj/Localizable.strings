@@ -34,7 +34,7 @@
 "Onboarding.Step4.Header" = "Almost done! 🏄‍♀️ What is next?";
 "Onboarding.Step4.Button.Connect" = "CONNECT TO SPOTIFY¹";
 "Onboarding.Step4.Button.Close" = "CLOSE";
-"Onboarding.Step4.Info" = "¹ This requires a premium account at Spotify.";
+"Onboarding.Step4.Info" = "¹ This requires a premium account with Spotify.";
 
 /// Settings
 "Settings" = "Settings";
