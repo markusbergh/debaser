@@ -122,7 +122,7 @@ class DBSROnboardingViewController: UIViewController {
     }
     
     private func setupSkipButton() {
-        skipButton.setTitle("Hoppa över", for: .normal)
+        skipButton.setTitle(NSLocalizedString("Onboarding.Skip", comment: "Onboarding skip button"), for: .normal)
         skipButton.setTitleColor(UIColor.onboardingSkipLabel, for: .normal)
         skipButton.setTitleColor(UIColor.onboardingSkipLabelHighlight, for: .highlighted)
         skipButton.translatesAutoresizingMaskIntoConstraints = false

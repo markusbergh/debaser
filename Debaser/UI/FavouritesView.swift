@@ -13,6 +13,10 @@ struct FavouritesView: View {
     private var emptyLabel: LocalizedStringKey {
         return "Favourites.Empty"
     }
+    
+    private var titleLabel: LocalizedStringKey {
+        return "Favourites"
+    }
 
     var body: some View {
         if store.state.list.favourites.isEmpty {
@@ -51,7 +55,7 @@ struct FavouritesView: View {
                     .padding(.top, 10)
                     .padding(.horizontal, 15)
                     .frame(maxWidth: .infinity)
-                    .navigationTitle("Favoriter")
+                    .navigationTitle(titleLabel)
                 }
                 .padding(.top, 0.5)
                 .background(

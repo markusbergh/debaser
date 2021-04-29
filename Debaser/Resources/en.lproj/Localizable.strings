@@ -8,6 +8,7 @@
 
 /// List
 "List.Today" = "Today's concerts";
+"List.All" = "All concerts";
 "List.Search" = "Search concert";
 "List.Event.Cancelled" = "Cancelled";
 "List.Event.Postponed" = "Postponed";
@@ -18,9 +19,11 @@
 "Detail.Age" = "Age %@";
 
 /// Favourites
+"Favourites" = "Favourites";
 "Favourites.Empty" = "No favourites saved";
 
 /// Onboarding
+"Onboarding.Skip" = "Skip this";
 "Onboarding.Step1.Header" = "Use Spotify to preview";
 "Onboarding.Step1.Body" = "By connecting your Spotify account to Debaser you can preview the artists immediately in the app¹.";
 "Onboarding.Step1.Info" = "¹ This requires a premium account at Spotify.";

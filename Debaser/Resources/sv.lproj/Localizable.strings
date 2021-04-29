@@ -8,6 +8,7 @@
 
 /// List
 "List.Today" = "Dagens konserter";
+"List.All" = "Alla konserter";
 "List.Search" = "Sök konsert";
 "List.Event.Cancelled" = "Inställt";
 "List.Event.Postponed" = "Framflyttat";
@@ -18,9 +19,11 @@
 "Detail.Age" = "%@ år";
 
 /// Favourites
+"Favourites" = "Favouriter";
 "Favourites.Empty" = "Inga favoriter sparade";
 
 /// Onboarding
+"Onboarding.Skip" = "Hoppa över";
 "Onboarding.Step1.Header" = "Lyssna direkt via Spotify";
 "Onboarding.Step1.Body" = "Genom att koppla ditt Spotify-konto till Debaser kan du lyssna på artisten direkt i appen¹.";
 "Onboarding.Step1.Info" = "¹ Detta är endast möjligt för användare som har Premium-konto på Spotify.";

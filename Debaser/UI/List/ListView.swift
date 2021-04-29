@@ -85,7 +85,7 @@ struct ListView: View {
                 
                 VStack(spacing: 10) {
                     HStack {
-                        Text("Alla konserter")
+                        Text("List.All")
                             .font(.system(size: 17))
                         Spacer()
                     }
