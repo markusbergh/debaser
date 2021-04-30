@@ -13,7 +13,7 @@ struct ListView: View {
         
     @State private var isShowingErrorAlert = false
     @State private var isShowingActivityIndicator = false
-    @State private var totalPadding: CGFloat = 20
+    @State private var listPadding: CGFloat = 20
     @State private var midY: CGFloat = .zero
     
     var headline: String
@@ -28,7 +28,7 @@ struct ListView: View {
     }
 
     private var listBottomPadding: CGFloat {
-        return TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + totalPadding + 15
+        return TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + listPadding + 15
     }
     
     private var darkMode: Binding<Bool> {
@@ -66,6 +66,7 @@ struct ListView: View {
                     isDarkMode: darkMode,
                     currentSearch: currentSearch
                 )
+                .padding(.horizontal, listPadding)
                 
                 if store.state.list.currentSearch.isEmpty {
                     Spacer().frame(height: 10)
@@ -77,13 +78,13 @@ struct ListView: View {
                         UIState: carouselState,
                         spacing: 16,
                         widthOfHiddenCards: 16,
-                        cardHeight: 200,
+                        cardHeight: 185,
                         items: cards
                     )
                     
                     Divider()
                         .background(Color.listDivider)
-                        .padding(.top, 15)
+                        .padding(.top, 10)
                         .padding(.bottom, 10)
                 }
                 
@@ -104,7 +105,8 @@ struct ListView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                
+                .padding(.horizontal, listPadding)
+
                 if let events = events {
                     LazyVGrid(columns: gridLayout, spacing: 20) {
                         
@@ -120,10 +122,11 @@ struct ListView: View {
                         }
                     }
                     .padding(.bottom, listBottomPadding)
+                    .padding(.horizontal, listPadding)
                 }
             }
         }
-        .padding(totalPadding)
+        .padding(.vertical, listPadding)
         .background(
             ListViewTopRectangle(),
             alignment: .top
