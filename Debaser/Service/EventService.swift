@@ -55,6 +55,8 @@ final class EventService {
         }
     }
     
+    static let shared = EventService()
+    
     init(timeout: Timer? = nil, cancellable: AnyCancellable? = nil) {
         self.timeout = timeout
         self.cancellable = cancellable

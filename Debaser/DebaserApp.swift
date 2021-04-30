@@ -19,7 +19,7 @@ struct DebaserApp: App {
         ),
         reducer: appReducer,
         middlewares: [
-            listMiddleware(service: EventService())
+            listMiddleware(service: EventService.shared)
         ]
     )
     
@@ -41,12 +41,6 @@ struct DebaserApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .onReceive(store.state.settings.darkMode) { value in
-                    switch value {
-                    case true: colorScheme = .dark
-                    case false: colorScheme = .light
-                    }
-                }
                 .onAppear {
                     store.dispatch(withAction: .list(.getFavouritesRequest))
                     store.dispatch(withAction: .spotify(.initialize))
@@ -58,15 +52,18 @@ struct DebaserApp: App {
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)
                 .environmentObject(carouselState)
-                .preferredColorScheme(
-                    store.state.settings.systemColorScheme.value ? nil : colorScheme
-                )
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(withAction: .spotify(.requestLoginComplete))
                 }
                 .onReceive(store.state.settings.hideCancelled) { _ in
                     // Reset state due to change in settings, regardless of change
                     carouselState.reset()
+                }
+                .onReceive(store.state.settings.darkMode) { value in
+                    switch value {
+                    case true: colorScheme = .dark
+                    case false: colorScheme = .light
+                    }
                 }
                 .onChange(of: store.state.list.events, perform: { _ in
                     if shouldOpenModal {
@@ -97,6 +94,9 @@ struct DebaserApp: App {
                         )
                         .environmentObject(store)
                 }
+                .preferredColorScheme(
+                    store.state.settings.systemColorScheme.value ? nil : colorScheme
+                )
         }
     }
 }

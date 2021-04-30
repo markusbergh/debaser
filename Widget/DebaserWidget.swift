@@ -16,7 +16,7 @@ struct EventProvider: TimelineProvider {
         return dateFormatter
     }()
     
-    var eventService = EventService()
+    var eventService = EventService.shared
     
     func placeholder(in context: Context) -> DebaserWidgetEntry {
         DebaserWidgetEntry(date: Date(), event: nil)

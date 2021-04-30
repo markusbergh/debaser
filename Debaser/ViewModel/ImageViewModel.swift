@@ -9,25 +9,32 @@ import UIKit
 import Combine
 
 class ImageViewModel: ObservableObject {
-    var cancellable: AnyCancellable? = nil
-    var imageLoader = ImageLoader.shared
+    private var cancellable: AnyCancellable? = nil
+
+    var imageService: ImageService?
     
     @Published var image: UIImage = UIImage()
     @Published var isLoaded: Bool = false
+    
+    init(with imageService: ImageService = ImageService.shared) {
+        self.imageService = imageService
+    }
 }
 
 extension ImageViewModel {
     func loadImage(with imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
-        
-        if let data = imageLoader.cached(with: url as NSURL) {
+
+        guard let imageService = imageService else { return }
+
+        if let data = imageService.cached(with: url as NSURL) {
             image = UIImage(data: data as Data)!
             isLoaded = true
         
             return
         }
         
-        cancellable = imageLoader.load(with: imageURL)
+        cancellable = imageService.load(with: imageURL)
             .sink(receiveValue: { [weak self] data in
                 guard let data = data else {
                     return

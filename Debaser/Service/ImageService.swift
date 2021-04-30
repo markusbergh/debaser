@@ -1,5 +1,5 @@
 //
-//  ImageLoader.swift
+//  ImageService.swift
 //  Debaser
 //
 //  Created by Markus Bergh on 2021-04-04.
@@ -10,8 +10,8 @@ import Combine
 
 private let cache = NSCache<NSURL, NSData>()
 
-final class ImageLoader {
-    static let shared = ImageLoader()
+final class ImageService {
+    static let shared = ImageService()
     
     private let urlSession: URLSession
     private var isLoading = false
