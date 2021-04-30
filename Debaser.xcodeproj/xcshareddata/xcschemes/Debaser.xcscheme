@@ -20,20 +20,6 @@
                ReferencedContainer = "container:Debaser.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "NO"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "855B1A4525FB5B5F00C7A219"
-               BuildableName = "DebaserUITests.xctest"
-               BlueprintName = "DebaserUITests"
-               ReferencedContainer = "container:Debaser.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
