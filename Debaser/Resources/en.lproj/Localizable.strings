@@ -64,3 +64,8 @@
 /// Detail
 "Detail.Buy.Tickets" = "Buy tickets here";
 "Detail.Meta.Admission.Free" = "Free";
+
+/// Widget
+"Widget.Today.Short" = "Today";
+"Widget.Today.Long" = "Today at Debaser";
+"Widget.Result.Empty" = "There is no upcoming events today";

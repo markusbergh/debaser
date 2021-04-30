@@ -64,3 +64,8 @@
 /// Detail
 "Detail.Buy.Tickets" = "Köp biljetter här";
 "Detail.Meta.Admission.Free" = "Fri entré";
+
+/// Widget
+"Widget.Today.Short" = "Idag";
+"Widget.Today.Long" = "Idag på Debaser";
+"Widget.Result.Empty" = "Det finns inga kommande event idag";

@@ -81,8 +81,8 @@ struct MetaData : View {
     
     var body: some View {
         Text(text)
-            .fontWeight(.semibold)
             .font(.system(size: 13))
+            .fontWeight(.semibold)
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
             .foregroundColor(.white)
@@ -126,18 +126,44 @@ struct TopView : View {
 }
 
 struct BottomView : View {
+    @Environment(\.widgetFamily) var widgetFamily
+
     let entry: DebaserWidgetEntry
+
+    var isSmall: Bool {
+        return widgetFamily == .systemSmall
+    }
+    
+    var shortTodayLabel: LocalizedStringKey {
+        return "Widget.Today.Short"
+    }
+
+    var longTodayLabel: LocalizedStringKey {
+        return "Widget.Today.Long"
+    }
+
+    var emptyResultLabel: LocalizedStringKey {
+        return "Widget.Result.Empty"
+    }
     
     var body: some View {
-        HStack(alignment: .top) {
-            Text(entry.event?.title ?? "Det finns inga kommande event idag")
-                .font(Fonts.title.of(size: 26))
-                .minimumScaleFactor(0.01)
-                .lineLimit(3)
-                .foregroundColor(.white)
-                .foregroundColor(.primary)
-            
-            Spacer()
+        VStack(alignment: .leading, spacing: 0) {
+            if entry.event != nil {
+                Text(isSmall ? shortTodayLabel : longTodayLabel)
+                    .foregroundColor(.white)
+                    .font(.system(size: 13))
+            }
+                        
+            HStack(alignment: .top, spacing: 0) {
+                Text(NSLocalizedString(entry.event?.title ?? "Widget.Result.Empty", comment: ""))
+                    .font(Fonts.title.of(size: 26))
+                    .minimumScaleFactor(0.01)
+                    .lineLimit(3)
+                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
+                
+                Spacer()
+            }
         }
     }
 }
