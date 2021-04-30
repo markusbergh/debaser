@@ -25,7 +25,7 @@ struct DetailFavouriteButtonView: View {
     }
     
     func transition(removalFor favourite: Bool) -> AnyTransition {
-        let duration: Double = 0.5
+        let duration: Double = 0.3
         let anim: Animation = .easeInOut(duration: duration)
         
         if !favourite {

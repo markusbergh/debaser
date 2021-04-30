@@ -10,6 +10,8 @@
 "List.Today" = "Dagens konserter";
 "List.All" = "Alla konserter";
 "List.Search" = "Sök konsert";
+"List.Search.Result" = "Sökresultat";
+"List.Search.Result.Empty" = "Inga event hittades";
 "List.Event.Cancelled" = "Inställt";
 "List.Event.Postponed" = "Framflyttat";
 "List.Error.Title" = "Åh, nej!";
@@ -62,3 +64,8 @@
 /// Detail
 "Detail.Buy.Tickets" = "Köp biljetter här";
 "Detail.Meta.Admission.Free" = "Fri entré";
+
+/// Widget
+"Widget.Today.Short" = "Idag";
+"Widget.Today.Long" = "Idag på Debaser";
+"Widget.Result.Empty" = "Det finns inga kommande event idag";

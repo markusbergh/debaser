@@ -55,7 +55,7 @@ struct ListHeaderView: View {
                     RoundedRectangle(cornerRadius: 15)
                         .stroke(Color.listSearchBarBorder)
                 )
-                .padding(.bottom, 20)
+                .padding(.bottom, 10)
             
             if currentSearch.isEmpty {
                 VStack(spacing: 10) {
@@ -111,6 +111,7 @@ struct ListHeaderView: View {
                         }
                     }
                 }
+                .padding(.top, 10)
             }
         }
     }

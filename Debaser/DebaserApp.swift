@@ -27,9 +27,10 @@ struct DebaserApp: App {
     @StateObject var carouselState = UIStateModel()
     
     @State private var colorScheme: ColorScheme = .light
-    @State private var eventReceivedId: String = ""
     @State private var eventReceived: EventViewModel? = nil
-    
+    @State private var shouldOpenModal = false
+    @State private var eventReceivedId = ""
+
     private let auth = SPTAuth()
     private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
     
@@ -63,13 +64,30 @@ struct DebaserApp: App {
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(withAction: .spotify(.requestLoginComplete))
                 }
+                .onReceive(store.state.settings.hideCancelled) { _ in
+                    // Reset state due to change in settings, regardless of change
+                    carouselState.reset()
+                }
+                .onChange(of: store.state.list.events, perform: { _ in
+                    if shouldOpenModal {
+                        presentModalViewForEvent()
+                        
+                        // All done...
+                        shouldOpenModal = false
+                    }
+                })
                 .onOpenURL{ url in
                     if auth.canHandle(auth.redirectURL) && url.absoluteString.hasPrefix(auth.redirectURL.absoluteString) {
                         handleSpotifyLoginCallbackURL(url)
                     }
                     
-                    if canHandleMessageEventURL(url: url), !eventReceivedId.isEmpty {
-                        presentModalViewForEvent()
+                    if canHandleExtensionEventURL(url: url), !eventReceivedId.isEmpty {
+                        if store.state.list.events.isEmpty {
+                            // We might have no data yet, but we should still present modal
+                            shouldOpenModal = true
+                        } else {
+                            presentModalViewForEvent()
+                        }
                     }
                 }
                 .sheet(item: $eventReceived) { event in
@@ -137,10 +155,10 @@ private extension DebaserApp {
     }
 }
 
-// MARK: iMessage Extension
+// MARK: iMessage Extension + Widget Extension
 
 extension DebaserApp {
-    func canHandleMessageEventURL(url: URL) -> Bool {
+    func canHandleExtensionEventURL(url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
@@ -162,7 +180,6 @@ extension DebaserApp {
         
         return false
     }
-
 }
 
 // MARK: Modal

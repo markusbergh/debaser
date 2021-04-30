@@ -16,6 +16,7 @@ struct ListState {
     var events: [EventViewModel] = []
     var favourites: [EventViewModel] = []
     var isShowingTabBar = true
+    var currentSearch = ""
     
     init(favourites: [EventViewModel] = []) {
         self.favourites = favourites
@@ -36,6 +37,8 @@ func listReducer(state: inout ListState, action: ListAction) -> ListState {
     case .getEventsComplete(let events):
         state.isFetching.send(false)
         state.events = events
+    case .searchEvent(let query):
+        state.currentSearch = query
     case .toggleFavourite:
         state.isFetching.send(true)
     case .toggleFavouriteComplete(let events):

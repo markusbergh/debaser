@@ -15,6 +15,10 @@ struct FramePreferenceKey: PreferenceKey {
 class UIStateModel: ObservableObject {
     @Published var activeCard = 0
     @Published var screenDrag: Float = 0.0
+    
+    func reset() {
+        activeCard = 0
+    }
 }
 
 struct SnapCarousel: View {
