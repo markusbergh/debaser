@@ -12,7 +12,6 @@ struct ListView: View {
     @EnvironmentObject var carouselState: UIStateModel
         
     @State private var isShowingErrorAlert = false
-    @State private var isShowingActivityIndicator = false
     @State private var listPadding: CGFloat = 20
     @State private var midY: CGFloat = .zero
     
@@ -138,17 +137,11 @@ struct ListView: View {
                   message: Text("List.Error.Message"),
                   dismissButton: .default(Text("OK")))
         }
-        .onReceive(store.state.list.isFetching, perform: { isFetching in
-            isShowingActivityIndicator = isFetching
-        })
         .onChange(of: store.state.list.fetchError, perform: { error in
             if let _ = error {
                 isShowingErrorAlert = true
             }
         })
-        .overlay(
-            ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
-        )
     }
     
     private func getCardsForCarousel(events: [EventViewModel]) -> [Card] {

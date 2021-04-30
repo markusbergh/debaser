@@ -16,8 +16,9 @@ struct ContentView: View {
     
     @Environment(\.colorScheme) var colorScheme
 
-    @State var selectedTab: String = "music.note.house"
-    @State var isShowingOnboarding = false
+    @State private var selectedTab: String = "music.note.house"
+    @State private var isShowingOnboarding = false
+    @State private var isShowingActivityIndicator = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -56,6 +57,12 @@ struct ContentView: View {
                 .ignoresSafeArea()
                 .preferredColorScheme(colorScheme)
         }
+        .onReceive(store.state.list.isFetching, perform: { isFetching in
+            isShowingActivityIndicator = isFetching
+        })
+        .overlay(
+            ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
+        )
     }
 }
 
