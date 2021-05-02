@@ -29,18 +29,35 @@ struct MapView: View {
         )
     )
     
+    private var bounceAnimation: Animation {
+        return Animation.timingCurve(
+            0.17, 0.67, 0.71, 1.27,
+            duration: 0.75
+        ).repeatForever(autoreverses: true)
+    }
+    
+    @State private var offsetMapPin: CGFloat = -30
+    
     var body: some View {
         VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text("Debaser")
                     .font(.system(size: 29))
-                    .fontWeight(.medium)
+                    .fontWeight(.semibold)
+                    .padding(.bottom, 10)
+
+                SeparatorView()
+                    .frame(height: 15)
+                    .padding(.bottom, 5)
+
                 Text("Hornstulls Strand 9")
+                    .font(.system(size: 17))
                 Text("117 39 Stockholm")
+                    .font(.system(size: 17))
             }
-            .padding(.top, 40)
+            .padding(.top, 30)
             .padding(.bottom, 20)
-            .padding(.leading, 20)
+            .padding(.horizontal, 20)
             
             Map(coordinateRegion: $region, annotationItems: venues) { venue in
                 MapAnnotation(
@@ -61,7 +78,11 @@ struct MapView: View {
                                 .frame(width: 25)
                                 .offset(x: -2, y: -2)
                         )
-                        .offset(y: -25)
+                        .offset(y: offsetMapPin)
+                        .animation(bounceAnimation)
+                        .onAppear {
+                            offsetMapPin -= 10
+                        }
                 }
             }
             .cornerRadius(15)

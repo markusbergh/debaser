@@ -261,17 +261,20 @@ struct DetailMainContentView: View {
                         )
                 }
                 
-                DetailMetaView(
-                    label: event.venue,
-                    labelSize: 15,
-                    labelColor: colorScheme == .dark ? .black : .white,
-                    backgroundColor: .primary
-                )
-                .onTapGesture {
+                Button(action: {
                     isShowingMapView = true
+                }) {
+                    DetailMetaView(
+                        label: event.venue,
+                        labelSize: 15,
+                        labelColor: colorScheme == .dark ? .black : .white,
+                        backgroundColor: .primary
+                    )
                 }
+                .buttonStyle(PlainButtonStyle())
                 .sheet(isPresented: $isShowingMapView) {
                     MapView()
+                        .preferredColorScheme(colorScheme)
                         .ignoresSafeArea()
                 }
 

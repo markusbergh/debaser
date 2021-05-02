@@ -62,9 +62,21 @@ struct FavouritesView: View {
         .overlay(
             store.state.list.favourites.isEmpty ?
                 AnyView(
-                    Text(emptyLabel)
-                        .font(.system(size: 17))
-                        .fontWeight(.semibold)
+                    GeometryReader { geometry in
+                        ZStack {
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: geometry.size.width * 0.75)
+                                .opacity(0.05)
+                                .offset(y: 10)
+                            
+                            Text(emptyLabel)
+                                .font(.system(size: 17))
+                                .fontWeight(.semibold)
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
                 )
             : AnyView(EmptyView())
         )
