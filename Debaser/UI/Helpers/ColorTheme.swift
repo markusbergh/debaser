@@ -26,7 +26,7 @@ extension Color {
     static let listDivider = Color("ListDivider")
     static let listSearchBarBorder = Color("SearchBarBorder")
     static let listRowOverlayGradient = Color("ListRowOverlayGradient")
-    
+        
     /// Detail
     static let detailBackground = Color("DetailBackground")
     static let detailContentBackground = Color("DetailContentBackground")
@@ -38,6 +38,9 @@ extension Color {
     static let detailBackButtonTint = Color("DetailBackButtonTint")
     static let detailFavouriteRibbonBackground = Color("DetailFavouriteRibbonBackground")
     static let detailMapPinTint = Color("DetailMapPinTint")
+    
+    /// Favourite
+    static let favouriteBackgroundIconTint = Color("FavouriteBackgroundIconTint")
     
     /// Settings
     static let settingsTopGradientStart = Color("SettingsTopGradientStart")

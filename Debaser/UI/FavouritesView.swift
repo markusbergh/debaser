@@ -65,8 +65,10 @@ struct FavouritesView: View {
                     GeometryReader { geometry in
                         ZStack {
                             Image(systemName: "heart.fill")
+                                .renderingMode(.template)
                                 .resizable()
                                 .scaledToFit()
+                                .foregroundColor(.favouriteBackgroundIconTint)
                                 .frame(width: geometry.size.width * 0.75)
                                 .opacity(0.05)
                                 .offset(y: 10)
@@ -116,6 +118,6 @@ struct FavouritesView_Previews: PreviewProvider {
                     reducer: appReducer
                 )
             )
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
     }
 }
