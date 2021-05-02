@@ -218,7 +218,10 @@ struct DetailBackButtonView: View {
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
+    
     @State private var isFavourite = false
+    @State private var isShowingMapView = false
+    
     private var cancelledLabel: String {
         return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
     }
@@ -235,14 +238,14 @@ struct DetailMainContentView: View {
                 if event.isCancelled {
                     DetailMetaView(
                         label: cancelledLabel,
-                        labelSize: 17,
+                        labelSize: 15,
                         labelColor: .white,
                         backgroundColor: .red
                     )
                 } else if event.isPostponed {
                     DetailMetaView(
                         label: postponedLabel,
-                        labelSize: 17,
+                        labelSize: 15,
                         labelColor: .white,
                         backgroundColor: .red
                     )
@@ -264,6 +267,13 @@ struct DetailMainContentView: View {
                     labelColor: colorScheme == .dark ? .black : .white,
                     backgroundColor: .primary
                 )
+                .onTapGesture {
+                    isShowingMapView = true
+                }
+                .sheet(isPresented: $isShowingMapView) {
+                    MapView()
+                        .ignoresSafeArea()
+                }
 
                 Spacer()
                 

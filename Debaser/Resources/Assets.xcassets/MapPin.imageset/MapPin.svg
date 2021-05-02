@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="398px" height="512px" viewBox="0 0 398 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>MapPin</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MapPin" transform="translate(0.151000, 0.000000)" fill-rule="nonzero">
+            <path d="M397.697,198.848 C397.697,358.073 217.946,505.537 217.946,505.537 C207.443,514.154 190.254,514.154 179.751,505.537 C179.751,505.537 0,358.073 0,198.848 C0,89.027 89.029,0 198.849,0 C308.669,0 397.697,89.027 397.697,198.848 Z" id="Path" fill="#000000"></path>
+            <path d="M198.849,298.89 C143.685,298.89 98.808,254.011 98.808,198.849 C98.808,143.687 143.687,98.806 198.849,98.806 C254.011,98.806 298.89,143.685 298.89,198.847 C298.89,254.009 254.013,298.89 198.849,298.89 Z" id="Path" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>

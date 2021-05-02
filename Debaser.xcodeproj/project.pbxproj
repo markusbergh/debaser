@@ -12,6 +12,7 @@
 		8519D27A262DEE4300806839 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519D279262DEE4300806839 /* TitleLabel.swift */; };
 		851F7A042635E71700806FF8 /* DetailFavouriteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F7A032635E71700806FF8 /* DetailFavouriteButtonView.swift */; };
 		851F7A092635E73B00806FF8 /* DetailBuyTicketButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F7A082635E73B00806FF8 /* DetailBuyTicketButtonView.swift */; };
+		851F8326263EAB6700BAEBCA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F8325263EAB6700BAEBCA /* MapView.swift */; };
 		8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */; };
 		852821282627716F007B83EC /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
 		8528213326277263007B83EC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
@@ -153,6 +154,7 @@
 		8519D279262DEE4300806839 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		851F7A032635E71700806FF8 /* DetailFavouriteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFavouriteButtonView.swift; sourceTree = "<group>"; };
 		851F7A082635E73B00806FF8 /* DetailBuyTicketButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBuyTicketButtonView.swift; sourceTree = "<group>"; };
+		851F8325263EAB6700BAEBCA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DelaGothicOne-Regular.ttf"; sourceTree = "<group>"; };
 		8528213226277263007B83EC /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -298,6 +300,14 @@
 				858E1E09263485F600C3E941 /* WebView */,
 			);
 			path = UIRepresentable;
+			sourceTree = "<group>";
+		};
+		851F8324263EAB6000BAEBCA /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				851F8325263EAB6700BAEBCA /* MapView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		852821252627710B007B83EC /* Resources */ = {
@@ -491,6 +501,7 @@
 				85C2ED91262AE7C900CA5CDF /* List */,
 				85639D1A26389C890098465C /* Row */,
 				85D7D7FF2619F4F30073E3BA /* Detail */,
+				851F8324263EAB6000BAEBCA /* Map */,
 				85A8BAE42634C29300E591A1 /* Settings */,
 				85D7D8002619F5150073E3BA /* Helpers */,
 				855310D2260C8BFA00F0D5F7 /* EventListView.swift */,
@@ -924,6 +935,7 @@
 				85BC0B27261658D600589240 /* RowView.swift in Sources */,
 				855B1A2E25FB5B5C00C7A219 /* DebaserApp.swift in Sources */,
 				85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */,
+				851F8326263EAB6700BAEBCA /* MapView.swift in Sources */,
 				85D3AED22639886C006A59A2 /* CarouselItem.swift in Sources */,
 				8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */,
 				85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */,
