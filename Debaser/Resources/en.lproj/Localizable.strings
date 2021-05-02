@@ -9,6 +9,7 @@
 /// List
 "List.Today" = "Today's concerts";
 "List.All" = "All concerts";
+"List.Empty" = "No upcoming events today";
 "List.Search" = "Search concert";
 "List.Search.Result" = "Search results";
 "List.Search.Result.Empty" = "No events found";

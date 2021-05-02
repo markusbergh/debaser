@@ -19,26 +19,14 @@ struct FavouritesView: View {
     }
 
     var body: some View {
-        if store.state.list.favourites.isEmpty {
-            VStack {
-                Text(emptyLabel)
-                    .font(.system(size: 19))
-                    .foregroundColor(.primary)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                ListViewTopRectangle(),
-                alignment: .top
-            )
-            .background(Color.listBackground)
-        } else {
-            NavigationView {
+        NavigationView {
+            GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 25) {
                         ForEach(store.state.list.favourites, id:\.self) { event in
                             ZStack(alignment: .topTrailing) {
                                 RowView(event: event)
-
+                                
                                 Circle()
                                     .fill(Color.white)
                                     .frame(width: 35, height: 35)
@@ -50,14 +38,17 @@ struct FavouritesView: View {
                                     )
                                     .offset(x: -20, y: 20)
                             }
+                            
+                            Spacer()
                         }
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding(.top, 10)
                     .padding(.horizontal, 15)
-                    .frame(maxWidth: .infinity)
                     .navigationTitle(titleLabel)
                 }
                 .padding(.top, 0.5)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     ListViewTopRectangle(),
                     alignment: .top
@@ -67,8 +58,17 @@ struct FavouritesView: View {
                         .edgesIgnoringSafeArea(.bottom)
                 )
             }
-            .navigationViewStyle(StackNavigationViewStyle())
         }
+        .overlay(
+            store.state.list.favourites.isEmpty ?
+                AnyView(
+                    Text(emptyLabel)
+                        .font(.system(size: 17))
+                        .fontWeight(.semibold)
+                )
+            : AnyView(EmptyView())
+        )
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

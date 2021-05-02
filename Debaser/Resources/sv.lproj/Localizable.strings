@@ -9,6 +9,7 @@
 /// List
 "List.Today" = "Dagens konserter";
 "List.All" = "Alla konserter";
+"List.Empty" = "Inga kommande event idag";
 "List.Search" = "Sök konsert";
 "List.Search.Result" = "Sökresultat";
 "List.Search.Result.Empty" = "Inga event hittades";
@@ -21,7 +22,7 @@
 "Detail.Age" = "%@ år";
 
 /// Favourites
-"Favourites" = "Favouriter";
+"Favourites" = "Favoriter";
 "Favourites.Empty" = "Inga favoriter sparade";
 
 /// Onboarding

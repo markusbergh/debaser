@@ -22,6 +22,10 @@ struct ListView: View {
         return store.state.list.currentSearch.isEmpty ? "List.All" : "List.Search.Result"
     }
     
+    private var emptyListLabel: LocalizedStringKey {
+        return "List.Empty"
+    }
+    
     private var gridLayout: [GridItem] {
         return Array(repeating: .init(.flexible(), spacing: 20), count: 2)
     }
@@ -82,7 +86,7 @@ struct ListView: View {
                         )
                     } else {
                         VStack {
-                            Text("Inga kommande event idag")
+                            Text(emptyListLabel)
                                 .font(.system(size: 17))
                                 .fontWeight(.semibold)
                         }

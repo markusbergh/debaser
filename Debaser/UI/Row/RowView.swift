@@ -77,7 +77,6 @@ struct RowView: View {
                     Rectangle()
                         .fill(Color.listRowBackground)
                         .cornerRadius(15)
-                        .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: -5)
                 )
                 .overlay(
                     RoundedRectangle(cornerRadius: 15, style: .circular)
