@@ -37,6 +37,16 @@ struct RowView: View {
                                 .transition(
                                     .opacity.animation(.easeInOut(duration: 0.2))
                                 )
+                                .overlay(
+                                    Rectangle()
+                                        .fill(
+                                            LinearGradient(
+                                                gradient: Gradient(colors: [.listRowOverlayGradient.opacity(0.85), .listRowOverlayGradient.opacity(0)]),
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
+                                )
                         } else {
                             Rectangle()
                                 .background(Color.clear)

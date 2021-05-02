@@ -48,7 +48,7 @@ struct FavouritesView: View {
                                             .frame(width: 16, height: 16)
                                             .foregroundColor(.red)
                                     )
-                                    .offset(x: -25, y: 30)
+                                    .offset(x: -20, y: 20)
                             }
                         }
                     }
