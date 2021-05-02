@@ -44,12 +44,10 @@ struct RowView: View {
                                 .frame(height: 150)
                         }
                         
-                        TitleView(title: event.title, fontSize: 35, lineLimit: 2, textColor: .white)
-                            .frame(maxWidth: 250)
-                            .fixedSize(horizontal: false, vertical: true)
+                        TitleView(title: event.title, fontSize: 33, lineLimit: 3, textColor: .white)
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
-                            .padding(.top, 30)
-                            .padding(.leading, 25)
+                            .padding(.horizontal, 20)
+                            .frame(maxWidth: 250, maxHeight: 150)
                     }
                     
                     HStack(spacing: 10) {

@@ -68,30 +68,39 @@ struct ListView: View {
                 .padding(.horizontal, listPadding)
                 
                 if store.state.list.currentSearch.isEmpty {
-                    Spacer().frame(height: 10)
-                    
                     let events = getTodayEvents()
-                    let cards = getCardsForCarousel(events: events)
-                                        
-                    SnapCarousel(
-                        UIState: carouselState,
-                        spacing: 16,
-                        widthOfHiddenCards: 16,
-                        cardHeight: 185,
-                        items: cards
-                    )
+                    
+                    if !events.isEmpty {
+                        let cards = getCardsForCarousel(events: events)
+                                            
+                        SnapCarousel(
+                            UIState: carouselState,
+                            spacing: 16,
+                            widthOfHiddenCards: 16,
+                            cardHeight: 185,
+                            items: cards
+                        )
+                    } else {
+                        VStack {
+                            Text("Inga kommande event idag")
+                                .font(.system(size: 17))
+                                .fontWeight(.semibold)
+                        }
+                        .frame(height: 100)
+                        .padding(listPadding)
+                    }
                     
                     Divider()
                         .background(Color.listDivider)
-                        .padding(.top, 10)
-                        .padding(.bottom, 10)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, listPadding)
                 }
                 
                 let events = getEvents()
                 
                 VStack {
-                    HStack(spacing: 0) {
-                        if events == nil, !store.state.list.currentSearch.isEmpty {
+                    HStack {
+                        if events.isEmpty, !store.state.list.currentSearch.isEmpty {
                             Text("List.Search.Result.Empty")
                                 .font(.system(size: 17))
                                 .fontWeight(.medium)
@@ -106,9 +115,8 @@ struct ListView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, listPadding)
 
-                if let events = events {
+                if !events.isEmpty {
                     LazyVGrid(columns: gridLayout, spacing: 20) {
-                        
                         ForEach(0..<events.count, id:\.self) { idx in
                             let event = events[idx]
                             
@@ -156,14 +164,14 @@ struct ListView: View {
         return cards
     }
     
-    private func getEvents() -> [EventViewModel]? {
+    private func getEvents() -> [EventViewModel] {
         var events = store.state.list.events
         
         if store.state.settings.hideCancelled.value == true {
             events = filterHideCancelledEvents(events: events)
         }
 
-        return events.isEmpty ? nil : events
+        return events
     }
     
     private func getTodayEvents() -> [EventViewModel] {

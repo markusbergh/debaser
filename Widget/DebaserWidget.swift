@@ -183,7 +183,7 @@ struct WidgetBackground: View {
                         .fill(
                             LinearGradient(
                                 gradient: Gradient(
-                                    colors: [.overlay.opacity(0), .overlay.opacity(0.75)]
+                                    colors: [.overlay.opacity(0), .overlay.opacity(0.85)]
                                 ),
                                 startPoint: .top,
                                 endPoint: .bottom

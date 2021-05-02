@@ -18,7 +18,7 @@ struct SettingsView: View {
         return "Settings.Theme"
     }
     private var themeToggleLabel: LocalizedStringKey {
-        return darkMode.wrappedValue ? "Settings.Theme.DarkMode" : "Settings.Theme.NormalMode"
+        return isDarkMode ? "Settings.Theme.DarkMode" : "Settings.Theme.NormalMode"
     }
     private var imagesLabel: LocalizedStringKey {
         return "Settings.Layout.Images"
@@ -31,6 +31,10 @@ struct SettingsView: View {
     }
     private var onboardingShowLabel: LocalizedStringKey {
         return "Settings.Onboarding.Show"
+    }
+    
+    private var isDarkMode: Bool {
+        return darkMode.wrappedValue
     }
     
     private var systemColorScheme: Binding<Bool> {
@@ -96,8 +100,10 @@ struct SettingsView: View {
                         Toggle("System", isOn: systemColorScheme.animation(.easeInOut))
                 
                         if !systemColorScheme.wrappedValue {
+                            let spacing = isDarkMode ? CGFloat(10.0) : CGFloat(5.0)
+                            
                             Toggle(isOn: darkMode.animation(.easeInOut)) {
-                                HStack(spacing: darkMode.wrappedValue ? 10 : 5) {
+                                HStack(spacing: spacing) {
                                     Group {
                                         Text(themeToggleLabel)
 
@@ -149,10 +155,7 @@ struct SettingsViewTopRectangle: View {
         Rectangle()
             .fill(
                 LinearGradient(
-                    gradient:
-                        Gradient(
-                            colors: [colorStart, colorEnd]
-                        ),
+                    gradient: Gradient(colors: [colorStart, colorEnd]),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -182,6 +185,8 @@ struct SettingsSectionAbout: View {
 struct SettingsSectionSpotify: View {
     @EnvironmentObject var store: AppStore
 
+    @State private var showSpotifySettings = false
+    
     private var servicesLabel: LocalizedStringKey {
         return "Settings.Services"
     }
@@ -189,8 +194,10 @@ struct SettingsSectionSpotify: View {
         return store.state.spotify.isLoggedIn ? "Settings.Spotify.On" : "Settings.Spotify.Off"
     }
     
-    @State private var showSpotifySettings = false
-
+    private var spotifyLabelColor: Color {
+        return store.state.spotify.isLoggedIn ? .green : .primary
+    }
+    
     var body: some View {
         Section(header: Text(servicesLabel)) {
             NavigationLink(destination: SettingsSpotifyView(), isActive: $showSpotifySettings) {
@@ -206,7 +213,7 @@ struct SettingsSectionSpotify: View {
                         Spacer()
 
                         Text(spotifyLabel)
-                            .foregroundColor(store.state.spotify.isLoggedIn ? .green : .primary)
+                            .foregroundColor(spotifyLabelColor)
                     }
                 }
             }
