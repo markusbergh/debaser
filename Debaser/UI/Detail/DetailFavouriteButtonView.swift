@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DetailFavouriteButtonView: View {
     @EnvironmentObject var store: AppStore
+    
     @State private var isFavourite = false
 
     func transition(insertionFor favourite: Bool) -> AnyTransition {
