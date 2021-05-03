@@ -9,12 +9,11 @@ import XCTest
 @testable import Debaser
 
 class SpotifyReducerTests: XCTestCase {
-    func testSpotifyReducerInitial() {
+    func testSpotifyInitial() {
         var initialState = SpotifyState()
         
         let newState = spotifyReducer(state: &initialState, action: .initialize)
         
-        // Nothing in state should have changed
         XCTAssert(newState === initialState)
     }
     

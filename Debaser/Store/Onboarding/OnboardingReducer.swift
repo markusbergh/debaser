@@ -10,8 +10,12 @@ import Foundation
 
 // MARK: Initial state
 
-struct OnboardingState {
+struct OnboardingState: Equatable {
     var seenOnboarding = CurrentValueSubject<Bool, Never>(true)
+    
+    static func == (lhs: OnboardingState, rhs: OnboardingState) -> Bool {
+        return lhs.seenOnboarding.value == rhs.seenOnboarding.value
+    }
 }
 
 // MARK: Reducer
