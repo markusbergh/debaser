@@ -11,6 +11,12 @@ enum Tab {
     case list
     case favourites
     case settings
+    
+    enum Identifier: String {
+        case list = "TabItemList"
+        case favourites = "TabItemFavourites"
+        case settings = "TabItemSettings"
+    }
 }
 
 class TabViewRouter: ObservableObject {

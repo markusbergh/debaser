@@ -20,14 +20,32 @@ struct TabBar: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            TabBarButton(image: "music.note.house", type: .list, selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "heart", type: .favourites, selectedTab: $selectedTab, tabPoints: $tabPoints)
-            TabBarButton(image: "gearshape", type: .settings, selectedTab: $selectedTab, tabPoints: $tabPoints)
+            TabBarButton(
+                image: "music.note.house",
+                type: .list,
+                identifier: .list,
+                selectedTab: $selectedTab,
+                tabPoints: $tabPoints
+            )
+            
+            TabBarButton(
+                image: "heart",
+                type: .favourites,
+                identifier: .favourites,
+                selectedTab: $selectedTab,
+                tabPoints: $tabPoints
+            )
+            
+            TabBarButton(
+                image: "gearshape",
+                type: .settings,
+                identifier: .settings,
+                selectedTab: $selectedTab,
+                tabPoints: $tabPoints
+            )
         }
         .padding()
-        .background(
-            Color.tabBarBackground
-        )
+        .background(Color.tabBarBackground)
         .cornerRadius(TabBarStyle.cornerRadius.rawValue)
         .padding(.horizontal)
         .padding(.bottom, TabBarStyle.paddingBottom.rawValue)
@@ -37,6 +55,7 @@ struct TabBar: View {
 struct TabBarButton: View {
     var image: String
     var type: Tab
+    var identifier: Tab.Identifier
 
     @EnvironmentObject var tabViewRouter: TabViewRouter
     @Binding var selectedTab: String
@@ -62,6 +81,7 @@ struct TabBarButton: View {
             })
             .buttonStyle(ScaleButtonStyle())
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .accessibility(identifier: identifier.rawValue)
         )
         .frame(height: TabBarStyle.height.rawValue)
     }

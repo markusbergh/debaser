@@ -98,6 +98,7 @@ struct SettingsView: View {
                     
                     Section(header: Text(themeLabel)) {
                         Toggle("System", isOn: systemColorScheme.animation(.easeInOut))
+                            .accessibility(identifier: "ToggleSystemTheme")
                 
                         if !systemColorScheme.wrappedValue {
                             let spacing = isDarkMode ? CGFloat(10.0) : CGFloat(5.0)
@@ -113,6 +114,7 @@ struct SettingsView: View {
                                     }
                                 }
                             }
+                            .accessibility(identifier: "ToggleUserTheme")
                         }
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))

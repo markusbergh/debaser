@@ -19,6 +19,7 @@
 		8528213326277263007B83EC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
 		8528213826277AF6007B83EC /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213726277AF6007B83EC /* SeparatorView.swift */; };
 		85282140262787C0007B83EC /* DetailMetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213F262787C0007B83EC /* DetailMetaView.swift */; };
+		8528C10126448C48002002F5 /* DebaserUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528C10026448C48002002F5 /* DebaserUITests.swift */; };
 		852A343926362AF800677B9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 852A343826362AF800677B9D /* LaunchScreen.storyboard */; };
 		852A4AC8264044D90092FB9F /* OnboardingReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852A4AC7264044D90092FB9F /* OnboardingReducer.swift */; };
 		852FBE9E26275CF200060A7E /* WillDisappearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */; };
@@ -112,14 +113,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		855B1A3C25FB5B5F00C7A219 /* PBXContainerItemProxy */ = {
+		8528C10326448C48002002F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 855B1A2225FB5B5C00C7A219 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 855B1A2925FB5B5C00C7A219;
 			remoteInfo = Debaser;
 		};
-		855B1A4725FB5B5F00C7A219 /* PBXContainerItemProxy */ = {
+		855B1A3C25FB5B5F00C7A219 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 855B1A2225FB5B5C00C7A219 /* Project object */;
 			proxyType = 1;
@@ -163,6 +164,9 @@
 		8528213226277263007B83EC /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		8528213726277AF6007B83EC /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		8528213F262787C0007B83EC /* DetailMetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMetaView.swift; sourceTree = "<group>"; };
+		8528C0FE26448C48002002F5 /* DebaserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebaserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8528C10026448C48002002F5 /* DebaserUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebaserUITests.swift; sourceTree = "<group>"; };
+		8528C10226448C48002002F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		852A343826362AF800677B9D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		852A4AC7264044D90092FB9F /* OnboardingReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingReducer.swift; sourceTree = "<group>"; };
 		852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WillDisappearModifier.swift; sourceTree = "<group>"; };
@@ -189,7 +193,6 @@
 		855B1A3625FB5B5F00C7A219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		855B1A3B25FB5B5F00C7A219 /* DebaserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebaserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		855B1A4125FB5B5F00C7A219 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		855B1A4625FB5B5F00C7A219 /* DebaserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebaserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85616EDD262992E50018C955 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		856926C6260BE234004B1761 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		856926CF260BE24B004B1761 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
@@ -251,6 +254,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8528C0FB26448C48002002F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		855B1A2725FB5B5C00C7A219 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -262,13 +272,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		855B1A3825FB5B5F00C7A219 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		855B1A4325FB5B5F00C7A219 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -352,6 +355,15 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		8528C0FF26448C48002002F5 /* DebaserUITests */ = {
+			isa = PBXGroup;
+			children = (
+				8528C10026448C48002002F5 /* DebaserUITests.swift */,
+				8528C10226448C48002002F5 /* Info.plist */,
+			);
+			path = DebaserUITests;
+			sourceTree = "<group>";
+		};
 		852A4AC6264044C90092FB9F /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +440,7 @@
 			children = (
 				855B1A2C25FB5B5C00C7A219 /* Debaser */,
 				855B1A3E25FB5B5F00C7A219 /* DebaserTests */,
+				8528C0FF26448C48002002F5 /* DebaserUITests */,
 				85B4498426383E9900C095FA /* iMessage */,
 				857F1F0C263B1306005BB985 /* Widget */,
 				85FCAF0D263723A100A0BC89 /* Frameworks */,
@@ -440,9 +453,9 @@
 			children = (
 				855B1A2A25FB5B5C00C7A219 /* Debaser.app */,
 				855B1A3B25FB5B5F00C7A219 /* DebaserTests.xctest */,
-				855B1A4625FB5B5F00C7A219 /* DebaserUITests.xctest */,
 				85B4498126383E9900C095FA /* iMessage.appex */,
 				857F1F07263B1306005BB985 /* WidgetExtension.appex */,
+				8528C0FE26448C48002002F5 /* DebaserUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -728,6 +741,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8528C0FD26448C48002002F5 /* DebaserUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8528C10526448C48002002F5 /* Build configuration list for PBXNativeTarget "DebaserUITests" */;
+			buildPhases = (
+				8528C0FA26448C48002002F5 /* Sources */,
+				8528C0FB26448C48002002F5 /* Frameworks */,
+				8528C0FC26448C48002002F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8528C10426448C48002002F5 /* PBXTargetDependency */,
+			);
+			name = DebaserUITests;
+			productName = DebaserUITests;
+			productReference = 8528C0FE26448C48002002F5 /* DebaserUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		855B1A2925FB5B5C00C7A219 /* Debaser */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 855B1A4F25FB5B5F00C7A219 /* Build configuration list for PBXNativeTarget "Debaser" */;
@@ -764,24 +795,6 @@
 			productName = DebaserTests;
 			productReference = 855B1A3B25FB5B5F00C7A219 /* DebaserTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		855B1A4525FB5B5F00C7A219 /* DebaserUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 855B1A5525FB5B5F00C7A219 /* Build configuration list for PBXNativeTarget "DebaserUITests" */;
-			buildPhases = (
-				855B1A4225FB5B5F00C7A219 /* Sources */,
-				855B1A4325FB5B5F00C7A219 /* Frameworks */,
-				855B1A4425FB5B5F00C7A219 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				855B1A4825FB5B5F00C7A219 /* PBXTargetDependency */,
-			);
-			name = DebaserUITests;
-			productName = DebaserUITests;
-			productReference = 855B1A4625FB5B5F00C7A219 /* DebaserUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		857F1F06263B1306005BB985 /* WidgetExtension */ = {
 			isa = PBXNativeTarget;
@@ -826,14 +839,14 @@
 				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
+					8528C0FD26448C48002002F5 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 855B1A2925FB5B5C00C7A219;
+					};
 					855B1A2925FB5B5C00C7A219 = {
 						CreatedOnToolsVersion = 12.4;
 					};
 					855B1A3A25FB5B5F00C7A219 = {
-						CreatedOnToolsVersion = 12.4;
-						TestTargetID = 855B1A2925FB5B5C00C7A219;
-					};
-					855B1A4525FB5B5F00C7A219 = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = 855B1A2925FB5B5C00C7A219;
 					};
@@ -861,7 +874,7 @@
 			targets = (
 				855B1A2925FB5B5C00C7A219 /* Debaser */,
 				855B1A3A25FB5B5F00C7A219 /* DebaserTests */,
-				855B1A4525FB5B5F00C7A219 /* DebaserUITests */,
+				8528C0FD26448C48002002F5 /* DebaserUITests */,
 				85B4498026383E9900C095FA /* iMessage */,
 				857F1F06263B1306005BB985 /* WidgetExtension */,
 			);
@@ -869,6 +882,13 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8528C0FC26448C48002002F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		855B1A2825FB5B5C00C7A219 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -884,13 +904,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		855B1A3925FB5B5F00C7A219 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		855B1A4425FB5B5F00C7A219 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -924,6 +937,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8528C0FA26448C48002002F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8528C10126448C48002002F5 /* DebaserUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		855B1A2625FB5B5C00C7A219 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1002,13 +1023,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		855B1A4225FB5B5F00C7A219 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		857F1F03263B1306005BB985 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1039,16 +1053,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8528C10426448C48002002F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 855B1A2925FB5B5C00C7A219 /* Debaser */;
+			targetProxy = 8528C10326448C48002002F5 /* PBXContainerItemProxy */;
+		};
 		855B1A3D25FB5B5F00C7A219 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			platformFilter = ios;
 			target = 855B1A2925FB5B5C00C7A219 /* Debaser */;
 			targetProxy = 855B1A3C25FB5B5F00C7A219 /* PBXContainerItemProxy */;
-		};
-		855B1A4825FB5B5F00C7A219 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 855B1A2925FB5B5C00C7A219 /* Debaser */;
-			targetProxy = 855B1A4725FB5B5F00C7A219 /* PBXContainerItemProxy */;
 		};
 		85B4498E26383E9C00C095FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1070,6 +1084,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8528C10626448C48002002F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 57MDPUFGC8;
+				INFOPLIST_FILE = DebaserUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Debaser;
+			};
+			name = Debug;
+		};
+		8528C10726448C48002002F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 57MDPUFGC8;
+				INFOPLIST_FILE = DebaserUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Debaser;
+			};
+			name = Release;
+		};
 		855B1A4D25FB5B5F00C7A219 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1306,50 +1362,6 @@
 			};
 			name = Release;
 		};
-		855B1A5625FB5B5F00C7A219 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 57MDPUFGC8;
-				INFOPLIST_FILE = DebaserUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				TEST_TARGET_NAME = Debaser;
-			};
-			name = Debug;
-		};
-		855B1A5725FB5B5F00C7A219 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 57MDPUFGC8;
-				INFOPLIST_FILE = DebaserUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.DebaserUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-				TEST_TARGET_NAME = Debaser;
-			};
-			name = Release;
-		};
 		857F1F18263B1307005BB985 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1454,6 +1466,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8528C10526448C48002002F5 /* Build configuration list for PBXNativeTarget "DebaserUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8528C10626448C48002002F5 /* Debug */,
+				8528C10726448C48002002F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		855B1A2525FB5B5C00C7A219 /* Build configuration list for PBXProject "Debaser" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1477,15 +1498,6 @@
 			buildConfigurations = (
 				855B1A5325FB5B5F00C7A219 /* Debug */,
 				855B1A5425FB5B5F00C7A219 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		855B1A5525FB5B5F00C7A219 /* Build configuration list for PBXNativeTarget "DebaserUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				855B1A5625FB5B5F00C7A219 /* Debug */,
-				855B1A5725FB5B5F00C7A219 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
