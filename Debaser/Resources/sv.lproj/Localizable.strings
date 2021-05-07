@@ -16,6 +16,7 @@
 "List.Event.Cancelled" = "Inställt";
 "List.Event.Postponed" = "Framflyttat";
 "List.Error.Title" = "Åh, nej!";
+"List.Loading" = "Laddar...";
 "List.Error.Message" = "Tyvärr gick något fel när konserter skulle hämtas, vänligen försök igen.";
 
 /// Detail

@@ -84,13 +84,13 @@ struct ListView: View {
                             cardHeight: 185,
                             items: cards
                         )
-                    } else {
+                    } else if events.isEmpty {
                         VStack {
-                            Text(emptyListLabel)
+                            Text(store.state.list.isFetching.value ? "List.Loading" : emptyListLabel)
                                 .font(.system(size: 17))
                                 .fontWeight(.semibold)
                         }
-                        .frame(height: 100)
+                        .frame(height: 170)
                         .padding(listPadding)
                     }
                     

@@ -16,6 +16,7 @@
 "List.Event.Cancelled" = "Cancelled";
 "List.Event.Postponed" = "Postponed";
 "List.Error.Title" = "Oh, no!";
+"List.Loading" = "Loading...";
 "List.Error.Message" = "Something went wrong while fetching events, please try again.";
 
 /// Detail
