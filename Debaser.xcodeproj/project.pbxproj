@@ -1286,7 +1286,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser;
+				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -1317,7 +1317,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser;
+				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Debaser Ad Hoc Provisioning Profile";
 				SWIFT_VERSION = 5.0;
@@ -1396,7 +1396,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -1422,7 +1422,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser.Widget;
+				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Debaser Widget Ad Hoc Provisioning Profile";
 				SKIP_INSTALL = YES;
@@ -1448,7 +1448,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser.iMessage;
+				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser.iMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1474,7 +1474,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = se.marber.Debaser.iMessage;
+				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser.iMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Debaser iMessage Ad Hoc Provisioning Profile";
 				SKIP_INSTALL = YES;
