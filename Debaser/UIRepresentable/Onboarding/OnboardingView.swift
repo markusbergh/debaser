@@ -46,7 +46,7 @@ struct OnboardingView: UIViewControllerRepresentable {
         func showSpotifySettings() {
             let store = parent.store
             
-            store.dispatch(withAction: .settings(.pushToSpotifySettings))
+            store.dispatch(action: .settings(.pushToSpotifySettings))
         }
     }
 }

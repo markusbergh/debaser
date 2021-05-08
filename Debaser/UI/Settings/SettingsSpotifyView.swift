@@ -35,9 +35,9 @@ struct SettingsSpotifyView: View {
                     }
                     .onChange(of: isConnectedToggle, perform: { isOn in
                         if isOn {
-                            store.dispatch(withAction: .spotify(.requestLogin))
+                            store.dispatch(action: .spotify(.requestLogin))
                         } else {
-                            store.dispatch(withAction: .spotify(.requestLogout))
+                            store.dispatch(action: .spotify(.requestLogout))
                         }
                     })
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))

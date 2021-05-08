@@ -50,7 +50,7 @@ struct DetailFavouriteButtonView: View {
             let generator = UISelectionFeedbackGenerator()
             generator.selectionChanged()
             
-            store.dispatch(withAction: .list(.toggleFavourite(event)))
+            store.dispatch(action: .list(.toggleFavourite(event)))
         }) {
             Image(systemName: isFavourite ? "heart.fill" : "heart" )
                 .resizable()

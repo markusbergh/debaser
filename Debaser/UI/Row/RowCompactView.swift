@@ -37,7 +37,7 @@ struct RowCompactView: View {
             Button(action: {
                 isShowingDetailView = true
                 
-                store.dispatch(withAction: .list(.hideTabBar))
+                store.dispatch(action: .list(.hideTabBar))
                 
                 UIApplication.shared.sendAction(
                     #selector(UIResponder.resignFirstResponder),

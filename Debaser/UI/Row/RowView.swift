@@ -23,7 +23,7 @@ struct RowView: View {
             Button(action: {
                 isShowingDetailView = true
                 
-                store.dispatch(withAction: .list(.hideTabBar))
+                store.dispatch(action: .list(.hideTabBar))
             }) {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {

@@ -76,15 +76,15 @@ struct DetailView: View {
                 
                 // Search for artist if eligible to do so
                 if store.state.spotify.isLoggedIn == true {
-                    store.dispatch(withAction: .spotify(.requestSearchArtist(event.title)))
+                    store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
                 }
                 
                 if store.state.list.isShowingTabBar == true {
-                    store.dispatch(withAction: .list(.hideTabBar))
+                    store.dispatch(action: .list(.hideTabBar))
                 }
             }
             .onDisappear {
-                store.dispatch(withAction: .list(.showTabBar))
+                store.dispatch(action: .list(.showTabBar))
                 
                 if isStreaming {
                     SpotifyService.shared.playPauseStream()

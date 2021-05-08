@@ -33,7 +33,7 @@ struct EventListView: View {
             }
             
             if store.state.list.events.isEmpty {
-                store.dispatch(withAction: .list(.getEventsRequest))
+                store.dispatch(action: .list(.getEventsRequest))
             }
         }
     }

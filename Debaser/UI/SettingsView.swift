@@ -44,7 +44,7 @@ struct SettingsView: View {
             },
             set: { newValue in
                 withAnimation {
-                    store.dispatch(withAction:.settings(.setOverrideColorScheme(newValue)))
+                    store.dispatch(action:.settings(.setOverrideColorScheme(newValue)))
                 }
             }
         )
@@ -57,7 +57,7 @@ struct SettingsView: View {
             },
             set: { newValue in
                 withAnimation {
-                    store.dispatch(withAction:.settings(.setDarkMode(newValue)))
+                    store.dispatch(action:.settings(.setDarkMode(newValue)))
                 }
             }
         )
@@ -69,7 +69,7 @@ struct SettingsView: View {
                 return store.state.settings.showImages.value
             },
             set: {
-                store.dispatch(withAction: .settings(.setShowImages($0)))
+                store.dispatch(action: .settings(.setShowImages($0)))
             }
         )
     }
@@ -80,7 +80,7 @@ struct SettingsView: View {
                 return store.state.settings.hideCancelled.value
             },
             set: {
-                store.dispatch(withAction: .settings(.setHideCancelled($0)))
+                store.dispatch(action: .settings(.setHideCancelled($0)))
             }
         )
     }
@@ -127,7 +127,7 @@ struct SettingsView: View {
 
                     Section(header: Text(onboardingLabel)) {
                         Button(onboardingShowLabel) {
-                            store.dispatch(withAction: .onboarding(.showOnboarding))
+                            store.dispatch(action: .onboarding(.showOnboarding))
                         }
                     }
                 }

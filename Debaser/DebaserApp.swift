@@ -49,7 +49,7 @@ struct DebaserApp: App {
                 .environmentObject(tabViewRouter)
                 .environmentObject(carouselState)
                 .onReceive(spotifyUserRetrieved) { _ in
-                    store.dispatch(withAction: .spotify(.requestLoginComplete))
+                    store.dispatch(action: .spotify(.requestLoginComplete))
                 }
                 .onReceive(store.state.settings.hideCancelled) { _ in
                     // Reset state due to change in settings, regardless of change
@@ -98,13 +98,13 @@ struct DebaserApp: App {
     
     func resetIfNeeded() {
         guard CommandLine.arguments.contains("-resetUserDefaults") else {
-            store.dispatch(withAction: .list(.getFavouritesRequest))
-            store.dispatch(withAction: .spotify(.initialize))
-            store.dispatch(withAction: .settings(.getOverrideColorScheme))
-            store.dispatch(withAction: .settings(.getDarkMode))
-            store.dispatch(withAction: .settings(.getHideCancelled))
-            store.dispatch(withAction: .settings(.getShowImages))
-            store.dispatch(withAction: .onboarding(.getOnboarding))
+            store.dispatch(action: .list(.getFavouritesRequest))
+            store.dispatch(action: .spotify(.initialize))
+            store.dispatch(action: .settings(.getOverrideColorScheme))
+            store.dispatch(action: .settings(.getDarkMode))
+            store.dispatch(action: .settings(.getHideCancelled))
+            store.dispatch(action: .settings(.getShowImages))
+            store.dispatch(action: .onboarding(.getOnboarding))
 
             return
         }
@@ -141,7 +141,7 @@ private extension DebaserApp {
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
-                store.dispatch(withAction: .spotify(.requestLoginError(.authError)))
+                store.dispatch(action: .spotify(.requestLoginError(.authError)))
                 
                 return
             }
@@ -166,7 +166,7 @@ private extension DebaserApp {
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
-                store.dispatch(withAction: .spotify(.requestLoginError(.unknown)))
+                store.dispatch(action: .spotify(.requestLoginError(.unknown)))
             }
             
             // Fire away notification

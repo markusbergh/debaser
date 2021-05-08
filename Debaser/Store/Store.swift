@@ -11,7 +11,7 @@ import Foundation
 protocol StoreProtocol {
     associatedtype Action
     
-    func dispatch(withAction action: Action)
+    func dispatch(action: Action)
 }
 
 typealias Middleware<State, Action> = (State, Action) -> AnyPublisher<Action, Never>?
@@ -31,7 +31,7 @@ final class Store<State, Action>: ObservableObject {
 }
 
 extension Store: StoreProtocol {
-    func dispatch(withAction action: Action) {
+    func dispatch(action: Action) {
         state = reducer(&state, action)
         
         for middleware in middlewares {

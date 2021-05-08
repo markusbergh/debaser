@@ -40,7 +40,7 @@ struct ListView: View {
                 return store.state.settings.darkMode.value
             },
             set: {
-                store.dispatch(withAction: .settings(.setDarkMode($0)))
+                store.dispatch(action: .settings(.setDarkMode($0)))
             }
         )
         
@@ -53,7 +53,7 @@ struct ListView: View {
                 return store.state.list.currentSearch
             },
             set: {
-                store.dispatch(withAction: .list(.searchEvent(query: $0)))
+                store.dispatch(action: .list(.searchEvent(query: $0)))
             }
         )
         
