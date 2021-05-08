@@ -14,6 +14,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>Widget.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>iMessage.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -33,6 +38,11 @@
 			<true/>
 		</dict>
 		<key>855B1A4525FB5B5F00C7A219</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>85F597632646A248004CA1CD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
