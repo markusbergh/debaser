@@ -39,6 +39,7 @@
 		855B1A3025FB5B5C00C7A219 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B1A2F25FB5B5C00C7A219 /* ContentView.swift */; };
 		855B1A3225FB5B5F00C7A219 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855B1A3125FB5B5F00C7A219 /* Assets.xcassets */; };
 		855B1A3525FB5B5F00C7A219 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855B1A3425FB5B5F00C7A219 /* Preview Assets.xcassets */; };
+		855CF3542646ACC0007876D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855B1A3125FB5B5F00C7A219 /* Assets.xcassets */; };
 		85616EDE262992E50018C955 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85616EDD262992E50018C955 /* ListHeaderView.swift */; };
 		856926C7260BE234004B1761 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926C6260BE234004B1761 /* Event.swift */; };
 		856926D0260BE24B004B1761 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926CF260BE24B004B1761 /* EventService.swift */; };
@@ -896,6 +897,7 @@
 				85F5977B2646A2EA004CA1CD /* Localizable.strings in Resources */,
 				85F5977A2646A2E4004CA1CD /* Debaser.plist in Resources */,
 				85F597792646A2DD004CA1CD /* DelaGothicOne-Regular.ttf in Resources */,
+				855CF3542646ACC0007876D3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
