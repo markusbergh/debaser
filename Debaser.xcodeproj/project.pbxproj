@@ -28,7 +28,6 @@
 		85303376262E1E2400C93D1B /* DBSROnboardingStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303371262E1E2400C93D1B /* DBSROnboardingStepViewController.swift */; };
 		85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */; };
 		85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303380262E1EF200C93D1B /* OnboardingView.swift */; };
-		85303386262F6DF200C93D1B /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303385262F6DF200C93D1B /* UIDevice+Extension.swift */; };
 		854E2980262CB3C0003AC567 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		855090452621FDCB000C88BF /* TabViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855090442621FDCB000C88BF /* TabViewRouter.swift */; };
 		855310D3260C8BFA00F0D5F7 /* EventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855310D2260C8BFA00F0D5F7 /* EventListView.swift */; };
@@ -183,7 +182,6 @@
 		85303371262E1E2400C93D1B /* DBSROnboardingStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingStepViewController.swift; sourceTree = "<group>"; };
 		85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingViewController.swift; sourceTree = "<group>"; };
 		85303380262E1EF200C93D1B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		85303385262F6DF200C93D1B /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		854E296B262CB0C0003AC567 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		854E2970262CB0C4003AC567 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		855090442621FDCB000C88BF /* TabViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewRouter.swift; sourceTree = "<group>"; };
@@ -676,7 +674,6 @@
 				85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */,
 				8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */,
 				85EEB96A2620404000DFC238 /* View+Extension.swift */,
-				85303385262F6DF200C93D1B /* UIDevice+Extension.swift */,
 				85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */,
 			);
 			path = Extensions;
@@ -1004,7 +1001,6 @@
 				8530336A262E1D9700C93D1B /* TitleView.swift in Sources */,
 				85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */,
 				855CF38F2646DC5D007876D3 /* MapView.swift in Sources */,
-				85303386262F6DF200C93D1B /* UIDevice+Extension.swift in Sources */,
 				85EEB96B2620404000DFC238 /* View+Extension.swift in Sources */,
 				85EEAB22262B25F70000B85E /* EventViewModel.swift in Sources */,
 				85303374262E1E2400C93D1B /* DBSROnboardingButton.swift in Sources */,
