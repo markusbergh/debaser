@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SpotifyAction {
+enum SpotifyAction: Equatable {
     case initialize
     case requestLogin
     case requestLoginComplete

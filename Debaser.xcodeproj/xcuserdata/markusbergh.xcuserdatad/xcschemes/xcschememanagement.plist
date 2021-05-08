@@ -14,35 +14,35 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>Widget.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
-		</dict>
-		<key>iMessage.xcscheme_^#shared#^_</key>
+		<key>DebaserUITests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>Widget.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>iMessage.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>8528C0FD26448C48002002F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>855B1A2925FB5B5C00C7A219</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>855B1A3A25FB5B5F00C7A219</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>855B1A4525FB5B5F00C7A219</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>85F597632646A248004CA1CD</key>
+		<key>857F1F06263B1306005BB985</key>
 		<dict>
 			<key>primary</key>
 			<true/>

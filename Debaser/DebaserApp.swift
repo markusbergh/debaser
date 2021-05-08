@@ -42,12 +42,8 @@ struct DebaserApp: App {
         WindowGroup {
             ContentView()
                 .onAppear {
-                    store.dispatch(withAction: .list(.getFavouritesRequest))
-                    store.dispatch(withAction: .spotify(.initialize))
-                    store.dispatch(withAction: .settings(.getOverrideColorScheme))
-                    store.dispatch(withAction: .settings(.getDarkMode))
-                    store.dispatch(withAction: .settings(.getHideCancelled))
-                    store.dispatch(withAction: .settings(.getShowImages))
+                    resetIfNeeded()
+                    skipOnbordingIfNeeded()
                 }
                 .environmentObject(store)
                 .environmentObject(tabViewRouter)
@@ -98,6 +94,31 @@ struct DebaserApp: App {
                     store.state.settings.systemColorScheme.value ? nil : colorScheme
                 )
         }
+    }
+    
+    func resetIfNeeded() {
+        guard CommandLine.arguments.contains("-resetUserDefaults") else {
+            store.dispatch(withAction: .list(.getFavouritesRequest))
+            store.dispatch(withAction: .spotify(.initialize))
+            store.dispatch(withAction: .settings(.getOverrideColorScheme))
+            store.dispatch(withAction: .settings(.getDarkMode))
+            store.dispatch(withAction: .settings(.getHideCancelled))
+            store.dispatch(withAction: .settings(.getShowImages))
+            store.dispatch(withAction: .onboarding(.getOnboarding))
+
+            return
+        }
+        
+        let defaultsName = Bundle.main.bundleIdentifier!
+        UserDefaults.standard.removePersistentDomain(forName: defaultsName)
+    }
+    
+    func skipOnbordingIfNeeded() {
+        guard CommandLine.arguments.contains("-skipOnboarding") else {
+            return
+        }
+        
+        UserDefaults.standard.setValue(false, forKey: "seenOnboarding")
     }
 }
 

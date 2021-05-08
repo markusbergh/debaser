@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 // MARK: Initial state
- 
+
 class SpotifyState: ObservableObject {
     @Published var isLoggedIn = false
     @Published var isRequesting = false

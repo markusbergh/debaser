@@ -45,9 +45,6 @@ struct ContentView: View {
                 .animation(Animation.easeInOut(duration: 0.2))
         }
         .ignoresSafeArea()
-        .onAppear {
-            store.dispatch(withAction: .onboarding(.getOnboarding))
-        }
         .onReceive(store.state.onboarding.seenOnboarding) { hasSeen in
             isShowingOnboarding = !hasSeen
         }
