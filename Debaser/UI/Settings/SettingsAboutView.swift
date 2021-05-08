@@ -34,6 +34,10 @@ struct SettingsAboutView: View {
                 SettingsViewTopRectangle(),
                 alignment: .top
             )
+            .background(
+                Color.settingsBackground
+                    .ignoresSafeArea()
+            )
         }
         .navigationTitle(historyTitle)
     }

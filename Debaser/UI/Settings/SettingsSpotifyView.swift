@@ -69,6 +69,10 @@ struct SettingsSpotifyView: View {
                 SettingsViewTopRectangle(),
                 alignment: .top
             )
+            .background(
+                Color.settingsBackground
+                    .ignoresSafeArea()
+            )
         }
         .onChange(of: store.state.spotify.isRequesting) { isRequesting in
             willShowSpotifyLogin = isRequesting
