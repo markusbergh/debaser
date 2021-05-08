@@ -86,7 +86,7 @@ struct MetaData : View {
             .padding(.vertical, 4)
             .padding(.horizontal, 8)
             .foregroundColor(.white)
-            .background(Color.metaData)
+            .background(Color.widgetMetaData)
             .cornerRadius(10)
     }
 }
@@ -156,11 +156,10 @@ struct BottomView : View {
                         
             HStack(alignment: .top, spacing: 0) {
                 Text(NSLocalizedString(entry.event?.title ?? "Widget.Result.Empty", comment: ""))
-                    .font(FontFace.title.of(size: 26))
+                    .font(Font.Family.title.of(size: 26))
+                    .foregroundColor(.white)
                     .minimumScaleFactor(0.01)
                     .lineLimit(3)
-                    .foregroundColor(.white)
-                    .foregroundColor(.primary)
                 
                 Spacer()
             }
@@ -183,7 +182,7 @@ struct WidgetBackground: View {
                         .fill(
                             LinearGradient(
                                 gradient: Gradient(
-                                    colors: [.overlay.opacity(0), .overlay.opacity(0.85)]
+                                    colors: [.widgetOverlay.opacity(0), .widgetOverlay.opacity(0.85)]
                                 ),
                                 startPoint: .top,
                                 endPoint: .bottom
@@ -191,10 +190,10 @@ struct WidgetBackground: View {
                         )
                 }
             } else {
-                Color.background
+                Color.widgetBackground
             }
         } else {
-            Color.background
+            Color.widgetBackground
         }
     }
 }

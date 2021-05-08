@@ -127,7 +127,6 @@ struct SettingsView: View {
                         Button(onboardingShowLabel) {
                             store.dispatch(withAction: .onboarding(.showOnboarding))
                         }
-                        .foregroundColor(.primary)
                     }
                 }
                 .listRowBackground(Color.settingsListRowBackground)

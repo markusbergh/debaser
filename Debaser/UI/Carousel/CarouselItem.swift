@@ -97,7 +97,7 @@ struct CarouselItemContent: View {
                         
                         return AnyView(
                             Text(event.title)
-                                .font(FontFace.title.of(size: 27))
+                                .font(Font.Family.title.of(size: 27))
                                 .foregroundColor(.white)
                                 .lineLimit(3)
                                 .frame(width: 250)

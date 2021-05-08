@@ -22,7 +22,7 @@ struct DetailMetaView: View {
             
             Text(label)
                 .foregroundColor(labelColor)
-                .font(FontVariant.tiny.font)
+                .font(Font.Variant.tiny.font)
         }
         .frame(minHeight: 20)
         .foregroundColor(tintColor)

@@ -21,7 +21,7 @@ struct DetailBuyTicketButtonView: View {
             showTicketUrl = true
         }) {
             Text(ticketsLabel)
-                .font(FontVariant.body(weight: .regular).font)
+                .font(Font.Variant.body(weight: .regular).font)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
                 .background(

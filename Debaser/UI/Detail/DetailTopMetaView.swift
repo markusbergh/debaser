@@ -38,7 +38,7 @@ struct DetailTopMetaView: View {
                 )
             } else {
                 Text(event.shortDate)
-                    .font(FontVariant.tiny.font)
+                    .font(Font.Variant.tiny.font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)

@@ -68,18 +68,18 @@ struct RowCompactView: View {
                         )
 
                     Text(event.title)
-                        .font(FontVariant.smaller(weight: .medium).font)
+                        .font(Font.Variant.smaller(weight: .medium).font)
                         .foregroundColor(.primary)
                         .textCase(.uppercase)
                         .padding(.top, 10)
                     
                     Text(event.listDate)
-                        .font(FontVariant.micro(weight: .medium).font)
+                        .font(Font.Variant.micro(weight: .medium).font)
                         .foregroundColor(.gray)
                         .padding(.top, 2)
 
                     Text(event.venue)
-                        .font(FontVariant.micro(weight: .medium).font)
+                        .font(Font.Variant.micro(weight: .medium).font)
                         .foregroundColor(.gray)
                         .padding(.top, 2)
                 }
@@ -166,7 +166,7 @@ struct RowCompactImageViewModifier: ViewModifier {
                 ZStack(alignment: .center) {
                     content
                     Text("List.Event.Cancelled")
-                        .font(FontVariant.body(weight: .bold).font)
+                        .font(Font.Variant.body(weight: .bold).font)
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .foregroundColor(.white)
                         .background(Color.black.opacity(opacity))
@@ -178,7 +178,7 @@ struct RowCompactImageViewModifier: ViewModifier {
                 ZStack(alignment: .center) {
                     content
                     Text("List.Event.Postponed")
-                        .font(FontVariant.body(weight: .bold).font)
+                        .font(Font.Variant.body(weight: .bold).font)
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .foregroundColor(.white)
                         .background(Color.black.opacity(opacity))

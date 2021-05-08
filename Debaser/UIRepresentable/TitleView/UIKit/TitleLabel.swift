@@ -18,8 +18,9 @@ class TitleLabel: UILabel {
     convenience init(title: String, fontSize: CGFloat, lineLimit: Int, textColor: UIColor) {
         self.init()
         
+
         text = title
-        font = FontFace.title.of(size: fontSize)
+        font = UIFont.Family.title.of(size: fontSize)
         self.textColor = textColor
         numberOfLines = lineLimit
 

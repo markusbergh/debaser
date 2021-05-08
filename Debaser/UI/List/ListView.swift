@@ -87,7 +87,7 @@ struct ListView: View {
                     } else if events.isEmpty {
                         VStack {
                             Text(store.state.list.isFetching.value ? "List.Loading" : emptyListLabel)
-                                .font(FontVariant.small(weight: .semibold).font)
+                                .font(Font.Variant.small(weight: .semibold).font)
                         }
                         .frame(height: 170)
                         .padding(listPadding)
@@ -105,10 +105,10 @@ struct ListView: View {
                     HStack {
                         if events.isEmpty, !store.state.list.currentSearch.isEmpty {
                             Text("List.Search.Result.Empty")
-                                .font(FontVariant.small(weight: .medium).font)
+                                .font(Font.Variant.small(weight: .medium).font)
                         } else {
                             Text(listLabel)
-                                .font(FontVariant.small(weight: .regular).font)
+                                .font(Font.Variant.small(weight: .regular).font)
                         }
                         
                         Spacer()

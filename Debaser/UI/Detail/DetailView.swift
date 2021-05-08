@@ -224,12 +224,12 @@ struct DetailDescriptionView: View {
     var body: some View {
         if let subHeader = subHeader, !subHeader.isEmpty {
             Text(subHeader)
-                .font(FontVariant.body(weight: .semibold).font)
+                .font(Font.Variant.body(weight: .semibold).font)
                 .lineSpacing(2)
         }
 
         Text(description)
-            .font(FontVariant.body(weight: .regular).font)
+            .font(Font.Variant.body(weight: .regular).font)
             .lineSpacing(2)
     }
 }
