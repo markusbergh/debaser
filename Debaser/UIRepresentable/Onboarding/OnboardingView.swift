@@ -25,8 +25,10 @@ struct OnboardingView: UIViewControllerRepresentable {
             return UIViewController()
         }
 
-        // Set dark mode according to store
-        onboardingViewController.usesDarkMode = store.state.settings.darkMode.value
+        // Set dark mode according to store (if not using system colours)
+        if !store.state.settings.systemColorScheme.value {
+            onboardingViewController.usesDarkMode = store.state.settings.darkMode.value
+        }
         
         // View delegate
         onboardingViewController.onboardingViewDelegate = context.coordinator

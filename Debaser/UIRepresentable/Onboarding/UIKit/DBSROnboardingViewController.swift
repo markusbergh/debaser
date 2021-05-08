@@ -31,7 +31,7 @@ class DBSROnboardingViewController: UIViewController {
                 newPageViewController(page: "Page4")]
     }()
     
-    var usesDarkMode = false
+    var usesDarkMode: Bool?
     var hasAppeared = false
     weak var onboardingViewDelegate: OnboardingViewDelegate?
     
@@ -40,8 +40,10 @@ class DBSROnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set dark theme
-        overrideUserInterfaceStyle = usesDarkMode ? .dark : .light
+        // Set dark theme if applicable
+        if let usesDarkMode = usesDarkMode {
+            overrideUserInterfaceStyle = usesDarkMode ? .dark : .light
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
