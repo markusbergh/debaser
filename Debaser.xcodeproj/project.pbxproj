@@ -164,7 +164,6 @@
 		851F8325263EAB6700BAEBCA /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DelaGothicOne-Regular.ttf"; sourceTree = "<group>"; };
-		8528213226277263007B83EC /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		8528213726277AF6007B83EC /* SeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		8528213F262787C0007B83EC /* DetailMetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMetaView.swift; sourceTree = "<group>"; };
 		852A343826362AF800677B9D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -228,7 +227,6 @@
 		85B449A626383F1900C095FA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		85B449DE2638485200C095FA /* MessagesViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewViewModel.swift; sourceTree = "<group>"; };
 		85B44A1826385A2200C095FA /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
-		85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		85B5CDE2261F0F0800A55398 /* RowCompactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCompactView.swift; sourceTree = "<group>"; };
 		85BC0B26261658D600589240 /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowView.swift; sourceTree = "<group>"; };
 		85BC0B2B2616592600589240 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
@@ -667,10 +665,8 @@
 		85D7D8002619F5150073E3BA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */,
 				85EEB96526203FDB00DFC238 /* RoundedCorner.swift */,
 				852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */,
-				8528213226277263007B83EC /* Fonts.swift */,
 				85D3AED32639A1CC006A59A2 /* AnimationCompletionObserverModifier.swift */,
 			);
 			path = Helpers;
