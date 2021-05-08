@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DebaserService
 
 struct EventViewModel: Codable, Hashable, Identifiable {
     static let titleRegexPattern = #"\S[^->|]+[^ \W]."#

@@ -167,7 +167,9 @@ struct ListView: View {
     }
     
     private func getEvents() -> [EventViewModel] {
-        var events = store.state.list.events
+        var events = store.state.list.events.map({
+            return EventViewModel(with: $0)
+        })
         
         if store.state.settings.hideCancelled.value == true {
             events = filterHideCancelledEvents(events: events)
@@ -177,7 +179,9 @@ struct ListView: View {
     }
     
     private func getTodayEvents() -> [EventViewModel] {
-        var events = store.state.list.events
+        var events = store.state.list.events.map({
+            return EventViewModel(with: $0)
+        })
         
         if store.state.settings.hideCancelled.value == true {
             events = filterHideCancelledEvents(events: events)
@@ -200,7 +204,9 @@ struct ListView: View {
     }
     
     private func getWeekEvents() -> [EventViewModel] {
-        var events = store.state.list.events
+        var events = store.state.list.events.map({
+            return EventViewModel(with: $0)
+        })
         
         if store.state.settings.hideCancelled.value == true {
             events = filterHideCancelledEvents(events: events)

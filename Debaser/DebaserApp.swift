@@ -5,8 +5,9 @@
 //  Created by Markus Bergh on 2021-03-12.
 //
 
-
 import SwiftUI
+
+import DebaserService
 
 @main
 struct DebaserApp: App {
@@ -27,7 +28,7 @@ struct DebaserApp: App {
     @StateObject var carouselState = UIStateModel()
     
     @State private var colorScheme: ColorScheme = .light
-    @State private var eventReceived: EventViewModel? = nil
+    @State private var eventReceived: Event? = nil
     @State private var shouldOpenModal = false
     @State private var eventReceivedId = ""
 
@@ -88,6 +89,8 @@ struct DebaserApp: App {
                     }
                 }
                 .sheet(item: $eventReceived) { event in
+                    let event = EventViewModel(with: event)
+                    
                     DetailView(event: event, canNavigateBack: false)
                         .preferredColorScheme(
                             store.state.settings.systemColorScheme.value ? nil : colorScheme

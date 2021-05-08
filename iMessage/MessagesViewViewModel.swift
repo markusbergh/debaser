@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DebaserService
 
 class MessagesViewViewModel {
     private var dateComponents = Calendar.current.dateComponents([.year], from: Date())
@@ -59,8 +60,16 @@ extension MessagesViewViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let events):
-                    self?.events = events
-                    self?.filteredEvents = events
+                    var list = [EventViewModel]()
+                    
+                    events.forEach({ (event: Event) in
+                        list.append(
+                            EventViewModel(with: event)
+                        )
+                    })
+                    
+                    self?.events = list
+                    self?.filteredEvents = list
                 case .failure(let error):
                     
                     switch error {

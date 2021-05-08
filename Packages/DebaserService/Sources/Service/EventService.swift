@@ -1,21 +1,21 @@
 //
 //  EventService.swift
-//  Debaser
+//  
 //
-//  Created by Markus Bergh on 2021-03-24.
+//  Created by Markus Bergh on 2021-05-08.
 //
 
-import Foundation
 import Combine
+import Foundation
 
-enum ServiceError: Error {
+public enum ServiceError: Error {
     case invalidURL
     case unknownError
     case decodingError
     case timeout
     case responseError
     
-    var description: String {
+    public var description: String {
         switch self {
         case .responseError:
             return "Response error"
@@ -31,7 +31,7 @@ enum ServiceError: Error {
     }
 }
 
-final class EventService {
+public final class EventService {
     static var baseUrl: String {
         guard let infoDictPath = Bundle.main.path(forResource: "Debaser", ofType: "plist"),
               let infoDict = NSDictionary(contentsOfFile: infoDictPath) as? [String: Any] else {
@@ -55,16 +55,16 @@ final class EventService {
         }
     }
     
-    static let shared = EventService()
+    public static let shared = EventService()
     
-    init(timeout: Timer? = nil, cancellable: AnyCancellable? = nil) {
+    public init(timeout: Timer? = nil, cancellable: AnyCancellable? = nil) {
         self.timeout = timeout
         self.cancellable = cancellable
     }
 }
 
 extension EventService {
-    func getPublisher(fromDate from: String, toDate to: String) -> AnyPublisher<[EventViewModel], ServiceError> {
+    public func getPublisher(fromDate from: String, toDate to: String) -> AnyPublisher<[Event], ServiceError> {
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
             return Fail(error: ServiceError.invalidURL)
                 .eraseToAnyPublisher()
@@ -105,23 +105,12 @@ extension EventService {
                     return ServiceError.unknownError
                 }
             }
-            .map { events in
-                self.timeout?.invalidate()
-                
-                var list = [EventViewModel]()
-                
-                for event in events {
-                    list.append(EventViewModel(with: event))
-                }
-                
-                return list
-            }
             .eraseToAnyPublisher()
     }
     
-    func getEvents(fromDate from: String,
+    public func getEvents(fromDate from: String,
                    toDate to: String,
-                   completion: @escaping (Result<[EventViewModel], ServiceError>) -> Void) {
+                   completion: @escaping (Result<[Event], ServiceError>) -> Void) {
         
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
             completion(.failure(.invalidURL))
@@ -179,13 +168,7 @@ extension EventService {
              }, receiveValue: { events in
                 self.timeout?.invalidate()
                 
-                var list = [EventViewModel]()
-                
-                for event in events {
-                    list.append(EventViewModel(with: event))
-                }
-                
-                completion(.success(list))
+                completion(.success(events))
             })
     }
     

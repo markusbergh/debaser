@@ -8,6 +8,8 @@
 import SwiftUI
 import WidgetKit
 
+import DebaserService
+
 struct EventProvider: TimelineProvider {
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -33,9 +35,16 @@ struct EventProvider: TimelineProvider {
             switch response {
             case .success(let events):
                 // Make sure to only use first
-                let firstEvent = events.first
+                guard let firstEvent = events.first else {
+                    entry = DebaserWidgetEntry(date: today, event: nil)
+                    
+                    return
+                }
                 
-                entry = DebaserWidgetEntry(date: today, event: firstEvent)
+                // Create view model
+                let eventViewModel = EventViewModel(with: firstEvent)
+                
+                entry = DebaserWidgetEntry(date: today, event: eventViewModel)
             case .failure:
                 entry = DebaserWidgetEntry(date: today, event: nil)
             }
@@ -58,9 +67,16 @@ struct EventProvider: TimelineProvider {
             switch response {
             case .success(let events):
                 // Make sure to only use first
-                let firstEvent = events.first
+                guard let firstEvent = events.first else {
+                    entry = DebaserWidgetEntry(date: today, event: nil)
+                    
+                    return
+                }
                 
-                entry = DebaserWidgetEntry(date: today, event: firstEvent)
+                // Create view model
+                let eventViewModel = EventViewModel(with: firstEvent)
+                
+                entry = DebaserWidgetEntry(date: today, event: eventViewModel)
             case .failure:
                 entry = DebaserWidgetEntry(date: today, event: nil)
             }

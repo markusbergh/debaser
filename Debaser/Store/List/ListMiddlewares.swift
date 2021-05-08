@@ -6,7 +6,8 @@
 //
 
 import Combine
-import Foundation
+
+import DebaserService
 
 func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
     return { state, action in
@@ -41,7 +42,9 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
                 .subscribe(on: RunLoop.main)
                 .map { text in
                     let filteredEvents = ListMiddlewareSearchHelper.events.filter { event in
-                        return event.title.lowercased().contains(text.lowercased())
+                        let matchingEvent = EventViewModel(with: event)
+                        
+                        return matchingEvent.title.lowercased().contains(text.lowercased())
                     }
                     
                     return AppAction.list(.getEventsComplete(events: filteredEvents))
@@ -83,7 +86,7 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
 }
 
 struct ListMiddlewareSearchHelper {
-    static var events = [EventViewModel]()
+    static var events = [Event]()
 }
 
 struct ListMiddlewareDateHelper {

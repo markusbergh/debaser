@@ -5,11 +5,11 @@
 //  Created by Markus Bergh on 2021-04-24.
 //
 
-import Foundation
+import DebaserService
 
 enum ListAction {
     case getEventsRequest
-    case getEventsComplete(events: [EventViewModel])
+    case getEventsComplete(events: [Event])
     case getEventsError(error: ServiceError?)
     case searchEvent(query: String)
     case getFavouritesRequest

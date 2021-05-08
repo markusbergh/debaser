@@ -6,14 +6,15 @@
 //
 
 import Combine
-import Foundation
+
+import DebaserService
 
 // MARK: Initial state
 
 struct ListState {
     var isFetching = CurrentValueSubject<Bool, Never>(false)
     var fetchError: String?
-    var events: [EventViewModel] = []
+    var events: [Event] = []
     var favourites: [EventViewModel] = []
     var isShowingTabBar = true
     var currentSearch = ""
