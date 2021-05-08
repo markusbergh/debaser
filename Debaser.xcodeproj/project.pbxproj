@@ -28,6 +28,8 @@
 		85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */; };
 		85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303380262E1EF200C93D1B /* OnboardingView.swift */; };
 		85303386262F6DF200C93D1B /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303385262F6DF200C93D1B /* UIDevice+Extension.swift */; };
+		8547265F26467AE3007D1611 /* DetailTopMetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547265E26467AE3007D1611 /* DetailTopMetaView.swift */; };
+		8547266326467C6A007D1611 /* DetailSpotifyPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547266226467C6A007D1611 /* DetailSpotifyPlayerView.swift */; };
 		854E2980262CB3C0003AC567 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		855090452621FDCB000C88BF /* TabViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855090442621FDCB000C88BF /* TabViewRouter.swift */; };
 		855310D3260C8BFA00F0D5F7 /* EventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855310D2260C8BFA00F0D5F7 /* EventListView.swift */; };
@@ -69,7 +71,7 @@
 		85B0606C2627A8BF006D2D9D /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B0606B2627A8BF006D2D9D /* Store.swift */; };
 		85B060762627A927006D2D9D /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B060752627A927006D2D9D /* Actions.swift */; };
 		85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B0607A2627A96E006D2D9D /* Reducer.swift */; };
-		85B060832628390F006D2D9D /* DetailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B060822628390F006D2D9D /* DetailImageView.swift */; };
+		85B060832628390F006D2D9D /* DetailTopImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B060822628390F006D2D9D /* DetailTopImageView.swift */; };
 		85B4498326383E9900C095FA /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85B4498226383E9900C095FA /* Messages.framework */; };
 		85B4498B26383E9C00C095FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85B4498A26383E9C00C095FA /* Assets.xcassets */; };
 		85B4498F26383E9C00C095FA /* iMessage.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 85B4498126383E9900C095FA /* iMessage.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -170,6 +172,8 @@
 		85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingViewController.swift; sourceTree = "<group>"; };
 		85303380262E1EF200C93D1B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		85303385262F6DF200C93D1B /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		8547265E26467AE3007D1611 /* DetailTopMetaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTopMetaView.swift; sourceTree = "<group>"; };
+		8547266226467C6A007D1611 /* DetailSpotifyPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSpotifyPlayerView.swift; sourceTree = "<group>"; };
 		854E296B262CB0C0003AC567 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		854E2970262CB0C4003AC567 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		855090442621FDCB000C88BF /* TabViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewRouter.swift; sourceTree = "<group>"; };
@@ -211,7 +215,7 @@
 		85B0606B2627A8BF006D2D9D /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		85B060752627A927006D2D9D /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		85B0607A2627A96E006D2D9D /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
-		85B060822628390F006D2D9D /* DetailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailImageView.swift; sourceTree = "<group>"; };
+		85B060822628390F006D2D9D /* DetailTopImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTopImageView.swift; sourceTree = "<group>"; };
 		85B4498126383E9900C095FA /* iMessage.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iMessage.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		85B4498226383E9900C095FA /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
 		85B4498A26383E9C00C095FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -501,7 +505,6 @@
 				85C2ED91262AE7C900CA5CDF /* List */,
 				85639D1A26389C890098465C /* Row */,
 				85D7D7FF2619F4F30073E3BA /* Detail */,
-				851F8324263EAB6000BAEBCA /* Map */,
 				85A8BAE42634C29300E591A1 /* Settings */,
 				85D7D8002619F5150073E3BA /* Helpers */,
 				855310D2260C8BFA00F0D5F7 /* EventListView.swift */,
@@ -646,9 +649,12 @@
 			children = (
 				85D7D7F72619F4550073E3BA /* DetailView.swift */,
 				8528213F262787C0007B83EC /* DetailMetaView.swift */,
-				85B060822628390F006D2D9D /* DetailImageView.swift */,
+				85B060822628390F006D2D9D /* DetailTopImageView.swift */,
 				851F7A032635E71700806FF8 /* DetailFavouriteButtonView.swift */,
 				851F7A082635E73B00806FF8 /* DetailBuyTicketButtonView.swift */,
+				8547265E26467AE3007D1611 /* DetailTopMetaView.swift */,
+				8547266226467C6A007D1611 /* DetailSpotifyPlayerView.swift */,
+				851F8324263EAB6000BAEBCA /* Map */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -914,6 +920,7 @@
 				85EA85A92620FD6900F6D93A /* TabBar.swift in Sources */,
 				85EEB96626203FDB00DFC238 /* RoundedCorner.swift in Sources */,
 				85D7D7F82619F4550073E3BA /* DetailView.swift in Sources */,
+				8547266326467C6A007D1611 /* DetailSpotifyPlayerView.swift in Sources */,
 				85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */,
 				85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */,
 				856926C7260BE234004B1761 /* Event.swift in Sources */,
@@ -929,7 +936,7 @@
 				85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */,
 				85D3AED026398089006A59A2 /* CarouselView.swift in Sources */,
 				858E1E0B2634860C00C3E941 /* WebView.swift in Sources */,
-				85B060832628390F006D2D9D /* DetailImageView.swift in Sources */,
+				85B060832628390F006D2D9D /* DetailTopImageView.swift in Sources */,
 				8508E14C2634E1E0007FA049 /* DBSROnboardingLabel.swift in Sources */,
 				851F7A042635E71700806FF8 /* DetailFavouriteButtonView.swift in Sources */,
 				85BC0B27261658D600589240 /* RowView.swift in Sources */,
@@ -952,6 +959,7 @@
 				85B5CDE3261F0F0800A55398 /* RowCompactView.swift in Sources */,
 				85B0606C2627A8BF006D2D9D /* Store.swift in Sources */,
 				855310D3260C8BFA00F0D5F7 /* EventListView.swift in Sources */,
+				8547265F26467AE3007D1611 /* DetailTopMetaView.swift in Sources */,
 				855310D8260C8C0600F0D5F7 /* SettingsView.swift in Sources */,
 				85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */,
 				85FCAF15263723FA00A0BC89 /* SpotifyService.swift in Sources */,

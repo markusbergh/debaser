@@ -156,7 +156,7 @@ struct BottomView : View {
                         
             HStack(alignment: .top, spacing: 0) {
                 Text(NSLocalizedString(entry.event?.title ?? "Widget.Result.Empty", comment: ""))
-                    .font(Fonts.title.of(size: 26))
+                    .font(FontFace.title.of(size: 26))
                     .minimumScaleFactor(0.01)
                     .lineLimit(3)
                     .foregroundColor(.white)

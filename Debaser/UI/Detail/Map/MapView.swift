@@ -42,8 +42,7 @@ struct MapView: View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading, spacing: 0) {
                 Text("Debaser")
-                    .font(.system(size: 29))
-                    .fontWeight(.semibold)
+                    .font(FontVariant.large(weight: .semibold).font)
                     .padding(.bottom, 10)
 
                 SeparatorView()
@@ -51,9 +50,9 @@ struct MapView: View {
                     .padding(.bottom, 5)
 
                 Text("Hornstulls Strand 9")
-                    .font(.system(size: 17))
+                    .font(FontVariant.small(weight: .regular).font)
                 Text("117 39 Stockholm")
-                    .font(.system(size: 17))
+                    .font(FontVariant.small(weight: .regular).font)
             }
             .padding(.top, 30)
             .padding(.bottom, 20)

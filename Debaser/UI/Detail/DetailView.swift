@@ -94,101 +94,6 @@ struct DetailView: View {
     }
 }
 
-// MARK: Spotify player
-
-struct DetailSpotifyPlayerView: View {
-    @Binding var isStreaming: Bool
-    
-    @State private var streamProgress: CGFloat = 0.0
-    private let streamPositionDidUpdate = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamDidChangePosition"))
-
-    var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                ZStack {
-                    Button(action: {
-                        isStreaming.toggle()
-                        streamProgress = 0.0
-                    }) {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 60, height: 60)
-                            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
-                            .overlay(
-                                Image(systemName: isStreaming ? "pause.fill" : "play.fill")
-                                    .resizable()
-                                    .foregroundColor(.green)
-                                    .frame(width: 22, height: 22)
-                                    .offset(x: isStreaming ? 0 : 2)
-                                    .animation(nil)
-                            )
-                            .overlay(
-                                DetailViewStreamProgress(streamProgress: streamProgress)
-                                    .onReceive(streamPositionDidUpdate, perform: { notification in
-                                        guard let streamPositionObject = notification.object as? NSDictionary,
-                                              let currentStreamPosition = streamPositionObject["current"] as? CGFloat else {
-                                            return
-                                        }
-                                        
-                                        // Update stream progress state
-                                        streamProgress = currentStreamPosition / 100.0
-                                    })
-                            )
-                    }
-                    
-                }
-                .scaleEffect(isStreaming ? 1.05 : 1)
-                .animation(.easeInOut(duration: 0.35))
-                
-                HStack {
-                    Text("Powered by")
-                        .fontWeight(.heavy)
-                        .textCase(.uppercase)
-                        .font(.system(size: 11))
-                        .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
-
-                    Image("SpotifyLogotype")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 25)
-
-                }
-                .frame(maxWidth: .infinity)
-            }
-        }
-        .transition(.opacity)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-// MARK: Top image
-
-struct DetailTopImageView: View {
-    @EnvironmentObject var viewModel: ImageViewModel
-    
-    var body: some View {
-        GeometryReader { geometry -> DetailImageView in
-            var width =  geometry.size.width
-            var height = geometry.size.height + geometry.frame(in: .global).minY
-            var offsetY = -geometry.frame(in: .global).minY
-            
-            if geometry.frame(in: .global).minY <= 0 {
-                width = geometry.size.width
-                height = geometry.size.height
-                offsetY = -geometry.frame(in: .global).minY / 3
-            }
-            
-            return DetailImageView(
-                image: viewModel.image,
-                width: width,
-                height: height,
-                offsetY: offsetY
-            )
-        }
-        .frame(height: 300)
-    }
-}
-
 // MARK: Back button
 
 struct DetailBackButtonView: View {
@@ -214,69 +119,20 @@ struct DetailBackButtonView: View {
     }
 }
 
-// MARK: Main content
+// MARK: Main content view
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isFavourite = false
-    @State private var isShowingMapView = false
-    
-    private var cancelledLabel: String {
-        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
-    }
-    
-    private var postponedLabel: String {
-        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
-    }
-
+        
     var event: EventViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            
             HStack(alignment: .top) {
-                if event.isCancelled {
-                    DetailMetaView(
-                        label: cancelledLabel,
-                        labelSize: 15,
-                        labelColor: .white,
-                        backgroundColor: .red
-                    )
-                } else if event.isPostponed {
-                    DetailMetaView(
-                        label: postponedLabel,
-                        labelSize: 15,
-                        labelColor: .white,
-                        backgroundColor: .red
-                    )
-                } else {
-                    Text(event.shortDate)
-                        .font(.system(size: 15))
-                        .frame(minHeight: 20)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 5)
-                        .background(
-                            Capsule()
-                                .strokeBorder(lineWidth: 1.0)
-                        )
-                }
-                
-                Button(action: {
-                    isShowingMapView = true
-                }) {
-                    DetailMetaView(
-                        label: event.venue,
-                        labelSize: 15,
-                        labelColor: colorScheme == .dark ? .black : .white,
-                        backgroundColor: .primary
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-                .sheet(isPresented: $isShowingMapView) {
-                    MapView()
-                        .preferredColorScheme(colorScheme)
-                        .ignoresSafeArea()
-                }
+                DetailTopMetaView(event: event)
 
                 Spacer()
                 
@@ -312,7 +168,9 @@ struct DetailMainContentView: View {
         .background(Color.detailContentBackground)
         .cornerRadius(25)
         .shadow(
-            color: Color.black.opacity(colorScheme == .light ? 0.25 : 0.1),
+            color: .black.opacity(
+                colorScheme == .light ? 0.25 : 0.1
+            ),
             radius: 20,
             x: 0,
             y: -5
@@ -366,13 +224,12 @@ struct DetailDescriptionView: View {
     var body: some View {
         if let subHeader = subHeader, !subHeader.isEmpty {
             Text(subHeader)
-                .font(.system(size: 19))
-                .fontWeight(.semibold)
+                .font(FontVariant.body(weight: .semibold).font)
                 .lineSpacing(2)
         }
 
         Text(description)
-            .font(.system(size: 19))
+            .font(FontVariant.body(weight: .regular).font)
             .lineSpacing(2)
     }
 }
@@ -381,15 +238,6 @@ struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         let store = MockStore.store
         let event = MockEventViewModel.event
-        
-        /*
-        ForEach(ColorScheme.allCases, id:\.self) {
-            DetailView(event: event)
-                .preferredColorScheme(.dark)
-                .environmentObject(store)
-                .preferredColorScheme($0)
-        }
-        */
         
         DetailView(event: event)
             .preferredColorScheme(.dark)

@@ -19,7 +19,7 @@ class TitleLabel: UILabel {
         self.init()
         
         text = title
-        font = Fonts.title.of(size: fontSize)
+        font = FontFace.title.of(size: fontSize)
         self.textColor = textColor
         numberOfLines = lineLimit
 

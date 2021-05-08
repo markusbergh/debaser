@@ -74,8 +74,7 @@ struct FavouritesView: View {
                                 .offset(y: 10)
                             
                             Text(emptyLabel)
-                                .font(.system(size: 17))
-                                .fontWeight(.semibold)
+                                .font(FontVariant.smaller(weight: .semibold).font)
                         }
                         .frame(width: geometry.size.width, height: geometry.size.height)
                     }

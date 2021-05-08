@@ -61,7 +61,7 @@ struct ListHeaderView: View {
                 VStack(spacing: 10) {
                     HStack(alignment: .lastTextBaseline) {
                         Text(Date(), formatter: dateFormatter)
-                            .font(.system(size: 17))
+                            .font(FontVariant.small(weight: .regular).font)
                         
                         Divider()
                             .background(Color.listDivider)
@@ -71,9 +71,9 @@ struct ListHeaderView: View {
                         
                         VStack(alignment: .leading, spacing: 5) {
                             Text(label)
-                                .font(.system(size: 15))
+                                .font(FontVariant.tiny.font)
                             Text(headline)
-                                .font(.system(size: 29, weight: .bold))
+                                .font(FontVariant.large(weight: .bold).font)
                         }
                         
                         Spacer()

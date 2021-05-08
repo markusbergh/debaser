@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Fonts: String {
+enum FontFace: String {
     case title = "DelaGothicOne-Regular"
     
     func of(size: CGFloat) -> UIFont {
@@ -27,20 +27,31 @@ enum Fonts: String {
     }
 }
 
-struct FontWithLineHeight: ViewModifier {
-    let font: UIFont
-    let lineHeight: CGFloat
-
-    func body(content: Content) -> some View {
-        content
-            .font(Font(font))
-            .lineSpacing(lineHeight - font.lineHeight)
-            .padding(.vertical, (lineHeight - font.lineHeight) / 2)
-    }
-}
-
-extension View {
-    func fontWithLineHeight(font: UIFont, lineHeight: CGFloat) -> some View {
-        ModifiedContent(content: self, modifier: FontWithLineHeight(font: font, lineHeight: lineHeight))
+enum FontVariant {
+    case large(weight: Font.Weight)
+    case body(weight: Font.Weight)
+    case small(weight: Font.Weight)
+    case smaller(weight: Font.Weight)
+    case tiny
+    case micro(weight: Font.Weight)
+    case mini(weight: Font.Weight)
+    
+    var font: Font? {
+        switch self {
+        case .large(let weight):
+            return .system(size: 29, weight: weight)
+        case .body(let weight):
+            return .system(size: 19, weight: weight)
+        case .small(let weight):
+            return .system(size: 17, weight: weight)
+        case .smaller(let weight):
+            return .system(size: 16, weight: weight)
+        case .tiny:
+            return .system(size: 15)
+        case .micro(let weight):
+            return .system(size: 12, weight: weight)
+        case .mini(let weight):
+            return .system(size: 11, weight: weight)
+        }
     }
 }

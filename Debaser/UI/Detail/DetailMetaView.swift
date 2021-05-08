@@ -10,7 +10,6 @@ import SwiftUI
 struct DetailMetaView: View {
     var image: String?
     var label: String
-    var labelSize: CGFloat = 15
     var labelColor: Color = .primary
     var tintColor: Color = .primary
     var backgroundColor: Color
@@ -23,7 +22,7 @@ struct DetailMetaView: View {
             
             Text(label)
                 .foregroundColor(labelColor)
-                .font(.system(size: labelSize))
+                .font(FontVariant.tiny.font)
         }
         .frame(minHeight: 20)
         .foregroundColor(tintColor)

@@ -68,18 +68,18 @@ struct RowCompactView: View {
                         )
 
                     Text(event.title)
-                        .font(.system(size: 16, weight: .medium))
+                        .font(FontVariant.smaller(weight: .medium).font)
                         .foregroundColor(.primary)
                         .textCase(.uppercase)
                         .padding(.top, 10)
                     
                     Text(event.listDate)
-                        .font(.system(size: 12, weight: .medium))
+                        .font(FontVariant.micro(weight: .medium).font)
                         .foregroundColor(.gray)
                         .padding(.top, 2)
 
                     Text(event.venue)
-                        .font(.system(size: 12, weight: .medium))
+                        .font(FontVariant.micro(weight: .medium).font)
                         .foregroundColor(.gray)
                         .padding(.top, 2)
                 }
@@ -166,8 +166,7 @@ struct RowCompactImageViewModifier: ViewModifier {
                 ZStack(alignment: .center) {
                     content
                     Text("List.Event.Cancelled")
-                        .font(.system(size: 19))
-                        .fontWeight(.bold)
+                        .font(FontVariant.body(weight: .bold).font)
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .foregroundColor(.white)
                         .background(Color.black.opacity(opacity))
@@ -179,8 +178,7 @@ struct RowCompactImageViewModifier: ViewModifier {
                 ZStack(alignment: .center) {
                     content
                     Text("List.Event.Postponed")
-                        .font(.system(size: 19))
-                        .fontWeight(.bold)
+                        .font(FontVariant.body(weight: .bold).font)
                         .frame(maxWidth: .infinity, maxHeight: maxHeight)
                         .foregroundColor(.white)
                         .background(Color.black.opacity(opacity))
