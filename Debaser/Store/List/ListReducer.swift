@@ -40,7 +40,7 @@ func listReducer(state: inout ListState, action: ListAction) -> ListState {
     case .searchEvent(let query):
         state.currentSearch = query
     case .toggleFavourite:
-        state.isFetching.send(true)
+        break
     case .toggleFavouriteComplete(let events):
         state.isFetching.send(false)
         state.favourites = events
