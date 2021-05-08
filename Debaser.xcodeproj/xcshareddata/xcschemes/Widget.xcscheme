@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "857F1F06263B1306005BB985"
-               BuildableName = "WidgetExtension.appex"
-               BlueprintName = "WidgetExtension"
+               BlueprintIdentifier = "85F597632646A248004CA1CD"
+               BuildableName = "Widget.appex"
+               BlueprintName = "Widget"
                ReferencedContainer = "container:Debaser.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
