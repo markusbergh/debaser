@@ -30,7 +30,6 @@ struct SnapCarousel: View {
     
     @State private var transition: AnyTransition = .slide
     @State private var animation: Animation? = nil
-    
     @State private var viewIsLoaded = false
     @State private var opacity: Double = 0
 
@@ -94,16 +93,15 @@ struct SnapCarousel: View {
 }
 
 struct Carousel<Items : View> : View {
+    @EnvironmentObject var UIState: UIStateModel
+    @GestureState var isDetectingLongPress = false
+    
     let items: Items
     let numberOfItems: CGFloat
     let spacing: CGFloat
     let widthOfHiddenCards: CGFloat
     let totalSpacing: CGFloat
     let cardWidth: CGFloat
-    
-    @GestureState var isDetectingLongPress = false
-    
-    @EnvironmentObject var UIState: UIStateModel
     
     @inlinable public init(
         numberOfItems: CGFloat,

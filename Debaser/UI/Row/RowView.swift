@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RowView: View {
     @EnvironmentObject var store: AppStore
-    @StateObject var viewModel = ImageViewModel()
-
+    
+    @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView: Bool = false
     
-    var event: EventViewModel
+    let event: EventViewModel
     
     var body: some View {
         NavigationLink(

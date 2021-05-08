@@ -11,35 +11,8 @@ struct DetailFavouriteButtonView: View {
     @EnvironmentObject var store: AppStore
     
     @State private var isFavourite = false
-
-    func transition(insertionFor favourite: Bool) -> AnyTransition {
-        let duration: Double = 0.3
-        let anim: Animation = .easeInOut(duration: duration)
-        
-        if !favourite {
-            return .identity
-        }
-
-        return .scale(scale: 0).animation(anim).combined(
-            with: .opacity.animation(anim)
-        )
-    }
     
-    func transition(removalFor favourite: Bool) -> AnyTransition {
-        let duration: Double = 0.3
-        let anim: Animation = .easeInOut(duration: duration)
-        
-        if !favourite {
-            return .asymmetric(
-                insertion: .opacity.animation(anim),
-                removal: .opacity.animation(anim)
-            )
-        }
-        
-        return .scale.animation(anim)
-    }
-    
-    var event: EventViewModel
+    let event: EventViewModel
 
     var body: some View {
         Button(action: {
@@ -82,6 +55,33 @@ struct DetailFavouriteButtonView: View {
             }
         }
         .buttonStyle(PlainButtonStyle())
+    }
+    
+    private func transition(insertionFor favourite: Bool) -> AnyTransition {
+        let duration: Double = 0.3
+        let anim: Animation = .easeInOut(duration: duration)
+        
+        if !favourite {
+            return .identity
+        }
+
+        return .scale(scale: 0).animation(anim).combined(
+            with: .opacity.animation(anim)
+        )
+    }
+    
+    private func transition(removalFor favourite: Bool) -> AnyTransition {
+        let duration: Double = 0.3
+        let anim: Animation = .easeInOut(duration: duration)
+        
+        if !favourite {
+            return .asymmetric(
+                insertion: .opacity.animation(anim),
+                removal: .opacity.animation(anim)
+            )
+        }
+        
+        return .scale.animation(anim)
     }
 }
 

@@ -14,21 +14,27 @@ struct SettingsView: View {
     private var titleLabel: LocalizedStringKey {
         return "Settings"
     }
+    
     private var themeLabel: LocalizedStringKey {
         return "Settings.Theme"
     }
+    
     private var themeToggleLabel: LocalizedStringKey {
         return isDarkMode ? "Settings.Theme.DarkMode" : "Settings.Theme.NormalMode"
     }
+    
     private var imagesLabel: LocalizedStringKey {
         return "Settings.Layout.Images"
     }
+    
     private var cancelledLabel: LocalizedStringKey {
         return "Settings.Layout.HideCancelled"
     }
+    
     private var onboardingLabel: LocalizedStringKey {
         return "Settings.Onboarding"
     }
+    
     private var onboardingShowLabel: LocalizedStringKey {
         return "Settings.Onboarding.Show"
     }
@@ -170,6 +176,7 @@ struct SettingsSectionAbout: View {
     private var debaserLabel: LocalizedStringKey {
         return "Settings.Debaser"
     }
+    
     private var aboutLabel: LocalizedStringKey {
         return "Settings.Debaser.About"
     }
@@ -191,6 +198,7 @@ struct SettingsSectionSpotify: View {
     private var servicesLabel: LocalizedStringKey {
         return "Settings.Services"
     }
+    
     private var spotifyLabel: LocalizedStringKey {
         return store.state.spotify.isLoggedIn ? "Settings.Spotify.On" : "Settings.Spotify.Off"
     }

@@ -49,7 +49,6 @@ struct SeparatorView_Previews: PreviewProvider {
             SeparatorView()
                 .previewLayout(.fixed(width: 500, height: 10))
                 .preferredColorScheme($0)
-            
         }
     }
 }

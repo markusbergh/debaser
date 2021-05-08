@@ -5,7 +5,6 @@
 //  Created by Markus Bergh on 2021-03-12.
 //
 
-
 import SwiftUI
 
 @main
@@ -96,7 +95,7 @@ struct DebaserApp: App {
         }
     }
     
-    func resetIfNeeded() {
+    private func resetIfNeeded() {
         guard CommandLine.arguments.contains("-resetUserDefaults") else {
             store.dispatch(action: .list(.getFavouritesRequest))
             store.dispatch(action: .spotify(.initialize))
@@ -113,7 +112,7 @@ struct DebaserApp: App {
         UserDefaults.standard.removePersistentDomain(forName: defaultsName)
     }
     
-    func skipOnbordingIfNeeded() {
+    private func skipOnbordingIfNeeded() {
         guard CommandLine.arguments.contains("-skipOnboarding") else {
             return
         }
@@ -124,14 +123,14 @@ struct DebaserApp: App {
 
 // MARK: Spotify
 
-private extension DebaserApp {
-    func configureSpotifyConnection() {
+extension DebaserApp {
+    private func configureSpotifyConnection() {
         // Set authentication for Spotify
         auth.redirectURL = URL(string: "debaser-spotify-login://callback")
         auth.sessionUserDefaultsKey = "current session"
     }
     
-    func handleSpotifyLoginCallbackURL(_ url: URL?) {
+    private func handleSpotifyLoginCallbackURL(_ url: URL?) {
         auth.handleAuthCallback(withTriggeredAuthURL: url, callback: { (error, session) in
             if let error = error {
                 print("We have en error:", error)
@@ -179,7 +178,7 @@ private extension DebaserApp {
 // MARK: iMessage Extension + Widget Extension
 
 extension DebaserApp {
-    func canHandleExtensionEventURL(url: URL) -> Bool {
+    private func canHandleExtensionEventURL(url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
@@ -206,7 +205,7 @@ extension DebaserApp {
 // MARK: Modal
 
 extension DebaserApp {
-    func presentModalViewForEvent() {
+    private func presentModalViewForEvent() {
         let matchedEvent = store.state.list.events.first(where: { event in
             event.id == eventReceivedId
         })

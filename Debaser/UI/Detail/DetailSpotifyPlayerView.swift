@@ -11,7 +11,10 @@ struct DetailSpotifyPlayerView: View {
     @Binding var isStreaming: Bool
     
     @State private var streamProgress: CGFloat = 0.0
-    private let streamPositionDidUpdate = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamDidChangePosition"))
+    
+    private var streamPositionDidUpdate: NotificationCenter.Publisher {
+        return NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamDidChangePosition"))
+    }
 
     var body: some View {
         ZStack {

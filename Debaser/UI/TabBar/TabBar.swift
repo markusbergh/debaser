@@ -15,33 +15,35 @@ enum TabBarStyle: CGFloat {
 
 struct TabBar: View {
     @EnvironmentObject var tabViewRouter: TabViewRouter
+    
     @Binding var selectedTab: String
-    @State var tabPoints: [CGFloat] = []
+    
+    @State private var tabPoints: [CGFloat] = []
     
     var body: some View {
         HStack(spacing: 0) {
             TabBarButton(
+                selectedTab: $selectedTab,
+                tabPoints: $tabPoints,
                 image: "music.note.house",
                 type: .list,
-                identifier: .list,
-                selectedTab: $selectedTab,
-                tabPoints: $tabPoints
+                identifier: .list
             )
             
             TabBarButton(
+                selectedTab: $selectedTab,
+                tabPoints: $tabPoints,
                 image: "heart",
                 type: .favourites,
-                identifier: .favourites,
-                selectedTab: $selectedTab,
-                tabPoints: $tabPoints
+                identifier: .favourites
             )
             
             TabBarButton(
+                selectedTab: $selectedTab,
+                tabPoints: $tabPoints,
                 image: "gearshape",
                 type: .settings,
-                identifier: .settings,
-                selectedTab: $selectedTab,
-                tabPoints: $tabPoints
+                identifier: .settings
             )
         }
         .padding()
@@ -53,13 +55,14 @@ struct TabBar: View {
 }
 
 struct TabBarButton: View {
+    @EnvironmentObject var tabViewRouter: TabViewRouter
+
+    @Binding var selectedTab: String
+    @Binding var tabPoints: [CGFloat]
+
     var image: String
     var type: Tab
     var identifier: Tab.Identifier
-
-    @EnvironmentObject var tabViewRouter: TabViewRouter
-    @Binding var selectedTab: String
-    @Binding var tabPoints: [CGFloat]
         
     var body: some View {
         let tabBarButtonImage = "\(image)\(selectedTab == image ? ".fill" : "")"

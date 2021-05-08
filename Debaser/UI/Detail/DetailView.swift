@@ -10,13 +10,13 @@ import SwiftUI
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var store: AppStore
-    @StateObject var viewModel = ImageViewModel()
-    
-    var event: EventViewModel
-    var canNavigateBack: Bool
-    
+        
+    @StateObject private var viewModel = ImageViewModel()
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
+    
+    let event: EventViewModel
+    let canNavigateBack: Bool
 
     init(event: EventViewModel, canNavigateBack: Bool = true) {
         self.event = event

@@ -14,12 +14,12 @@ struct ListHeaderView: View {
         return "List.Search"
     }
     
-    var headline: String
-    var label: LocalizedStringKey
+    @Binding private var isDarkMode: Bool
+    @Binding private var currentSearch: String
     
-    @Binding var isDarkMode: Bool
-    @Binding var currentSearch: String
-    
+    let headline: String
+    let label: LocalizedStringKey
+        
     init(headline: String, label: LocalizedStringKey, isDarkMode: Binding<Bool>, currentSearch: Binding<String>) {
         self.headline = headline
         self.label = label

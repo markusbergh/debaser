@@ -15,8 +15,8 @@ struct ListView: View {
     @State private var listPadding: CGFloat = 20
     @State private var midY: CGFloat = .zero
     
-    var headline: String
-    var label: LocalizedStringKey
+    let headline: String
+    let label: LocalizedStringKey
 
     private var listLabel: LocalizedStringKey {
         return store.state.list.currentSearch.isEmpty ? "List.All" : "List.Search.Result"

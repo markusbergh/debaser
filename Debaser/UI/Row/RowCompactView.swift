@@ -9,8 +9,8 @@ import SwiftUI
 
 struct RowCompactView: View {
     @EnvironmentObject var store: AppStore
-    @StateObject var viewModel = ImageViewModel()
-
+    
+    @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView = false
     
     private var isFavourite: Bool {
@@ -21,8 +21,8 @@ struct RowCompactView: View {
         return store.state.settings.showImages.value == true
     }
 
-    var event: EventViewModel
-    var mediaHeight: CGFloat
+    let event: EventViewModel
+    let mediaHeight: CGFloat
     
     init(event: EventViewModel, mediaHeight: CGFloat = 100) {
         self.event = event

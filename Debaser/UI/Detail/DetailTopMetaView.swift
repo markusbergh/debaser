@@ -9,8 +9,8 @@ import SwiftUI
 
 struct DetailTopMetaView: View {
     @Environment(\.colorScheme) var colorScheme
-
-    var event: EventViewModel
+    
+    @State private var isShowingMapView = false
     
     private var cancelledLabel: String {
         return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
@@ -20,8 +20,8 @@ struct DetailTopMetaView: View {
         return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
     }
     
-    @State private var isShowingMapView = false
-    
+    let event: EventViewModel
+
     var body: some View {
         HStack(alignment: .top) {
             if event.isCancelled {

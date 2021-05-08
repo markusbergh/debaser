@@ -14,7 +14,7 @@ struct DetailBuyTicketButtonView: View {
         return "Detail.Buy.Tickets"
     }
     
-    var event: EventViewModel
+    let event: EventViewModel
     
     var body: some View {
         Button(action: {

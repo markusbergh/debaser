@@ -34,10 +34,10 @@ struct DetailTopImageView: View {
 }
 
 struct DetailImageView: View {
-    var image: UIImage
-    var width: CGFloat
-    var height: CGFloat
-    var offsetY: CGFloat
+    let image: UIImage
+    let width: CGFloat
+    let height: CGFloat
+    let offsetY: CGFloat
     
     var body: some View {
         Image(uiImage: image)

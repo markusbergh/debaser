@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DetailMetaView: View {
-    var image: String?
+    var image: String? = nil
     var label: String
     var labelColor: Color = .primary
     var tintColor: Color = .primary

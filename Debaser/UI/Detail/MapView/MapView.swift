@@ -29,15 +29,15 @@ struct MapView: View {
         )
     )
     
+    @State private var offsetMapPin: CGFloat = -30
+    
     private var bounceAnimation: Animation {
         return Animation.timingCurve(
             0.17, 0.67, 0.71, 1.27,
             duration: 0.75
         ).repeatForever(autoreverses: true)
     }
-    
-    @State private var offsetMapPin: CGFloat = -30
-    
+        
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading, spacing: 0) {
