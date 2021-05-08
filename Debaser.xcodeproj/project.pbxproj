@@ -15,7 +15,6 @@
 		851F8326263EAB6700BAEBCA /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F8325263EAB6700BAEBCA /* MapView.swift */; };
 		8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */; };
 		852821282627716F007B83EC /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
-		8528213326277263007B83EC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
 		8528213826277AF6007B83EC /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213726277AF6007B83EC /* SeparatorView.swift */; };
 		85282140262787C0007B83EC /* DetailMetaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213F262787C0007B83EC /* DetailMetaView.swift */; };
 		852A343926362AF800677B9D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 852A343826362AF800677B9D /* LaunchScreen.storyboard */; };
@@ -65,7 +64,6 @@
 		85B4499B26383EF800C095FA /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B4499826383EF800C095FA /* MessagesTableViewCell.swift */; };
 		85B4499D26383EF800C095FA /* MessagesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85B4499A26383EF800C095FA /* MessagesTableViewCell.xib */; };
 		85B449A726383F1900C095FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B449A626383F1900C095FA /* Main.storyboard */; };
-		85B449D42638444200C095FA /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */; };
 		85B449D9263847CA00C095FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 855B1A3125FB5B5F00C7A219 /* Assets.xcassets */; };
 		85B449DF2638485200C095FA /* MessagesViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B449DE2638485200C095FA /* MessagesViewViewModel.swift */; };
 		85B449ED263849BA00C095FA /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926CF260BE24B004B1761 /* EventService.swift */; };
@@ -74,7 +72,6 @@
 		85B44A0526384C4F00C095FA /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
 		85B44A0A26384EEE00C095FA /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
 		85B44A1926385A2200C095FA /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B44A1826385A2200C095FA /* MessagesViewController.swift */; };
-		85B5CDDE261EFC1E00A55398 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDDD261EFC1E00A55398 /* ColorTheme.swift */; };
 		85B5CDE3261F0F0800A55398 /* RowCompactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDE2261F0F0800A55398 /* RowCompactView.swift */; };
 		85BC0B27261658D600589240 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B26261658D600589240 /* RowView.swift */; };
 		85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* ImageViewModel.swift */; };
@@ -95,13 +92,14 @@
 		85F597732646A2A7004CA1CD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926C6260BE234004B1761 /* Event.swift */; };
 		85F597752646A2B9004CA1CD /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856926CF260BE24B004B1761 /* EventService.swift */; };
 		85F597762646A2C0004CA1CD /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EEAB21262B25F70000B85E /* EventViewModel.swift */; };
-		85F597772646A2CA004CA1CD /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528213226277263007B83EC /* Fonts.swift */; };
 		85F597782646A2D8004CA1CD /* DebaserWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F1F0D263B1306005BB985 /* DebaserWidget.swift */; };
 		85F597792646A2DD004CA1CD /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
 		85F5977A2646A2E4004CA1CD /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
 		85F5977B2646A2EA004CA1CD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		85F5977C2646A2F0004CA1CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 857F1F10263B1307005BB985 /* Assets.xcassets */; };
 		85F5977E2646A5E8004CA1CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F5977D2646A5E8004CA1CD /* Theme.swift */; };
+		85F597802646A625004CA1CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F5977D2646A5E8004CA1CD /* Theme.swift */; };
+		85F597812646A625004CA1CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F5977D2646A5E8004CA1CD /* Theme.swift */; };
 		85FCAF11263723B800A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0E263723B800A0BC89 /* SpotifyAudioPlayback.framework */; };
 		85FCAF12263723B800A0BC89 /* SpotifyAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF0F263723B800A0BC89 /* SpotifyAuthentication.framework */; };
 		85FCAF13263723B800A0BC89 /* SpotifyMetadata.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85FCAF10263723B800A0BC89 /* SpotifyMetadata.framework */; };
@@ -912,11 +910,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8528213326277263007B83EC /* Fonts.swift in Sources */,
 				85D3AEB22639670F006A59A2 /* Calendar+Extension.swift in Sources */,
 				855090452621FDCB000C88BF /* TabViewRouter.swift in Sources */,
 				859943442634357700128A73 /* ListReducer.swift in Sources */,
-				85B5CDDE261EFC1E00A55398 /* ColorTheme.swift in Sources */,
 				8528213826277AF6007B83EC /* SeparatorView.swift in Sources */,
 				856926D0260BE24B004B1761 /* EventService.swift in Sources */,
 				855B1A3025FB5B5C00C7A219 /* ContentView.swift in Sources */,
@@ -998,7 +994,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85B449D42638444200C095FA /* ColorTheme.swift in Sources */,
+				85F597802646A625004CA1CD /* Theme.swift in Sources */,
 				85B44A1926385A2200C095FA /* MessagesViewController.swift in Sources */,
 				85B449F2263849D900C095FA /* EventViewModel.swift in Sources */,
 				85B449DF2638485200C095FA /* MessagesViewViewModel.swift in Sources */,
@@ -1013,8 +1009,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				85F597782646A2D8004CA1CD /* DebaserWidget.swift in Sources */,
-				85F597772646A2CA004CA1CD /* Fonts.swift in Sources */,
 				85F597762646A2C0004CA1CD /* EventViewModel.swift in Sources */,
+				85F597812646A625004CA1CD /* Theme.swift in Sources */,
 				85F597752646A2B9004CA1CD /* EventService.swift in Sources */,
 				85F597732646A2A7004CA1CD /* Event.swift in Sources */,
 			);
@@ -1410,7 +1406,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1435,7 +1431,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
