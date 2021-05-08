@@ -1319,7 +1319,7 @@
 				MARKETING_VERSION = 5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Debaser Ad Hoc Provisioning Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Debaser App Store Provisioning Profile";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1424,7 +1424,7 @@
 				MARKETING_VERSION = 5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser.Widget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Debaser Widget Ad Hoc Provisioning Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Debaser Widget App Store Provisioning Profile";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
@@ -1476,7 +1476,7 @@
 				MARKETING_VERSION = 5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = se.ejzi.Debaser.iMessage;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Debaser iMessage Ad Hoc Provisioning Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Debaser iMessage App Store Provisioning Profile";
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
