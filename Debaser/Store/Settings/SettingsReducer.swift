@@ -50,7 +50,9 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
         saveUserDefaults(value: willHide, forKey: "hideCancelled")
         state.hideCancelled.send(willHide)
     case .pushToSpotifySettings:
-        state.pushToSpotifySettings.send(true)
+        state.pushToSpotifySettings = true
+    case .resetPushToSpotifySettings:
+        state.pushToSpotifySettings = false
     }
     
     return state

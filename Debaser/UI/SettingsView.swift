@@ -10,6 +10,10 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var store: AppStore
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    @State private var isShowingOnboarding = false
 
     private var titleLabel: LocalizedStringKey {
         return "Settings"
@@ -133,7 +137,7 @@ struct SettingsView: View {
 
                     Section(header: Text(onboardingLabel)) {
                         Button(onboardingShowLabel) {
-                            store.dispatch(action: .onboarding(.showOnboarding))
+                            isShowingOnboarding = true
                         }
                     }
                 }
@@ -148,6 +152,12 @@ struct SettingsView: View {
                     .ignoresSafeArea()
             )
             .navigationBarTitle(titleLabel, displayMode: .large)
+            .sheet(isPresented: $isShowingOnboarding) {
+                OnboardingView()
+                    .background(Color.onboardingBackground)
+                    .ignoresSafeArea()
+                    .preferredColorScheme(colorScheme)
+            }
         }
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -227,8 +237,19 @@ struct SettingsSectionSpotify: View {
                 }
             }
         }
-        .onReceive(store.state.settings.pushToSpotifySettings) { _ in
+        .onChange(of: store.state.settings.pushToSpotifySettings) { _ in
+            handlePushToSpotifySettings()
+        }
+        .onDidAppear {
+            handlePushToSpotifySettings()
+        }
+    }
+    
+    private func handlePushToSpotifySettings() {
+        if store.state.settings.pushToSpotifySettings == true {
             showSpotifySettings = true
+            
+            store.dispatch(action: .settings(.resetPushToSpotifySettings))
         }
     }
 }

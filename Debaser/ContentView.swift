@@ -57,6 +57,11 @@ struct ContentView: View {
         .onReceive(store.state.list.isFetching, perform: { isFetching in
             isShowingActivityIndicator = isFetching
         })
+        .onChange(of: store.state.settings.pushToSpotifySettings) { _ in
+            if store.state.settings.pushToSpotifySettings == true {
+                tabViewRouter.currentTab = .settings
+            }
+        }
         .overlay(
             ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
         )
