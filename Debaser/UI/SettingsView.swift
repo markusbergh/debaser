@@ -237,7 +237,7 @@ struct SettingsSectionSpotify: View {
                 }
             }
         }
-        .onChange(of: store.state.settings.pushToSpotifySettings) { _ in
+        .onReceive(store.state.settings.pushToSpotifySettings) { _ in
             handlePushToSpotifySettings()
         }
         .onDidAppear {
@@ -246,7 +246,7 @@ struct SettingsSectionSpotify: View {
     }
     
     private func handlePushToSpotifySettings() {
-        if store.state.settings.pushToSpotifySettings == true {
+        if store.state.settings.pushToSpotifySettings.value == true {
             showSpotifySettings = true
             
             store.dispatch(action: .settings(.resetPushToSpotifySettings))

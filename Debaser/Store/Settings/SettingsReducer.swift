@@ -16,7 +16,7 @@ struct SettingsState {
     var darkMode = CurrentValueSubject<Bool, Never>(false)
     var hideCancelled = CurrentValueSubject<Bool, Never>(false)
     var spotifyConnection: [String: Any]?
-    var pushToSpotifySettings = PassthroughSubject<Bool, Never>()
+    var pushToSpotifySettings = CurrentValueSubject<Bool, Never>(false)
 }
 
 // MARK: Reducer
@@ -50,9 +50,9 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
         saveUserDefaults(value: willHide, forKey: "hideCancelled")
         state.hideCancelled.send(willHide)
     case .pushToSpotifySettings:
-        state.pushToSpotifySettings = true
+        state.pushToSpotifySettings.send(true)
     case .resetPushToSpotifySettings:
-        state.pushToSpotifySettings = false
+        state.pushToSpotifySettings.send(false)
     }
     
     return state
