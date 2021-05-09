@@ -115,6 +115,8 @@ struct SettingsSpotifyView: View {
                     
                     if isConnected {
                         toggleLabel = "Settings.Spotify.On"
+                    } else {
+                        store.dispatch(action: .spotify(.requestLoginError(.unknown)))
                     }
                 }
                 .ignoresSafeArea()
