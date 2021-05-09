@@ -36,18 +36,13 @@ struct ListRowView: View {
         ) {
             Button(action: {
                 isShowingDetailView = true
-                
+
                 store.dispatch(action: .list(.hideTabBar))
                 
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder),
-                    to: nil,
-                    from: nil,
-                    for: nil
-                )
+                dismissKeyboard()
             }) {
                 VStack(alignment: .leading, spacing: 0) {
-                    RowCompactImageView(mediaHeight: mediaHeight)
+                    ListRowImageView(mediaHeight: mediaHeight)
                         .environmentObject(viewModel)
                         .onAppear {
                             if showImagesIfNeeded {
@@ -55,14 +50,14 @@ struct ListRowView: View {
                             }
                         }
                         .modifier(
-                            RowCompactImageViewModifier(
+                            ListRowImageViewModifier(
                                 isCancelled: event.isCancelled,
                                 isPostponed: event.isPostponed,
                                 maxHeight: mediaHeight
                             )
                         )
                         .modifier(
-                            RowCompactFavouriteViewModifier(
+                            ListRowFavouriteViewModifier(
                                 isFavourite: isFavourite
                             )
                         )
@@ -84,13 +79,21 @@ struct ListRowView: View {
                         .padding(.top, 2)
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(ListRowButtonStyle())
         }
-        .accentColor(.clear)
+    }
+    
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }
 
-struct RowCompactImageView: View {
+struct ListRowImageView: View {
     @EnvironmentObject var store: AppStore
     @EnvironmentObject var viewModel: ImageViewModel
 
@@ -127,7 +130,7 @@ struct RowCompactImageView: View {
     }
 }
 
-struct RowCompactFavouriteViewModifier: ViewModifier {
+struct ListRowFavouriteViewModifier: ViewModifier {
     var isFavourite = false
     
     func body(content: Content) -> some View {
@@ -150,12 +153,11 @@ struct RowCompactFavouriteViewModifier: ViewModifier {
     }
 }
 
-struct RowCompactImageViewModifier: ViewModifier {
+struct ListRowImageViewModifier: ViewModifier {
     @EnvironmentObject var store: AppStore
 
     var isCancelled = false
     var isPostponed = false
-    
     var maxHeight: CGFloat
     
     func body(content: Content) -> some View {
@@ -188,6 +190,13 @@ struct RowCompactImageViewModifier: ViewModifier {
         } else {
             return AnyView(content)
         }
+    }
+}
+
+struct ListRowButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }
 

@@ -21,7 +21,6 @@ struct FavouritesView: View {
                 )
             : AnyView(EmptyView())
         )
-        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

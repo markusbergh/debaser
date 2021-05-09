@@ -11,7 +11,7 @@ struct FavouriteRowView: View {
     @EnvironmentObject var store: AppStore
     
     @StateObject private var viewModel = ImageViewModel()
-    @State private var isShowingDetailView: Bool = false
+    @State private var isShowingDetailView = false
     
     let event: EventViewModel
     
@@ -28,25 +28,7 @@ struct FavouriteRowView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {
                         if store.state.settings.showImages.value == true {
-                            Image(uiImage: viewModel.image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .frame(height: 150)
-                                .clipped()
-                                .transition(
-                                    .opacity.animation(.easeInOut(duration: 0.2))
-                                )
-                                .overlay(
-                                    Rectangle()
-                                        .fill(
-                                            LinearGradient(
-                                                gradient: Gradient(colors: [.listRowOverlayGradient.opacity(0.85), .listRowOverlayGradient.opacity(0)]),
-                                                startPoint: .top,
-                                                endPoint: .bottom
-                                            )
-                                        )
-                                )
+                            FavouriteRowImageView(image: viewModel.image)
                         } else {
                             Rectangle()
                                 .background(Color.clear)
@@ -83,7 +65,10 @@ struct FavouriteRowView: View {
                         .stroke(
                             LinearGradient(
                                 gradient: Gradient(
-                                    colors: [Color.listRowStrokeGradientStart, Color.listRowStrokeGradientEnd]
+                                    colors: [
+                                        .listRowStrokeGradientStart,
+                                        .listRowStrokeGradientEnd
+                                    ]
                                 ),
                                 startPoint: .top,
                                 endPoint: .bottom
@@ -95,9 +80,46 @@ struct FavouriteRowView: View {
                     viewModel.loadImage(with: event.image)
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(FavouriteRowButtonStyle())
         }
-        .accentColor(.clear)
+    }
+}
+
+struct FavouriteRowImageView: View {
+    var image: UIImage
+    
+    var body: some View {
+        Image(uiImage: image)
+            .resizable()
+            .scaledToFill()
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .frame(height: 150)
+            .clipped()
+            .transition(
+                .opacity.animation(.easeInOut(duration: 0.2))
+            )
+            .overlay(
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(
+                                colors: [
+                                    .listRowOverlayGradient.opacity(0.85),
+                                    .listRowOverlayGradient.opacity(0)
+                                ]
+                            ),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+            )
+    }
+}
+
+struct FavouriteRowButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }
 
