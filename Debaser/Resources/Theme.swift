@@ -110,6 +110,17 @@ extension UIFont {
             return customFont
         }
     }
+    
+    enum Variant {
+        case huge
+        
+        var font: UIFont {
+            switch self {
+            case .huge:
+                return Family.title.of(size: 49)
+            }
+        }
+    }
 }
 
 extension Font {

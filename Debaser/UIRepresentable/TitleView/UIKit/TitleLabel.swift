@@ -17,12 +17,11 @@ class TitleLabel: UILabel {
     
     convenience init(title: String, fontSize: CGFloat, lineLimit: Int, textColor: UIColor) {
         self.init()
-        
 
         text = title
         font = UIFont.Family.title.of(size: fontSize)
-        self.textColor = textColor
         numberOfLines = lineLimit
+        self.textColor = textColor
 
         configureWithMinimumLinespacing()
     }

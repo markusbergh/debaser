@@ -29,6 +29,7 @@ struct TitleView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
+        uiView.text = title
         uiView.preferredMaxLayoutWidth = UIScreen.main.bounds.width - ((innnerPadding + outerPadding) * 2)
     }
     
