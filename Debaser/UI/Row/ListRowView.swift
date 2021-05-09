@@ -1,5 +1,5 @@
 //
-//  RowCompactView.swift
+//  ListRowView.swift
 //  Debaser
 //
 //  Created by Markus Bergh on 2021-04-08.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RowCompactView: View {
+struct ListRowView: View {
     @EnvironmentObject var store: AppStore
     
     @StateObject private var viewModel = ImageViewModel()
@@ -191,12 +191,12 @@ struct RowCompactImageViewModifier: ViewModifier {
     }
 }
 
-struct RowCompactView_Previews: PreviewProvider {
+struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
         let store = MockStore.store
         let event = MockEventViewModel.event
         
-        RowCompactView(event: event)
+        ListRowView(event: event)
             .preferredColorScheme(.dark)
             .environmentObject(store)
     }

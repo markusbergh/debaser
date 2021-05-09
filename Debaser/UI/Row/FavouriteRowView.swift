@@ -1,5 +1,5 @@
 //
-//  RowView.swift
+//  FavouriteRowView.swift
 //  Debaser
 //
 //  Created by Markus Bergh on 2021-04-01.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RowView: View {
+struct FavouriteRowView: View {
     @EnvironmentObject var store: AppStore
     
     @StateObject private var viewModel = ImageViewModel()
@@ -101,12 +101,12 @@ struct RowView: View {
     }
 }
 
-struct RowView_Previews: PreviewProvider {
+struct FavouriteRowView_Previews: PreviewProvider {
     static var previews: some View {
         let store = MockStore.store
         let event = MockEventViewModel.event
         
-        RowView(event: event)
+        FavouriteRowView(event: event)
             .environmentObject(store)
     }
 }

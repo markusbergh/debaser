@@ -9,75 +9,15 @@ import SwiftUI
 
 struct FavouritesView: View {
     @EnvironmentObject var store: AppStore
-    
-    private var emptyLabel: LocalizedStringKey {
-        return "Favourites.Empty"
-    }
-    
-    private var titleLabel: LocalizedStringKey {
-        return "Favourites"
-    }
 
     var body: some View {
         NavigationView {
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack(spacing: 25) {
-                        ForEach(store.state.list.favourites, id:\.self) { event in
-                            ZStack(alignment: .topTrailing) {
-                                RowView(event: event)
-                                
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 35, height: 35)
-                                    .overlay(
-                                        Image(systemName: "heart.fill")
-                                            .resizable()
-                                            .frame(width: 16, height: 16)
-                                            .foregroundColor(.red)
-                                    )
-                                    .offset(x: -20, y: 20)
-                            }
-                            
-                            Spacer()
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(.top, 10)
-                    .padding(.horizontal, 15)
-                    .navigationTitle(titleLabel)
-                }
-                .padding(.top, 0.5)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(
-                    ListViewTopRectangle(),
-                    alignment: .top
-                )
-                .background(
-                    Color.listBackground
-                        .edgesIgnoringSafeArea(.bottom)
-                )
-            }
+            FavouriteListView()
         }
         .overlay(
             store.state.list.favourites.isEmpty ?
                 AnyView(
-                    GeometryReader { geometry in
-                        ZStack {
-                            Image(systemName: "heart.fill")
-                                .renderingMode(.template)
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.favouriteBackgroundIconTint)
-                                .frame(width: geometry.size.width * 0.75)
-                                .opacity(0.05)
-                                .offset(y: 10)
-                            
-                            Text(emptyLabel)
-                                .font(Font.Variant.smaller(weight: .semibold).font)
-                        }
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                    }
+                    FavouriteEmptyView()
                 )
             : AnyView(EmptyView())
         )
@@ -117,6 +57,5 @@ struct FavouritesView_Previews: PreviewProvider {
                     reducer: appReducer
                 )
             )
-            .preferredColorScheme(.light)
     }
 }

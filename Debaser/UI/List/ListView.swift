@@ -122,7 +122,7 @@ struct ListView: View {
                         ForEach(0..<events.count, id:\.self) { idx in
                             let event = events[idx]
                             
-                            RowCompactView(
+                            ListRowView(
                                 event: event,
                                 mediaHeight: 150
                             )
