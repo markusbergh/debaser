@@ -18,11 +18,17 @@ struct SettingsSpotifyView: View {
     private var headerLabel: LocalizedStringKey {
         return "Settings.Spotify.Connection"
     }
+    
     private var connectionLabel: LocalizedStringKey {
         return "Settings.Spotify.Connection.Label"
     }
+    
     private var noConnectionLabel: LocalizedStringKey {
         return "Settings.Spotify.Connection.Off"
+    }
+    
+    private var streamingControllReceivedError: NotificationCenter.Publisher {
+        return NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamingControllerError"))
     }
     
     var body: some View {
@@ -92,12 +98,14 @@ struct SettingsSpotifyView: View {
             guard let error = error else { return }
             
             switch error {
-            case .authError, .unknown:
+            case .premiumAccountRequired:
                 willShowSpotifyLogin = false
                 isConnected = false
                 isConnectedToggle = false
             default:
-                ()
+                willShowSpotifyLogin = false
+                isConnected = false
+                isConnectedToggle = false
             }
         }
         .onAppear {
@@ -107,7 +115,18 @@ struct SettingsSpotifyView: View {
                 toggleLabel = "Settings.Spotify.On"
             }
         }
-        .sheet(isPresented: $willShowSpotifyLogin) {
+        .onReceive(streamingControllReceivedError, perform: { notification in
+            guard let error = notification.object as? NSError else {
+                store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+                
+                return
+            }
+
+            if error.code == 9 {
+                store.dispatch(action: .spotify(.requestLoginError(.premiumAccountRequired)))
+            }
+        })
+        .sheet(isPresented: $willShowSpotifyLogin, onDismiss: onDismissSpotifyLoginSheet) {
             if let auth = SpotifyService.shared.auth {
                 WebView(url: auth.spotifyWebAuthenticationURL()) {
                     // Maybe this can be checked somewhere else?
@@ -123,6 +142,12 @@ struct SettingsSpotifyView: View {
             }
         }
         .navigationTitle("Spotify")
+    }
+    
+    private func onDismissSpotifyLoginSheet() {
+        if isConnected {
+            toggleLabel = "Settings.Spotify.On"
+        }
     }
 }
 

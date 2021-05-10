@@ -133,7 +133,7 @@ extension DebaserApp {
     private func handleSpotifyLoginCallbackURL(_ url: URL?) {
         auth.handleAuthCallback(withTriggeredAuthURL: url, callback: { (error, session) in
             if let error = error {
-                print("We have en error:", error)
+                print("We have an error:", error)
                 
                 // Fire away notification
                 let notificationName = Notification.Name(rawValue: SpotifyNotification.AuthError.rawValue)

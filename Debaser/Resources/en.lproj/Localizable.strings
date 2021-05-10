@@ -16,8 +16,8 @@
 "List.Event.Cancelled" = "Cancelled";
 "List.Event.Postponed" = "Postponed";
 "List.Error.Title" = "Oh, no!";
-"List.Loading" = "Loading...";
 "List.Error.Message" = "Something went wrong while fetching events, please try again.";
+"List.Loading" = "Loading...";
 
 /// Detail
 "Detail.Age" = "Age %@";
@@ -53,6 +53,8 @@
 "Settings.Spotify.Connection.Label" = "Connected as:";
 "Settings.Spotify.Connection.Off" = "No active connection";
 "Settings.Spotify.DisplayName" = "Display name: ";
+"Settings.Spotify.Error.Title" = "Error";
+"Settings.Spotify.Error.Message" = "This user has not a Spotify Premium account which is a requirement.";
 "Settings.Layout" = "Layout";
 "Settings.Layout.Images" = "Show images";
 "Settings.Layout.DarkMode" = "Dark mode";

@@ -18,6 +18,7 @@ enum SpotifyServiceError: String {
     case authError = "spotifyAuthError"
     case tracksNotFoundForArtist = "tracksNotFoundForArtist"
     case unknown = "unknown"
+    case premiumAccountRequired = "premiumAccountRequired"
 }
 
 class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate {
@@ -100,7 +101,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
             do {
                 try player.start(withClientId: auth.clientID)
             } catch (let error) {
-                print(error.localizedDescription)
+                print("[SpotifyService]: Error when initializing player, \(error.localizedDescription)")
             }
         }
         
@@ -120,6 +121,12 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
         guard let session = self.session else { return }
 
         SPTUser.requestCurrentUser(withAccessToken: session.accessToken, callback: { (error, data) in
+            if let error = error {
+                print("[SpotifyService]: Error when requesting user, \(error.localizedDescription)")
+                
+                return
+            }
+            
             guard let user = data as? SPTUser else {
                 print("[SpotifyService]: Error when fetching user")
 
@@ -164,6 +171,17 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
 
         // Dispatch
         NotificationCenter.default.post(name: Notification.Name(rawValue: "spotifyUserAuthenticated"), object: nil)
+    }
+    
+    internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveError error: Error) {
+        print("[SpotifyService]: Streaming controller received error, \(error)")
+        
+        if isLoggedIn {
+            logout()
+        }
+        
+        // Dispatch
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "spotifyStreamingControllerError"), object: error as NSError)
     }
 
     // MARK: - Track player Delegate
@@ -216,7 +234,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
                     
                     self.session = previousSession
                 } catch {
-                    print("Error while reading previous session")
+                    print("[SpotifyService]: Error while reading previous session")
                 }
             } else {
                 print("[SpotifyService]: No previous session found in user defaults")
@@ -312,10 +330,12 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
     // Executed when wanting to stream the current track
     public func playTrackForArtist() -> Void {
         if let currentURI = currentArtistURI {
-            player?.playSpotifyURI(currentURI,
-                                   startingWith: 0,
-                                   startingWithPosition: 0,
-                                   callback: { (error) in
+            guard let player = self.player else { return }
+            
+            player.playSpotifyURI(currentURI,
+                                  startingWith: 0,
+                                  startingWithPosition: 0,
+                                  callback: { (error) in
                                     self.streaming = true
                                     
                                     if let error = error {

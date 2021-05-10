@@ -14,6 +14,7 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingOnboarding = false
+    @State private var isAlertPresented = false
 
     private var titleLabel: LocalizedStringKey {
         return "Settings"
@@ -152,6 +153,23 @@ struct SettingsView: View {
                     .ignoresSafeArea()
             )
             .navigationBarTitle(titleLabel, displayMode: .large)
+            .onChange(of: store.state.spotify.requestError) { error in
+                guard let error = error else { return }
+                
+                switch error {
+                case .premiumAccountRequired:
+                    isAlertPresented = true
+                default:
+                    isAlertPresented = false
+                }
+            }
+            .alert(isPresented: $isAlertPresented) {
+                Alert(
+                    title: Text("Settings.Spotify.Error.Title"),
+                    message: Text("Settings.Spotify.Error.Message"),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
             .sheet(isPresented: $isShowingOnboarding) {
                 OnboardingView()
                     .background(Color.onboardingBackground)
