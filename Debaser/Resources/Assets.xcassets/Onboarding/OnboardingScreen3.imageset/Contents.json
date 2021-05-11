@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "OnboardingSearchLight.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "OnboardingSearch.png",
       "idiom" : "universal"
     }

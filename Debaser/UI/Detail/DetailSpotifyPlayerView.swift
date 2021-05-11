@@ -58,6 +58,7 @@ struct DetailSpotifyPlayerView: View {
                     Text("Powered by")
                         .textCase(.uppercase)
                         .font(Font.Variant.mini(weight: .heavy).font)
+                        .foregroundColor(.white)
                         .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
 
                     Image("SpotifyLogotype")

@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "OnboardingMessagingLight.png",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "OnboardingMessaging.png",
       "idiom" : "universal"
     }
