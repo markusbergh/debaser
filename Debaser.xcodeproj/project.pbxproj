@@ -29,6 +29,7 @@
 		85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */; };
 		85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303380262E1EF200C93D1B /* OnboardingView.swift */; };
 		854E2980262CB3C0003AC567 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
+		854F3A352651627F00FC6BD9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		855090452621FDCB000C88BF /* TabViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855090442621FDCB000C88BF /* TabViewRouter.swift */; };
 		855310D3260C8BFA00F0D5F7 /* EventListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855310D2260C8BFA00F0D5F7 /* EventListView.swift */; };
 		855310D8260C8C0600F0D5F7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855310D7260C8C0600F0D5F7 /* SettingsView.swift */; };
@@ -952,6 +953,7 @@
 				85B4498B26383E9C00C095FA /* Assets.xcassets in Resources */,
 				85B4499D26383EF800C095FA /* MessagesTableViewCell.xib in Resources */,
 				85B44A0A26384EEE00C095FA /* DelaGothicOne-Regular.ttf in Resources */,
+				854F3A352651627F00FC6BD9 /* Localizable.strings in Resources */,
 				85B449D9263847CA00C095FA /* Assets.xcassets in Resources */,
 				85B449A726383F1900C095FA /* Main.storyboard in Resources */,
 				85B44A0526384C4F00C095FA /* Debaser.plist in Resources */,

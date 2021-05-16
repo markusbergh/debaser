@@ -47,10 +47,13 @@ struct EventProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<DebaserWidgetEntry>) -> Void) {
         let today = Date()
         
+        let tomorrow = Calendar.current.date(byAdding: .day, value:1, to: today)
+        let midnight = Calendar.current.startOfDay(for: tomorrow ?? today)
+
         let formattedToday = dateFormatter.string(from: Date())
                 
         // Create a date that's one day in the future.
-        let nextUpdateDate = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? Date()
+        let nextUpdateDate = Calendar.current.date(byAdding: .second, value: 1, to: midnight) ?? today
         
         eventService.getEvents(fromDate: formattedToday, toDate: formattedToday) { response in
             var entry: DebaserWidgetEntry

@@ -13,8 +13,16 @@ class MessagesViewController: MSMessagesAppViewController {
 
     // MARK: Private
 
-    @IBOutlet private var searchField: UISearchBar!
-    @IBOutlet private var infoLabel: UILabel!
+    @IBOutlet private var searchField: UISearchBar! {
+        didSet {
+            searchField.placeholder = NSLocalizedString("iMessage.Search.Placeholder", comment: "Search placeholder text")
+        }
+    }
+    @IBOutlet private var infoLabel: UILabel! {
+        didSet {
+            infoLabel.text = NSLocalizedString("iMessage.Entry.Label", comment: "Entry label text")
+        }
+    }
 
     private var tapExpandExtensionView: UIView!
     private var tapExpandExtension: UITapGestureRecognizer?
@@ -140,7 +148,7 @@ extension MessagesViewController {
             tableViewController.tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableViewController.tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableViewController.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            ])
+        ])
 
         // Bring tap view to front
         view.bringSubviewToFront(tapExpandExtensionView)

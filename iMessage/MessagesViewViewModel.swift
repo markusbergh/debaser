@@ -86,7 +86,7 @@ extension MessagesViewViewModel {
 
         if let date = dateFormatter.date(from: date) {
             dateFormatter.locale = locale
-            dateFormatter.dateFormat = "dd MMM"
+            dateFormatter.dateFormat = "d MMM"
 
             return dateFormatter.string(from: date)
         }

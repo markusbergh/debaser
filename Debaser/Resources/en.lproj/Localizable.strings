@@ -7,8 +7,8 @@
 */
 
 /// List
-"List.Today" = "Today's concerts";
-"List.All" = "All concerts";
+"List.Today" = "Today's events";
+"List.All" = "All events";
 "List.Empty" = "No upcoming events today";
 "List.Search" = "Search concert";
 "List.Search.Result" = "Search results";
@@ -68,6 +68,10 @@
 /// Detail
 "Detail.Buy.Tickets" = "Buy tickets here";
 "Detail.Meta.Admission.Free" = "Free";
+
+/// iMessage
+"iMessage.Entry.Label" = "Share event in Stockholm";
+"iMessage.Search.Placeholder" = "Search event";
 
 /// Widget
 "Widget.Today.Short" = "Today";
