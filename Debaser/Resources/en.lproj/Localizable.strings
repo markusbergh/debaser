@@ -77,3 +77,5 @@
 "Widget.Today.Short" = "Today";
 "Widget.Today.Long" = "Today at Debaser";
 "Widget.Result.Empty" = "There is no upcoming events today";
+"Widget.Event.Cancelled" = "Cancelled";
+"Widget.Event.Postponed" = "Postponed";

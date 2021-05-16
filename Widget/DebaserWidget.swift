@@ -25,7 +25,7 @@ struct EventProvider: TimelineProvider {
     func getSnapshot(in context: Context, completion: @escaping (DebaserWidgetEntry) -> Void) {
         let today = Date()
         
-        let formattedToday = dateFormatter.string(from: Date())
+        let formattedToday = dateFormatter.string(from: today)
 
         eventService.getEvents(fromDate: formattedToday, toDate: formattedToday) { response in
             var entry: DebaserWidgetEntry
@@ -97,7 +97,7 @@ struct MetaData : View {
 struct TopView : View {
     @Environment(\.widgetFamily) var widgetFamily
     
-    let entry: DebaserWidgetEntry
+    let event: EventViewModel?
     
     var isSmall: Bool {
         return widgetFamily == .systemSmall
@@ -114,7 +114,7 @@ struct TopView : View {
             
             Spacer()
             
-            if let event = entry.event {
+            if let event = event, !event.isCancelled, !event.isPostponed {
                 HStack {
                     if !isSmall {
                         MetaData(text: event.ageLimit)
@@ -131,7 +131,7 @@ struct TopView : View {
 struct BottomView : View {
     @Environment(\.widgetFamily) var widgetFamily
 
-    let entry: DebaserWidgetEntry
+    let event: EventViewModel?
 
     var isSmall: Bool {
         return widgetFamily == .systemSmall
@@ -149,24 +149,56 @@ struct BottomView : View {
         return "Widget.Result.Empty"
     }
     
+    var cancelledLabel: LocalizedStringKey {
+        return "Widget.Event.Cancelled"
+    }
+    
+    var postponedLabel: LocalizedStringKey {
+        return "Widget.Event.Postponed"
+    }
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if entry.event != nil {
-                Text(isSmall ? shortTodayLabel : longTodayLabel)
-                    .foregroundColor(.white)
-                    .font(.system(size: 13))
-            }
-                        
-            HStack(alignment: .top, spacing: 0) {
-                Text(NSLocalizedString(entry.event?.title ?? "Widget.Result.Empty", comment: ""))
-                    .font(Font.Family.title.of(size: 26))
-                    .foregroundColor(.white)
-                    .minimumScaleFactor(0.01)
-                    .lineLimit(3)
-                
-                Spacer()
-            }
+        guard let event = event else {
+            return AnyView(
+                HStack(alignment: .top, spacing: 0) {
+                    Text(emptyResultLabel)
+                        .font(Font.Family.title.of(size: 26))
+                        .foregroundColor(.white)
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(3)
+                    
+                    Spacer()
+                }
+            )
         }
+
+        return AnyView(
+            VStack(alignment: .leading, spacing: 0) {
+                Group {
+                    if !event.isCancelled, !event.isPostponed {
+                        Text(isSmall ? shortTodayLabel : longTodayLabel)
+                    } else {
+                        if event.isCancelled {
+                            Text(cancelledLabel)
+                        } else if event.isPostponed {
+                            Text(postponedLabel)
+                        }
+                    }
+                }
+                .foregroundColor(.white)
+                .font(.system(size: 13))
+                
+                HStack(alignment: .top, spacing: 0) {
+                    Text(event.title)
+                        .font(Font.Family.title.of(size: 26))
+                        .foregroundColor(.white)
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(3)
+                    
+                    Spacer()
+                }
+            }
+        )
     }
 }
 
@@ -175,7 +207,9 @@ struct WidgetBackground: View {
     
     var body: some View {
         if let event = entry.event {
-            if let url = URL(string: event.image), let imageData = try? Data(contentsOf: url), let uiImage = UIImage(data: imageData) {
+            if let url = URL(string: event.image),
+               let imageData = try? Data(contentsOf: url),
+               let uiImage = UIImage(data: imageData) {
                 ZStack {
                     Image(uiImage: uiImage)
                         .resizable()
@@ -220,11 +254,11 @@ struct WidgetEntryView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            TopView(entry: entry)
+            TopView(event: entry.event)
             
             Spacer()
             
-            BottomView(entry: entry)
+            BottomView(event: entry.event)
         }
         .padding(15)
         .background(
@@ -278,12 +312,12 @@ struct Widget_Previews: PreviewProvider {
         WidgetEntryView(entry: MockEntry.entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
             .preferredColorScheme(.dark)
-            .environment(\.locale, .init(identifier: "sv"))
+            .environment(\.locale, .init(identifier: "en"))
         
         WidgetEntryView(entry: MockEntry.entry)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
             .preferredColorScheme(.dark)
-            .environment(\.locale, .init(identifier: "sv"))
+            .environment(\.locale, .init(identifier: "en"))
         
         WidgetEntryView(entry: MockEntry.entry)
             .previewContext(WidgetPreviewContext(family: .systemMedium))
