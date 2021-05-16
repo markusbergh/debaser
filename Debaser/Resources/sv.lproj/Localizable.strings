@@ -7,16 +7,16 @@
 */
 
 /// List
-"List.Today" = "Dagens konserter";
-"List.All" = "Alla konserter";
+"List.Today" = "Dagens event";
+"List.All" = "Alla event";
 "List.Empty" = "Inga kommande event idag";
-"List.Search" = "Sök konsert";
+"List.Search" = "Sök event";
 "List.Search.Result" = "Sökresultat";
 "List.Search.Result.Empty" = "Inga event hittades";
 "List.Event.Cancelled" = "Inställt";
 "List.Event.Postponed" = "Framflyttat";
 "List.Error.Title" = "Åh, nej!";
-"List.Error.Message" = "Tyvärr gick något fel när konserter skulle hämtas, vänligen försök igen.";
+"List.Error.Message" = "Tyvärr gick något fel när event skulle hämtas, vänligen försök igen.";
 "List.Loading" = "Laddar...";
 
 /// Detail
@@ -31,8 +31,8 @@
 "Onboarding.Step1.Header" = "Lyssna direkt via Spotify";
 "Onboarding.Step1.Body" = "Genom att koppla ditt Spotify-konto till Debaser kan du lyssna på artisten direkt i appen¹.";
 "Onboarding.Step1.Info" = "¹ Detta är endast möjligt för användare som har Premium-konto på Spotify.";
-"Onboarding.Step2.Header" = "Dela konserter med iMessage";
-"Onboarding.Step2.Body" = "Med tillägget till iMessage är det enkelt för dig att dela konserter med andra som du vill gå med.";
+"Onboarding.Step2.Header" = "Dela event med iMessage";
+"Onboarding.Step2.Body" = "Med tillägget till iMessage är det enkelt för dig att dela event med andra som du vill gå med.";
 "Onboarding.Step3.Header" = "Håll koll på dina favoriter";
 "Onboarding.Step3.Body" = "Du kan enkelt hitta den spelning du är ute efter och spara ned den till din favoritlista så du inte kan missa den.";
 "Onboarding.Step4.Header" = "Nästan klart! 🏄‍♀️ Hur vill du göra?";
@@ -68,6 +68,10 @@
 /// Detail
 "Detail.Buy.Tickets" = "Köp biljetter här";
 "Detail.Meta.Admission.Free" = "Fri entré";
+
+/// iMessage
+"iMessage.Entry.Label" = "Dela event i Stockholm";
+"iMessage.Search.Placeholder" = "Sök event";
 
 /// Widget
 "Widget.Today.Short" = "Idag";
