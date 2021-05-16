@@ -12,6 +12,7 @@ struct FavouriteRowView: View {
     
     @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView = false
+    @State private var titleHeight: CGFloat = 0.0
     
     let event: EventViewModel
     
@@ -36,10 +37,10 @@ struct FavouriteRowView: View {
                                 .frame(height: 150)
                         }
                         
-                        TitleView(title: event.title, fontSize: 33, lineLimit: 3, textColor: .white)
+                        TitleView(title: event.title, fontSize: 33, lineLimit: 3, textColor: .white, calculatedHeight: $titleHeight)
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
-                            .padding(.horizontal, 20)
-                            .frame(maxWidth: 250, maxHeight: 150)
+                            .frame(width: 300, height: titleHeight)
+                            .offset(x: 20, y: 20)
                     }
                     
                     HStack(spacing: 10) {
@@ -82,6 +83,7 @@ struct FavouriteRowView: View {
             }
             .buttonStyle(FavouriteRowButtonStyle())
         }
+        .accentColor(nil)
     }
 }
 

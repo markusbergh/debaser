@@ -10,10 +10,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var store: AppStore
-    
-    @Environment(\.colorScheme) var colorScheme
-    
-    @State private var isShowingOnboarding = false
+        
     @State private var isAlertPresented = false
 
     private var titleLabel: LocalizedStringKey {
@@ -26,22 +23,6 @@ struct SettingsView: View {
     
     private var themeToggleLabel: LocalizedStringKey {
         return isDarkMode ? "Settings.Theme.DarkMode" : "Settings.Theme.NormalMode"
-    }
-    
-    private var imagesLabel: LocalizedStringKey {
-        return "Settings.Layout.Images"
-    }
-    
-    private var cancelledLabel: LocalizedStringKey {
-        return "Settings.Layout.HideCancelled"
-    }
-    
-    private var onboardingLabel: LocalizedStringKey {
-        return "Settings.Onboarding"
-    }
-    
-    private var onboardingShowLabel: LocalizedStringKey {
-        return "Settings.Onboarding.Show"
     }
     
     private var isDarkMode: Bool {
@@ -73,29 +54,7 @@ struct SettingsView: View {
             }
         )
     }
-    
-    private var showImages: Binding<Bool> {
-        return Binding<Bool>(
-            get: {
-                return store.state.settings.showImages.value
-            },
-            set: {
-                store.dispatch(action: .settings(.setShowImages($0)))
-            }
-        )
-    }
-    
-    private var hideCancelled: Binding<Bool> {
-        return Binding<Bool>(
-            get: {
-                return store.state.settings.hideCancelled.value
-            },
-            set: {
-                store.dispatch(action: .settings(.setHideCancelled($0)))
-            }
-        )
-    }
-    
+            
     init() {
         UITableView.appearance().backgroundColor = .clear
     }
@@ -107,6 +66,8 @@ struct SettingsView: View {
                     SettingsSectionAbout()
                     SettingsSectionSpotify()
                     
+                    // For some weird reason, this section crashes if being a subview like
+                    // the rest, possibly due to an animated removal/insertion of the row.
                     Section(header: Text(themeLabel)) {
                         Toggle("System", isOn: systemColorScheme.animation(.easeInOut))
                             .accessibility(identifier: "ToggleSystemTheme")
@@ -129,18 +90,9 @@ struct SettingsView: View {
                         }
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-
-                    Section(header: Text("Layout")) {
-                        Toggle(cancelledLabel, isOn: hideCancelled)
-                        Toggle(imagesLabel, isOn: showImages)
-                    }
-                    .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
-
-                    Section(header: Text(onboardingLabel)) {
-                        Button(onboardingShowLabel) {
-                            isShowingOnboarding = true
-                        }
-                    }
+                    
+                    SettingsSectionLayout()
+                    SettingsLayoutOnboarding()
                 }
                 .listRowBackground(Color.settingsListRowBackground)
             }
@@ -170,12 +122,7 @@ struct SettingsView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
-            .sheet(isPresented: $isShowingOnboarding) {
-                OnboardingView()
-                    .background(Color.onboardingBackground)
-                    .ignoresSafeArea()
-                    .preferredColorScheme(colorScheme)
-            }
+            
         }
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -200,6 +147,8 @@ struct SettingsViewTopRectangle: View {
     }
 }
 
+// MARK: - About
+
 struct SettingsSectionAbout: View {
     private var debaserLabel: LocalizedStringKey {
         return "Settings.Debaser"
@@ -217,6 +166,8 @@ struct SettingsSectionAbout: View {
         }
     }
 }
+
+// MARK: - Spotify
 
 struct SettingsSectionSpotify: View {
     @EnvironmentObject var store: AppStore
@@ -268,6 +219,80 @@ struct SettingsSectionSpotify: View {
             showSpotifySettings = true
             
             store.dispatch(action: .settings(.resetPushToSpotifySettings))
+        }
+    }
+}
+
+// MARK: - Layout
+
+struct SettingsSectionLayout: View {
+    @EnvironmentObject var store: AppStore
+    
+    private var imagesLabel: LocalizedStringKey {
+        return "Settings.Layout.Images"
+    }
+    
+    private var cancelledLabel: LocalizedStringKey {
+        return "Settings.Layout.HideCancelled"
+    }
+
+    private var showImages: Binding<Bool> {
+        return Binding<Bool>(
+            get: {
+                return store.state.settings.showImages.value
+            },
+            set: {
+                store.dispatch(action: .settings(.setShowImages($0)))
+            }
+        )
+    }
+    
+    private var hideCancelled: Binding<Bool> {
+        return Binding<Bool>(
+            get: {
+                return store.state.settings.hideCancelled.value
+            },
+            set: {
+                store.dispatch(action: .settings(.setHideCancelled($0)))
+            }
+        )
+    }
+    
+    var body: some View {
+        Section(header: Text("Layout")) {
+            Toggle(cancelledLabel, isOn: hideCancelled)
+            Toggle(imagesLabel, isOn: showImages)
+        }
+        .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
+    }
+}
+
+// MARK: - Onboarding
+
+struct SettingsLayoutOnboarding: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    @State private var isShowingOnboarding = false
+
+    private var onboardingLabel: LocalizedStringKey {
+        return "Settings.Onboarding"
+    }
+    
+    private var onboardingShowLabel: LocalizedStringKey {
+        return "Settings.Onboarding.Show"
+    }
+    
+    var body: some View {
+        Section(header: Text(onboardingLabel)) {
+            Button(onboardingShowLabel) {
+                isShowingOnboarding = true
+            }
+            .sheet(isPresented: $isShowingOnboarding) {
+                OnboardingView()
+                    .background(Color.onboardingBackground)
+                    .ignoresSafeArea()
+                    .preferredColorScheme(colorScheme)
+            }
         }
     }
 }

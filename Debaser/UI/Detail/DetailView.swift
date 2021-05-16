@@ -125,7 +125,8 @@ struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isFavourite = false
-        
+    @State private var titleHeight: CGFloat = 0.0
+
     var event: EventViewModel
     
     var body: some View {
@@ -140,8 +141,8 @@ struct DetailMainContentView: View {
             }
             .padding(.bottom, 35)
 
-            TitleView(title: event.title, innnerPadding: 25, outerPadding: 25)
-                .fixedSize(horizontal: false, vertical: false)
+            TitleView(title: event.title, calculatedHeight: $titleHeight)
+                .frame(height: titleHeight)
                 .padding(.bottom, 10)
                 
             DetailMetaContainerView(

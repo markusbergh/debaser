@@ -11,7 +11,6 @@ class TitleLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: .zero)
                 
-        setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
@@ -37,7 +36,7 @@ class TitleLabel: UILabel {
         
         style.lineHeightMultiple = 0.8
         style.alignment = self.textAlignment
-        style.lineBreakMode = .byWordWrapping
+        style.lineBreakMode = .byTruncatingTail
         
         string.addAttribute(.paragraphStyle, value: style, range: range)
         string.addAttribute(.baselineOffset, value: offset, range: range)

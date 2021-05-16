@@ -109,6 +109,6 @@ struct CarouselItemContent: View {
             }
             .buttonStyle(PlainButtonStyle())
         }
-        .accentColor(.clear)
+        .accentColor(nil)
     }
 }

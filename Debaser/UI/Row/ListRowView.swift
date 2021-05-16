@@ -81,6 +81,7 @@ struct ListRowView: View {
             }
             .buttonStyle(ListRowButtonStyle())
         }
+        .accentColor(nil)
     }
     
     private func dismissKeyboard() {
