@@ -12,7 +12,7 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
     return { state, action in
         switch action {
         case .list(.getEventsRequest):
-            guard let firstDate = ListMiddlewareDateHelper.today, let lastDate = ListMiddlewareDateHelper.lastDayOfYear else {
+            guard let firstDate = ListMiddlewareDateHelper.today, let lastDate = ListMiddlewareDateHelper.dateInNearFuture else {
                 return Empty().eraseToAnyPublisher()
             }
             
@@ -118,6 +118,21 @@ struct ListMiddlewareDateHelper {
         }
         
         dateComponents.year = 1
+        dateComponents.day = -1
+        
+        guard let lastDateOfYear = Calendar.current.date(byAdding: dateComponents, to: startDateOfYear) else {
+            return nil
+        }
+        
+        return dateFormatter.string(from: lastDateOfYear)
+    }()
+    
+    static var dateInNearFuture: String? = {
+        guard let startDateOfYear = Calendar.current.date(from: dateComponents) else {
+            return nil
+        }
+        
+        dateComponents.year = 2
         dateComponents.day = -1
         
         guard let lastDateOfYear = Calendar.current.date(byAdding: dateComponents, to: startDateOfYear) else {

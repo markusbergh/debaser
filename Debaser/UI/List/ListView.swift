@@ -27,7 +27,7 @@ struct ListView: View {
     }
     
     private var gridLayout: [GridItem] {
-        return Array(repeating: .init(.flexible(), spacing: 20), count: 2)
+        return Array(repeating: .init(.flexible(minimum: 0, maximum: .infinity), spacing: 20, alignment: .leading), count: 2)
     }
 
     private var listBottomPadding: CGFloat {
@@ -99,28 +99,41 @@ struct ListView: View {
                         .padding(.horizontal, listPadding)
                 }
                 
-                let events = getEvents()
+                let allEvents = getEvents()
                 
                 VStack {
                     HStack {
-                        if events.isEmpty, !store.state.list.currentSearch.isEmpty {
+                        if allEvents.isEmpty, !store.state.list.currentSearch.isEmpty {
                             Text("List.Search.Result.Empty")
                                 .font(Font.Variant.small(weight: .medium).font)
                         } else {
                             Text(listLabel)
                                 .font(Font.Variant.small(weight: .regular).font)
+                                .foregroundColor(.white)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 15)
+                                .background(Capsule().fill(Color.listRowBackground))
                         }
                         
                         Spacer()
                     }
+                    .padding(.bottom, 10)
+                    
+                    SeparatorView()
+                        .frame(height: 15)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, listPadding)
+                .padding(.top, listPadding)
+                .padding(.bottom, 10)
 
-                if !events.isEmpty {
+                if !allEvents.isEmpty {
+                    let eventsForCurrentYear = getEventsCurrentYear(allEvents)
+                    let eventsInNearFuture = getEventsInNearFuture(allEvents)
+                    
                     LazyVGrid(columns: gridLayout, spacing: 20) {
-                        ForEach(0..<events.count, id:\.self) { idx in
-                            let event = events[idx]
+                        ForEach(0..<eventsForCurrentYear.count, id:\.self) { idx in
+                            let event = eventsForCurrentYear[idx]
                             
                             ListRowView(
                                 event: event,
@@ -128,6 +141,40 @@ struct ListView: View {
                             )
                             .frame(maxHeight: .infinity, alignment: .top)
                             .id(event.id)
+                        }
+                        
+                        // Show also the events in the near future...
+                        if !eventsInNearFuture.isEmpty {
+                            ForEach(0..<eventsInNearFuture.count, id:\.self) { idx in
+                                if idx == 0 {
+                                    SeparatorView()
+                                        .frame(width: (UIScreen.main.bounds.width - listPadding * 2))
+                                    
+                                    // Hacky hack to display the previous item with full width
+                                    Color.clear
+                                    
+                                    if let nextYear = getNextYear() {
+                                        // For now we assume it is next year, but should rather be available in data list
+                                        Text(nextYear)
+                                            .foregroundColor(.white)
+                                            .padding(.vertical, 10)
+                                            .padding(.horizontal, 15)
+                                            .background(Capsule().fill(Color.listRowBackground))
+                                        
+                                        // Hacky hack to display the previous item with full width
+                                        Color.clear
+                                    }
+                                }
+                                
+                                let event = eventsInNearFuture[idx]
+                                
+                                ListRowView(
+                                    event: event,
+                                    mediaHeight: 150
+                                )
+                                .frame(maxHeight: .infinity, alignment: .top)
+                                .id(event.id)
+                            }
                         }
                     }
                     .padding(.bottom, listBottomPadding)
@@ -172,8 +219,16 @@ struct ListView: View {
         if store.state.settings.hideCancelled.value == true {
             events = filterHideCancelledEvents(events: events)
         }
-
+        
         return events
+    }
+    
+    private func getEventsCurrentYear(_ events: [EventViewModel]) -> [EventViewModel] {
+        return filterOutEventsRelatedToCurrentYear(events: events)
+    }
+    
+    private func getEventsInNearFuture(_ events: [EventViewModel]) -> [EventViewModel] {
+        return filterOutEventsRelatedToCurrentYear(events: events, isIncluded: false)
     }
     
     private func getTodayEvents() -> [EventViewModel] {
@@ -230,6 +285,36 @@ struct ListView: View {
             
             return !slug.contains("cancelled")
         })
+    }
+    
+    private func filterOutEventsRelatedToCurrentYear(events: [EventViewModel], isIncluded: Bool = true) -> [EventViewModel] {
+        let currentYear = Calendar.current.component(.year, from: Date())
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
+        return events.filter({ event -> Bool in
+            if let date = dateFormatter.date(from: event.date) {
+                let eventYear = Calendar.current.component(.year, from: date)
+                
+                if eventYear == currentYear {
+                    return isIncluded
+                }
+            }
+            
+            return !isIncluded
+        })
+    }
+    
+    private func getNextYear() -> String? {
+        var dateComponents = DateComponents()
+        dateComponents.year = 1
+        
+        guard let nextYearDate = Calendar.current.date(byAdding: dateComponents, to: Date()) else {
+            return nil
+        }
+        
+        return "\(Calendar.current.component(.year, from: nextYearDate))"
     }
 }
 
