@@ -146,7 +146,7 @@ struct ListView: View {
                         // Show also the events in the near future...
                         if !eventsInNearFuture.isEmpty {
                             ForEach(0..<eventsInNearFuture.count, id:\.self) { idx in
-                                if idx == 0 {
+                                if idx == 0, store.state.list.currentSearch.isEmpty {
                                     SeparatorView()
                                         .frame(width: (UIScreen.main.bounds.width - listPadding * 2))
                                     
