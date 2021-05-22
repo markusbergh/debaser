@@ -186,6 +186,19 @@ extension EventViewModel {
         
         return dateFormatter.string(from: date)
     }
+    
+    var shortYear: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let date = dateFormatter.date(from: date) else {
+            return ""
+        }
+        
+        dateFormatter.dateFormat = "yyyy"
+        
+        return dateFormatter.string(from: date)
+    }
 }
 
 // MARK: Mock event

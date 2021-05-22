@@ -20,6 +20,24 @@ struct DetailTopMetaView: View {
         return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
     }
     
+    private var isEventNextYear: Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let date = dateFormatter.date(from: event.date) else {
+            return false
+        }
+        
+        let currentYear = Calendar.current.component(.year, from: Date())
+        let eventYear = Calendar.current.component(.year, from: date)
+        
+        if currentYear < eventYear {
+            return true
+        }
+        
+        return false
+    }
+    
     let event: EventViewModel
 
     var body: some View {
@@ -62,6 +80,18 @@ struct DetailTopMetaView: View {
                 MapView()
                     .preferredColorScheme(colorScheme)
                     .ignoresSafeArea()
+            }
+            
+            if isEventNextYear {
+                Text(event.shortYear)
+                    .font(Font.Variant.tiny.font)
+                    .frame(minHeight: 20)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule()
+                            .strokeBorder(lineWidth: 1.0)
+                    )
             }
         }
     }

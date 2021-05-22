@@ -30,7 +30,7 @@ struct ListHeaderView: View {
         UITextField.appearance().clearButtonMode = .whileEditing
     }
     
-    private var dateFormatter: DateFormatter = {
+    private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMM"
         
