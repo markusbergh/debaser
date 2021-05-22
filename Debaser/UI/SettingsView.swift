@@ -122,7 +122,6 @@ struct SettingsView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
-            
         }
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())

@@ -87,7 +87,7 @@ struct CarouselItemContent: View {
                             }
                     } else {
                         Rectangle()
-                            .background(Color.clear)
+                            .fill(Color.listRowBackground)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     
@@ -107,7 +107,7 @@ struct CarouselItemContent: View {
                     }
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(ListRowButtonStyle())
         }
         .accentColor(nil)
     }

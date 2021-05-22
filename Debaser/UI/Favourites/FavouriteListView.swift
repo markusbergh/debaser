@@ -12,6 +12,8 @@ struct FavouriteListView: View {
     
     @State private var listPadding: CGFloat = 20
     
+    private let itemHeight: CGFloat = 170
+    
     private var titleLabel: LocalizedStringKey {
         return "Favourites"
     }
@@ -25,19 +27,20 @@ struct FavouriteListView: View {
             VStack(spacing: listPadding) {
                 ForEach(store.state.list.favourites, id:\.self) { event in
                     ZStack(alignment: .topTrailing) {
-                        FavouriteRowView(event: event)
+                        FavouriteRowView(event: event, totalHeight: itemHeight)
                         
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 35, height: 35)
+                            .frame(width: 30, height: 30)
                             .overlay(
                                 Image(systemName: "heart.fill")
                                     .resizable()
-                                    .frame(width: 16, height: 16)
+                                    .frame(width: 15, height: 15)
                                     .foregroundColor(.red)
                             )
                             .offset(x: -20, y: 20)
                     }
+                    .frame(height: itemHeight)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -46,7 +49,6 @@ struct FavouriteListView: View {
             .padding(.bottom, listBottomPadding)
             .navigationTitle(titleLabel)
         }
-        .padding(.top, 0.5)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             ListViewTopRectangle(),

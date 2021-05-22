@@ -67,7 +67,6 @@ struct SnapCarousel: View {
                             CarouselItemContent(event: item.event)
                         }
                         .shadow(color: .black.opacity(0.25), radius: 10, x: 0, y: 0)
-                        .background(Color.listRowBackground)
                         .cornerRadius(15)
                         .transition(transition)
                         .animation(animation)
@@ -88,7 +87,6 @@ struct SnapCarousel: View {
             }
         }
         .frame(height: 200)
-        .background(Color.clear)
     }
 }
 

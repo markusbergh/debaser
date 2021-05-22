@@ -505,12 +505,12 @@
 			path = DebaserTests;
 			sourceTree = "<group>";
 		};
-		855CF38D2646DC37007876D3 /* MapView */ = {
+		855CF38D2646DC37007876D3 /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				855CF38E2646DC5D007876D3 /* MapView.swift */,
 			);
-			path = MapView;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		85639D1A26389C890098465C /* Row */ = {
@@ -558,6 +558,7 @@
 				85C2ED91262AE7C900CA5CDF /* List */,
 				856F547B26487A7A004203ED /* Favourites */,
 				85639D1A26389C890098465C /* Row */,
+				855CF38D2646DC37007876D3 /* Map */,
 				85D7D7FF2619F4F30073E3BA /* Detail */,
 				85A8BAE42634C29300E591A1 /* Settings */,
 				85D7D8002619F5150073E3BA /* Helpers */,
@@ -708,7 +709,6 @@
 		85D7D7FF2619F4F30073E3BA /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				855CF38D2646DC37007876D3 /* MapView */,
 				85D7D7F72619F4550073E3BA /* DetailView.swift */,
 				855CF3882646DC1F007876D3 /* DetailTopMetaView.swift */,
 				8528213F262787C0007B83EC /* DetailMetaView.swift */,

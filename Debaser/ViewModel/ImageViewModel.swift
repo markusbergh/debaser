@@ -40,9 +40,11 @@ extension ImageViewModel {
                     return
                 }
                 
-                if let image = UIImage(data: data) {
-                    self?.image = image
-                    self?.isLoaded = true
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data) {
+                        self?.image = image
+                        self?.isLoaded = true
+                    }
                 }
             })
     }

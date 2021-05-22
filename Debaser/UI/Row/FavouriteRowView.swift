@@ -14,8 +14,14 @@ struct FavouriteRowView: View {
     @State private var isShowingDetailView = false
     @State private var titleHeight: CGFloat = 0.0
     
-    let event: EventViewModel
+    private let topHeight: CGFloat = 120
+    private var bottomHeight: CGFloat {
+        return totalHeight - topHeight
+    }
     
+    let event: EventViewModel
+    let totalHeight: CGFloat
+
     var body: some View {
         NavigationLink(
             destination: DetailView(event: event),
@@ -26,59 +32,72 @@ struct FavouriteRowView: View {
                 
                 store.dispatch(action: .list(.hideTabBar))
             }) {
-                VStack(alignment: .leading, spacing: 0) {
-                    ZStack(alignment: .topLeading) {
-                        if store.state.settings.showImages.value == true {
-                            FavouriteRowImageView(image: viewModel.image)
-                        } else {
+                GeometryReader { geometry in
+                    VStack(alignment: .leading, spacing: 0) {
+                        ZStack(alignment: .topLeading) {
                             Rectangle()
-                                .background(Color.clear)
+                                .fill(Color.listRowBackground)
                                 .frame(minWidth: 0, maxWidth: .infinity)
-                                .frame(height: 150)
-                        }
-                        
-                        TitleView(title: event.title, fontSize: 33, lineLimit: 3, textColor: .white, calculatedHeight: $titleHeight)
+
+                            if store.state.settings.showImages.value == true {
+                                FavouriteRowImageView(image: viewModel.image, height: topHeight)
+                            }
+                                                        
+                            TitleView(
+                                title: event.title,
+                                fontSize: 27,
+                                lineLimit: 3,
+                                textColor: .white,
+                                calculatedHeight: $titleHeight
+                            )
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
-                            .frame(width: 300, height: titleHeight)
+                            .frame(width: geometry.size.width * 0.65, height: titleHeight)
                             .offset(x: 20, y: 20)
-                    }
-                    
-                    HStack(spacing: 10) {
-                        Text(event.listDate)
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
+                        }
+                        .frame(height: topHeight)
+                        
+                        HStack(spacing: 10) {
+                            Text(event.listDate)
+                                .foregroundColor(.white)
+                                .fontWeight(.bold)
 
-                        Spacer()
+                            Spacer()
 
-                        Text(event.venue)
-                            .foregroundColor(.white)
+                            Text(event.venue)
+                                .foregroundColor(.white)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 3)
+                        .frame(height: bottomHeight)
                     }
-                    .padding()
-                }
-                .cornerRadius(15)
-                .background(
-                    Rectangle()
-                        .fill(Color.listRowBackground)
-                        .cornerRadius(15)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15, style: .circular)
-                        .stroke(
-                            LinearGradient(
-                                gradient: Gradient(
-                                    colors: [
-                                        .listRowStrokeGradientStart,
-                                        .listRowStrokeGradientEnd
-                                    ]
+                    .frame(height: totalHeight)
+                    .cornerRadius(15)
+                    .background(
+                        Rectangle()
+                            .fill(Color.listRowBackground)
+                            .cornerRadius(15)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15, style: .circular)
+                            .stroke(
+                                LinearGradient(
+                                    gradient: Gradient(
+                                        colors: [
+                                            .listRowStrokeGradientStart,
+                                            .listRowStrokeGradientEnd
+                                        ]
+                                    ),
+                                    startPoint: .top,
+                                    endPoint: .bottom
                                 ),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            ),
-                            lineWidth: 1
-                        ).opacity(0.5)
-                )
-                .onAppear {
-                    viewModel.loadImage(with: event.image)
+                                lineWidth: 1
+                            ).opacity(0.5)
+                    )
+                    .onAppear {
+                        if store.state.settings.showImages.value == true {
+                            viewModel.loadImage(with: event.image)
+                        }
+                    }
                 }
             }
             .buttonStyle(FavouriteRowButtonStyle())
@@ -89,13 +108,14 @@ struct FavouriteRowView: View {
 
 struct FavouriteRowImageView: View {
     var image: UIImage
+    var height: CGFloat
     
     var body: some View {
         Image(uiImage: image)
             .resizable()
             .scaledToFill()
             .frame(minWidth: 0, maxWidth: .infinity)
-            .frame(height: 150)
+            .frame(height: height)
             .clipped()
             .transition(
                 .opacity.animation(.easeInOut(duration: 0.2))
@@ -130,7 +150,7 @@ struct FavouriteRowView_Previews: PreviewProvider {
         let store = MockStore.store
         let event = MockEventViewModel.event
         
-        FavouriteRowView(event: event)
+        FavouriteRowView(event: event, totalHeight: 170)
             .environmentObject(store)
     }
 }
