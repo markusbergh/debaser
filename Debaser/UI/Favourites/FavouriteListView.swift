@@ -10,8 +10,8 @@ import SwiftUI
 struct FavouriteListView: View {
     @EnvironmentObject var store: AppStore
     
-    @State private var listPadding: CGFloat = 20
-    
+    private let listPadding: CGFloat = 20
+    private let itemSpacing: CGFloat = 25
     private let itemHeight: CGFloat = 170
     
     private var titleLabel: LocalizedStringKey {
@@ -24,7 +24,7 @@ struct FavouriteListView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: listPadding) {
+            VStack(spacing: itemSpacing) {
                 ForEach(store.state.list.favourites, id:\.self) { event in
                     ZStack(alignment: .topTrailing) {
                         FavouriteRowView(event: event, totalHeight: itemHeight)
