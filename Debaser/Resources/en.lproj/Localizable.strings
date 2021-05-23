@@ -21,6 +21,8 @@
 
 /// Detail
 "Detail.Age" = "Age %@";
+"Detail.Event.Overdue.Title" = "Oops!";
+"Detail.Event.Overdue.Message" = "This event has already happened!";
 
 /// Favourites
 "Favourites" = "Favourites";

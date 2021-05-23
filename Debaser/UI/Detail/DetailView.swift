@@ -14,6 +14,24 @@ struct DetailView: View {
     @StateObject private var viewModel = ImageViewModel()
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
+    @State private var isShowingAlertDateOverdue = false
+    
+    private var isEventExpired: Bool {
+        let today = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let eventDate = dateFormatter.date(from: event.date) else {
+            return false
+        }
+        
+        if eventDate < today {
+            return true
+        }
+        
+        return false
+    }
     
     let event: EventViewModel
     let canNavigateBack: Bool
@@ -79,8 +97,14 @@ struct DetailView: View {
                     store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
                 }
                 
+                // Hide tab bar
                 if store.state.list.isShowingTabBar == true {
                     store.dispatch(action: .list(.hideTabBar))
+                }
+                
+                // Has this event already happened?
+                if isEventExpired {
+                    isShowingAlertDateOverdue = true
                 }
             }
             .onDisappear {
@@ -89,6 +113,13 @@ struct DetailView: View {
                 if isStreaming {
                     SpotifyService.shared.playPauseStream()
                 }
+            }
+            .alert(isPresented: $isShowingAlertDateOverdue) {
+                Alert(
+                    title: Text("Detail.Event.Overdue.Title"),
+                    message: Text("Detail.Event.Overdue.Message"),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }
