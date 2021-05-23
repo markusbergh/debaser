@@ -19,6 +19,24 @@ struct FavouriteRowView: View {
         return totalHeight - topHeight
     }
     
+    private var cancelledLabel: String {
+        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
+    }
+    
+    private var postponedLabel: String {
+        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
+    }
+    
+    private var eventDate: String {
+        if event.isPostponed {
+            return postponedLabel
+        } else if event.isCancelled {
+            return cancelledLabel
+        }
+        
+        return event.listDate
+    }
+    
     let event: EventViewModel
     let totalHeight: CGFloat
 
@@ -57,9 +75,9 @@ struct FavouriteRowView: View {
                         .frame(height: topHeight)
                         
                         HStack(spacing: 10) {
-                            Text(event.listDate)
-                                .foregroundColor(.white)
+                            Text(eventDate)
                                 .fontWeight(.bold)
+                                .foregroundColor(.white)
 
                             Spacer()
 
