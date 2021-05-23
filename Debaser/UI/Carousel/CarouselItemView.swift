@@ -13,7 +13,8 @@ struct Card: Decodable, Hashable, Identifiable {
 }
 
 struct CarouselItemView<Content: View>: View {
-    @EnvironmentObject var UIState: UIStateModel
+    @EnvironmentObject var UIState: CarouselState
+    
     let cardWidth: CGFloat
     let cardHeight: CGFloat
     

@@ -12,7 +12,7 @@ struct FramePreferenceKey: PreferenceKey {
     static func reduce(value: inout CGRect, nextValue: () -> CGRect) {}
 }
 
-class UIStateModel: ObservableObject {
+class CarouselState: ObservableObject {
     @Published var activeCard = 0
     @Published var screenDrag: Float = 0.0
     
@@ -22,7 +22,7 @@ class UIStateModel: ObservableObject {
 }
 
 struct SnapCarousel: View {
-    var UIState: UIStateModel
+    var state: CarouselState
     var spacing: CGFloat = 16
     var widthOfHiddenCards: CGFloat = 32
     var cardHeight: CGFloat = 200
@@ -83,7 +83,7 @@ struct SnapCarousel: View {
                         }
                     }
                 }
-                .environmentObject(self.UIState)
+                .environmentObject(state)
             }
         }
         .frame(height: 200)
@@ -91,7 +91,7 @@ struct SnapCarousel: View {
 }
 
 struct Carousel<Items : View> : View {
-    @EnvironmentObject var UIState: UIStateModel
+    @EnvironmentObject var state: CarouselState
     @GestureState var isDetectingLongPress = false
     
     let items: Items
@@ -121,13 +121,13 @@ struct Carousel<Items : View> : View {
         let leftPadding = widthOfHiddenCards + spacing
         let totalMovement = cardWidth + spacing
         
-        let activeOffset = xOffsetToShift + (leftPadding) - (totalMovement * CGFloat(UIState.activeCard))
-        let nextOffset = xOffsetToShift + (leftPadding) - (totalMovement * CGFloat(UIState.activeCard) + 1)
+        let activeOffset = xOffsetToShift + (leftPadding) - (totalMovement * CGFloat(state.activeCard))
+        let nextOffset = xOffsetToShift + (leftPadding) - (totalMovement * CGFloat(state.activeCard) + 1)
         
         var calcOffset = Float(activeOffset)
         
         if (calcOffset != Float(nextOffset)) {
-            calcOffset = Float(activeOffset) + UIState.screenDrag
+            calcOffset = Float(activeOffset) + state.screenDrag
         }
         
         return HStack(alignment: .center, spacing: spacing) {
@@ -135,19 +135,19 @@ struct Carousel<Items : View> : View {
         }
         .offset(x: CGFloat(calcOffset), y: 0)
         .highPriorityGesture(DragGesture().updating($isDetectingLongPress) { currentState, gestureState, transaction in
-            self.UIState.screenDrag = Float(currentState.translation.width)
+            self.state.screenDrag = Float(currentState.translation.width)
         }.onEnded { value in
-            self.UIState.screenDrag = 0
+            self.state.screenDrag = 0
             
-            if (value.translation.width < -50 && CGFloat(self.UIState.activeCard) < numberOfItems - 1) {
-                self.UIState.activeCard = self.UIState.activeCard + 1
+            if (value.translation.width < -50 && CGFloat(self.state.activeCard) < numberOfItems - 1) {
+                self.state.activeCard = self.state.activeCard + 1
                 
                 let impactMed = UIImpactFeedbackGenerator(style: .medium)
                 impactMed.impactOccurred()
             }
             
-            if (value.translation.width > 50 && CGFloat(self.UIState.activeCard) > 0) {
-                self.UIState.activeCard = self.UIState.activeCard - 1
+            if (value.translation.width > 50 && CGFloat(self.state.activeCard) > 0) {
+                self.state.activeCard = self.state.activeCard - 1
                 
                 let impactMed = UIImpactFeedbackGenerator(style: .medium)
                 impactMed.impactOccurred()
@@ -157,8 +157,6 @@ struct Carousel<Items : View> : View {
 }
 
 struct Canvas<Content: View> : View {
-    @EnvironmentObject var UIState: UIStateModel
-
     let content: Content
 
     @inlinable init(@ViewBuilder _ content: () -> Content) {

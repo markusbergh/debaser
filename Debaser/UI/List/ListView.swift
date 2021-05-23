@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ListView: View {
     @EnvironmentObject var store: AppStore
-    @EnvironmentObject var carouselState: UIStateModel
+    @EnvironmentObject var carouselState: CarouselState
         
     @State private var isShowingErrorAlert = false
     @State private var listPadding: CGFloat = 20
@@ -92,7 +92,7 @@ struct ListView: View {
                         let cards = getCardsForCarousel(events: events)
                                             
                         SnapCarousel(
-                            UIState: carouselState,
+                            state: carouselState,
                             spacing: 16,
                             widthOfHiddenCards: 16,
                             cardHeight: 185,

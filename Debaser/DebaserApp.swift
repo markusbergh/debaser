@@ -23,19 +23,22 @@ struct DebaserApp: App {
     )
     
     @StateObject var tabViewRouter = TabViewRouter()
-    @StateObject var carouselState = UIStateModel()
+    @StateObject var carouselState = CarouselState()
     
     @State private var colorScheme: ColorScheme = .light
     @State private var eventReceived: EventViewModel? = nil
+    @State private var eventReceivedId: String?
     @State private var shouldOpenModal = false
-    @State private var eventReceivedId = ""
 
-    private let auth = SPTAuth()
-    private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
+    private let spotifyAuth: SPTAuth = {
+        let spotifyAuth = SPTAuth()
+        spotifyAuth.redirectURL = URL(string: "debaser-spotify-login://callback")
+        spotifyAuth.sessionUserDefaultsKey = "spotifyCurrentSession"
+        
+        return spotifyAuth
+    }()
     
-    init() {
-        configureSpotifyConnection()
-    }
+    private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
     
     var body: some Scene {
         WindowGroup {
@@ -54,40 +57,43 @@ struct DebaserApp: App {
                     // Reset state due to change in settings, regardless of change
                     carouselState.reset()
                 }
-                .onReceive(store.state.settings.darkMode) { value in
-                    switch value {
+                .onReceive(store.state.settings.darkMode) { isOn in
+                    // Set globals for color scheme
+                    switch isOn {
                     case true: colorScheme = .dark
                     case false: colorScheme = .light
                     }
                 }
                 .onChange(of: store.state.list.events, perform: { _ in
                     if shouldOpenModal {
-                        presentModalViewForEvent()
+                        getEventForModalView()
                         
                         // All done...
                         shouldOpenModal = false
                     }
                 })
                 .onOpenURL{ url in
-                    if auth.canHandle(auth.redirectURL) && url.absoluteString.hasPrefix(auth.redirectURL.absoluteString) {
-                        handleSpotifyLoginCallbackURL(url)
+                    /// URL might be Spotify related
+                    if spotifyAuth.canHandle(spotifyAuth.redirectURL) &&
+                        url.absoluteString.hasPrefix(spotifyAuth.redirectURL.absoluteString) {
+                        handleSpotifyLogin(withURL: url)
                     }
                     
-                    if canHandleExtensionEventURL(url: url), !eventReceivedId.isEmpty {
+                    /// URL might be an extension
+                    if canHandleEvent(withURL: url), !(eventReceivedId?.isEmpty ?? true) {
                         if store.state.list.events.isEmpty {
-                            // We might have no data yet, but we should still present modal
+                            // We might have no data yet, but we should still show a modal
                             shouldOpenModal = true
-                        } else {
-                            presentModalViewForEvent()
+                            
+                            return
                         }
+                        
+                        // Otherwise just show modal viwe
+                        getEventForModalView()
                     }
                 }
                 .sheet(item: $eventReceived) { event in
-                    DetailView(event: event, canNavigateBack: false)
-                        .preferredColorScheme(
-                            store.state.settings.systemColorScheme.value ? nil : colorScheme
-                        )
-                        .environmentObject(store)
+                    presentModalView(with: event)
                 }
                 .preferredColorScheme(
                     store.state.settings.systemColorScheme.value ? nil : colorScheme
@@ -97,13 +103,7 @@ struct DebaserApp: App {
     
     private func resetIfNeeded() {
         guard CommandLine.arguments.contains("-resetUserDefaults") else {
-            store.dispatch(action: .list(.getFavouritesRequest))
-            store.dispatch(action: .spotify(.initialize))
-            store.dispatch(action: .settings(.getOverrideColorScheme))
-            store.dispatch(action: .settings(.getDarkMode))
-            store.dispatch(action: .settings(.getHideCancelled))
-            store.dispatch(action: .settings(.getShowImages))
-            store.dispatch(action: .onboarding(.getOnboarding))
+            configureStore()
 
             return
         }
@@ -119,21 +119,25 @@ struct DebaserApp: App {
         
         UserDefaults.standard.setValue(false, forKey: "seenOnboarding")
     }
+    
+    private func configureStore() {
+        store.dispatch(action: .list(.getFavouritesRequest))
+        store.dispatch(action: .spotify(.initialize))
+        store.dispatch(action: .settings(.getOverrideColorScheme))
+        store.dispatch(action: .settings(.getDarkMode))
+        store.dispatch(action: .settings(.getHideCancelled))
+        store.dispatch(action: .settings(.getShowImages))
+        store.dispatch(action: .onboarding(.getOnboarding))
+    }
 }
 
 // MARK: Spotify
 
 extension DebaserApp {
-    private func configureSpotifyConnection() {
-        // Set authentication for Spotify
-        auth.redirectURL = URL(string: "debaser-spotify-login://callback")
-        auth.sessionUserDefaultsKey = "current session"
-    }
-    
-    private func handleSpotifyLoginCallbackURL(_ url: URL?) {
-        auth.handleAuthCallback(withTriggeredAuthURL: url, callback: { (error, session) in
+    private func handleSpotifyLogin(withURL url: URL?, userDefaults: UserDefaults = UserDefaults.standard) {
+        spotifyAuth.handleAuthCallback(withTriggeredAuthURL: url, callback: { (error, session) in
             if let error = error {
-                print("We have an error:", error)
+                print("We have an error: ", error)
                 
                 // Fire away notification
                 let notificationName = Notification.Name(rawValue: SpotifyNotification.AuthError.rawValue)
@@ -147,9 +151,6 @@ extension DebaserApp {
             
             // No sessions means goodbye
             guard let session = session else { return }
-            
-            // Session data is saved into user defaults, then notification is posted
-            let userDefaults = UserDefaults.standard
             
             do {
                 // Save data
@@ -175,25 +176,20 @@ extension DebaserApp {
     }
 }
 
-// MARK: iMessage Extension + Widget Extension
+// MARK: iMessage + Widget Extension
 
 extension DebaserApp {
-    private func canHandleExtensionEventURL(url: URL) -> Bool {
+    private func canHandleEvent(withURL url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
         }
         
-        guard let queryItems = urlComponents.queryItems else {
+        guard let queryItems = urlComponents.queryItems, !queryItems.isEmpty else {
             return false
         }
         
-        guard !queryItems.isEmpty else {
-            return false
-        }
-        
-        // Look for an event id
-        for queryItem in queryItems where queryItem.name == "eventId" {
-            eventReceivedId = queryItem.value ?? ""
+        for item in queryItems where item.name == "eventId" {
+            eventReceivedId = item.value
             
             return true
         }
@@ -202,14 +198,22 @@ extension DebaserApp {
     }
 }
 
-// MARK: Modal
+// MARK: Modal view
 
 extension DebaserApp {
-    private func presentModalViewForEvent() {
+    private func getEventForModalView() {
         let matchedEvent = store.state.list.events.first(where: { event in
             event.id == eventReceivedId
         })
         
         eventReceived = matchedEvent
+    }
+    
+    private func presentModalView(with event: EventViewModel) -> some View {
+        let colorScheme = store.state.settings.systemColorScheme.value ? nil : colorScheme
+
+        return DetailView(event: event, canNavigateBack: false)
+            .preferredColorScheme(colorScheme)
+            .environmentObject(store)
     }
 }
