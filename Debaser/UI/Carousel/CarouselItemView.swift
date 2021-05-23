@@ -12,7 +12,7 @@ struct Card: Decodable, Hashable, Identifiable {
     var event: EventViewModel
 }
 
-struct CarouselItem<Content: View>: View {
+struct CarouselItemView<Content: View>: View {
     @EnvironmentObject var UIState: UIStateModel
     let cardWidth: CGFloat
     let cardHeight: CGFloat

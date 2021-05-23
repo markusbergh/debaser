@@ -1,5 +1,5 @@
 //
-//  DetailViewStreamProgress.swift
+//  DetailStreamProgress.swift
 //  Debaser
 //
 //  Created by Markus Bergh on 2021-04-26.
@@ -8,7 +8,7 @@
 import SwiftUI
 import UIKit
 
-struct DetailViewStreamProgress: UIViewRepresentable {
+struct DetailStreamProgress: UIViewRepresentable {
     var streamProgress: CGFloat
     
     func makeUIView(context: Context) -> UIView {

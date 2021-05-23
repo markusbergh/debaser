@@ -132,7 +132,7 @@ struct ListView: View {
                 .padding(.bottom, 10)
 
                 if !allEvents.isEmpty {
-                    let eventsForCurrentYear = getEventsCurrentYear(allEvents)
+                    let eventsForCurrentYear = getEventsInCurrentYear(allEvents)
                     let eventsInNearFuture = getEventsInNearFuture(allEvents)
                     
                     LazyVGrid(columns: gridLayout, spacing: 20) {
@@ -210,7 +210,18 @@ struct ListView: View {
             }
         })
     }
+}
+
+// MARK: - Helpers
+
+// Carousel
+
+extension ListView {
     
+    /// Transform a list of events into carousel items
+    ///
+    /// - parameter events: List of events to filter from
+    /// - returns: A list of carousel cards
     private func getCardsForCarousel(events: [EventViewModel]) -> [Card] {
         var cards: [Card] = []
         
@@ -223,37 +234,56 @@ struct ListView: View {
         return cards
     }
     
+}
+
+// Events
+
+extension ListView {
+    
+    /// Get all available events
+    ///
+    /// - returns: A list of events
     private func getEvents() -> [EventViewModel] {
         var events = store.state.list.events
         
         if store.state.settings.hideCancelled.value == true {
-            events = filterHideCancelledEvents(events: events)
+            events = filterOutCancelledEvents(events: events)
         }
         
         return events
     }
     
-    private func getEventsCurrentYear(_ events: [EventViewModel]) -> [EventViewModel] {
+    /// Get available events for current year
+    ///
+    /// - parameter events: List of events to filter from
+    /// - returns: A list of events in current year
+    private func getEventsInCurrentYear(_ events: [EventViewModel]) -> [EventViewModel] {
         return filterOutEventsRelatedToCurrentYear(events: events)
     }
     
+    /// Get events in near future (next year)
+    ///
+    /// - parameter events: List of events to filter from
+    /// - returns: A list of events in near future
     private func getEventsInNearFuture(_ events: [EventViewModel]) -> [EventViewModel] {
         return filterOutEventsRelatedToCurrentYear(events: events, isIncluded: false)
     }
     
+    /// Get events of current date
+    ///
+    /// - returns: A list of events
     private func getTodayEvents() -> [EventViewModel] {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
         var events = store.state.list.events
         
         if store.state.settings.hideCancelled.value == true {
-            events = filterHideCancelledEvents(events: events)
+            events = filterOutCancelledEvents(events: events)
         }
 
         events = events.filter({ event -> Bool in
-            let calendar = Calendar.current
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            
             if let date = dateFormatter.date(from: event.date) {
                 return calendar.isDateInToday(date) || calendar.isDateInTomorrow(date)
             }
@@ -264,19 +294,21 @@ struct ListView: View {
         return events
     }
     
-    private func getWeekEvents() -> [EventViewModel] {
+    /// Get events of current week
+    ///
+    /// - returns: A list of events
+    private func getWeeklyEvents() -> [EventViewModel] {
+        let calendar = Calendar.current
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+
         var events = store.state.list.events
         
         if store.state.settings.hideCancelled.value == true {
-            events = filterHideCancelledEvents(events: events)
+            events = filterOutCancelledEvents(events: events)
         }
         
         events = events.filter({ event -> Bool in
-            let calendar = Calendar.current
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            
             if let date = dateFormatter.date(from: event.date) {
                 return calendar.isDateInThisWeek(date)
             }
@@ -287,7 +319,11 @@ struct ListView: View {
         return events
     }
     
-    private func filterHideCancelledEvents(events: [EventViewModel]) -> [EventViewModel] {
+    /// Filter out cancelled events
+    ///
+    /// - parameter events: List of events to filter from
+    /// - returns: A list without cancelled events
+    private func filterOutCancelledEvents(events: [EventViewModel]) -> [EventViewModel] {
         return events.filter({ event -> Bool in
             guard let slug = event.slug else {
                 return true
@@ -297,6 +333,12 @@ struct ListView: View {
         })
     }
     
+    /// Filter out events related to current year
+    ///
+    /// - parameters:
+    ///     - events: List of events to filter from
+    ///     - isIncluded: If the event of current year should be included
+    /// - returns: A list without cancelled events
     private func filterOutEventsRelatedToCurrentYear(events: [EventViewModel], isIncluded: Bool = true) -> [EventViewModel] {
         let currentYear = Calendar.current.component(.year, from: Date())
 
@@ -316,6 +358,9 @@ struct ListView: View {
         })
     }
     
+    /// Get next year as text
+    ///
+    /// - returns: Next year in string format
     private func getNextYear() -> String? {
         var dateComponents = DateComponents()
         dateComponents.year = 1
@@ -328,39 +373,19 @@ struct ListView: View {
     }
 }
 
-struct ListProgressIndicatorView: View {
-    let isShowingActivityIndicator: Bool
-    
-    var body: some View {
-        if isShowingActivityIndicator {
-            VStack {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .progressIndicator))
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(50)
-                    .shadow(color: Color.black.opacity(0.25), radius: 5, x: 0, y: 0)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black.opacity(0.3))
-            .ignoresSafeArea()
-            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-        }
-    }
-}
+// MARK: - Background gradient
 
 struct ListViewTopRectangle: View {
-    let colorStart = Color.listTopGradientStart
-    let colorEnd = Color.listTopGradientEnd
+    private let colorStart: Color = .listTopGradientStart
+    private let colorEnd: Color = .listTopGradientEnd
     
     var body: some View {
         Rectangle()
             .fill(
                 LinearGradient(
-                    gradient:
-                        Gradient(
-                            colors: [colorStart, colorEnd]
-                        ),
+                    gradient: Gradient(
+                        colors: [colorStart, colorEnd]
+                    ),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -372,7 +397,10 @@ struct ListViewTopRectangle: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        let store = MockStore.store
+        let empty = MockStore.store
+        
+        let event = MockEventViewModel.event
+        let store = MockStore.store(with: [event])
         
         ListView(
             headline: "Stockholm",

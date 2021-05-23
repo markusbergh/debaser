@@ -1,5 +1,5 @@
 //
-//  FavouriteEmptyView.swift
+//  FavouriteListEmptyView.swift
 //  Debaser
 //
 //  Created by Markus Bergh on 2021-05-09.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FavouriteEmptyView: View {
+struct FavouriteListEmptyView: View {
     
     private var emptyLabel: LocalizedStringKey {
         return "Favourites.Empty"

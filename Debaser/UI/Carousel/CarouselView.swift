@@ -58,7 +58,7 @@ struct SnapCarousel: View {
                     widthOfHiddenCards: widthOfHiddenCards
                 ) {
                     ForEach(items, id: \.self.id) { item in
-                        CarouselItem(
+                        CarouselItemView(
                             id: Int(item.id),
                             spacing: spacing,
                             widthOfHiddenCards: widthOfHiddenCards,

@@ -124,38 +124,6 @@ struct FavouriteRowView: View {
     }
 }
 
-struct FavouriteRowImageView: View {
-    var image: UIImage
-    var height: CGFloat
-    
-    var body: some View {
-        Image(uiImage: image)
-            .resizable()
-            .scaledToFill()
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .frame(height: height)
-            .clipped()
-            .transition(
-                .opacity.animation(.easeInOut(duration: 0.2))
-            )
-            .overlay(
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(
-                                colors: [
-                                    .listRowOverlayGradient.opacity(0.85),
-                                    .listRowOverlayGradient.opacity(0)
-                                ]
-                            ),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-            )
-    }
-}
-
 struct FavouriteRowButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

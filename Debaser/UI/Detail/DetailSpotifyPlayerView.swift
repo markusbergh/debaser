@@ -37,7 +37,7 @@ struct DetailSpotifyPlayerView: View {
                                     .animation(nil)
                             )
                             .overlay(
-                                DetailViewStreamProgress(streamProgress: streamProgress)
+                                DetailStreamProgress(streamProgress: streamProgress)
                                     .onReceive(streamPositionDidUpdate, perform: { notification in
                                         guard let streamPositionObject = notification.object as? NSDictionary,
                                               let currentStreamPosition = streamPositionObject["current"] as? CGFloat else {

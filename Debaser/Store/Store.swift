@@ -59,4 +59,20 @@ class MockStore: ObservableObject {
         ),
         reducer: appReducer
     )
+    
+    static func store(with events: [EventViewModel]) -> Store<AppState, AppAction> {
+        let listState = ListState(events: events)
+        
+        let store = Store(
+            initialState: AppState(
+                list: listState,
+                settings: SettingsState(),
+                onboarding: OnboardingState(),
+                spotify: SpotifyState()
+            ),
+            reducer: appReducer
+        )
+        
+        return store
+    }
 }

@@ -17,7 +17,7 @@ struct FavouritesView: View {
         .overlay(
             store.state.list.favourites.isEmpty ?
                 AnyView(
-                    FavouriteEmptyView()
+                    FavouriteListEmptyView()
                 )
             : AnyView(EmptyView())
         )

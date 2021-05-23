@@ -13,12 +13,13 @@ import Foundation
 struct ListState {
     var isFetching = CurrentValueSubject<Bool, Never>(false)
     var fetchError: String?
-    var events: [EventViewModel] = []
-    var favourites: [EventViewModel] = []
+    var events: [EventViewModel]
+    var favourites: [EventViewModel]
     var isShowingTabBar = true
     var currentSearch = ""
     
-    init(favourites: [EventViewModel] = []) {
+    init(events: [EventViewModel] = [], favourites: [EventViewModel] = []) {
+        self.events = events
         self.favourites = favourites
     }
 }
