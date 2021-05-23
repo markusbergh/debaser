@@ -26,6 +26,16 @@ struct ListView: View {
         return "List.Empty"
     }
     
+    private var emptyCarouselText: LocalizedStringKey {
+        var text = store.state.list.isFetching.value ? "List.Loading" : emptyListLabel
+        
+        if store.state.list.fetchError != nil {
+            text = "Det gick inte att hämta event"
+        }
+        
+        return text
+    }
+    
     private var gridLayout: [GridItem] {
         return Array(repeating: .init(.flexible(minimum: 0, maximum: .infinity), spacing: 20, alignment: .leading), count: 2)
     }
@@ -90,7 +100,7 @@ struct ListView: View {
                         )
                     } else if events.isEmpty {
                         VStack {
-                            Text(store.state.list.isFetching.value ? "List.Loading" : emptyListLabel)
+                            Text(emptyCarouselText)
                                 .font(Font.Variant.small(weight: .semibold).font)
                         }
                         .frame(height: 170)
