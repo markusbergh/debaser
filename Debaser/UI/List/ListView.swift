@@ -34,6 +34,10 @@ struct ListView: View {
         return TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + listPadding + 15
     }
     
+    private var listWidth: CGFloat {
+        return UIScreen.main.bounds.width - (listPadding * 2)
+    }
+    
     private var darkMode: Binding<Bool> {
         let darkMode = Binding<Bool>(
             get: {
@@ -132,8 +136,9 @@ struct ListView: View {
                     let eventsInNearFuture = getEventsInNearFuture(allEvents)
                     
                     LazyVGrid(columns: gridLayout, spacing: 20) {
-                        ForEach(0..<eventsForCurrentYear.count, id:\.self) { idx in
-                            let event = eventsForCurrentYear[idx]
+                        ForEach(0..<eventsForCurrentYear.count, id:\.self) { index in
+                            let event = eventsForCurrentYear[index]
+                            let total = eventsForCurrentYear.count
                             
                             ListRowView(
                                 event: event,
@@ -141,20 +146,25 @@ struct ListView: View {
                             )
                             .frame(maxHeight: .infinity, alignment: .top)
                             .id(event.id)
+                            
+                            // Fill out list if needed, to push down section separator
+                            if index == total - 1, index % 2 == 0 {
+                                Color.clear
+                            }
                         }
                         
                         // Show also the events in the near future...
                         if !eventsInNearFuture.isEmpty {
-                            ForEach(0..<eventsInNearFuture.count, id:\.self) { idx in
-                                if idx == 0, store.state.list.currentSearch.isEmpty {
+                            ForEach(0..<eventsInNearFuture.count, id:\.self) { index in
+                                if index == 0, store.state.list.currentSearch.isEmpty {
                                     SeparatorView()
-                                        .frame(width: (UIScreen.main.bounds.width - listPadding * 2))
+                                        .frame(width: listWidth)
                                     
                                     // Hacky hack to display the previous item with full width
                                     Color.clear
                                     
+                                    // For now we assume it is next year, but should rather be available in data list
                                     if let nextYear = getNextYear() {
-                                        // For now we assume it is next year, but should rather be available in data list
                                         Text(nextYear)
                                             .foregroundColor(.white)
                                             .padding(.vertical, 10)
@@ -166,7 +176,7 @@ struct ListView: View {
                                     }
                                 }
                                 
-                                let event = eventsInNearFuture[idx]
+                                let event = eventsInNearFuture[index]
                                 
                                 ListRowView(
                                     event: event,
