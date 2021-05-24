@@ -12,11 +12,12 @@ struct ListView: View {
     @EnvironmentObject var carouselState: CarouselState
         
     @State private var isShowingErrorAlert = false
-    @State private var listPadding: CGFloat = 20
     @State private var midY: CGFloat = .zero
     
     let headline: String
     let label: LocalizedStringKey
+        
+    private let viewModel = ListViewModel()
 
     private var listLabel: LocalizedStringKey {
         return store.state.list.currentSearch.isEmpty ? "List.All" : "List.Search.Result"
@@ -37,17 +38,29 @@ struct ListView: View {
     }
     
     private var gridLayout: [GridItem] {
-        return Array(repeating: .init(.flexible(minimum: 0, maximum: .infinity), spacing: 20, alignment: .leading), count: 2)
+        return Array(
+            repeating: .init(
+                .flexible(
+                    minimum: 0,
+                    maximum: .infinity
+                ),
+                spacing: 20,
+                alignment: .leading
+            ),
+            count: 2
+        )
+    }
+
+    private let listPadding: CGFloat = 20
+
+    private var listWidth: CGFloat {
+        return UIScreen.main.bounds.width - (listPadding * 2)
     }
 
     private var listBottomPadding: CGFloat {
         return TabBarStyle.paddingBottom.rawValue + TabBarStyle.height.rawValue + listPadding + 15
     }
-    
-    private var listWidth: CGFloat {
-        return UIScreen.main.bounds.width - (listPadding * 2)
-    }
-    
+
     private var darkMode: Binding<Bool> {
         let darkMode = Binding<Bool>(
             get: {
@@ -86,10 +99,10 @@ struct ListView: View {
                 .padding(.horizontal, listPadding)
                 
                 if store.state.list.currentSearch.isEmpty {
-                    let events = getTodayEvents()
+                    let events = viewModel.getTodayEvents(from: store)
                     
                     if !events.isEmpty {
-                        let cards = getCardsForCarousel(events: events)
+                        let cards = viewModel.getCardsForCarousel(events: events)
                                             
                         SnapCarousel(
                             state: carouselState,
@@ -113,7 +126,7 @@ struct ListView: View {
                         .padding(.horizontal, listPadding)
                 }
                 
-                let allEvents = getEvents()
+                let allEvents = viewModel.getEvents(from: store)
                 
                 VStack {
                     HStack {
@@ -142,8 +155,8 @@ struct ListView: View {
                 .padding(.bottom, 10)
 
                 if !allEvents.isEmpty {
-                    let eventsForCurrentYear = getEventsInCurrentYear(allEvents)
-                    let eventsInNearFuture = getEventsInNearFuture(allEvents)
+                    let eventsForCurrentYear = viewModel.getEventsInCurrentYear(allEvents)
+                    let eventsInNearFuture = viewModel.getEventsInNearFuture(allEvents)
                     
                     LazyVGrid(columns: gridLayout, spacing: 20) {
                         ForEach(0..<eventsForCurrentYear.count, id:\.self) { index in
@@ -167,23 +180,10 @@ struct ListView: View {
                         if !eventsInNearFuture.isEmpty {
                             ForEach(0..<eventsInNearFuture.count, id:\.self) { index in
                                 if index == 0, store.state.list.currentSearch.isEmpty {
-                                    SeparatorView()
-                                        .frame(width: listWidth)
-                                    
-                                    // Hacky hack to display the previous item with full width
-                                    Color.clear
-                                    
-                                    // For now we assume it is next year, but should rather be available in data list
-                                    if let nextYear = getNextYear() {
-                                        Text(nextYear)
-                                            .foregroundColor(.white)
-                                            .padding(.vertical, 10)
-                                            .padding(.horizontal, 15)
-                                            .background(Capsule().fill(Color.listRowBackground))
-                                        
-                                        // Hacky hack to display the previous item with full width
-                                        Color.clear
-                                    }
+                                    ListViewNextSection(
+                                        listWidth: listWidth,
+                                        nextYear: viewModel.getNextYear()
+                                    )
                                 }
                                 
                                 let event = eventsInNearFuture[index]
@@ -222,164 +222,30 @@ struct ListView: View {
     }
 }
 
-// MARK: - Helpers
+// MARK: - Next section
 
-// Carousel
-
-extension ListView {
+struct ListViewNextSection: View {
+    var listWidth: CGFloat
+    var nextYear: String?
     
-    /// Transform a list of events into carousel items
-    ///
-    /// - parameter events: List of events to filter from
-    /// - returns: A list of carousel cards
-    private func getCardsForCarousel(events: [EventViewModel]) -> [Card] {
-        var cards: [Card] = []
+    var body: some View {
+        SeparatorView()
+            .frame(width: listWidth)
         
-        for (index, event) in events.enumerated() {
-            cards.append(
-                Card(id: index, event: event)
-            )
-        }
+        // Hacky hack to display the previous item with full width
+        Color.clear
         
-        return cards
-    }
-    
-}
-
-// Events
-
-extension ListView {
-    
-    /// Get all available events
-    ///
-    /// - returns: A list of events
-    private func getEvents() -> [EventViewModel] {
-        var events = store.state.list.events
-        
-        if store.state.settings.hideCancelled.value == true {
-            events = filterOutCancelledEvents(events: events)
-        }
-        
-        return events
-    }
-    
-    /// Get available events for current year
-    ///
-    /// - parameter events: List of events to filter from
-    /// - returns: A list of events in current year
-    private func getEventsInCurrentYear(_ events: [EventViewModel]) -> [EventViewModel] {
-        return filterOutEventsRelatedToCurrentYear(events: events)
-    }
-    
-    /// Get events in near future (next year)
-    ///
-    /// - parameter events: List of events to filter from
-    /// - returns: A list of events in near future
-    private func getEventsInNearFuture(_ events: [EventViewModel]) -> [EventViewModel] {
-        return filterOutEventsRelatedToCurrentYear(events: events, isIncluded: false)
-    }
-    
-    /// Get events of current date
-    ///
-    /// - returns: A list of events
-    private func getTodayEvents() -> [EventViewModel] {
-        let calendar = Calendar.current
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        var events = store.state.list.events
-        
-        if store.state.settings.hideCancelled.value == true {
-            events = filterOutCancelledEvents(events: events)
-        }
-
-        events = events.filter({ event -> Bool in
-            if let date = dateFormatter.date(from: event.date) {
-                return calendar.isDateInToday(date) || calendar.isDateInTomorrow(date)
-            }
+        // For now we assume it is next year, but should rather be available in data list
+        if let nextYear = nextYear {
+            Text(nextYear)
+                .foregroundColor(.white)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 15)
+                .background(Capsule().fill(Color.listRowBackground))
             
-            return true
-        })
-        
-        return events
-    }
-    
-    /// Get events of current week
-    ///
-    /// - returns: A list of events
-    private func getWeeklyEvents() -> [EventViewModel] {
-        let calendar = Calendar.current
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        var events = store.state.list.events
-        
-        if store.state.settings.hideCancelled.value == true {
-            events = filterOutCancelledEvents(events: events)
+            // Hacky hack to display the previous item with full width
+            Color.clear
         }
-        
-        events = events.filter({ event -> Bool in
-            if let date = dateFormatter.date(from: event.date) {
-                return calendar.isDateInThisWeek(date)
-            }
-            
-            return true
-        })
-        
-        return events
-    }
-    
-    /// Filter out cancelled events
-    ///
-    /// - parameter events: List of events to filter from
-    /// - returns: A list without cancelled events
-    private func filterOutCancelledEvents(events: [EventViewModel]) -> [EventViewModel] {
-        return events.filter({ event -> Bool in
-            guard let slug = event.slug else {
-                return true
-            }
-            
-            return !slug.contains("cancelled")
-        })
-    }
-    
-    /// Filter out events related to current year
-    ///
-    /// - parameters:
-    ///     - events: List of events to filter from
-    ///     - isIncluded: If the event of current year should be included
-    /// - returns: A list without cancelled events
-    private func filterOutEventsRelatedToCurrentYear(events: [EventViewModel], isIncluded: Bool = true) -> [EventViewModel] {
-        let currentYear = Calendar.current.component(.year, from: Date())
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-
-        return events.filter({ event -> Bool in
-            if let date = dateFormatter.date(from: event.date) {
-                let eventYear = Calendar.current.component(.year, from: date)
-                
-                if eventYear == currentYear {
-                    return isIncluded
-                }
-            }
-            
-            return !isIncluded
-        })
-    }
-    
-    /// Get next year as text
-    ///
-    /// - returns: Next year in string format
-    private func getNextYear() -> String? {
-        var dateComponents = DateComponents()
-        dateComponents.year = 1
-        
-        guard let nextYearDate = Calendar.current.date(byAdding: dateComponents, to: Date()) else {
-            return nil
-        }
-        
-        return "\(Calendar.current.component(.year, from: nextYearDate))"
     }
 }
 

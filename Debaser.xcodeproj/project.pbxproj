@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8508E14C2634E1E0007FA049 /* DBSROnboardingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8508E14B2634E1E0007FA049 /* DBSROnboardingLabel.swift */; };
+		85094E9D265BA7FB001A5F4C /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85094E9C265BA7FB001A5F4C /* ListViewModel.swift */; };
 		850FA806263F581000815109 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850FA805263F581000815109 /* SpotifyReducer.swift */; };
 		850FB558260CB4DD001AD034 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850FB557260CB4DD001AD034 /* FavouritesView.swift */; };
 		8519D27A262DEE4300806839 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519D279262DEE4300806839 /* TitleLabel.swift */; };
@@ -167,6 +168,7 @@
 
 /* Begin PBXFileReference section */
 		8508E14B2634E1E0007FA049 /* DBSROnboardingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBSROnboardingLabel.swift; sourceTree = "<group>"; };
+		85094E9C265BA7FB001A5F4C /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		850FA805263F581000815109 /* SpotifyReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReducer.swift; sourceTree = "<group>"; };
 		850FB557260CB4DD001AD034 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
 		8519D279262DEE4300806839 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 			isa = PBXGroup;
 			children = (
 				85BC0B2B2616592600589240 /* ImageViewModel.swift */,
+				85094E9C265BA7FB001A5F4C /* ListViewModel.swift */,
 				85EEAB21262B25F70000B85E /* EventViewModel.swift */,
 			);
 			path = ViewModel;
@@ -1021,6 +1024,7 @@
 				858E1E0B2634860C00C3E941 /* WebView.swift in Sources */,
 				8508E14C2634E1E0007FA049 /* DBSROnboardingLabel.swift in Sources */,
 				852E502F265AF1A000B48DB6 /* ListProgressIndicatorView.swift in Sources */,
+				85094E9D265BA7FB001A5F4C /* ListViewModel.swift in Sources */,
 				851F7A042635E71700806FF8 /* DetailFavouriteButtonView.swift in Sources */,
 				85BC0B27261658D600589240 /* FavouriteRowView.swift in Sources */,
 				855B1A2E25FB5B5C00C7A219 /* DebaserApp.swift in Sources */,
