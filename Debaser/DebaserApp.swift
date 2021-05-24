@@ -26,8 +26,8 @@ struct DebaserApp: App {
     @StateObject var carouselState = CarouselState()
     
     @State private var colorScheme: ColorScheme = .light
-    @State private var eventReceived: EventViewModel? = nil
-    @State private var eventReceivedId: String?
+    @State private var eventReceivedFromURL: EventViewModel? = nil
+    @State private var eventIdReceivedFromURL: String?
     @State private var shouldOpenModal = false
 
     private let spotifyAuth: SPTAuth = {
@@ -40,21 +40,20 @@ struct DebaserApp: App {
     
     private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
     
+    private var preferredColorScheme: ColorScheme? {
+        store.state.settings.systemColorScheme.value ? nil : colorScheme
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .onAppear {
-                    resetIfNeeded()
-                    skipOnbordingIfNeeded()
+                    configure()
                 }
-                .environmentObject(store)
-                .environmentObject(tabViewRouter)
-                .environmentObject(carouselState)
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(action: .spotify(.requestLoginComplete))
                 }
                 .onReceive(store.state.settings.hideCancelled) { _ in
-                    // Reset state due to change in settings, regardless of change
                     carouselState.reset()
                 }
                 .onReceive(store.state.settings.darkMode) { isOn in
@@ -65,6 +64,7 @@ struct DebaserApp: App {
                     }
                 }
                 .onChange(of: store.state.list.events, perform: { _ in
+                    // Should open modal from previous link
                     if shouldOpenModal {
                         getEventForModalView()
                         
@@ -80,7 +80,7 @@ struct DebaserApp: App {
                     }
                     
                     /// URL might be an extension
-                    if canHandleEvent(withURL: url), !(eventReceivedId?.isEmpty ?? true) {
+                    if canHandleEvent(withURL: url) {
                         if store.state.list.events.isEmpty {
                             // We might have no data yet, but we should still show a modal
                             shouldOpenModal = true
@@ -92,15 +92,27 @@ struct DebaserApp: App {
                         getEventForModalView()
                     }
                 }
-                .sheet(item: $eventReceived) { event in
+                .sheet(item: $eventReceivedFromURL) { event in
                     presentModalView(with: event)
                 }
-                .preferredColorScheme(
-                    store.state.settings.systemColorScheme.value ? nil : colorScheme
-                )
+                .environmentObject(store)
+                .environmentObject(tabViewRouter)
+                .environmentObject(carouselState)
+                .preferredColorScheme(preferredColorScheme)
         }
     }
+}
+
+// MARK: App launch lifecycle
+
+extension DebaserApp {
+    /// Initial configuration for app
+    private func configure() {
+        resetIfNeeded()
+        skipOnbordingIfNeeded()
+    }
     
+    /// Reset user defaults when running tests
     private func resetIfNeeded() {
         guard CommandLine.arguments.contains("-resetUserDefaults") else {
             configureStore()
@@ -112,6 +124,7 @@ struct DebaserApp: App {
         UserDefaults.standard.removePersistentDomain(forName: defaultsName)
     }
     
+    /// Skip onboarding when running tests
     private func skipOnbordingIfNeeded() {
         guard CommandLine.arguments.contains("-skipOnboarding") else {
             return
@@ -120,6 +133,7 @@ struct DebaserApp: App {
         UserDefaults.standard.setValue(false, forKey: "seenOnboarding")
     }
     
+    /// Set state for store
     private func configureStore() {
         store.dispatch(action: .list(.getFavouritesRequest))
         store.dispatch(action: .spotify(.initialize))
@@ -134,6 +148,11 @@ struct DebaserApp: App {
 // MARK: Spotify
 
 extension DebaserApp {
+    /// Tries to handle a Spotify login action
+    ///
+    /// - parameters:
+    ///     - url: Received authentication url
+    ///     - userDefaults: User defaults to store session in
     private func handleSpotifyLogin(withURL url: URL?, userDefaults: UserDefaults = UserDefaults.standard) {
         spotifyAuth.handleAuthCallback(withTriggeredAuthURL: url, callback: { (error, session) in
             if let error = error {
@@ -179,6 +198,10 @@ extension DebaserApp {
 // MARK: iMessage + Widget Extension
 
 extension DebaserApp {
+    /// Checks if extension url can be handled
+    ///
+    /// - parameter url: Received extension url
+    /// - returns: A boolean
     private func canHandleEvent(withURL url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
@@ -189,7 +212,7 @@ extension DebaserApp {
         }
         
         for item in queryItems where item.name == "eventId" {
-            eventReceivedId = item.value
+            eventIdReceivedFromURL = item.value
             
             return true
         }
@@ -201,14 +224,23 @@ extension DebaserApp {
 // MARK: Modal view
 
 extension DebaserApp {
+    /// Match the received event id with an event
     private func getEventForModalView() {
+        guard let eventIdReceivedFromURL = eventIdReceivedFromURL else {
+            return
+        }
+        
         let matchedEvent = store.state.list.events.first(where: { event in
-            event.id == eventReceivedId
+            event.id == eventIdReceivedFromURL
         })
         
-        eventReceived = matchedEvent
+        eventReceivedFromURL = matchedEvent
     }
     
+    /// Presents a modal view with the event
+    ///
+    /// - parameter event: The event to present
+    /// - returns: A `DetailView` to present modally
     private func presentModalView(with event: EventViewModel) -> some View {
         let colorScheme = store.state.settings.systemColorScheme.value ? nil : colorScheme
 

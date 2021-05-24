@@ -27,7 +27,7 @@ struct SettingsSpotifyView: View {
         return "Settings.Spotify.Connection.Off"
     }
     
-    private var streamingControllReceivedError: NotificationCenter.Publisher {
+    private var streamingControllerReceivedError: NotificationCenter.Publisher {
         return NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamingControllerError"))
     }
     
@@ -115,16 +115,8 @@ struct SettingsSpotifyView: View {
                 toggleLabel = "Settings.Spotify.On"
             }
         }
-        .onReceive(streamingControllReceivedError, perform: { notification in
-            guard let error = notification.object as? NSError else {
-                store.dispatch(action: .spotify(.requestLoginError(.unknown)))
-                
-                return
-            }
-
-            if error.code == 9 {
-                store.dispatch(action: .spotify(.requestLoginError(.premiumAccountRequired)))
-            }
+        .onReceive(streamingControllerReceivedError, perform: { notification in
+            handleDidReceiveSpotifyError(notification)
         })
         .sheet(isPresented: $willShowSpotifyLogin, onDismiss: onDismissSpotifyLoginSheet) {
             if let auth = SpotifyService.shared.auth {
@@ -147,6 +139,18 @@ struct SettingsSpotifyView: View {
     private func onDismissSpotifyLoginSheet() {
         if isConnected {
             toggleLabel = "Settings.Spotify.On"
+        }
+    }
+    
+    private func handleDidReceiveSpotifyError(_ notification: NotificationCenter.Publisher.Output) {
+        guard let error = notification.object as? NSError else {
+            store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+            
+            return
+        }
+
+        if error.code == 9 {
+            store.dispatch(action: .spotify(.requestLoginError(.premiumAccountRequired)))
         }
     }
 }

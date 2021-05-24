@@ -5,8 +5,6 @@
 //  Created by Markus Bergh on 2021-04-10.
 //
 
-import SwiftUI
-
 enum Tab {
     case list
     case favourites

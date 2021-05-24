@@ -5,8 +5,6 @@
 //  Created by Markus Bergh on 2021-03-24.
 //
 
-import Foundation
-
 struct Event: Codable, Hashable, Identifiable {
     let id: String
     let name: String

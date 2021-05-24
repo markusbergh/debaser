@@ -5,7 +5,6 @@
 //  Created by Markus Bergh on 2021-03-12.
 //
 
-import Combine
 import SwiftUI
 
 typealias AppStore = Store<AppState, AppAction>
@@ -44,15 +43,8 @@ struct ContentView: View {
                 .offset(y: store.state.list.isShowingTabBar ? 0 : 110)
                 .animation(Animation.easeInOut(duration: 0.2))
         }
-        .ignoresSafeArea()
         .onReceive(store.state.onboarding.seenOnboarding) { hasSeen in
             isShowingOnboarding = !hasSeen
-        }
-        .sheet(isPresented: $isShowingOnboarding) {
-            OnboardingView()
-                .background(Color.onboardingBackground)
-                .ignoresSafeArea()
-                .preferredColorScheme(colorScheme)
         }
         .onReceive(store.state.list.isFetching, perform: { isFetching in
             isShowingActivityIndicator = isFetching
@@ -62,9 +54,27 @@ struct ContentView: View {
                 tabViewRouter.currentTab = .settings
             }
         }
+        .sheet(isPresented: $isShowingOnboarding) {
+            presentOnboarding()
+        }
         .overlay(
-            ListProgressIndicatorView(isShowingActivityIndicator: isShowingActivityIndicator)
+            ListProgressIndicatorView(
+                isShowingActivityIndicator: isShowingActivityIndicator
+            )
         )
+        .ignoresSafeArea()
+    }
+}
+
+extension ContentView {
+    /// Presents onboarding
+    ///
+    /// - returns: A `OnboardingView` to present modally
+    private func presentOnboarding() -> some View {
+        return OnboardingView()
+            .background(Color.onboardingBackground)
+            .ignoresSafeArea()
+            .preferredColorScheme(colorScheme)
     }
 }
 

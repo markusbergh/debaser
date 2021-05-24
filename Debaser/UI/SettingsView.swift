@@ -5,7 +5,6 @@
 //  Created by Markus Bergh on 2021-03-25.
 //
 
-import Combine
 import SwiftUI
 
 struct SettingsView: View {
@@ -96,15 +95,6 @@ struct SettingsView: View {
                 }
                 .listRowBackground(Color.settingsListRowBackground)
             }
-            .background(
-                SettingsViewTopRectangle(),
-                alignment: .top
-            )
-            .background(
-                Color.settingsBackground
-                    .ignoresSafeArea()
-            )
-            .navigationBarTitle(titleLabel, displayMode: .large)
             .onChange(of: store.state.spotify.requestError) { error in
                 guard let error = error else { return }
                 
@@ -122,6 +112,15 @@ struct SettingsView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+            .background(
+                SettingsViewTopRectangle(),
+                alignment: .top
+            )
+            .background(
+                Color.settingsBackground
+                    .ignoresSafeArea()
+            )
+            .navigationBarTitle(titleLabel, displayMode: .large)
         }
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -129,14 +128,16 @@ struct SettingsView: View {
 }
 
 struct SettingsViewTopRectangle: View {
-    let colorStart = Color.settingsTopGradientStart
-    let colorEnd = Color.settingsTopGradientEnd
+    let colorStart: Color = .settingsTopGradientStart
+    let colorEnd: Color = .settingsTopGradientEnd
 
     var body: some View {
         Rectangle()
             .fill(
                 LinearGradient(
-                    gradient: Gradient(colors: [colorStart, colorEnd]),
+                    gradient: Gradient(
+                        colors: [colorStart, colorEnd]
+                    ),
                     startPoint: .top,
                     endPoint: .bottom
                 )
@@ -289,8 +290,8 @@ struct SettingsLayoutOnboarding: View {
             .sheet(isPresented: $isShowingOnboarding) {
                 OnboardingView()
                     .background(Color.onboardingBackground)
-                    .ignoresSafeArea()
                     .preferredColorScheme(colorScheme)
+                    .ignoresSafeArea()
             }
         }
     }

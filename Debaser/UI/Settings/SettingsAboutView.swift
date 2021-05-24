@@ -50,9 +50,9 @@ struct SettingsAboutView: View {
                     """)
                 }
                 .padding(15)
+                .padding(.bottom, bottomPadding)
                 .background(Color.settingsListRowBackground)
                 .cornerRadius(10)
-                .padding(.bottom, bottomPadding)
             }
             .padding(
                 .init(
