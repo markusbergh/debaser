@@ -9,6 +9,7 @@ import SwiftUI
 
 enum TabBarStyle: CGFloat {
     case height = 35
+    case insetPadding = 15
     case paddingBottom = 40
     case cornerRadius = 25
 }
@@ -46,7 +47,7 @@ struct TabBar: View {
                 identifier: .settings
             )
         }
-        .padding()
+        .padding(TabBarStyle.insetPadding.rawValue)
         .background(Color.tabBarBackground)
         .cornerRadius(TabBarStyle.cornerRadius.rawValue)
         .padding(.horizontal)

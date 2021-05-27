@@ -28,6 +28,10 @@ struct SettingsView: View {
         return darkMode.wrappedValue
     }
     
+    private var bottomPadding: CGFloat {
+        return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue
+    }
+    
     private var systemColorScheme: Binding<Bool> {
         return Binding<Bool>(
             get: {
@@ -122,6 +126,8 @@ struct SettingsView: View {
             )
             .navigationBarTitle(titleLabel, displayMode: .large)
         }
+        .padding(.top, 0)
+        .padding(.bottom, bottomPadding)
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())
     }
