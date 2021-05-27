@@ -28,6 +28,14 @@ struct SettingsView: View {
         return darkMode.wrappedValue
     }
     
+    private var bottomPadding: CGFloat {
+        guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets, safeAreaInsets.bottom > 0 else {
+            return 15
+        }
+        
+        return safeAreaInsets.bottom
+    }
+    
     private var systemColorScheme: Binding<Bool> {
         return Binding<Bool>(
             get: {
@@ -92,6 +100,10 @@ struct SettingsView: View {
                     
                     SettingsSectionLayout()
                     SettingsLayoutOnboarding()
+
+                    // Hacky hack to push list up a bit
+                    Spacer().frame(height: 15)
+                        .listRowBackground(Color.clear)
                 }
                 .listRowBackground(Color.settingsListRowBackground)
             }

@@ -17,7 +17,12 @@ struct SettingsAboutView: View {
     }
     
     private var bottomPadding: CGFloat {
-        return TabBarStyle.height.rawValue + (20 * 2)
+        // Unfornately some hard coding values needed here...
+        guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets, safeAreaInsets.bottom > 0 else {
+            return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue + 15 + 10
+        }
+        
+        return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue
     }
     
     var body: some View {
@@ -50,18 +55,12 @@ struct SettingsAboutView: View {
                     """)
                 }
                 .padding(15)
-                .padding(.bottom, bottomPadding)
                 .background(Color.settingsListRowBackground)
                 .cornerRadius(10)
             }
-            .padding(
-                .init(
-                    top: 10,
-                    leading: 20,
-                    bottom: 20,
-                    trailing: 20
-                )
-            )
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+            .padding(.bottom, bottomPadding)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
         }
         .background(
