@@ -10,6 +10,8 @@ import SwiftUI
 struct ListRowView: View {
     @EnvironmentObject var store: AppStore
     
+    // MARK: Private
+    
     @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView = false
     
@@ -20,6 +22,8 @@ struct ListRowView: View {
     private var showImagesIfNeeded: Bool {
         return store.state.settings.showImages.value == true
     }
+    
+    // MARK: Public
 
     let event: EventViewModel
     let mediaHeight: CGFloat
@@ -93,7 +97,12 @@ struct ListRowView: View {
     }
 }
 
+// MARK: - View modifier
+
 struct ListRowFavouriteViewModifier: ViewModifier {
+    
+    // MARK: Public
+    
     var isFavourite = false
     
     func body(content: Content) -> some View {
@@ -115,6 +124,8 @@ struct ListRowFavouriteViewModifier: ViewModifier {
         }
     }
 }
+
+// MARK: - Button style
 
 struct ListRowButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

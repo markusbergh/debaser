@@ -10,14 +10,18 @@ import SwiftUI
 struct ListRowImageView: View {
     @EnvironmentObject var store: AppStore
     @EnvironmentObject var viewModel: ImageViewModel
+    
+    // MARK: Private
 
     @State private var opacity: Double = 0
     
     private var showImagesIfNeeded: Bool {
         return store.state.settings.showImages.value == true
     }
+    
+    // MARK: Public
 
-    var mediaHeight: CGFloat?
+    let mediaHeight: CGFloat?
 
     var body: some View {
         if showImagesIfNeeded {
@@ -44,8 +48,12 @@ struct ListRowImageView: View {
     }
 }
 
+// MARK: - View modifier
+
 struct ListRowImageViewModifier: ViewModifier {
     @EnvironmentObject var store: AppStore
+    
+    // MARK: Public
 
     var isCancelled = false
     var isPostponed = false

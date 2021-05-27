@@ -22,16 +22,21 @@ class CarouselState: ObservableObject {
 }
 
 struct SnapCarousel: View {
-    var state: CarouselState
-    var spacing: CGFloat = 16
-    var widthOfHiddenCards: CGFloat = 32
-    var cardHeight: CGFloat = 200
-    var items: [Card] = []
+    
+    // MARK: Private
     
     @State private var transition: AnyTransition = .slide
     @State private var animation: Animation? = nil
     @State private var viewIsLoaded = false
     @State private var opacity: Double = 0
+    
+    // MARK: Public
+    
+    var state: CarouselState
+    var spacing: CGFloat = 16
+    var widthOfHiddenCards: CGFloat = 32
+    var cardHeight: CGFloat = 200
+    var items: [Card] = []
 
     var body: some View {
         Canvas {
@@ -91,9 +96,13 @@ struct SnapCarousel: View {
     }
 }
 
+// MARK: - Carousel
+
 struct Carousel<Items : View> : View {
     @EnvironmentObject var state: CarouselState
     @GestureState var isDetectingLongPress = false
+    
+    // MARK: Public
     
     let items: Items
     let numberOfItems: CGFloat
@@ -157,7 +166,12 @@ struct Carousel<Items : View> : View {
     }
 }
 
+// MARK: - Canvas
+
 struct Canvas<Content: View> : View {
+    
+    // MARK: Public
+    
     let content: Content
 
     @inlinable init(@ViewBuilder _ content: () -> Content) {

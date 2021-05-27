@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FavouriteListEmptyView: View {
     
+    // MARK: Private
+    
     private var emptyLabel: LocalizedStringKey {
         return "Favourites.Empty"
     }

@@ -10,36 +10,35 @@ import SwiftUI
 struct FavouriteRowView: View {
     @EnvironmentObject var store: AppStore
     
+    // MARK: Private
+    
     @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView = false
     @State private var titleHeight: CGFloat = 0.0
     
     private let topHeight: CGFloat = 120
     
-    private var bottomHeight: CGFloat {
-        return totalHeight - topHeight
-    }
-    
-    private var cancelledLabel: String {
-        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
-    }
-    
-    private var postponedLabel: String {
-        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
-    }
-    
-    private var eventDate: String {
-        if event.isPostponed {
-            return postponedLabel
-        } else if event.isCancelled {
-            return cancelledLabel
-        }
-        
-        return event.listDate
-    }
-    
+    // MARK: Public
+            
     let event: EventViewModel
     let totalHeight: CGFloat
+    
+    var overlayStrokeGradient: some View {
+        return RoundedRectangle(cornerRadius: 15, style: .circular)
+            .stroke(
+                LinearGradient(
+                    gradient: Gradient(
+                        colors: [
+                            .listRowStrokeGradientStart,
+                            .listRowStrokeGradientEnd
+                        ]
+                    ),
+                    startPoint: .top,
+                    endPoint: .bottom
+                ),
+                lineWidth: 1
+            ).opacity(0.5)
+    }
 
     var body: some View {
         NavigationLink(
@@ -76,19 +75,11 @@ struct FavouriteRowView: View {
                         }
                         .frame(height: topHeight)
                         
-                        HStack(spacing: 10) {
-                            Text(eventDate)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-
-                            Spacer()
-
-                            Text(event.venue)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 3)
-                        .frame(height: bottomHeight)
+                        FavouriteRowMetaView(
+                            event: event,
+                            topHeight: topHeight,
+                            totalHeight: totalHeight
+                        )
                     }
                     .frame(height: totalHeight)
                     .cornerRadius(15)
@@ -97,22 +88,7 @@ struct FavouriteRowView: View {
                             .fill(Color.listRowBackground)
                             .cornerRadius(15)
                     )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15, style: .circular)
-                            .stroke(
-                                LinearGradient(
-                                    gradient: Gradient(
-                                        colors: [
-                                            .listRowStrokeGradientStart,
-                                            .listRowStrokeGradientEnd
-                                        ]
-                                    ),
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                ),
-                                lineWidth: 1
-                            ).opacity(0.5)
-                    )
+                    .overlay(overlayStrokeGradient)
                     .onAppear {
                         if store.state.settings.showImages.value == true {
                             viewModel.loadImage(with: event.image)
@@ -125,6 +101,63 @@ struct FavouriteRowView: View {
         .accentColor(nil)
     }
 }
+
+// MARK: - Meta view
+
+struct FavouriteRowMetaView: View {
+    
+    // MARK: Private
+        
+    private var cancelledLabel: String {
+        return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
+    }
+    
+    private var postponedLabel: String {
+        return NSLocalizedString("List.Event.Postponed", comment: "A postponed event")
+    }
+    
+    private var eventDate: String {
+        if event.isPostponed {
+            return postponedLabel
+        } else if event.isCancelled {
+            return cancelledLabel
+        }
+        
+        return event.listDate
+    }
+    
+    private var eventVenue: String{
+        return event.venue
+    }
+    
+    private var bottomHeight: CGFloat {
+        return totalHeight - topHeight
+    }
+    
+    // MARK: Public
+    
+    let event: EventViewModel
+    let topHeight: CGFloat
+    let totalHeight: CGFloat
+    
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(eventDate)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+
+            Spacer()
+
+            Text(eventVenue)
+                .foregroundColor(.white)
+        }
+        .padding(.horizontal, 20)
+        .padding(.bottom, 3)
+        .frame(height: bottomHeight)
+    }
+}
+
+// MARK: - Button style
 
 struct FavouriteRowButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

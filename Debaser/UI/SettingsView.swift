@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var store: AppStore
+    
+    // MARK: Private
         
     @State private var isAlertPresented = false
 
@@ -140,6 +142,9 @@ struct SettingsView: View {
 }
 
 struct SettingsViewTopRectangle: View {
+    
+    // MARK: Public
+    
     let colorStart: Color = .settingsTopGradientStart
     let colorEnd: Color = .settingsTopGradientEnd
 
@@ -162,6 +167,9 @@ struct SettingsViewTopRectangle: View {
 // MARK: - About
 
 struct SettingsSectionAbout: View {
+    
+    // MARK: Private
+    
     private var debaserLabel: LocalizedStringKey {
         return "Settings.Debaser"
     }
@@ -183,6 +191,8 @@ struct SettingsSectionAbout: View {
 
 struct SettingsSectionSpotify: View {
     @EnvironmentObject var store: AppStore
+    
+    // MARK: Private
 
     @State private var showSpotifySettings = false
     

@@ -48,8 +48,13 @@ struct MapView: View {
     }
 }
 
+// MARK: - Content
+
 struct MapContentView: View {
-    @State private var venues: [Venue] = [
+    
+    // MARK: Private
+    
+    private let venues: [Venue] = [
         Venue(coordinate: .init(latitude: 59.314805, longitude: 18.031129))
     ]
     
@@ -65,6 +70,15 @@ struct MapContentView: View {
     )
     
     @State private var offsetMapPin: CGFloat = -30
+    
+    private var bounceAnimation: Animation {
+        return Animation.timingCurve(
+            0.17, 0.67, 0.71, 1.27,
+            duration: 0.75
+        ).repeatForever(autoreverses: true)
+    }
+    
+    // MARK: Public
     
     var willAnimatePin: Bool
     var pinSize: PinSize
@@ -86,13 +100,6 @@ struct MapContentView: View {
     init(willAnimatePin: Bool = true, pinSize: PinSize = .large) {
         self.willAnimatePin = willAnimatePin
         self.pinSize = pinSize
-    }
-    
-    private var bounceAnimation: Animation {
-        return Animation.timingCurve(
-            0.17, 0.67, 0.71, 1.27,
-            duration: 0.75
-        ).repeatForever(autoreverses: true)
     }
     
     var body: some View {

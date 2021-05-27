@@ -10,6 +10,8 @@ import SwiftUI
 struct FavouriteListView: View {
     @EnvironmentObject var store: AppStore
     
+    // MARK: Private
+    
     private let listPadding: CGFloat = 20
     private let itemSpacing: CGFloat = 25
     private let itemHeight: CGFloat = 170
@@ -29,16 +31,7 @@ struct FavouriteListView: View {
                     ZStack(alignment: .topTrailing) {
                         FavouriteRowView(event: event, totalHeight: itemHeight)
                         
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 30, height: 30)
-                            .overlay(
-                                Image(systemName: "heart.fill")
-                                    .resizable()
-                                    .frame(width: 15, height: 15)
-                                    .foregroundColor(.red)
-                            )
-                            .offset(x: -20, y: 20)
+                        FavouriteListHeartSymbolView()
                     }
                     .frame(height: itemHeight)
                 }
@@ -60,3 +53,30 @@ struct FavouriteListView: View {
         )
     }
 }
+
+// MARK: - Heart symbol
+
+struct FavouriteListHeartSymbolView: View {
+    var body: some View {
+        Circle()
+            .fill(Color.white)
+            .frame(width: 30, height: 30)
+            .overlay(
+                Image(systemName: "heart.fill")
+                    .resizable()
+                    .frame(width: 15, height: 15)
+                    .foregroundColor(.red)
+            )
+            .offset(x: -20, y: 20)
+    }
+}
+
+struct FavouriteListView_Previews: PreviewProvider {
+    static var previews: some View {
+        let store = MockStore.store
+        
+        FavouriteListView()
+            .environmentObject(store)
+    }
+}
+

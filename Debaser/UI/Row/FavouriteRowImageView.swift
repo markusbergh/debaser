@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct FavouriteRowImageView: View {
+    
+    // MARK: Public
+    
     var image: UIImage
     var height: CGFloat
+    
+    var overlayGradient: some View {
+        return Rectangle()
+            .fill(
+                LinearGradient(
+                    gradient: Gradient(
+                        colors: [
+                            .listRowOverlayGradient.opacity(0.85),
+                            .listRowOverlayGradient.opacity(0)
+                        ]
+                    ),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+    }
     
     var body: some View {
         Image(uiImage: image)
@@ -21,20 +40,6 @@ struct FavouriteRowImageView: View {
             .transition(
                 .opacity.animation(.easeInOut(duration: 0.2))
             )
-            .overlay(
-                Rectangle()
-                    .fill(
-                        LinearGradient(
-                            gradient: Gradient(
-                                colors: [
-                                    .listRowOverlayGradient.opacity(0.85),
-                                    .listRowOverlayGradient.opacity(0)
-                                ]
-                            ),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-            )
+            .overlay(overlayGradient)
     }
 }
