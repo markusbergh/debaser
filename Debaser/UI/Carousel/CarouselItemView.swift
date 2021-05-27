@@ -61,14 +61,8 @@ struct CarouselItemContent: View {
             Button(action: {
                 isShowingDetailView = true
                 
-                store.dispatch(action: .list(.hideTabBar))
-                
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder),
-                    to: nil,
-                    from: nil,
-                    for: nil
-                )
+                store.dispatch(action: .list(.hideTabBar))                
+                dismissKeyboard()
             }) {
                 ZStack(alignment: .center) {
                     if store.state.settings.showImages.value == true {
@@ -97,13 +91,28 @@ struct CarouselItemContent: View {
                         let midY = geometry.frame(in: .local).midY
                         
                         return AnyView(
-                            Text(event.title)
-                                .font(Font.Family.title.of(size: 27))
+                            VStack(alignment: .leading, spacing: 0) {
+                                Group {
+                                    if event.isCancelled {
+                                        Text("List.Event.Cancelled")
+                                    } else if event.isPostponed {
+                                        Text("List.Event.Postponed")
+                                    }
+                                }
                                 .foregroundColor(.white)
-                                .lineLimit(3)
-                                .frame(width: 250)
-                                .position(x: midX, y: midY)
-                                .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
+                                .font(Font.Variant.tiny.font)
+                                .padding(.vertical, 5)
+                                .padding(.horizontal, 8)
+                                .background(Capsule().fill(Color.listRowBackground))
+                                
+                                Text(event.title)
+                                    .font(Font.Family.title.of(size: 29))
+                                    .foregroundColor(.white)
+                                    .lineLimit(3)
+                                    .frame(width: 250)
+                                    .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
+                            }
+                            .position(x: midX, y: midY)
                         )
                     }
                 }
@@ -111,5 +120,14 @@ struct CarouselItemContent: View {
             .buttonStyle(ListRowButtonStyle())
         }
         .accentColor(nil)
+    }
+    
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }

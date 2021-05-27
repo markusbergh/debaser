@@ -69,7 +69,7 @@ struct ListViewModel {
         
         events = events.filter({ event -> Bool in
             if let date = dateFormatter.date(from: event.date) {
-                return calendar.isDateInToday(date) || calendar.isDateInTomorrow(date)
+                return calendar.isDateInToday(date)
             }
             
             return true

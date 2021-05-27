@@ -24,12 +24,13 @@ class ImageViewModel: ObservableObject {
 extension ImageViewModel {
     func loadImage(with imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
-
         guard let imageService = imageService else { return }
 
         if let data = imageService.cached(with: url as NSURL) {
-            image = UIImage(data: data as Data)!
-            isLoaded = true
+            DispatchQueue.main.async {
+                self.image = UIImage(data: data as Data)!
+                self.isLoaded = true
+            }
         
             return
         }

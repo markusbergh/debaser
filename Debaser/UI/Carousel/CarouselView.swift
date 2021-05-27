@@ -44,7 +44,6 @@ struct SnapCarousel: View {
                         )
                 }
                 .frame(width: 0, height: 0)
-                
                 // Needs to check (for now) when view has really loaded
                 .onPreferenceChange(FramePreferenceKey.self) { frame in
                     let frameXPosition = Int(frame.origin.x)
@@ -72,8 +71,10 @@ struct SnapCarousel: View {
                         .animation(animation)
                         .opacity(opacity)
                         .onAppear {
-                            withAnimation(.easeIn(duration: 0.25)) {
-                                opacity = 1.0
+                            if opacity <= 0 {
+                                withAnimation(.easeIn(duration: 0.25)) {
+                                    opacity = 1.0
+                                }
                             }
                         }
                         .onAnimationCompleted(for: opacity) {

@@ -8,13 +8,11 @@
 import Foundation
 
 struct EventViewModel: Codable, Hashable, Identifiable {
-    static let titleRegexPattern = #"\S[^->|]+[^ \W]."#
-    static let admissionRegexPattern = #"\d{1,3} kr"#
-    static let ageRegexPattern = "\\d{1,2}"
-    static let openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
-    static let openRegexAdditionalPattern = #"\d{1,2}"#
-    
     var id: String = ""
+    var date: String = ""
+    var venue: String = ""
+    var image: String = ""
+    
     var title: String = "" {
         didSet {
             title = trimWithObscureCharacters(title)
@@ -26,19 +24,19 @@ struct EventViewModel: Codable, Hashable, Identifiable {
             title = parsed.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
+    
     var subHeader: String = "" {
         didSet {
             subHeader = trimWithObscureCharacters(subHeader)
         }
     }
+    
     var description: String = "" {
         didSet {
             description = trimWithObscureCharacters(description)
         }
     }
-    var date: String = ""
-    var venue: String = ""
-    var image: String = ""
+    
     var admission: String = "" {
         didSet {
             var lowerAdmission = admission.lowercased()
@@ -55,6 +53,7 @@ struct EventViewModel: Codable, Hashable, Identifiable {
             admission = parsedValue
         }
     }
+    
     var ageLimit: String = "" {
         didSet {
             ageLimit = ageLimit.lowercased()
@@ -93,13 +92,7 @@ struct EventViewModel: Codable, Hashable, Identifiable {
     var slug: String?
     var ticketUrl: String?
     var isFreeAdmission = false
-    var isCancelled: Bool {
-        return slug?.contains("cancelled") ?? false
-    }
-    var isPostponed: Bool {
-        return slug?.contains("postponed") ?? false
-    }
-    
+        
     init(with event: Event) {
         configure(event: event)
     }
@@ -118,7 +111,17 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         ageLimit = event.ageLimit
         ticketUrl = event.ticketUrl
     }
-    
+}
+
+// MARK: - Parsing
+
+extension EventViewModel {
+    static let titleRegexPattern = #"\S[^->|]+[^ \W]."#
+    static let admissionRegexPattern = #"\d{1,3} kr"#
+    static let ageRegexPattern = "\\d{1,2}"
+    static let openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
+    static let openRegexAdditionalPattern = #"\d{1,2}"#
+
     private func parse(value: inout String, withRegex regex: String) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)
         var matchRange: Range<String.Index>?
@@ -160,6 +163,20 @@ struct EventViewModel: Codable, Hashable, Identifiable {
     }
 }
 
+// MARK: - Status
+
+extension EventViewModel {
+    var isCancelled: Bool {
+        return slug?.contains("cancelled") ?? false
+    }
+
+    var isPostponed: Bool {
+        return slug?.contains("postponed") ?? false
+    }
+}
+
+// MARK: - Date
+
 extension EventViewModel {
     var shortDate: String {
         let dateFormatter = DateFormatter()
@@ -199,6 +216,28 @@ extension EventViewModel {
         
         return dateFormatter.string(from: date)
     }
+    
+    var isDateExpired: Bool {
+        let today = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard let eventDate = dateFormatter.date(from: date) else {
+            return false
+        }
+        
+        guard let daysSince = Calendar.current.dateComponents([.day], from: eventDate, to: today).day else {
+            return false
+        }
+        
+        if daysSince > 0 {
+            return true
+        }
+        
+        return false
+    }
+    
 }
 
 // MARK: Mock event

@@ -14,6 +14,7 @@ struct TitleView: UIViewRepresentable {
     var fontSize: CGFloat = 49
     var lineLimit: Int = 0
     var textColor: UIColor = .label
+    var width: CGFloat = UIScreen.main.bounds.width
 
     @Binding var calculatedHeight: CGFloat
 
@@ -36,7 +37,7 @@ struct TitleView: UIViewRepresentable {
     }
     
     private func setHeightIfNeeded(_ uiView: UILabel) {
-        let fixedWidth = uiView.frame.size.width
+        let fixedWidth = width
         
         // Needs to calculate a new size for frame
         let newSize = uiView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))

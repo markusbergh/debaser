@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+private enum Style {
+    case padding
+    case cornerRadius
+    
+    var value: CGFloat {
+        switch self {
+        case .padding:
+            return 25
+        case .cornerRadius:
+            return 25
+        }
+    }
+}
+
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var store: AppStore
@@ -15,23 +29,6 @@ struct DetailView: View {
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
     @State private var isShowingAlertDateOverdue = false
-    
-    private var isEventExpired: Bool {
-        let today = Date()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        
-        guard let eventDate = dateFormatter.date(from: event.date) else {
-            return false
-        }
-        
-        if eventDate < today {
-            return true
-        }
-        
-        return false
-    }
     
     let event: EventViewModel
     let canNavigateBack: Bool
@@ -57,8 +54,8 @@ struct DetailView: View {
                                 
                                 Spacer()
                             }
-                            .padding(.horizontal, 25)
-                            .padding(.top, 50)
+                            .padding(.horizontal, Style.padding.value)
+                            .padding(.top, (Style.padding.value * 2))
                             .frame(maxWidth: .infinity)
                         }
                         
@@ -102,9 +99,11 @@ struct DetailView: View {
                     store.dispatch(action: .list(.hideTabBar))
                 }
                 
-                // Has this event already happened?
-                if isEventExpired {
-                    isShowingAlertDateOverdue = true
+                DispatchQueue.main.async {
+                    // Has this event already happened?
+                    if event.isDateExpired {
+                        isShowingAlertDateOverdue = true
+                    }
                 }
             }
             .onDisappear {
@@ -143,10 +142,10 @@ struct DetailBackButtonView: View {
                 .frame(width: 40, height: 40)
                 .background(
                     Circle()
-                        .fill(Color.white)
                         .frame(width: 40, height: 40)
                 )
         }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -157,12 +156,18 @@ struct DetailMainContentView: View {
     
     @State private var isFavourite = false
     @State private var titleHeight: CGFloat = 0.0
+    
+    // TODO: Consider look into this issue with setting width
+    @State private var titleWidth: CGFloat = UIScreen.main.bounds.width - (Style.padding.value * 4)
+    
+    private var shadowOpacity: Double {
+        return colorScheme == .light ? 0.25 : 0.1
+    }
 
     var event: EventViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            
             HStack(alignment: .top) {
                 DetailTopMetaView(event: event)
 
@@ -172,10 +177,10 @@ struct DetailMainContentView: View {
             }
             .padding(.bottom, 35)
 
-            TitleView(title: event.title, calculatedHeight: $titleHeight)
+            TitleView(title: event.title, width: titleWidth, calculatedHeight: $titleHeight)
                 .frame(height: titleHeight)
                 .padding(.bottom, 10)
-                
+
             DetailMetaContainerView(
                 ageLimit: event.ageLimit,
                 admission: event.admission,
@@ -193,39 +198,43 @@ struct DetailMainContentView: View {
                 subHeader: event.subHeader,
                 description: event.description
             )
-            .padding(.top, 25)
+            .padding(.top, Style.padding.value)
             .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(25)
+        .padding(Style.padding.value)
         .background(Color.detailContentBackground)
-        .cornerRadius(25)
+        .cornerRadius(Style.cornerRadius.value)
         .shadow(
-            color: .black.opacity(
-                colorScheme == .light ? 0.25 : 0.1
-            ),
+            color: .black.opacity(shadowOpacity),
             radius: 20,
             x: 0,
             y: -5
         )
-        .padding(25)
+        .padding(Style.padding.value)
     }
 }
 
 // MARK: Meta container view
 
 struct DetailMetaContainerView: View {
+    enum Admission: String {
+        case free = "fri"
+    }
+    
     var ageLimit: String
     var admission: String
     var open: String
     
-    var body: some View {
-        var formattedAdmission = admission
-        
-        if admission.contains("Fri") {
-            formattedAdmission = NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission information")
+    var formattedAdmission: String {
+        if admission.lowercased().contains(Admission.free.rawValue) {
+            return NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission information")
         }
         
-        return HStack {
+        return admission
+    }
+    
+    var body: some View {
+        HStack {
             DetailMetaView(
                 image: "person",
                 label: ageLimit,

@@ -37,8 +37,7 @@ struct ListRowView: View {
             Button(action: {
                 isShowingDetailView = true
 
-                store.dispatch(action: .list(.hideTabBar))
-                
+                store.dispatch(action: .list(.hideTabBar))   
                 dismissKeyboard()
             }) {
                 VStack(alignment: .leading, spacing: 0) {
