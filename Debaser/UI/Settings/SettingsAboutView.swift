@@ -17,7 +17,7 @@ struct SettingsAboutView: View {
     }
     
     private var bottomPadding: CGFloat {
-        return TabBarStyle.height.rawValue + (20 * 2)
+        return TabBarStyle.height.rawValue + TabBarStyle.paddingBottom.rawValue + 20
     }
     
     var body: some View {
@@ -50,7 +50,6 @@ struct SettingsAboutView: View {
                     """)
                 }
                 .padding(15)
-                .padding(.bottom, bottomPadding)
                 .background(Color.settingsListRowBackground)
                 .cornerRadius(10)
             }
@@ -58,7 +57,7 @@ struct SettingsAboutView: View {
                 .init(
                     top: 10,
                     leading: 20,
-                    bottom: 20,
+                    bottom: bottomPadding,
                     trailing: 20
                 )
             )
