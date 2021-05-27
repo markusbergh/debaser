@@ -115,10 +115,10 @@ struct CarouselItemContent: View {
                                 Text(event.title)
                                     .font(Font.Family.title.of(size: 29))
                                     .foregroundColor(.white)
-                                    .lineLimit(3)
-                                    .frame(width: 250)
+                                    .lineLimit(2)
                                     .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
                             }
+                            .frame(width: geometry.size.width * 0.6)
                             .position(x: midX, y: midY)
                         )
                     }
