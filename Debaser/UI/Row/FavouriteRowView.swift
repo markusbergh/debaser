@@ -15,6 +15,7 @@ struct FavouriteRowView: View {
     @State private var titleHeight: CGFloat = 0.0
     
     private let topHeight: CGFloat = 120
+    
     private var bottomHeight: CGFloat {
         return totalHeight - topHeight
     }
@@ -66,6 +67,7 @@ struct FavouriteRowView: View {
                                 fontSize: 27,
                                 lineLimit: 3,
                                 textColor: .white,
+                                width: geometry.size.width * 0.65,
                                 calculatedHeight: $titleHeight
                             )
                             .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
