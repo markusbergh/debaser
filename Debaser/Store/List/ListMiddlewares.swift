@@ -82,6 +82,8 @@ func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
     }
 }
 
+// MARK: - Helpers
+
 struct ListMiddlewareSearchHelper {
     static var events = [EventViewModel]()
 }
@@ -96,10 +98,12 @@ struct ListMiddlewareDateHelper {
         return dateFormatter
     }()
 
+    /// Today as text
     static var today: String? {
         return dateFormatter.string(from: Date())
     }
     
+    /// First day of year as text
     static var firstDayOfYear: String? = {
         dateComponents.calendar = Calendar.current
         dateComponents.day = 1
@@ -112,6 +116,7 @@ struct ListMiddlewareDateHelper {
         return dateFormatter.string(from: date)
     }()
     
+    /// Last day of year as text
     static var lastDayOfYear: String? = {
         guard let startDateOfYear = Calendar.current.date(from: dateComponents) else {
             return nil
@@ -127,6 +132,7 @@ struct ListMiddlewareDateHelper {
         return dateFormatter.string(from: lastDateOfYear)
     }()
     
+    /// A date in near future (1 year later)
     static var dateInNearFuture: String? = {
         guard let startDateOfYear = Calendar.current.date(from: dateComponents) else {
             return nil
@@ -144,6 +150,12 @@ struct ListMiddlewareDateHelper {
 }
 
 struct ListMiddlewareFavouritesHelper {
+    
+    ///
+    /// Get all favourite events
+    ///
+    /// - returns: A list of favourite events
+    ///
     static func getAll() -> [EventViewModel]? {
         let userDefaults = UserDefaults.standard
 
@@ -160,6 +172,12 @@ struct ListMiddlewareFavouritesHelper {
         return storedList
     }
     
+    ///
+    /// Saves an event as favourite
+    ///
+    /// - parameter event: Event to save
+    /// - returns: A list of favourite events
+    ///
     static func save(_ event: EventViewModel) -> [EventViewModel]? {
         let userDefaults = UserDefaults.standard
         
@@ -180,6 +198,14 @@ struct ListMiddlewareFavouritesHelper {
         return update(for: event, with: storedList)
     }
     
+    ///
+    /// Updates or saves an event in favourite list
+    ///
+    /// - parameters:
+    ///   - event: Event to save
+    ///   - data: Data to update
+    /// - returns: A list of favourite events
+    ///
     static func update(for event: EventViewModel, with data: Any) -> [EventViewModel]? {
         guard let data = data as? Data else {
             return nil

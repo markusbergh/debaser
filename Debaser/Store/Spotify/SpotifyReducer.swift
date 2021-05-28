@@ -45,7 +45,7 @@ func spotifyReducer(state: inout SpotifyState, action: SpotifyAction) -> Spotify
     case .requestSearchArtist(let artist):
         state.hasTracksForCurrentArtist = false
         
-        // This should probably be handled in a middleware
+        // TODO: This should probably be handled in a middleware
         SpotifyService.shared.searchTrackForEventArtist(query: artist) {
             state.hasTracksForCurrentArtist = true
         }
