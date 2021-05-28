@@ -69,14 +69,23 @@ class EventViewModelTests: XCTestCase {
         
         XCTAssertEqual(viewModel.isPostponed, true)
     }
+    
+    func testFormattedEventFreeAdmission() throws {
+        let event = makeEvent(freeAdmission: true)
+        let unwrappedEvent = try XCTUnwrap(event, "There should be an event available")
+        
+        let viewModelFreeAdmission = EventViewModel(with: unwrappedEvent)
+        
+        XCTAssertTrue(viewModelFreeAdmission.isFreeAdmission)
+    }
 }
 
 // MARK: Factory methods
 
 extension EventViewModelTests {
     
-    private func makeEvent(cancelled: Bool = false, postponed: Bool = false) -> Event? {
-        let data = makeData(cancelled: cancelled, postponed: postponed)
+    private func makeEvent(cancelled: Bool = false, postponed: Bool = false, freeAdmission: Bool = false) -> Event? {
+        let data = makeData(cancelled: cancelled, postponed: postponed, freeAdmission: freeAdmission)
         let response = try! JSONDecoder().decode([Event].self, from: data)
         
         guard let event = response.first else {
@@ -88,13 +97,18 @@ extension EventViewModelTests {
         return event
     }
     
-    private func makeData(cancelled: Bool = false, postponed: Bool = false) -> Data {
+    private func makeData(cancelled: Bool = false, postponed: Bool = false, freeAdmission: Bool = false) -> Data {
         var slug = "medis-notix notix medis"
+        var admission = "150 kr + förköpsavgift. Biljetter finns hos Tickster, Sound Pollution, Record Hunter, Pet Sounds."
         
         if cancelled {
             slug = slug.replacingOccurrences(of: "notix", with: "cancelled")
         } else if postponed {
             slug = slug.replacingOccurrences(of: "notix", with: "postponed")
+        }
+        
+        if freeAdmission {
+            admission = "Fri entré"
         }
         
         let data = Data("""
@@ -109,7 +123,7 @@ extension EventViewModelTests {
                 "Description": "\\n",
                 "Age": "18 (20 efter konsert)",
                 "Open": "Inne 19-01",
-                "Admission": "150 kr + förköpsavgift. Biljetter finns hos Tickster, Sound Pollution, Record Hunter, Pet Sounds.",
+                "Admission": "\(admission)",
                 "Venue": "Medis",
                 "VenueSlug": "\(slug)",
                 "Room": "Stora scenen",

@@ -65,6 +65,7 @@ final class EventService {
 
 extension EventService {
     
+    /// Sets a timeout for request
     private func timeoutForRequest(completion: @escaping () -> Void) {
         timeout?.invalidate()
         timeout = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
@@ -243,4 +244,5 @@ extension EventService {
             }
         }.resume()
     }
+    
 }

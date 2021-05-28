@@ -93,6 +93,10 @@ struct EventViewModel: Codable, Hashable, Identifiable {
 
 extension EventViewModel {
     
+    enum Admission: String {
+        case free = "fri"
+    }
+    
     enum RegularExpression: String {
         case titleRegexPattern = #"\S[^->|]+[^ \W]."#
         case admissionRegexPattern = #"\d{1,3} kr"#
@@ -155,6 +159,12 @@ extension EventViewModel {
         var lowerAdmission = admission.lowercased()
 
         guard let parsedAdmission = parse(value: &lowerAdmission, withRegex: .admissionRegexPattern) else {
+            // Could it be that the admission is for free?
+            if lowerAdmission.contains(Admission.free.rawValue) {
+                return admission
+            }
+            
+            // Otherwise just return an empty string, something is odd here
             return ""
         }
         
@@ -232,7 +242,7 @@ extension EventViewModel {
     
     /// Checks in a quick and dirty solution if admission is set to free
     private func isAdmissionFree(admission: String) -> Bool {
-        return admission.lowercased().contains("fri")
+        return admission.lowercased().contains(Admission.free.rawValue)
     }
     
 }
