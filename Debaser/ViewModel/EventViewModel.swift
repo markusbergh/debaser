@@ -231,20 +231,9 @@ extension EventViewModel {
 
     /// Returns a Boolean based on if event is of free admission
     var isFreeAdmission: Bool {
-        return isAdmissionFree(admission: admission)
-    }
-
-}
-
-// MARK: - Admission
-
-extension EventViewModel {
-    
-    /// Checks in a quick and dirty solution if admission is set to free
-    private func isAdmissionFree(admission: String) -> Bool {
         return admission.lowercased().contains(Admission.free.rawValue)
     }
-    
+
 }
 
 // MARK: - Date
