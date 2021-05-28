@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct DebaserApp: App {
+    
+    // MARK: Store
+    
     @StateObject var store: Store<AppState, AppAction> = Store(
         initialState: AppState(
             list: ListState(),
@@ -106,6 +109,7 @@ struct DebaserApp: App {
 // MARK: App launch lifecycle
 
 extension DebaserApp {
+    
     /// Initial configuration for app
     private func configure() {
         resetIfNeeded()
@@ -143,16 +147,20 @@ extension DebaserApp {
         store.dispatch(action: .settings(.getShowImages))
         store.dispatch(action: .onboarding(.getOnboarding))
     }
+    
 }
 
 // MARK: Spotify
 
 extension DebaserApp {
+    
+    ///
     /// Tries to handle a Spotify login action
     ///
     /// - parameters:
     ///     - url: Received authentication url
     ///     - userDefaults: User defaults to store session in
+    ///
     private func handleSpotifyLogin(withURL url: URL?, userDefaults: UserDefaults = UserDefaults.standard) {
         spotifyAuth.handleAuthCallback(withTriggeredAuthURL: url, callback: { (error, session) in
             if let error = error {
@@ -198,10 +206,13 @@ extension DebaserApp {
 // MARK: iMessage + Widget Extension
 
 extension DebaserApp {
+    
+    ///
     /// Checks if extension url can be handled
     ///
     /// - parameter url: Received extension url
     /// - returns: A boolean
+    ///
     private func canHandleEvent(withURL url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return false
@@ -219,11 +230,13 @@ extension DebaserApp {
         
         return false
     }
+    
 }
 
 // MARK: Modal view
 
 extension DebaserApp {
+    
     /// Match the received event id with an event
     private func getEventForModalView() {
         guard let eventIdReceivedFromURL = eventIdReceivedFromURL else {
@@ -237,10 +250,12 @@ extension DebaserApp {
         eventReceivedFromURL = matchedEvent
     }
     
+    ///
     /// Presents a modal view with the event
     ///
     /// - parameter event: The event to present
     /// - returns: A `DetailView` to present modally
+    ///
     private func presentModalView(with event: EventViewModel) -> some View {
         let colorScheme = store.state.settings.systemColorScheme.value ? nil : colorScheme
 
@@ -248,4 +263,5 @@ extension DebaserApp {
             .preferredColorScheme(colorScheme)
             .environmentObject(store)
     }
+    
 }

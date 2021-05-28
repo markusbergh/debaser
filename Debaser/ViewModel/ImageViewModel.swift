@@ -9,7 +9,12 @@ import UIKit
 import Combine
 
 class ImageViewModel: ObservableObject {
+    
+    // MARK: Private
+    
     private var cancellable: AnyCancellable? = nil
+    
+    // MARK: Public
 
     var imageService: ImageService?
     
@@ -22,6 +27,12 @@ class ImageViewModel: ObservableObject {
 }
 
 extension ImageViewModel {
+    
+    ///
+    /// Tries to load an image
+    ///
+    /// - parameter imageURL: The image url to load from
+    ///
     func loadImage(with imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
         guard let imageService = imageService else { return }

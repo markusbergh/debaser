@@ -8,96 +8,72 @@
 import Foundation
 
 struct EventViewModel: Codable, Hashable, Identifiable {
-    var id: String = ""
-    var date: String = ""
-    var venue: String = ""
-    var image: String = ""
     
+    /// Id
+    var id: String = ""
+    
+    /// Date
+    var date: String = ""
+        
+    /// Title
     var title: String = "" {
         didSet {
-            title = trimWithObscureCharacters(title)
-
-            guard let parsed = parse(value: &title, withRegex: EventViewModel.titleRegexPattern) else {
-                return
-            }
-            
-            title = parsed.trimmingCharacters(in: .whitespacesAndNewlines)
+            title = parseTitle(title: &title)
         }
     }
     
+    /// Sub header
     var subHeader: String = "" {
         didSet {
-            subHeader = trimWithObscureCharacters(subHeader)
+            trimWithObscureCharacters(in: &subHeader)
         }
     }
     
+    /// Description
     var description: String = "" {
         didSet {
-            description = trimWithObscureCharacters(description)
+            trimWithObscureCharacters(in: &description)
         }
     }
-    
+            
+    /// Admission
     var admission: String = "" {
         didSet {
-            var lowerAdmission = admission.lowercased()
-
-            guard let parsedValue = parse(value: &lowerAdmission, withRegex: EventViewModel.admissionRegexPattern) else {
-                // Quick and dirty check if admission might be for free
-                if lowerAdmission.contains("fri") {
-                    isFreeAdmission = true
-                }
-                
-                return
-            }
-            
-            admission = parsedValue
+            admission = parseAdmission(admission: &admission)
         }
     }
     
+    /// Age limit
     var ageLimit: String = "" {
         didSet {
-            ageLimit = ageLimit.lowercased()
-            
-            guard let parsedValue = parse(value: &ageLimit, withRegex: EventViewModel.ageRegexPattern) else {
-                return
-            }
-            
-            func formattedAgeLimit(_ value: String) -> String {
-                let localizedAgeLimit = NSLocalizedString("Detail.Age", comment: "Age limit")
-                
-                return String(format: localizedAgeLimit, value)
-            }
-            
-            // Needs a formatted string with value
-            ageLimit = formattedAgeLimit(parsedValue)
+            ageLimit = parseAgeLimit(ageLimit: &ageLimit)
         }
-    }
-    var open: String = "" {
-        didSet {
-            guard let parsedValue = parse(value: &open, withRegex: EventViewModel.openRegexPattern) else {
-                
-                // I still do not trust you, try and parse once more
-                guard let parsedValue = parse(value: &open, withRegex: EventViewModel.openRegexAdditionalPattern) else {
-                    return
-                }
-            
-                open = "\(parsedValue):00"
-        
-                return
-            }
-            
-            open = parsedValue.replacingOccurrences(of: ".", with: ":")
-        }
-    }
-    var slug: String?
-    var ticketUrl: String?
-    var isFreeAdmission = false
-        
-    init(with event: Event) {
-        configure(event: event)
     }
     
-    private mutating func configure(event: Event) {
+    /// Open hours
+    var open: String = "" {
+        didSet {
+            open = parseOpenHours(openHours: &open)
+        }
+    }
+    
+    /// Slug
+    var slug: String?
+    
+    /// Ticket purchase url
+    var ticketUrl: String?
+    
+    /// Venue
+    var venue: String = ""
+    
+    /// Image
+    var image: String = ""
+            
+    init(with event: Event) {
+        config(with: event)
+    }
+    
+    private mutating func config(with event: Event) {
         id = event.id
         title = event.name
         subHeader = event.subHeader
@@ -116,18 +92,28 @@ struct EventViewModel: Codable, Hashable, Identifiable {
 // MARK: - Parsing
 
 extension EventViewModel {
-    static let titleRegexPattern = #"\S[^->|]+[^ \W]."#
-    static let admissionRegexPattern = #"\d{1,3} kr"#
-    static let ageRegexPattern = "\\d{1,2}"
-    static let openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
-    static let openRegexAdditionalPattern = #"\d{1,2}"#
-
-    private func parse(value: inout String, withRegex regex: String) -> String? {
+    
+    enum RegularExpression: String {
+        case titleRegexPattern = #"\S[^->|]+[^ \W]."#
+        case admissionRegexPattern = #"\d{1,3} kr"#
+        case ageOpenRegexPattern = "\\d{1,2}"
+        case openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
+    }
+    
+    ///
+    /// Searches and replaces a string by a provided regular expression
+    ///
+    /// - parameters:
+    ///     - value: The string to parse
+    ///     - regex: The regular expression to use while parsing
+    /// - returns: An optional string
+    ///
+    private func parse(value: inout String, withRegex regex: EventViewModel.RegularExpression) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)
         var matchRange: Range<String.Index>?
         
         do {
-            let regex = try NSRegularExpression(pattern: regex)
+            let regex = try NSRegularExpression(pattern: regex.rawValue)
             
             autoreleasepool {
                 guard let match = regex.firstMatch(in: value, options: [], range: range) else {
@@ -152,9 +138,65 @@ extension EventViewModel {
             return nil
         }
     }
+        
+    /// Parses title
+    private func parseTitle(title: inout String) -> String {
+        trimWithObscureCharacters(in: &title)
+
+        guard let parsedTitle = parse(value: &title, withRegex: .titleRegexPattern) else {
+            return ""
+        }
+        
+        return parsedTitle
+    }
     
-    private func trimWithObscureCharacters(_ value: String) -> String {
-        return value.replacingOccurrences(of: "&amp;", with: "&")
+    /// Parses admission
+    private func parseAdmission(admission: inout String) -> String {
+        var lowerAdmission = admission.lowercased()
+
+        guard let parsedAdmission = parse(value: &lowerAdmission, withRegex: .admissionRegexPattern) else {
+            return ""
+        }
+        
+        return parsedAdmission
+    }
+    
+    /// Parses age limit
+    private func parseAgeLimit(ageLimit: inout String) -> String {
+        ageLimit = ageLimit.lowercased()
+        
+        guard let parsedAgeLimit = parse(value: &ageLimit, withRegex: .ageOpenRegexPattern) else {
+            return ""
+        }
+        
+        func formattedAgeLimit(_ value: String) -> String {
+            let localizedAgeLimit = NSLocalizedString("Detail.Age", comment: "Age limit")
+            
+            return String(format: localizedAgeLimit, value)
+        }
+        
+        // Needs a formatted string with value
+        return formattedAgeLimit(parsedAgeLimit)
+    }
+    
+    /// Parses open hours
+    private func parseOpenHours(openHours: inout String) -> String {
+        guard let parsedOpenHours = parse(value: &openHours, withRegex: .openRegexPattern) else {
+            
+            // I still do not trust you, try and parse once more
+            guard let parsedOpenHours = parse(value: &openHours, withRegex: .ageOpenRegexPattern) else {
+                return ""
+            }
+        
+            return "\(parsedOpenHours):00"
+        }
+        
+        return parsedOpenHours.replacingOccurrences(of: ".", with: ":")
+    }
+    
+    /// Cleans up a string from occurrences of HTML references
+    private func trimWithObscureCharacters(in value: inout String) {
+        value = value.replacingOccurrences(of: "&amp;", with: "&")
             .replacingOccurrences(of: "&gt;", with: ">")
             .replacingOccurrences(of: "&nbsp;", with: " ")
             .replacingOccurrences(of: "&quot;", with: "\"")
@@ -166,18 +208,40 @@ extension EventViewModel {
 // MARK: - Status
 
 extension EventViewModel {
+    
+    /// Returns a Boolean based on if event is cancelled
     var isCancelled: Bool {
         return slug?.contains("cancelled") ?? false
     }
-
+    
+    /// Returns a Boolean based on if event is postponed
     var isPostponed: Bool {
         return slug?.contains("postponed") ?? false
     }
+
+    /// Returns a Boolean based on if event is of free admission
+    var isFreeAdmission: Bool {
+        return isAdmissionFree(admission: admission)
+    }
+
+}
+
+// MARK: - Admission
+
+extension EventViewModel {
+    
+    /// Checks in a quick and dirty solution if admission is set to free
+    private func isAdmissionFree(admission: String) -> Bool {
+        return admission.lowercased().contains("fri")
+    }
+    
 }
 
 // MARK: - Date
 
 extension EventViewModel {
+    
+    /// Returns a date string in format of `d/M`
     var shortDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -191,6 +255,7 @@ extension EventViewModel {
         return dateFormatter.string(from: date)
     }
     
+    /// Returns a date string in format of `d MMM`
     var listDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -204,6 +269,7 @@ extension EventViewModel {
         return dateFormatter.string(from: date)
     }
     
+    /// Return a date string in format of `yyyy`
     var shortYear: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -217,6 +283,7 @@ extension EventViewModel {
         return dateFormatter.string(from: date)
     }
     
+    /// Returns a Boolean based on if event date is overdue
     var isDateExpired: Bool {
         let today = Date()
         

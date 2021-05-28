@@ -32,6 +32,9 @@ enum ServiceError: Error {
 }
 
 final class EventService {
+    
+    // MARK: Static
+    
     static var baseUrl: String {
         guard let infoDictPath = Bundle.main.path(forResource: "Debaser", ofType: "plist"),
               let infoDict = NSDictionary(contentsOfFile: infoDictPath) as? [String: Any] else {
@@ -45,8 +48,22 @@ final class EventService {
         return "\(baseURL)/?version=2&method=getevents&format=json"
     }
     
+    static let shared = EventService()
+    
+    // MARK: Private
+    
     private var timeout: Timer?
     private var cancellable: AnyCancellable?
+        
+    init(timeout: Timer? = nil, cancellable: AnyCancellable? = nil) {
+        self.timeout = timeout
+        self.cancellable = cancellable
+    }
+}
+
+// MARK: - Timeout
+
+extension EventService {
     
     private func timeoutForRequest(completion: @escaping () -> Void) {
         timeout?.invalidate()
@@ -55,15 +72,20 @@ final class EventService {
         }
     }
     
-    static let shared = EventService()
-    
-    init(timeout: Timer? = nil, cancellable: AnyCancellable? = nil) {
-        self.timeout = timeout
-        self.cancellable = cancellable
-    }
 }
 
+// MARK: - Data handlers
+
 extension EventService {
+    
+    ///
+    /// Get a data task publisher to request events from date range
+    ///
+    /// - parameters:
+    ///   - from: Starting date string
+    ///   - to: Ending date string
+    /// - returns: A publisher that outputs a list of events
+    ///
     func getPublisher(fromDate from: String, toDate to: String) -> AnyPublisher<[EventViewModel], ServiceError> {
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
             return Fail(error: ServiceError.invalidURL)
@@ -119,9 +141,18 @@ extension EventService {
             .eraseToAnyPublisher()
     }
     
+    ///
+    /// Request events from date range
+    ///
+    /// - parameters:
+    ///   - from: Starting date string
+    ///   - to: Ending date string
+    ///   - completion: A closure to call when the request has changed
+    ///   - result: The request result
+    ///
     func getEvents(fromDate from: String,
                    toDate to: String,
-                   completion: @escaping (Result<[EventViewModel], ServiceError>) -> Void) {
+                   completion: @escaping (_ result: Result<[EventViewModel], ServiceError>) -> Void) {
         
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
             completion(.failure(.invalidURL))
@@ -189,7 +220,15 @@ extension EventService {
             })
     }
     
-    func getRequestWith(url: URL, completion: @escaping (Result<[Event], ServiceError>) -> Void) {
+    ///
+    /// Request data from url
+    ///
+    /// - parameters:
+    ///   - url: The url to reqest from
+    ///   - completion: A closure to call when the request has changed
+    ///   - result: The request result
+    ///
+    func getRequestWith(url: URL, _ completion: @escaping (_ result: Result<[Event], ServiceError>) -> Void) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 completion(.failure(.unknownError))
