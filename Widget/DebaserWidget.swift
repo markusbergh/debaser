@@ -19,28 +19,36 @@ struct EventProvider: TimelineProvider {
     var eventService = EventService.shared
     
     func placeholder(in context: Context) -> DebaserWidgetEntry {
-        DebaserWidgetEntry(date: Date(), event: nil)
+        DebaserWidgetEntry(date: Date(), event: nil, isPreview: true)
     }
     
     func getSnapshot(in context: Context, completion: @escaping (DebaserWidgetEntry) -> Void) {
         let today = Date()
         
         let formattedToday = dateFormatter.string(from: today)
-
-        eventService.getEvents(fromDate: formattedToday, toDate: formattedToday) { response in
-            var entry: DebaserWidgetEntry
-
-            switch response {
-            case .success(let events):
-                // Make sure to only use first
-                let firstEvent = events.first
-                
-                entry = DebaserWidgetEntry(date: today, event: firstEvent)
-            case .failure:
-                entry = DebaserWidgetEntry(date: today, event: nil)
-            }
-            
+        
+        if context.isPreview {
+            let entry = DebaserWidgetEntry(date: today, event: nil, isPreview: true)
             completion(entry)
+            
+            return
+        } else {
+            eventService.getEvents(fromDate: formattedToday, toDate: formattedToday) { response in
+                var entry: DebaserWidgetEntry
+
+                switch response {
+                case .success(let events):
+                    // Make sure to only use first
+                    let firstEvent = events.first
+                    
+                    entry = DebaserWidgetEntry(date: today, event: firstEvent)
+                case .failure:
+                    // Failure `assumes` we have no event available for this date
+                    entry = DebaserWidgetEntry(date: today, event: nil)
+                }
+                
+                completion(entry)
+            }
         }
     }
     
@@ -75,8 +83,9 @@ struct EventProvider: TimelineProvider {
 }
 
 struct DebaserWidgetEntry: TimelineEntry {
-    var date = Date()
-    var event: EventViewModel?
+    let date: Date
+    let event: EventViewModel?
+    var isPreview: Bool = false
 }
 
 struct MetaData : View {
@@ -98,6 +107,7 @@ struct TopView : View {
     @Environment(\.widgetFamily) var widgetFamily
     
     let event: EventViewModel?
+    let isPreview: Bool
     
     var isSmall: Bool {
         return widgetFamily == .systemSmall
@@ -123,6 +133,16 @@ struct TopView : View {
 
                     MetaData(text: event.open)
                 }
+            } else if isPreview {
+                HStack {
+                    if !isSmall {
+                        MetaData(text: "Age")
+                        MetaData(text: "Admission")
+                    }
+
+                    MetaData(text: "Open")
+                }
+                .redacted(reason: .placeholder)
             }
         }
     }
@@ -132,6 +152,7 @@ struct BottomView : View {
     @Environment(\.widgetFamily) var widgetFamily
 
     let event: EventViewModel?
+    let isPreview: Bool
 
     var isSmall: Bool {
         return widgetFamily == .systemSmall
@@ -158,6 +179,20 @@ struct BottomView : View {
     }
     
     var body: some View {
+        guard !isPreview else {
+            return AnyView(
+                HStack(alignment: .top, spacing: 0) {
+                    Text("This is an event")
+                        .font(Font.Family.title.of(size: 26))
+                        .foregroundColor(.white)
+                        .minimumScaleFactor(0.01)
+                        .lineLimit(3)
+                    
+                    Spacer()
+                }
+            )
+        }
+        
         guard let event = event else {
             return AnyView(
                 HStack(alignment: .top, spacing: 0) {
@@ -205,6 +240,19 @@ struct BottomView : View {
 struct WidgetBackground: View {
     var entry: DebaserWidgetEntry
     
+    var linearGradient: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(
+                colors: [
+                    .widgetOverlay.opacity(0),
+                    .widgetOverlay.opacity(0.85)
+                ]
+            ),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+    
     var body: some View {
         if let event = entry.event {
             if let url = URL(string: event.image),
@@ -216,15 +264,7 @@ struct WidgetBackground: View {
                         .aspectRatio(contentMode: .fill)
                     
                     Rectangle()
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(
-                                    colors: [.widgetOverlay.opacity(0), .widgetOverlay.opacity(0.85)]
-                                ),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
+                        .fill(linearGradient)
                 }
             } else {
                 Color.widgetBackground
@@ -254,11 +294,12 @@ struct WidgetEntryView: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            TopView(event: entry.event)
+            TopView(event: entry.event, isPreview: entry.isPreview)
             
             Spacer()
             
-            BottomView(event: entry.event)
+            BottomView(event: entry.event, isPreview: entry.isPreview)
+                .redacted(reason: entry.isPreview ? .placeholder : [])
         }
         .padding(15)
         .background(
