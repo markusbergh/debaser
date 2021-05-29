@@ -102,12 +102,12 @@ struct SettingsView: View {
                     
                     SettingsSectionLayout()
                     SettingsLayoutOnboarding()
-
-                    // Hacky hack to push list up a bit
-                    Spacer().frame(height: 15)
-                        .listRowBackground(Color.clear)
                 }
                 .listRowBackground(Color.settingsListRowBackground)
+                
+                // Hacky hack to push list up a bit
+                Spacer().frame(height: 15)
+                    .listRowBackground(Color.settingsBackground)
             }
             .onChange(of: store.state.spotify.requestError) { error in
                 guard let error = error else { return }
