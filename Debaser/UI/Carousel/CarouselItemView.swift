@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct Card: Decodable, Hashable, Identifiable {
-    var id: Int
-    var event: EventViewModel
+    let id: Int
+    let event: EventViewModel
 }
 
 struct CarouselItemView<Content: View>: View {
     @EnvironmentObject var UIState: CarouselState
     
+    // MARK: Public
+    
     let cardWidth: CGFloat
     let cardHeight: CGFloat
-    
-    var id: Int
-    var content: Content
+    let id: Int
+    let content: Content
     
     @inlinable public init(
         id: Int,
@@ -44,12 +45,18 @@ struct CarouselItemView<Content: View>: View {
     }
 }
 
+// MARK: - Content
+
 struct CarouselItemContent: View {
     @EnvironmentObject var store: AppStore
     @StateObject var viewModel = ImageViewModel()
     
+    // MARK: Private
+    
     @State private var isShowingDetailView = false
     @State private var opacity: Double = 0
+    
+    // MARK: Public
 
     var event: EventViewModel
     
@@ -108,10 +115,10 @@ struct CarouselItemContent: View {
                                 Text(event.title)
                                     .font(Font.Family.title.of(size: 29))
                                     .foregroundColor(.white)
-                                    .lineLimit(3)
-                                    .frame(width: 250)
+                                    .lineLimit(2)
                                     .shadow(color: .black.opacity(0.25), radius: 5, x: 0, y: 0)
                             }
+                            .frame(width: geometry.size.width * 0.6)
                             .position(x: midX, y: midY)
                         )
                     }

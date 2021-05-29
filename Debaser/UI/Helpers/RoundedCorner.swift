@@ -9,6 +9,9 @@ import SwiftUI
 import UIKit
 
 struct RoundedCorner: Shape {
+    
+    // MARK: Public
+    
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
 

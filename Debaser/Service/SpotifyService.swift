@@ -21,7 +21,7 @@ enum SpotifyServiceError: String {
     case premiumAccountRequired = "premiumAccountRequired"
 }
 
-class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStreamingDelegate {
+class SpotifyService: NSObject {
 
     // Spotify core
     let auth = SPTAuth.defaultInstance()
@@ -46,8 +46,16 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
         super.init()
 
         // Subscribe to login event
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateAfterFirstLogin), name: Notification.Name(rawValue: "spotifyLoginSuccessful"), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.updateAfterFirstLogin),
+                                               name: Notification.Name(rawValue: "spotifyLoginSuccessful"),
+                                               object: nil)
     }
+}
+
+// MARK: Initializing
+
+extension SpotifyService {
 
     private func setup() {
         print("[SpotifyService]: Setting up")
@@ -157,8 +165,12 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
             self.session = session
         })
     }
+    
+}
 
-    // MARK: - Authenticaion Delegate
+// MARK: - SPTAudioStreamingDelegate
+
+extension SpotifyService: SPTAudioStreamingDelegate {
 
     // After a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
     internal func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController) {
@@ -183,8 +195,12 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
         // Dispatch
         NotificationCenter.default.post(name: Notification.Name(rawValue: "spotifyStreamingControllerError"), object: error as NSError)
     }
+    
+}
 
-    // MARK: - Track player Delegate
+// MARK: - SPTAudioStreamingPlaybackDelegate
+
+extension SpotifyService: SPTAudioStreamingPlaybackDelegate {
 
     internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didChangePosition position: TimeInterval) {
         guard let player = self.player else { return }
@@ -212,8 +228,12 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
     internal func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
         print("[SpotifyService]: audioStreamingDidLogout")
     }
+    
+}
 
-    // MARK: - Public
+// MARK: - Public
+
+extension SpotifyService {
 
     public func setupHelper() {
         // Set up some requiremenets
@@ -294,7 +314,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
         player?.setIsPlaying(false, callback: nil)
     }
 
-    // Handles a search for the sent artist
+    // Handles a search for the requested artist
     public func searchTrackForEventArtist(query: String, completion: @escaping () -> Void) -> Void {
         print("[SpotifyService]: Performing search for: ", query)
 
@@ -327,7 +347,7 @@ class SpotifyService: NSObject, SPTAudioStreamingPlaybackDelegate, SPTAudioStrea
         })
     }
 
-    // Executed when wanting to stream the current track
+    // Executed when user wants to stream the current track
     public func playTrackForArtist() -> Void {
         if let currentURI = currentArtistURI {
             guard let player = self.player else { return }

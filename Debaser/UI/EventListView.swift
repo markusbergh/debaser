@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EventListView: View {
     @EnvironmentObject var store: AppStore
+    
+    // MARK: Private
 
     @State private var totalPadding: CGFloat = 20
     

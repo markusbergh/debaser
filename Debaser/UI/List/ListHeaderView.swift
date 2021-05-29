@@ -85,23 +85,13 @@ struct ListHeaderView: View {
                                     .opacity(store.state.settings.systemColorScheme.value ? 0.5 : 1.0)
                                     .transition(
                                         .asymmetric(
-                                            insertion: .offset(x: -10, y: 0)
-                                                .combined(
-                                                    with: .opacity.animation(
-                                                        .easeIn(duration: 0.25).delay(0.25)
-                                                    )
-                                                ),
-                                            removal: .offset(x: 10, y: 0)
-                                                .combined(
-                                                    with: .opacity.animation(
-                                                        .easeOut(duration: 0.25)
-                                                    )
-                                                )
+                                            insertion: .scale(scale: 0.5).combined(with: .opacity).animation(.easeOut(duration: 0.25).delay(0.25)),
+                                            removal: .opacity.animation(.linear(duration: 0.25))
                                         )
                                     )
                                     .id("\(isDarkMode)")
 
-                                Toggle("", isOn: $isDarkMode.animation())
+                                Toggle("", isOn: $isDarkMode)
                                     .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
                                     .frame(width: 90)
                                     .offset(y: 2)

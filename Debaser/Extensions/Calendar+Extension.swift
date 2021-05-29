@@ -8,6 +8,7 @@
 import Foundation
 
 extension Calendar {
+    
     private var today: Date {
         return Date()
     }
@@ -15,4 +16,5 @@ extension Calendar {
     func isDateInThisWeek(_ date: Date) -> Bool {
         return isDate(date, equalTo: today, toGranularity: .weekOfYear)
     }
+    
 }

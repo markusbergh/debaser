@@ -11,6 +11,9 @@ import Foundation
 // MARK: Initial state
 
 struct AppState {
+    
+    // MARK: Public
+    
     var list: ListState
     var settings: SettingsState
     var onboarding: OnboardingState

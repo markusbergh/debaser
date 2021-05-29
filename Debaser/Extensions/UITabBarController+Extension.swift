@@ -8,6 +8,7 @@
 import UIKit
 
 extension UITabBarController {
+    
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -18,4 +19,5 @@ extension UITabBarController {
         
         tabBar.standardAppearance = appearance
     }
+    
 }

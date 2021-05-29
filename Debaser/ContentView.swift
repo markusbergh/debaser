@@ -14,6 +14,8 @@ struct ContentView: View {
     @EnvironmentObject var tabViewRouter: TabViewRouter
     
     @Environment(\.colorScheme) var colorScheme
+    
+    // MARK: Private
 
     @State private var selectedTab: String = "music.note.house"
     @State private var isShowingOnboarding = false
@@ -67,15 +69,19 @@ struct ContentView: View {
 }
 
 extension ContentView {
+    
+    ///
     /// Presents onboarding
     ///
     /// - returns: A `OnboardingView` to present modally
+    ///
     private func presentOnboarding() -> some View {
         return OnboardingView()
             .background(Color.onboardingBackground)
             .ignoresSafeArea()
             .preferredColorScheme(colorScheme)
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

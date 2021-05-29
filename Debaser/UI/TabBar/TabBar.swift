@@ -14,38 +14,40 @@ enum TabBarStyle: CGFloat {
     case cornerRadius = 25
 }
 
+struct TabBarItem: Hashable {
+    let image: String
+    let type: Tab
+    let identifier: Tab.Identifier
+}
+
 struct TabBar: View {
     @EnvironmentObject var tabViewRouter: TabViewRouter
     
-    @Binding var selectedTab: String
+    // MARK: Private
     
-    @State private var tabPoints: [CGFloat] = []
+    private var items: [TabBarItem] {
+        return [
+            TabBarItem(image: "music.note.house", type: .list, identifier: .list),
+            TabBarItem(image: "heart", type: .favourites, identifier: .favourites),
+            TabBarItem(image: "gearshape", type: .settings, identifier: .settings),
+        ]
+    }
+    
+    // MARK: Public
+    
+    @Binding var selectedTab: String
     
     var body: some View {
         HStack(spacing: 0) {
-            TabBarButton(
-                selectedTab: $selectedTab,
-                tabPoints: $tabPoints,
-                image: "music.note.house",
-                type: .list,
-                identifier: .list
-            )
             
-            TabBarButton(
-                selectedTab: $selectedTab,
-                tabPoints: $tabPoints,
-                image: "heart",
-                type: .favourites,
-                identifier: .favourites
-            )
-            
-            TabBarButton(
-                selectedTab: $selectedTab,
-                tabPoints: $tabPoints,
-                image: "gearshape",
-                type: .settings,
-                identifier: .settings
-            )
+            ForEach(items, id:\.self) { item in
+                TabBarButton(
+                    selectedTab: $selectedTab,
+                    image: item.image,
+                    type: item.type,
+                    identifier: item.identifier
+                )
+            }
         }
         .padding(TabBarStyle.insetPadding.rawValue)
         .background(Color.tabBarBackground)
@@ -55,11 +57,14 @@ struct TabBar: View {
     }
 }
 
+// MARK: Tab bar button
+
 struct TabBarButton: View {
     @EnvironmentObject var tabViewRouter: TabViewRouter
+    
+    // MARK: Public
 
     @Binding var selectedTab: String
-    @Binding var tabPoints: [CGFloat]
 
     var image: String
     var type: Tab
@@ -90,6 +95,8 @@ struct TabBarButton: View {
         .frame(height: TabBarStyle.height.rawValue)
     }
 }
+
+// MARK: Button style
 
 struct ScaleButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {

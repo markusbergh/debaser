@@ -8,6 +8,24 @@
 import SwiftUI
 
 struct SeparatorView: View {
+    
+    // MARK: Private
+    
+    private var strokeGradient: LinearGradient {
+        return LinearGradient(
+            gradient: Gradient(
+                colors: [
+                    .detailSeparatorGradientStart,
+                    .detailSeparatorGradientEnd
+                ]
+            ),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+    
+    // MARK: Public
+    
     let size: Int = 10
     
     var body: some View {
@@ -27,18 +45,7 @@ struct SeparatorView: View {
                 
                 path.addLines(lines)
             }
-            .stroke(
-                LinearGradient(
-                    gradient: Gradient(
-                        colors: [
-                            .detailSeparatorGradientStart,
-                            .detailSeparatorGradientEnd
-                        ]
-                    ),
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
+            .stroke(strokeGradient)
         }
     }
 }

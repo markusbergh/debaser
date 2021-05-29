@@ -17,6 +17,9 @@ protocol StoreProtocol {
 typealias Middleware<State, Action> = (State, Action) -> AnyPublisher<Action, Never>?
 
 final class Store<State, Action>: ObservableObject {
+    
+    // MARK: Private
+    
     private let reducer: Reducer<State, Action>
     private let middlewares: [Middleware<State, Action>]
     private var cancellables: [AnyCancellable] = []
@@ -31,6 +34,12 @@ final class Store<State, Action>: ObservableObject {
 }
 
 extension Store: StoreProtocol {
+    
+    ///
+    /// Dispatches an action (and applies a middleware, if available)
+    ///
+    /// - parameter action: The action to dispatch
+    ///
     func dispatch(action: Action) {
         state = reducer(&state, action)
         
