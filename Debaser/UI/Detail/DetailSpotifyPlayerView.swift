@@ -74,3 +74,9 @@ struct DetailSpotifyPlayerView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
+
+struct DetailSpotifyPlayerView_Previews: PreviewProvider {
+    static var previews: some View {
+        DetailSpotifyPlayerView(isStreaming: .constant(false))
+    }
+}

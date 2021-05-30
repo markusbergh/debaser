@@ -149,7 +149,7 @@ struct DetailBackButtonView: View {
     }
 }
 
-// MARK: Main content view
+// MARK: Main content
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -214,39 +214,29 @@ struct DetailMainContentView: View {
     }
 }
 
-// MARK: Meta container view
+// MARK: Metadata
 
 struct DetailMetaContainerView: View {
-    enum Admission: String {
-        case free = "fri"
-    }
-    
     var ageLimit: String
     var admission: String
     var open: String
     
-    var formattedAdmission: String {
-        if admission.lowercased().contains(Admission.free.rawValue) {
-            return NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission information")
-        }
-        
-        return admission
-    }
-    
     var body: some View {
         HStack {
             DetailMetaView(
-                image: "person",
+                type: .age,
                 label: ageLimit,
                 backgroundColor: .detailViewMetaPrimary
             )
+            
             DetailMetaView(
-                image: "banknote",
-                label: formattedAdmission,
+                type: .admission,
+                label: admission,
                 backgroundColor: .detailViewMetaSecondary
             )
+            
             DetailMetaView(
-                image: "clock",
+                type: .open,
                 label: open,
                 backgroundColor: .detailViewMetaTertiary
             )
@@ -256,7 +246,7 @@ struct DetailMetaContainerView: View {
     }
 }
 
-// MARK: Description view
+// MARK: Description
 
 struct DetailDescriptionView: View {
     var subHeader: String?
