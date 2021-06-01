@@ -32,6 +32,7 @@
 		85303376262E1E2400C93D1B /* DBSROnboardingStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303371262E1E2400C93D1B /* DBSROnboardingStepViewController.swift */; };
 		85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */; };
 		85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303380262E1EF200C93D1B /* OnboardingView.swift */; };
+		85498DF526659C2800132D92 /* SafeAreaInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85498DF426659C2800132D92 /* SafeAreaInsets.swift */; };
 		854E2980262CB3C0003AC567 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		854F3A352651627F00FC6BD9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		855090452621FDCB000C88BF /* TabViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855090442621FDCB000C88BF /* TabViewRouter.swift */; };
@@ -194,6 +195,7 @@
 		85303371262E1E2400C93D1B /* DBSROnboardingStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingStepViewController.swift; sourceTree = "<group>"; };
 		85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingViewController.swift; sourceTree = "<group>"; };
 		85303380262E1EF200C93D1B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		85498DF426659C2800132D92 /* SafeAreaInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaInsets.swift; sourceTree = "<group>"; };
 		854E296B262CB0C0003AC567 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		854E2970262CB0C4003AC567 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		855090442621FDCB000C88BF /* TabViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewRouter.swift; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 		85D7D8002619F5150073E3BA /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				85498DF426659C2800132D92 /* SafeAreaInsets.swift */,
 				85EEB96526203FDB00DFC238 /* RoundedCorner.swift */,
 				852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */,
 				8587C21F2647AF64005D622C /* DidAppearModifier.swift */,
@@ -1048,6 +1051,7 @@
 				855310D3260C8BFA00F0D5F7 /* EventListView.swift in Sources */,
 				855CF3832646DBF7007876D3 /* Theme.swift in Sources */,
 				855310D8260C8C0600F0D5F7 /* SettingsView.swift in Sources */,
+				85498DF526659C2800132D92 /* SafeAreaInsets.swift in Sources */,
 				85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */,
 				85FCAF15263723FA00A0BC89 /* SpotifyService.swift in Sources */,
 				8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */,
