@@ -9,10 +9,11 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var store: AppStore
-    
+
     // MARK: Private
         
     @State private var isAlertPresented = false
+    @Environment(\.safeAreaInsets) private var safeAreaInsets
 
     private var titleLabel: LocalizedStringKey {
         return "Settings"
@@ -30,40 +31,6 @@ struct SettingsView: View {
         return darkMode.wrappedValue
     }
     
-    private var bottomPadding: CGFloat {
-        guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets, safeAreaInsets.bottom > 0 else {
-            return 15
-        }
-        
-        return safeAreaInsets.bottom
-    }
-    
-    private var systemColorScheme: Binding<Bool> {
-        return Binding<Bool>(
-            get: {
-                return store.state.settings.systemColorScheme.value
-            },
-            set: { newValue in
-                withAnimation {
-                    store.dispatch(action:.settings(.setOverrideColorScheme(newValue)))
-                }
-            }
-        )
-    }
-    
-    private var darkMode: Binding<Bool> {
-        return Binding<Bool>(
-            get: {
-                return store.state.settings.darkMode.value
-            },
-            set: { newValue in
-                withAnimation {
-                    store.dispatch(action:.settings(.setDarkMode(newValue)))
-                }
-            }
-        )
-    }
-            
     init() {
         UITableView.appearance().backgroundColor = .clear
     }
@@ -139,6 +106,38 @@ struct SettingsView: View {
         .accentColor(.settingsAccent)
         .navigationViewStyle(StackNavigationViewStyle())
     }
+}
+
+// MARK: - Bindings
+
+extension SettingsView {
+    
+    private var systemColorScheme: Binding<Bool> {
+        return Binding<Bool>(
+            get: {
+                return store.state.settings.systemColorScheme.value
+            },
+            set: { newValue in
+                withAnimation {
+                    store.dispatch(action:.settings(.setOverrideColorScheme(newValue)))
+                }
+            }
+        )
+    }
+    
+    private var darkMode: Binding<Bool> {
+        return Binding<Bool>(
+            get: {
+                return store.state.settings.darkMode.value
+            },
+            set: { newValue in
+                withAnimation {
+                    store.dispatch(action:.settings(.setDarkMode(newValue)))
+                }
+            }
+        )
+    }
+            
 }
 
 struct SettingsViewTopRectangle: View {

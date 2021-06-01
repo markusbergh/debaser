@@ -160,8 +160,8 @@ extension EventViewModel {
 
         guard let parsedAdmission = parse(value: &lowerAdmission, withRegex: .admissionRegexPattern) else {
             // Could it be that the admission is for free?
-            if lowerAdmission.contains(Admission.free.rawValue) {
-                return admission
+            if isFreeAdmission {
+                return NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission is for free")
             }
             
             // Otherwise just return an empty string, something is odd here

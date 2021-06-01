@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct SettingsAboutView: View {
+    
+    // MARK: Private
+    
+    @Environment(\.safeAreaInsets) private var safeAreaInsets
+    
     private var historyTitle: LocalizedStringKey {
         return "Settings.Debaser.History.Title"
     }
@@ -18,11 +23,11 @@ struct SettingsAboutView: View {
     
     private var bottomPadding: CGFloat {
         // Unfornately some hard coding values needed here...
-        guard let safeAreaInsets = UIApplication.shared.windows.first?.safeAreaInsets, safeAreaInsets.bottom > 0 else {
-            return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue + 15 + 10
+        if safeAreaInsets.bottom > 0 {
+            return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue + 5
         }
         
-        return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue
+        return TabBarStyle.height.rawValue + TabBarStyle.insetPadding.rawValue + TabBarStyle.paddingBottom.rawValue + 10 + 20
     }
     
     var body: some View {

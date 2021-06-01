@@ -8,7 +8,16 @@
 import SwiftUI
 
 struct DetailMetaView: View {
-    var image: String? = nil
+    
+    enum DetailMeteType: String {
+        case age = "person"
+        case admission = "banknote"
+        case open = "clock"
+    }
+    
+    // MARK: Public
+    
+    var type: DetailMeteType? = nil
     var label: String
     var labelColor: Color = .primary
     var tintColor: Color = .primary
@@ -16,8 +25,8 @@ struct DetailMetaView: View {
     
     var body: some View {
         HStack(spacing: 2) {
-            if let image = image {
-                Image(systemName: image)
+            if let type = type {
+                Image(systemName: type.rawValue)
             }
             
             Text(label)
@@ -37,6 +46,10 @@ struct DetailMetaView: View {
 
 struct DetailMetaView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailMetaView(image: "star", label: "Test", backgroundColor: .blue)
+        DetailMetaView(type: .age,
+                       label: "Age 18",
+                       labelColor: .white,
+                       tintColor: .white,
+                       backgroundColor: .blue)
     }
 }

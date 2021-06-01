@@ -76,6 +76,7 @@
 "iMessage.Search.Placeholder" = "Search event";
 
 /// Widget
+"Widget.Description" = "See today's event at Debaser.";
 "Widget.Today.Short" = "Today";
 "Widget.Today.Long" = "Today at Debaser";
 "Widget.Result.Empty" = "There is no upcoming events today";

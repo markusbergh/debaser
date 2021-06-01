@@ -29,26 +29,14 @@ struct EventProvider: TimelineProvider {
         
         if context.isPreview {
             let entry = DebaserWidgetEntry(date: today, event: nil, isPreview: true)
+            
             completion(entry)
             
             return
-        } else {
-            eventService.getEvents(fromDate: formattedToday, toDate: formattedToday) { response in
-                var entry: DebaserWidgetEntry
-
-                switch response {
-                case .success(let events):
-                    // Make sure to only use first
-                    let firstEvent = events.first
-                    
-                    entry = DebaserWidgetEntry(date: today, event: firstEvent)
-                case .failure:
-                    // Failure `assumes` we have no event available for this date
-                    entry = DebaserWidgetEntry(date: today, event: nil)
-                }
-                
-                completion(entry)
-            }
+        }
+        
+        getEvents(fromDate: formattedToday, toDate: formattedToday) { entry in
+            completion(entry)
         }
     }
     
@@ -63,22 +51,32 @@ struct EventProvider: TimelineProvider {
         // Create a date that's one day in the future.
         let nextUpdateDate = Calendar.current.date(byAdding: .second, value: 1, to: midnight) ?? today
         
-        eventService.getEvents(fromDate: formattedToday, toDate: formattedToday) { response in
+        getEvents(fromDate: formattedToday, toDate: formattedToday) { entry in
+            let timeline = Timeline(entries: [entry], policy: .after(nextUpdateDate))
+            
+            completion(timeline)
+        }
+    }
+    
+    private func getEvents(fromDate from: String, toDate to: String, completion: @escaping (DebaserWidgetEntry) -> Void) {
+        let today = Date()
+        
+        eventService.getEvents(fromDate: from, toDate: to) { response in
             var entry: DebaserWidgetEntry
 
             switch response {
             case .success(let events):
-                // Make sure to only use first
+                // Make sure to only use first in case there is multiple events for today
                 let firstEvent = events.first
                 
                 entry = DebaserWidgetEntry(date: today, event: firstEvent)
             case .failure:
                 entry = DebaserWidgetEntry(date: today, event: nil)
             }
-            
-            let timeline = Timeline(entries: [entry], policy: .after(nextUpdateDate))
-            completion(timeline)
+
+            completion(entry)
         }
+    
     }
 }
 
@@ -178,46 +176,48 @@ struct BottomView : View {
         return "Widget.Event.Postponed"
     }
     
+    var previewView: some View {
+        return HStack(alignment: .top, spacing: 0) {
+            Text("This is an event")
+                .font(Font.Family.title.of(size: 26))
+                .foregroundColor(.white)
+                .minimumScaleFactor(0.01)
+                .lineLimit(3)
+            
+            Spacer()
+        }
+    }
+    
+    var emptyView: some View {
+        HStack(alignment: .top, spacing: 0) {
+            Text(emptyResultLabel)
+                .font(Font.Family.title.of(size: 26))
+                .foregroundColor(.white)
+                .minimumScaleFactor(0.01)
+                .lineLimit(3)
+            
+            Spacer()
+        }
+    }
+    
     var body: some View {
-        guard !isPreview else {
-            return AnyView(
-                HStack(alignment: .top, spacing: 0) {
-                    Text("This is an event")
-                        .font(Font.Family.title.of(size: 26))
-                        .foregroundColor(.white)
-                        .minimumScaleFactor(0.01)
-                        .lineLimit(3)
-                    
-                    Spacer()
-                }
-            )
+        if isPreview {
+            return AnyView(previewView)
         }
         
         guard let event = event else {
-            return AnyView(
-                HStack(alignment: .top, spacing: 0) {
-                    Text(emptyResultLabel)
-                        .font(Font.Family.title.of(size: 26))
-                        .foregroundColor(.white)
-                        .minimumScaleFactor(0.01)
-                        .lineLimit(3)
-                    
-                    Spacer()
-                }
-            )
+            return AnyView(emptyView)
         }
 
         return AnyView(
             VStack(alignment: .leading, spacing: 0) {
                 Group {
-                    if !event.isCancelled, !event.isPostponed {
-                        Text(isSmall ? shortTodayLabel : longTodayLabel)
+                    if event.isCancelled {
+                        Text(cancelledLabel)
+                    } else if event.isPostponed {
+                        Text(postponedLabel)
                     } else {
-                        if event.isCancelled {
-                            Text(cancelledLabel)
-                        } else if event.isPostponed {
-                            Text(postponedLabel)
-                        }
+                        Text(isSmall ? shortTodayLabel : longTodayLabel)
                     }
                 }
                 .foregroundColor(.white)
@@ -319,7 +319,7 @@ struct DebaserWidget: Widget {
             WidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Debaser")
-        .description("Se dagens event på Debaser.")
+        .description("Widget.Description")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
