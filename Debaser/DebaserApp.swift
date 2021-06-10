@@ -36,13 +36,17 @@ struct DebaserApp: App {
 
     private let spotifyAuth: SPTAuth = {
         let spotifyAuth = SPTAuth()
-        spotifyAuth.redirectURL = URL(string: "debaser-spotify-login://callback")
-        spotifyAuth.sessionUserDefaultsKey = "spotifyCurrentSession"
+        spotifyAuth.redirectURL = URL(string: SpotifyService.redirectURL)
+        spotifyAuth.sessionUserDefaultsKey = SpotifyService.sessionStorageKey
         
         return spotifyAuth
     }()
     
-    private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
+    private let spotifyUserRetrieved: NotificationCenter.Publisher = {
+        let notificationName = Notification.Name(SpotifyNotification.userRetrieved.rawValue)
+        
+        return NotificationCenter.default.publisher(for: notificationName)
+    }()
     
     private var preferredColorScheme: ColorScheme? {
         store.state.settings.systemColorScheme.value ? nil : colorScheme

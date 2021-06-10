@@ -122,7 +122,7 @@ struct SettingsSpotifyView: View {
             if let auth = SpotifyService.shared.auth {
                 WebView(url: auth.spotifyWebAuthenticationURL()) {
                     // Maybe this can be checked somewhere else?
-                    isConnected = SpotifyService.shared.isLoggedIn
+                    isConnected = SpotifyService.shared.userState == .active
                     
                     if isConnected {
                         toggleLabel = "Settings.Spotify.On"

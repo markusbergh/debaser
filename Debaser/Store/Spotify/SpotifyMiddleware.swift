@@ -15,7 +15,7 @@ func spotifyMiddleware(service: SpotifyService = SpotifyService.shared) -> Middl
         
         /// Handles logout
         case .spotify(.requestLogout):
-            if !service.isLoggedIn {
+            if service.userState == .inactive {
                 return Empty().eraseToAnyPublisher()
             }
             

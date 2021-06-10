@@ -39,6 +39,11 @@ enum SpotifyServiceError: Equatable, Error {
     case errorWhileRefreshingToken
 }
 
+enum SpotifyUser {
+    case active
+    case inactive
+}
+
 class SpotifyService: NSObject {
 
     /// Core
@@ -49,7 +54,7 @@ class SpotifyService: NSObject {
     var currentArtistURI: String?
 
     /// Is user logged in?
-    var isLoggedIn = false
+    var userState: SpotifyUser = .inactive
 
     /// Login url for authentication
     var loginUrl: URL?
@@ -63,6 +68,7 @@ class SpotifyService: NSObject {
     /// Credentials
     static let cliendID = "bebe3d1ed01a4d9ba8d9fe2351d20936"
     static let redirectURL = "debaser-spotify-login://callback"
+    static let sessionStorageKey = "spotifyCurrentSession"
 
     override private init() {
         super.init()
@@ -101,7 +107,7 @@ extension SpotifyService {
         }
         
         // We are safe to say we are logged in now
-        isLoggedIn = true
+        userState = .active
     }
 
     /// Initial setup
@@ -117,6 +123,7 @@ extension SpotifyService {
         loginUrl = auth.spotifyAppAuthenticationURL()
     }
 
+    /// Sets first session
     @objc private func updateAfterFirstLogin() {
         SpotifyService.log(message: "updateAfterFirstLogin")
 
@@ -152,10 +159,12 @@ extension SpotifyService {
     func logout(with userDefaults: UserDefaults = UserDefaults.standard) {
         print("[SpotifyService]: Log out")
 
+        guard let player = self.player else { return }
+        
         // Delete previous token
         userDefaults.removeObject(forKey: "SpotifySession")
 
-        player?.logout()
+        player.logout()
     }
 
     ///
@@ -170,20 +179,18 @@ extension SpotifyService {
 
         SPTUser.requestCurrentUser(withAccessToken: session.accessToken, callback: { (error, data) in
             if let error = error {
-                SpotifyService.log(message: "Error when requesting user, \(error.localizedDescription)")
+                return SpotifyService.log(message: "Error when requesting user, \(error.localizedDescription)")
             }
             
             guard let user = data as? SPTUser else {
-                SpotifyService.log(message: "User was not found")
-                return
+                return SpotifyService.log(message: "User was not found")
             }
             
             self.currentUser = user
             
-            NotificationCenter.default.post(
-                name: Notification.Name(rawValue: SpotifyNotification.userRetrieved.rawValue),
-                object: nil
-            )
+            // Dispatch
+            let notificationName = Notification.Name(rawValue: SpotifyNotification.userRetrieved.rawValue)
+            NotificationCenter.default.post(name: notificationName, object: nil)
         })
     }
 
@@ -200,12 +207,11 @@ extension SpotifyService {
 
         auth.renewSession(auth.session, callback: { (error, session) in
             if let error = error {
-                SpotifyService.log(message: "Error while refreshing token: \(error.localizedDescription)")
+                return SpotifyService.log(message: "Error while refreshing token: \(error.localizedDescription)")
             }
 
             guard let session = session else {
-                SpotifyService.log(message: "Session was invalid")
-                return
+                return SpotifyService.log(message: "Session was invalid")
             }
                     
             self.session = session
@@ -249,7 +255,9 @@ extension SpotifyService {
     private func refreshTokenForUser() throws {
         SpotifyService.log(message: "Previous token has probably expired")
         
-        guard let auth = self.auth, auth.hasTokenRefreshService else { throw SpotifyServiceError.unknown }
+        guard let auth = self.auth, auth.hasTokenRefreshService else {
+            throw SpotifyServiceError.unknown
+        }
         
         return try renewSession()
     }
@@ -311,14 +319,8 @@ extension SpotifyService: SPTAudioStreamingDelegate {
         do {
             try getUser()
 
-            // User is logged in
-            isLoggedIn = true
-            
-            // All done, dispatch for other listeners
-            NotificationCenter.default.post(
-                name: Notification.Name(rawValue: "spotifyUserAuthenticated"),
-                object: nil
-            )
+            // User is definitely logged in
+            userState = .active
             
             SpotifyService.log(message: "Current user retrieved")
         } catch SpotifyServiceError.requestError(let errorDescription) {
@@ -338,7 +340,7 @@ extension SpotifyService: SPTAudioStreamingDelegate {
     internal func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveError error: Error) {
         SpotifyService.log(message: "Streaming controller received error, \(error)")
         
-        if isLoggedIn {
+        if userState == .active {
             logout()
         }
         
@@ -407,7 +409,8 @@ extension SpotifyService: SPTAudioStreamingPlaybackDelegate {
     internal func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
         SpotifyService.log(message: "audioStreamingDidLogout")
         
-        isLoggedIn = false
+        // We can truly say we are logged out
+        userState = .inactive
 
         // Dispatch
         let notificationName = Notification.Name(SpotifyNotification.userLoggedOut.rawValue)
@@ -435,7 +438,9 @@ extension SpotifyService {
 
     /// Handles a stop
     func stop() {
-        player?.setIsPlaying(false, callback: nil)
+        guard let player = self.player else { return }
+        
+        player.setIsPlaying(false, callback: nil)
     }
 
     ///
@@ -490,9 +495,10 @@ extension SpotifyService {
     /// - throws: An error of type `SpotifyServiceError`
     ///
     func playTrackForArtist() throws {
+        guard let player = self.player else { throw SpotifyServiceError.playerUnavailable }
         guard let streamURL = currentArtistURI else { throw SpotifyServiceError.streamURLUnavailable }
 
-        player?.playSpotifyURI(streamURL, startingWith: 0, startingWithPosition: 0) { error in
+        player.playSpotifyURI(streamURL, startingWith: 0, startingWithPosition: 0) { error in
             if let error = error {
                 SpotifyService.log(message: "There was an error while stremaing: \(error.localizedDescription)")
             }
