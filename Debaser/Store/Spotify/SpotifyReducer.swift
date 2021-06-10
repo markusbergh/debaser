@@ -24,36 +24,33 @@ func spotifyReducer(state: inout SpotifyState, action: SpotifyAction) -> Spotify
     
     switch action {
     case .initialize:
-        SpotifyService.shared.setupHelper()
+        SpotifyService.shared.configure()
     case .requestLogin:
-        state.requestError = nil
         state.isRequesting = true
+        state.requestError = nil
     case .requestLoginError(let error):
-        state.requestError = error
         state.isRequesting = false
+        state.requestError = error
         state.isLoggedIn = false
     case .requestLoginComplete:
         state.isRequesting = false
         state.isLoggedIn = true
     case .requestLogout:
-        if SpotifyService.shared.isLoggedIn {
-            SpotifyService.shared.logout()
-        }
-        
+        state.isRequesting = true
+    case .requestLogoutComplete:
+        state.isRequesting = false
         state.requestError = nil
         state.isLoggedIn = false
-    case .requestSearchArtist(let artist):
+    case .requestSearchArtist:
+        state.isRequesting = true
         state.hasTracksForCurrentArtist = false
-        
-        // TODO: This should probably be handled in a middleware
-        SpotifyService.shared.searchTrackForEventArtist(query: artist) {
-            state.hasTracksForCurrentArtist = true
-        }
     case .requestSearchArtistError(let error):
+        state.isRequesting = false
         state.requestError = error
         state.hasTracksForCurrentArtist = false
-    case .requestSearchArtistComplete(_):
-        ()
+    case .requestSearchArtistComplete:
+        state.isRequesting = false
+        state.hasTracksForCurrentArtist = true
     }
     
     return state

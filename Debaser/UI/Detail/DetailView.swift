@@ -82,8 +82,16 @@ struct DetailView: View {
                     }
                 }
             }
-            .onChange(of: isStreaming) {
-                $0 ? SpotifyService.shared.playTrackForArtist() : SpotifyService.shared.playPauseStream()
+            .onChange(of: isStreaming) { shouldStream in
+                if shouldStream {
+                    do {
+                        try SpotifyService.shared.playTrackForArtist()
+                    } catch {
+                        // Error but not handled
+                    }
+                } else {
+                    SpotifyService.shared.playPauseStream()
+                }
             }
             .onAppear {
                 // Load image

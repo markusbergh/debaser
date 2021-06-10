@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-func listMiddleware(service: EventService) -> Middleware<AppState, AppAction> {
+func listMiddleware(service: EventService = EventService.shared) -> Middleware<AppState, AppAction> {
     return { state, action in
         switch action {
         case .list(.getEventsRequest):

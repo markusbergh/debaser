@@ -21,7 +21,8 @@ struct DebaserApp: App {
         ),
         reducer: appReducer,
         middlewares: [
-            listMiddleware(service: EventService.shared)
+            listMiddleware(),
+            spotifyMiddleware()
         ]
     )
     
@@ -167,11 +168,11 @@ extension DebaserApp {
                 print("We have an error: ", error)
                 
                 // Fire away notification
-                let notificationName = Notification.Name(rawValue: SpotifyNotification.AuthError.rawValue)
+                let notificationName = Notification.Name(rawValue: SpotifyNotification.authError.rawValue)
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
-                store.dispatch(action: .spotify(.requestLoginError(.authError)))
+                store.dispatch(action: .spotify(.requestLoginError(.auth)))
                 
                 return
             }
@@ -189,7 +190,7 @@ extension DebaserApp {
                 print("Error while reading session data")
                 
                 // Fire away notification
-                let notificationName = Notification.Name(rawValue: SpotifyNotification.Error.rawValue)
+                let notificationName = Notification.Name(rawValue: SpotifyNotification.error.rawValue)
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
@@ -197,7 +198,7 @@ extension DebaserApp {
             }
             
             // Fire away notification
-            let notificationName = Notification.Name(rawValue: SpotifyNotification.LoginSuccessful.rawValue)
+            let notificationName = Notification.Name(rawValue: SpotifyNotification.loginSuccessful.rawValue)
             NotificationCenter.default.post(name: notificationName, object: nil)
         })
     }
