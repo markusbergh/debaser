@@ -30,7 +30,7 @@ struct DebaserApp: App {
     @StateObject var carouselState = CarouselState()
     
     @State private var colorScheme: ColorScheme = .light
-    @State private var eventReceivedFromURL: EventViewModel? = nil
+    @State private var eventReceivedFromURL: EventViewModel?
     @State private var eventIdReceivedFromURL: String?
     @State private var shouldOpenModal = false
 

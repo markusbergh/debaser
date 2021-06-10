@@ -12,7 +12,7 @@ class ImageViewModel: ObservableObject {
     
     // MARK: Private
     
-    private var cancellable: AnyCancellable? = nil
+    private var cancellable: AnyCancellable?
     
     // MARK: Public
 

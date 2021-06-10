@@ -9,83 +9,36 @@ import Foundation
 
 struct EventViewModel: Codable, Hashable, Identifiable {
     
-    /// Id
-    var id: String = ""
-    
-    /// Date
-    var date: String = ""
-        
-    /// Title
-    var title: String = "" {
-        didSet {
-            title = parseTitle(title: &title)
-        }
-    }
-    
-    /// Sub header
-    var subHeader: String = "" {
-        didSet {
-            trimWithObscureCharacters(in: &subHeader)
-        }
-    }
-    
-    /// Description
-    var description: String = "" {
-        didSet {
-            trimWithObscureCharacters(in: &description)
-        }
-    }
-            
-    /// Admission
-    var admission: String = "" {
-        didSet {
-            admission = parseAdmission(admission: &admission)
-        }
-    }
-    
-    /// Age limit
-    var ageLimit: String = "" {
-        didSet {
-            ageLimit = parseAgeLimit(ageLimit: &ageLimit)
-        }
-    }
-    
-    /// Open hours
-    var open: String = "" {
-        didSet {
-            open = parseOpenHours(openHours: &open)
-        }
-    }
-    
-    /// Slug
+    let id: String
+    let date: String
+    let venue: String
+    let image: String
+    let title: String!
+    let subHeader: String
+    let description: String
+    let ageLimit: String
+    let admission: String
+    let open: String
     var slug: String?
-    
-    /// Ticket purchase url
     var ticketUrl: String?
     
-    /// Venue
-    var venue: String = ""
-    
-    /// Image
-    var image: String = ""
-            
     init(with event: Event) {
-        config(with: event)
-    }
-    
-    private mutating func config(with event: Event) {
         id = event.id
-        title = event.name
-        subHeader = event.subHeader
-        description = event.description
         date = event.date
         venue = event.venue
         image = event.image
-        open = event.open
         slug = event.slug
-        admission = event.admission
-        ageLimit = event.ageLimit
         ticketUrl = event.ticketUrl
+        
+        // These needs some parsing unfortunately
+        title = EventViewModel.parse(title: event.name)
+        ageLimit = EventViewModel.parse(ageLimit: event.ageLimit)
+        admission = EventViewModel.parse(admission: event.admission)
+        open = EventViewModel.parse(openHours: event.open)
+        
+        // And these needs some trimming
+        subHeader = EventViewModel.trimWithObscureCharacters(in: event.subHeader)
+        description = EventViewModel.trimWithObscureCharacters(in: event.description)
     }
 }
 
@@ -112,7 +65,7 @@ extension EventViewModel {
     ///     - regex: The regular expression to use while parsing
     /// - Returns: An optional string
     ///
-    private func parse(value: inout String, withRegex regex: EventViewModel.RegularExpression) -> String? {
+    private static func parse(value: inout String, withRegex regex: EventViewModel.RegularExpression) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)
         var matchRange: Range<String.Index>?
         
@@ -142,12 +95,44 @@ extension EventViewModel {
             return nil
         }
     }
+    
+    private static func parse(value: String, withRegex regex: EventViewModel.RegularExpression) -> String? {
+        let range = NSRange(value.startIndex..<value.endIndex, in: value)
+        var matchRange: Range<String.Index>?
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regex.rawValue)
+            
+            autoreleasepool {
+                guard let match = regex.firstMatch(in: value, options: [], range: range) else {
+                    return
+                }
+                
+                let range = match.range(at: 0)
+
+                guard let stringRange = Range(range, in: value) else {
+                    return
+                }
+                
+                matchRange = stringRange
+            }
+            
+            guard let matchRange = matchRange else {
+                return nil
+            }
+
+            return String(value[matchRange])
+        } catch {
+            return nil
+        }
+    }
+
         
     /// Parses title
-    private func parseTitle(title: inout String) -> String {
-        trimWithObscureCharacters(in: &title)
+    private static func parse(title: String) -> String {
+        let trimmedTitle = trimWithObscureCharacters(in: title)
 
-        guard let parsedTitle = parse(value: &title, withRegex: .titleRegexPattern) else {
+        guard let parsedTitle = parse(value: trimmedTitle, withRegex: .titleRegexPattern) else {
             return ""
         }
         
@@ -155,12 +140,12 @@ extension EventViewModel {
     }
     
     /// Parses admission
-    private func parseAdmission(admission: inout String) -> String {
-        var lowerAdmission = admission.lowercased()
+    private static func parse(admission: String) -> String {
+        let lowerAdmission = admission.lowercased()
 
-        guard let parsedAdmission = parse(value: &lowerAdmission, withRegex: .admissionRegexPattern) else {
+        guard let parsedAdmission = parse(value: lowerAdmission, withRegex: .admissionRegexPattern) else {
             // Could it be that the admission is for free?
-            if isFreeAdmission {
+            if lowerAdmission.lowercased().contains(Admission.free.rawValue) {
                 return NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission is for free")
             }
             
@@ -172,10 +157,10 @@ extension EventViewModel {
     }
     
     /// Parses age limit
-    private func parseAgeLimit(ageLimit: inout String) -> String {
-        ageLimit = ageLimit.lowercased()
+    private static func parse(ageLimit: String) -> String {
+        let ageLimit = ageLimit.lowercased()
         
-        guard let parsedAgeLimit = parse(value: &ageLimit, withRegex: .ageOpenRegexPattern) else {
+        guard let parsedAgeLimit = parse(value: ageLimit, withRegex: .ageOpenRegexPattern) else {
             return ""
         }
         
@@ -190,11 +175,11 @@ extension EventViewModel {
     }
     
     /// Parses open hours
-    private func parseOpenHours(openHours: inout String) -> String {
-        guard let parsedOpenHours = parse(value: &openHours, withRegex: .openRegexPattern) else {
+    private static func parse(openHours: String) -> String {
+        guard let parsedOpenHours = parse(value: openHours, withRegex: .openRegexPattern) else {
             
             // I still do not trust you, try and parse once more
-            guard let parsedOpenHours = parse(value: &openHours, withRegex: .ageOpenRegexPattern) else {
+            guard let parsedOpenHours = parse(value: openHours, withRegex: .ageOpenRegexPattern) else {
                 return ""
             }
         
@@ -205,14 +190,16 @@ extension EventViewModel {
     }
     
     /// Cleans up a string from occurrences of HTML references
-    private func trimWithObscureCharacters(in value: inout String) {
-        value = value.replacingOccurrences(of: "&amp;", with: "&")
+    private static func trimWithObscureCharacters(in value: String) -> String {
+        return value
+            .replacingOccurrences(of: "&amp;", with: "&")
             .replacingOccurrences(of: "&gt;", with: ">")
             .replacingOccurrences(of: "&nbsp;", with: " ")
             .replacingOccurrences(of: "&quot;", with: "\"")
             .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
+
 }
 
 // MARK: - Status

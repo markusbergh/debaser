@@ -17,7 +17,7 @@ struct ContentView: View {
     
     // MARK: Private
 
-    @State private var selectedTab: String = "music.note.house"
+    @State private var selectedTab = "music.note.house"
     @State private var isShowingOnboarding = false
     @State private var isShowingActivityIndicator = false
 
