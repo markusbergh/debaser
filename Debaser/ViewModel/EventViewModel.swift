@@ -107,10 +107,10 @@ extension EventViewModel {
     ///
     /// Searches and replaces a string by a provided regular expression
     ///
-    /// - parameters:
+    /// - Parameters:
     ///     - value: The string to parse
     ///     - regex: The regular expression to use while parsing
-    /// - returns: An optional string
+    /// - Returns: An optional string
     ///
     private func parse(value: inout String, withRegex regex: EventViewModel.RegularExpression) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)

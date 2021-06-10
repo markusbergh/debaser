@@ -23,6 +23,8 @@ private enum Style {
 
 struct DetailView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.spotifyService) var spotifyService
+
     @EnvironmentObject var store: AppStore
         
     @StateObject private var viewModel = ImageViewModel()
@@ -85,12 +87,12 @@ struct DetailView: View {
             .onChange(of: isStreaming) { shouldStream in
                 if shouldStream {
                     do {
-                        try SpotifyService.shared.playTrackForArtist()
+                        try spotifyService.playTrackForArtist()
                     } catch {
                         // Error but not handled
                     }
                 } else {
-                    SpotifyService.shared.playPauseStream()
+                    spotifyService.playPauseStream()
                 }
             }
             .onAppear {
@@ -118,7 +120,7 @@ struct DetailView: View {
                 store.dispatch(action: .list(.showTabBar))
                 
                 if isStreaming {
-                    SpotifyService.shared.playPauseStream()
+                    spotifyService.playPauseStream()
                 }
             }
             .alert(isPresented: $isShowingAlertDateOverdue) {

@@ -73,7 +73,7 @@ extension ContentView {
     ///
     /// Presents onboarding
     ///
-    /// - returns: A `OnboardingView` to present modally
+    /// - Returns: A `OnboardingView` to present modally
     ///
     private func presentOnboarding() -> some View {
         return OnboardingView()

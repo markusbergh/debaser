@@ -82,7 +82,7 @@ class SpotifyService: NSObject {
     
     /// Custom log helper
     ///
-    /// - parameter message: The message to log
+    /// - Parameter message: The message to log
     static func log(message: String) {
         print("🎹 [SpotifyService]: \(message)")
     }
@@ -154,7 +154,7 @@ extension SpotifyService {
     ///
     /// Log out from current session
     ///
-    /// - parameter userDefaults: User defaults to clear
+    /// - Parameter userDefaults: User defaults to clear
     ///
     func logout(with userDefaults: UserDefaults = UserDefaults.standard) {
         print("[SpotifyService]: Log out")
@@ -170,7 +170,7 @@ extension SpotifyService {
     ///
     /// Get current user
     ///
-    /// - throws: An error of type `SpotifyServiceError`
+    /// - Throws: An error of type `SpotifyServiceError`
     ///
     private func getUser() throws {
         guard let session = self.session else {
@@ -197,8 +197,8 @@ extension SpotifyService {
     ///
     /// Renew session
     ///
-    /// - throws: An error of type `SpotifyServiceError`
-    /// - returns: A user session
+    /// - Throws: An error of type `SpotifyServiceError`
+    /// - Returns: A user session
     ///
     private func renewSession() throws {
         SpotifyService.log(message: "Try to renew token")
@@ -222,8 +222,8 @@ extension SpotifyService {
     ///
     /// Check for previous session
     ///
-    /// - throws: An error of type `SpotifyServiceError`
-    /// - parameter userDefaults: User defaults to look in
+    /// - Throws: An error of type `SpotifyServiceError`
+    /// - Parameter userDefaults: User defaults to look in
     ///
     private func checkPreviousSession(_ userDefaults: UserDefaults = UserDefaults.standard) throws {
         SpotifyService.log(message: "Get previous session from user defaults")
@@ -265,7 +265,7 @@ extension SpotifyService {
     ///
     /// Initializes a player
     ///
-    /// - parameter authSession: Current session
+    /// - Parameter authSession: Current session
     ///
     private func initializePlayer(authSession: SPTSession) {
         if player == nil {
@@ -311,7 +311,7 @@ extension SpotifyService: SPTAudioStreamingDelegate {
     ///
     /// After a user authenticates a session, the SPTAudioStreamingController is then initialized and this method called
     ///
-    /// - parameter audioStreaming: Current streaming controller
+    /// - Parameter audioStreaming: Current streaming controller
     ///
     internal func audioStreamingDidLogin(_ audioStreaming: SPTAudioStreamingController) {
         SpotifyService.log(message: "User is authenticated")
@@ -333,7 +333,7 @@ extension SpotifyService: SPTAudioStreamingDelegate {
     ///
     /// Called when there was an error with the streaming controller
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - audioStreaming: Current streaming controller
     ///   - error: Received error
     ///
@@ -358,7 +358,7 @@ extension SpotifyService: SPTAudioStreamingPlaybackDelegate {
     ///
     /// Called when streaming changes position
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - audioStreaming: Current streaming controller
     ///   - position: The current time interval
     ///
@@ -381,7 +381,7 @@ extension SpotifyService: SPTAudioStreamingPlaybackDelegate {
     ///
     /// Called when track playback starts
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - audioStreaming: Current streaming controller
     ///   - trackUri: Current track
     ///
@@ -392,7 +392,7 @@ extension SpotifyService: SPTAudioStreamingPlaybackDelegate {
     ///
     /// Called when track playback stops
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - audioStreaming: Current streaming controller
     ///   - trackUri: Current track
     ///
@@ -403,7 +403,7 @@ extension SpotifyService: SPTAudioStreamingPlaybackDelegate {
     ///
     /// Called when user logouts
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - audioStreaming: Current streaming controller
     ///
     internal func audioStreamingDidLogout(_ audioStreaming: SPTAudioStreamingController) {
@@ -446,9 +446,8 @@ extension SpotifyService {
     ///
     /// Handles a search for the requested artist
     ///
-    /// - parameters:
-    ///   - query: The string to search for
-    ///   - returns: A publisher that outputs an error of type `SpotifyServiceError`
+    /// - Parameter query: The string to search for
+    /// - Returns: A publisher that outputs an error of type `SpotifyServiceError`
     ///
     func searchTrackForEventArtist(query: String) -> AnyPublisher<Void, SpotifyServiceError> {
         SpotifyService.log(message: "Performing search for: \(query)")
@@ -492,7 +491,7 @@ extension SpotifyService {
     ///
     /// Executed when user wants to stream the current track
     ///
-    /// - throws: An error of type `SpotifyServiceError`
+    /// - Throws: An error of type `SpotifyServiceError`
     ///
     func playTrackForArtist() throws {
         guard let player = self.player else { throw SpotifyServiceError.playerUnavailable }

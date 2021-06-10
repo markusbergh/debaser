@@ -25,8 +25,8 @@ struct DebaserApp: App {
             spotifyMiddleware()
         ]
     )
-    
-    @StateObject var tabViewRouter = TabViewRouter()
+        
+    @StateObject var router = TabViewRouter()
     @StateObject var carouselState = CarouselState()
     
     @State private var colorScheme: ColorScheme = .light
@@ -104,7 +104,7 @@ struct DebaserApp: App {
                     presentModalView(with: event)
                 }
                 .environmentObject(store)
-                .environmentObject(tabViewRouter)
+                .environmentObject(router)
                 .environmentObject(carouselState)
                 .preferredColorScheme(preferredColorScheme)
         }
@@ -162,7 +162,7 @@ extension DebaserApp {
     ///
     /// Tries to handle a Spotify login action
     ///
-    /// - parameters:
+    /// - Parameters:
     ///     - url: Received authentication url
     ///     - userDefaults: User defaults to store session in
     ///
@@ -215,8 +215,8 @@ extension DebaserApp {
     ///
     /// Checks if extension url can be handled
     ///
-    /// - parameter url: Received extension url
-    /// - returns: A boolean
+    /// - Parameter url: Received extension url
+    /// - Returns: A boolean whether if url can be handled or not
     ///
     private func canHandleEvent(withURL url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
@@ -258,8 +258,8 @@ extension DebaserApp {
     ///
     /// Presents a modal view with the event
     ///
-    /// - parameter event: The event to present
-    /// - returns: A `DetailView` to present modally
+    /// - Parameter event: The event to present
+    /// - Returns: A `DetailView` to present modally
     ///
     private func presentModalView(with event: EventViewModel) -> some View {
         let colorScheme = store.state.settings.systemColorScheme.value ? nil : colorScheme
@@ -269,4 +269,16 @@ extension DebaserApp {
             .environmentObject(store)
     }
     
+}
+
+// MARK: Spotify service environment key
+
+private struct SpotifyServiceKey: EnvironmentKey {
+    static var defaultValue = SpotifyService.shared
+}
+
+extension EnvironmentValues {
+    var spotifyService: SpotifyService {
+        get { self[SpotifyServiceKey.self] }
+    }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsSpotifyView: View {
     @EnvironmentObject var store: AppStore
+    @Environment(\.spotifyService) var spotifyService
 
     @State private var willShowSpotifyLogin = false
     @State private var isConnectedToggle = false
@@ -64,7 +65,7 @@ struct SettingsSpotifyView: View {
                     if !isConnected {
                         Text(noConnectionLabel)
                             .foregroundColor(.gray)
-                    } else if let currentUser = SpotifyService.shared.currentUser {
+                    } else if let currentUser = spotifyService.currentUser {
                         Text(currentUser.displayName)
                     } else {
                         Text("")
@@ -119,10 +120,10 @@ struct SettingsSpotifyView: View {
             handleDidReceiveSpotifyError(notification)
         })
         .sheet(isPresented: $willShowSpotifyLogin, onDismiss: onDismissSpotifyLoginSheet) {
-            if let auth = SpotifyService.shared.auth {
+            if let auth = spotifyService.auth {
                 WebView(url: auth.spotifyWebAuthenticationURL()) {
                     // Maybe this can be checked somewhere else?
-                    isConnected = SpotifyService.shared.userState == .active
+                    isConnected = spotifyService.userState == .active
                     
                     if isConnected {
                         toggleLabel = "Settings.Spotify.On"

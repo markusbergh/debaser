@@ -31,7 +31,7 @@ extension ImageViewModel {
     ///
     /// Tries to load an image
     ///
-    /// - parameter imageURL: The image url to load from
+    /// - Parameter imageURL: The image url to load from
     ///
     func loadImage(with imageURL: String) {
         guard let url = URL(string: imageURL) else { return }

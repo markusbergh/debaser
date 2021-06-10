@@ -12,6 +12,8 @@
 		850B0A412672050E00683451 /* SpotifyMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850B0A402672050E00683451 /* SpotifyMiddleware.swift */; };
 		850FA806263F581000815109 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850FA805263F581000815109 /* SpotifyReducer.swift */; };
 		850FB558260CB4DD001AD034 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850FB557260CB4DD001AD034 /* FavouritesView.swift */; };
+		8511A4EA267241E00021194A /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511A4E9267241E00021194A /* BottomView.swift */; };
+		8511A4EC267242250021194A /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8511A4EB267242250021194A /* TopView.swift */; };
 		8519D27A262DEE4300806839 /* TitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8519D279262DEE4300806839 /* TitleLabel.swift */; };
 		851F7A042635E71700806FF8 /* DetailFavouriteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F7A032635E71700806FF8 /* DetailFavouriteButtonView.swift */; };
 		851F7A092635E73B00806FF8 /* DetailBuyTicketButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851F7A082635E73B00806FF8 /* DetailBuyTicketButtonView.swift */; };
@@ -174,6 +176,8 @@
 		850B0A402672050E00683451 /* SpotifyMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyMiddleware.swift; sourceTree = "<group>"; };
 		850FA805263F581000815109 /* SpotifyReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReducer.swift; sourceTree = "<group>"; };
 		850FB557260CB4DD001AD034 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
+		8511A4E9267241E00021194A /* BottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
+		8511A4EB267242250021194A /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
 		8519D279262DEE4300806839 /* TitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabel.swift; sourceTree = "<group>"; };
 		851F7A032635E71700806FF8 /* DetailFavouriteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFavouriteButtonView.swift; sourceTree = "<group>"; };
 		851F7A082635E73B00806FF8 /* DetailBuyTicketButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBuyTicketButtonView.swift; sourceTree = "<group>"; };
@@ -597,6 +601,8 @@
 			isa = PBXGroup;
 			children = (
 				857F1F0D263B1306005BB985 /* DebaserWidget.swift */,
+				8511A4EB267242250021194A /* TopView.swift */,
+				8511A4E9267241E00021194A /* BottomView.swift */,
 				857F1F10263B1307005BB985 /* Assets.xcassets */,
 				857F1F12263B1307005BB985 /* Info.plist */,
 			);
@@ -1080,10 +1086,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8511A4EC267242250021194A /* TopView.swift in Sources */,
 				857F1F1D263B1607005BB985 /* Event.swift in Sources */,
 				857F1F1B263B149B005BB985 /* EventService.swift in Sources */,
 				855CF3852646DBFE007876D3 /* Theme.swift in Sources */,
 				857F1F1C263B15FD005BB985 /* EventViewModel.swift in Sources */,
+				8511A4EA267241E00021194A /* BottomView.swift in Sources */,
 				857F1F0E263B1306005BB985 /* DebaserWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

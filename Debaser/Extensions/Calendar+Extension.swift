@@ -13,6 +13,12 @@ extension Calendar {
         return Date()
     }
 
+    ///
+    /// Checks if a specific date is in the current week
+    ///
+    /// - Parameter date: The date to check for
+    /// - Returns: A boolean whether date is in the current week or not
+    ///
     func isDateInThisWeek(_ date: Date) -> Bool {
         return isDate(date, equalTo: today, toGranularity: .weekOfYear)
     }

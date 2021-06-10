@@ -38,7 +38,7 @@ extension Store: StoreProtocol {
     ///
     /// Dispatches an action (and applies a middleware, if available)
     ///
-    /// - parameter action: The action to dispatch
+    /// - Parameter action: The action to dispatch
     ///
     func dispatch(action: Action) {
         state = reducer(&state, action)
