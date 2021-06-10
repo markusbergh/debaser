@@ -86,7 +86,7 @@ class SpotifyService: NSObject {
 
 extension SpotifyService {
     
-    /// Intial configuration
+    /// Initial configuration
     func configure() {
         // Set up some requiremenets
         setup()
