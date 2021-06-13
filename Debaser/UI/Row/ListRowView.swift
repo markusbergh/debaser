@@ -137,7 +137,7 @@ struct ListRowButtonStyle: ButtonStyle {
 struct ListRowView_Previews: PreviewProvider {
     static var previews: some View {
         let store = MockStore.store
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         
         ListRowView(event: event)
             .preferredColorScheme(.dark)

@@ -99,7 +99,7 @@ struct DetailTopMetaView: View {
 
 struct DetailTopMetaView_Previews: PreviewProvider {
     static var previews: some View {
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         
         DetailTopMetaView(event: event)
             .previewLayout(.fixed(width: 390, height: 175))

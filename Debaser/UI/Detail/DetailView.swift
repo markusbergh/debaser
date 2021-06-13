@@ -278,7 +278,7 @@ struct DetailDescriptionView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         let store = MockStore.store
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         
         DetailView(event: event)
             .preferredColorScheme(.dark)

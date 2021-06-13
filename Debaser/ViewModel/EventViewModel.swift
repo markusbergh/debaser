@@ -9,6 +9,8 @@ import Foundation
 
 struct EventViewModel: Codable, Hashable, Identifiable {
     
+    // MARK: Properties
+    
     let id: String
     let date: String
     let venue: String
@@ -21,6 +23,8 @@ struct EventViewModel: Codable, Hashable, Identifiable {
     let open: String
     var slug: String?
     var ticketUrl: String?
+    
+    // MARK: Initializer
     
     init(with event: Event) {
         id = event.id
@@ -46,15 +50,17 @@ struct EventViewModel: Codable, Hashable, Identifiable {
 
 extension EventViewModel {
     
+    /// Admission type
     enum Admission: String {
         case free = "fri"
     }
     
-    enum RegularExpression: String {
-        case titleRegexPattern = #"\S[^->|]+[^ \W]."#
-        case admissionRegexPattern = #"\d{1,3} kr"#
-        case ageOpenRegexPattern = "\\d{1,2}"
-        case openRegexPattern = #"\d{1,2}[.:]\d{1,2}"#
+    /// Expression patterns
+    enum RegularExpressionPattern: String {
+        case title = #"\S[^->|]+[^ \W]."#
+        case admission = #"\d{1,3} kr"#
+        case ageLimitOpenHours = "\\d{1,2}"
+        case openHours = #"\d{1,2}[.:]\d{1,2}"#
     }
     
     ///
@@ -62,46 +68,15 @@ extension EventViewModel {
     ///
     /// - Parameters:
     ///     - value: The string to parse
-    ///     - regex: The regular expression to use while parsing
+    ///     - pattern: The regular expression to use while parsing
     /// - Returns: An optional string
     ///
-    private static func parse(value: inout String, withRegex regex: EventViewModel.RegularExpression) -> String? {
+    private static func parse(value: String, withRegex pattern: EventViewModel.RegularExpressionPattern) -> String? {
         let range = NSRange(value.startIndex..<value.endIndex, in: value)
         var matchRange: Range<String.Index>?
         
         do {
-            let regex = try NSRegularExpression(pattern: regex.rawValue)
-            
-            autoreleasepool {
-                guard let match = regex.firstMatch(in: value, options: [], range: range) else {
-                    return
-                }
-                
-                let range = match.range(at: 0)
-
-                guard let stringRange = Range(range, in: value) else {
-                    return
-                }
-                
-                matchRange = stringRange
-            }
-            
-            guard let matchRange = matchRange else {
-                return nil
-            }
-
-            return String(value[matchRange])
-        } catch {
-            return nil
-        }
-    }
-    
-    private static func parse(value: String, withRegex regex: EventViewModel.RegularExpression) -> String? {
-        let range = NSRange(value.startIndex..<value.endIndex, in: value)
-        var matchRange: Range<String.Index>?
-        
-        do {
-            let regex = try NSRegularExpression(pattern: regex.rawValue)
+            let regex = try NSRegularExpression(pattern: pattern.rawValue)
             
             autoreleasepool {
                 guard let match = regex.firstMatch(in: value, options: [], range: range) else {
@@ -132,7 +107,7 @@ extension EventViewModel {
     private static func parse(title: String) -> String {
         let trimmedTitle = trimWithObscureCharacters(in: title)
 
-        guard let parsedTitle = parse(value: trimmedTitle, withRegex: .titleRegexPattern) else {
+        guard let parsedTitle = parse(value: trimmedTitle, withRegex: .title) else {
             return ""
         }
         
@@ -143,7 +118,7 @@ extension EventViewModel {
     private static func parse(admission: String) -> String {
         let lowerAdmission = admission.lowercased()
 
-        guard let parsedAdmission = parse(value: lowerAdmission, withRegex: .admissionRegexPattern) else {
+        guard let parsedAdmission = parse(value: lowerAdmission, withRegex: .admission) else {
             // Could it be that the admission is for free?
             if lowerAdmission.lowercased().contains(Admission.free.rawValue) {
                 return NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission is for free")
@@ -160,7 +135,7 @@ extension EventViewModel {
     private static func parse(ageLimit: String) -> String {
         let ageLimit = ageLimit.lowercased()
         
-        guard let parsedAgeLimit = parse(value: ageLimit, withRegex: .ageOpenRegexPattern) else {
+        guard let parsedAgeLimit = parse(value: ageLimit, withRegex: .ageLimitOpenHours) else {
             return ""
         }
         
@@ -176,10 +151,10 @@ extension EventViewModel {
     
     /// Parses open hours
     private static func parse(openHours: String) -> String {
-        guard let parsedOpenHours = parse(value: openHours, withRegex: .openRegexPattern) else {
+        guard let parsedOpenHours = parse(value: openHours, withRegex: .openHours) else {
             
             // I still do not trust you, try and parse once more
-            guard let parsedOpenHours = parse(value: openHours, withRegex: .ageOpenRegexPattern) else {
+            guard let parsedOpenHours = parse(value: openHours, withRegex: .ageLimitOpenHours) else {
                 return ""
             }
         
@@ -293,10 +268,10 @@ extension EventViewModel {
     
 }
 
-// MARK: Mock event
+// MARK: - Mock event
 
-class MockEventViewModel {
-    static var event: EventViewModel {
+extension EventViewModel {
+    static var mock: EventViewModel {
         let event = Event(
             id: "1234",
             name: "Rocket From The Crypt",

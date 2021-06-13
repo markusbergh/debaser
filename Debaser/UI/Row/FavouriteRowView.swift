@@ -169,7 +169,7 @@ struct FavouriteRowButtonStyle: ButtonStyle {
 struct FavouriteRowView_Previews: PreviewProvider {
     static var previews: some View {
         let store = MockStore.store
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         
         FavouriteRowView(event: event, totalHeight: 170)
             .environmentObject(store)

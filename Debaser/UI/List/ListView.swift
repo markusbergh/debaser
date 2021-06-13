@@ -305,7 +305,7 @@ struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         let empty = MockStore.store
         
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         let store = MockStore.store(with: [event])
         
         ListView(
