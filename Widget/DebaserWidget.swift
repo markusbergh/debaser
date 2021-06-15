@@ -16,10 +16,16 @@ struct EventProvider: TimelineProvider {
         return dateFormatter
     }()
     
+    private var placeholderEntry: DebaserWidgetEntry {
+        let today = Date()
+        
+        return DebaserWidgetEntry(date: today, isPreview: true)
+    }
+    
     var eventService = EventService.shared
     
     func placeholder(in context: Context) -> DebaserWidgetEntry {
-        DebaserWidgetEntry(date: Date(), event: nil, isPreview: true)
+        return placeholderEntry
     }
     
     func getSnapshot(in context: Context, completion: @escaping (DebaserWidgetEntry) -> Void) {
@@ -28,9 +34,7 @@ struct EventProvider: TimelineProvider {
         let formattedToday = dateFormatter.string(from: today)
         
         if context.isPreview {
-            let entry = DebaserWidgetEntry(date: today, event: nil, isPreview: true)
-            
-            completion(entry)
+            completion(placeholderEntry)
             
             return
         }
@@ -71,7 +75,7 @@ struct EventProvider: TimelineProvider {
                 
                 entry = DebaserWidgetEntry(date: today, event: firstEvent)
             case .failure:
-                entry = DebaserWidgetEntry(date: today, event: nil)
+                entry = DebaserWidgetEntry(date: today)
             }
 
             completion(entry)
@@ -82,8 +86,8 @@ struct EventProvider: TimelineProvider {
 
 struct DebaserWidgetEntry: TimelineEntry {
     let date: Date
-    let event: EventViewModel?
-    var isPreview: Bool = false
+    var event: EventViewModel? = nil
+    var isPreview = false
 }
 
 struct MetaData : View {
