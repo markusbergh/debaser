@@ -9,6 +9,8 @@ import SwiftUI
 import WidgetKit
 
 struct EventProvider: TimelineProvider {
+    
+    /// Date format used when requesting events
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
@@ -16,13 +18,15 @@ struct EventProvider: TimelineProvider {
         return dateFormatter
     }()
     
+    /// A placeholder event
     private var placeholderEntry: DebaserWidgetEntry {
         let today = Date()
         
         return DebaserWidgetEntry(date: today, isPreview: true)
     }
     
-    var eventService = EventService.shared
+    /// Event service
+    private let eventService = EventService.shared
     
     func placeholder(in context: Context) -> DebaserWidgetEntry {
         return placeholderEntry
@@ -62,6 +66,14 @@ struct EventProvider: TimelineProvider {
         }
     }
     
+    ///
+    /// Get available events from a range of dates
+    ///
+    /// - Parameters:
+    ///   - from: The starting date
+    ///   - to: The ending date
+    ///   - completion: The callback when result has been recevied
+    ///
     private func getEvents(fromDate from: String, toDate to: String, completion: @escaping (DebaserWidgetEntry) -> Void) {
         let today = Date()
         
@@ -90,6 +102,8 @@ struct DebaserWidgetEntry: TimelineEntry {
     var isPreview = false
 }
 
+// MARK: - Meta data
+
 struct MetaData : View {
     var text: String
     
@@ -104,6 +118,8 @@ struct MetaData : View {
             .cornerRadius(10)
     }
 }
+
+// MARK: - Background
 
 struct WidgetBackground: View {
     var entry: DebaserWidgetEntry
@@ -191,6 +207,8 @@ struct DebaserWidget: Widget {
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
+
+// MARK: - Entry mock
 
 struct MockEntry {
     private static let event = Event(
