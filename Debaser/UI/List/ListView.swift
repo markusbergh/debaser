@@ -28,7 +28,7 @@ struct ListView: View {
     }
     
     private var emptyCarouselText: LocalizedStringKey {
-        var text = store.state.list.isFetching.value ? "List.Loading" : emptyListLabel
+        var text = store.state.list.isFetching ? "List.Loading" : emptyListLabel
         
         if store.state.list.fetchError != nil {
             text = "Det gick inte att hämta event"
@@ -64,7 +64,7 @@ struct ListView: View {
     private var darkMode: Binding<Bool> {
         let darkMode = Binding<Bool>(
             get: {
-                return store.state.settings.darkMode.value
+                return store.state.settings.darkMode
             },
             set: {
                 store.dispatch(action: .settings(.setDarkMode($0)))

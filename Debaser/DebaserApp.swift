@@ -49,7 +49,7 @@ struct DebaserApp: App {
     }()
     
     private var preferredColorScheme: ColorScheme? {
-        store.state.settings.systemColorScheme.value ? nil : colorScheme
+        store.state.settings.systemColorScheme ? nil : colorScheme
     }
     
     var body: some Scene {
@@ -61,10 +61,10 @@ struct DebaserApp: App {
                 .onReceive(spotifyUserRetrieved) { _ in
                     store.dispatch(action: .spotify(.requestLoginComplete))
                 }
-                .onReceive(store.state.settings.hideCancelled) { _ in
+                .onChange(of: store.state.settings.hideCancelled) { _ in
                     carouselState.reset()
                 }
-                .onReceive(store.state.settings.darkMode) { isOn in
+                .onChange(of: store.state.settings.darkMode) { isOn in
                     // Set globals for color scheme
                     switch isOn {
                     case true: colorScheme = .dark
@@ -262,7 +262,7 @@ extension DebaserApp {
     /// - Returns: A `DetailView` to present modally
     ///
     private func presentModalView(with event: EventViewModel) -> some View {
-        let colorScheme = store.state.settings.systemColorScheme.value ? nil : colorScheme
+        let colorScheme = store.state.settings.systemColorScheme ? nil : colorScheme
 
         return DetailView(event: event, canNavigateBack: false)
             .preferredColorScheme(colorScheme)

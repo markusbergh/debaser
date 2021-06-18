@@ -45,14 +45,14 @@ struct ContentView: View {
                 .offset(y: store.state.list.isShowingTabBar ? 0 : 110)
                 .animation(Animation.easeInOut(duration: 0.2))
         }
-        .onReceive(store.state.onboarding.seenOnboarding) { hasSeen in
+        .onChange(of: store.state.onboarding.seenOnboarding) { hasSeen in
             isShowingOnboarding = !hasSeen
         }
-        .onReceive(store.state.list.isFetching, perform: { isFetching in
+        .onChange(of: store.state.list.isFetching) { isFetching in
             isShowingActivityIndicator = isFetching
-        })
-        .onReceive(store.state.settings.pushToSpotifySettings) { _ in
-            if store.state.settings.pushToSpotifySettings.value == true {
+        }
+        .onChange(of: store.state.settings.pushToSpotifySettings) { isPushing in
+            if isPushing {
                 tabViewRouter.currentTab = .settings
             }
         }

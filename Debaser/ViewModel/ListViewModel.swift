@@ -33,7 +33,7 @@ struct ListViewModel {
     func getEvents(from store: AppStore) -> [EventViewModel] {
         var events = store.state.list.events
         
-        if store.state.settings.hideCancelled.value == true {
+        if store.state.settings.hideCancelled == true {
             events = filterOutCancelledEvents(events: events)
         }
         
@@ -72,7 +72,7 @@ struct ListViewModel {
         
         var events = store.state.list.events
         
-        if store.state.settings.hideCancelled.value == true {
+        if store.state.settings.hideCancelled == true {
             events = filterOutCancelledEvents(events: events)
         }
         
@@ -99,7 +99,7 @@ struct ListViewModel {
         
         var events = store.state.list.events
         
-        if store.state.settings.hideCancelled.value == true {
+        if store.state.settings.hideCancelled == true {
             events = filterOutCancelledEvents(events: events)
         }
         

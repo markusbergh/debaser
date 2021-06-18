@@ -28,7 +28,7 @@ class OnboardingReducerTests: XCTestCase {
 
         let newState = onboardingReducer(state: &initialState, action: .showOnboarding)
         
-        cancellable = newState.seenOnboarding.sink(receiveValue: { value in
+        cancellable = newState.$seenOnboarding.sink(receiveValue: { value in
             XCTAssertEqual(value, expectedValue)
             
             expectation.fulfill()

@@ -57,7 +57,7 @@ struct FavouriteRowView: View {
                                 .fill(Color.listRowBackground)
                                 .frame(minWidth: 0, maxWidth: .infinity)
 
-                            if store.state.settings.showImages.value == true {
+                            if store.state.settings.showImages == true {
                                 FavouriteRowImageView(image: viewModel.image, height: topHeight)
                             }
                                                         
@@ -90,7 +90,7 @@ struct FavouriteRowView: View {
                     )
                     .overlay(overlayStrokeGradient)
                     .onAppear {
-                        if store.state.settings.showImages.value == true {
+                        if store.state.settings.showImages == true {
                             viewModel.loadImage(with: event.image)
                         }
                     }

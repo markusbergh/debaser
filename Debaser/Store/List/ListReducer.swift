@@ -10,13 +10,13 @@ import Foundation
 
 // MARK: Initial state
 
-struct ListState {
-    var isFetching = CurrentValueSubject<Bool, Never>(false)
-    var fetchError: String?
-    var events: [EventViewModel]
-    var favourites: [EventViewModel]
-    var isShowingTabBar = true
-    var currentSearch = ""
+class ListState: ObservableObject {
+    @Published var isFetching = false
+    @Published var fetchError: String?
+    @Published var events: [EventViewModel]
+    @Published var favourites: [EventViewModel]
+    @Published var isShowingTabBar = true
+    @Published var currentSearch = ""
     
     init(events: [EventViewModel] = [], favourites: [EventViewModel] = []) {
         self.events = events
@@ -27,23 +27,20 @@ struct ListState {
 // MARK: Reducer
 
 func listReducer(state: inout ListState, action: ListAction) -> ListState {
-    var state = state
     
     switch action {
     case .getEventsRequest:
-        state.isFetching.send(true)
+        state.isFetching = true
     case .getEventsError(let error):
-        state.isFetching.send(false)
+        state.isFetching = false
         state.fetchError = error?.description
     case .getEventsComplete(let events):
-        state.isFetching.send(false)
+        state.isFetching = false
         state.events = events
     case .searchEvent(let query):
         state.currentSearch = query
-    case .toggleFavourite:
-        break
     case .toggleFavouriteComplete(let events):
-        state.isFetching.send(false)
+        state.isFetching = false
         state.favourites = events
     case .getFavouritesComplete(let events):
         state.favourites = events
@@ -52,7 +49,7 @@ func listReducer(state: inout ListState, action: ListAction) -> ListState {
     case .showTabBar:
         state.isShowingTabBar = true
     default:
-        ()
+        break
     }
     
     return state

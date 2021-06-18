@@ -10,25 +10,24 @@ import Foundation
 
 // MARK: Initial state
 
-struct OnboardingState: Equatable {
-    var seenOnboarding = CurrentValueSubject<Bool, Never>(true)
+class OnboardingState: ObservableObject, Equatable {
+    @Published var seenOnboarding = true
     
     static func == (lhs: OnboardingState, rhs: OnboardingState) -> Bool {
-        return lhs.seenOnboarding.value == rhs.seenOnboarding.value
+        return lhs.seenOnboarding == rhs.seenOnboarding
     }
 }
 
 // MARK: Reducer
 
 func onboardingReducer(state: inout OnboardingState, action: OnboardingAction) -> OnboardingState {
-    let state = state
     
     switch action {
     case .getOnboarding:
         let hasSeen = UserDefaults.standard.bool(forKey: "seenOnboarding")
-        state.seenOnboarding.send(hasSeen)
+        state.seenOnboarding = hasSeen
     case .showOnboarding:
-        state.seenOnboarding.send(false)
+        state.seenOnboarding = false
     }
     
     return state

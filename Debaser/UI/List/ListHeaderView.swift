@@ -77,12 +77,12 @@ struct ListHeaderView: View {
                         
                         Spacer()
                         
-                        if store.state.settings.systemColorScheme.value == false {
+                        if store.state.settings.systemColorScheme == false {
                             VStack(alignment: .trailing, spacing: 5) {
                                 Image(systemName: isDarkMode ? "moon.fill" : "sun.max")
                                     .resizable()
                                     .frame(width: 20, height: 20)
-                                    .opacity(store.state.settings.systemColorScheme.value ? 0.5 : 1.0)
+                                    .opacity(store.state.settings.systemColorScheme ? 0.5 : 1.0)
                                     .transition(
                                         .asymmetric(
                                             insertion: .scale(scale: 0.5).combined(with: .opacity).animation(.easeOut(duration: 0.25).delay(0.25)),
@@ -95,7 +95,7 @@ struct ListHeaderView: View {
                                     .toggleStyle(SwitchToggleStyle(tint: .listSearchBarBorder))
                                     .frame(width: 90)
                                     .offset(y: 2)
-                                    .disabled(store.state.settings.systemColorScheme.value)
+                                    .disabled(store.state.settings.systemColorScheme)
                             }
                         }
                     }

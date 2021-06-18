@@ -45,7 +45,7 @@ struct DetailView: View {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {
-                        if store.state.settings.showImages.value {
+                        if store.state.settings.showImages {
                             DetailTopImageView()
                                 .environmentObject(viewModel)
                         }

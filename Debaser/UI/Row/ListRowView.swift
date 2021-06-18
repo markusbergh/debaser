@@ -20,7 +20,7 @@ struct ListRowView: View {
     }
     
     private var showImagesIfNeeded: Bool {
-        return store.state.settings.showImages.value == true
+        return store.state.settings.showImages == true
     }
     
     // MARK: Public

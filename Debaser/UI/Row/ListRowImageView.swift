@@ -16,7 +16,7 @@ struct ListRowImageView: View {
     @State private var opacity: Double = 0
     
     private var showImagesIfNeeded: Bool {
-        return store.state.settings.showImages.value == true
+        return store.state.settings.showImages == true
     }
     
     // MARK: Public
@@ -60,7 +60,7 @@ struct ListRowImageViewModifier: ViewModifier {
     var maxHeight: CGFloat
     
     func body(content: Content) -> some View {
-        let opacity = store.state.settings.showImages.value ? 0.5 : 0.0
+        let opacity = store.state.settings.showImages ? 0.5 : 0.0
     
         if isCancelled {
             return AnyView(

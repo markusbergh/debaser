@@ -20,8 +20,7 @@ class SpotifyState: ObservableObject {
 // MARK: Reducer
 
 func spotifyReducer(state: inout SpotifyState, action: SpotifyAction) -> SpotifyState {
-    let state = state
-    
+
     switch action {
     case .initialize:
         SpotifyService.shared.configure()

@@ -115,7 +115,7 @@ extension SettingsView {
     private var systemColorScheme: Binding<Bool> {
         return Binding<Bool>(
             get: {
-                return store.state.settings.systemColorScheme.value
+                return store.state.settings.systemColorScheme
             },
             set: { newValue in
                 withAnimation {
@@ -128,7 +128,7 @@ extension SettingsView {
     private var darkMode: Binding<Bool> {
         return Binding<Bool>(
             get: {
-                return store.state.settings.darkMode.value
+                return store.state.settings.darkMode
             },
             set: { newValue in
                 withAnimation {
@@ -227,7 +227,7 @@ struct SettingsSectionSpotify: View {
                 }
             }
         }
-        .onReceive(store.state.settings.pushToSpotifySettings) { _ in
+        .onChange(of: store.state.settings.pushToSpotifySettings) { _ in
             handlePushToSpotifySettings()
         }
         .onDidAppear {
@@ -236,7 +236,7 @@ struct SettingsSectionSpotify: View {
     }
     
     private func handlePushToSpotifySettings() {
-        if store.state.settings.pushToSpotifySettings.value == true {
+        if store.state.settings.pushToSpotifySettings == true {
             showSpotifySettings = true
             
             store.dispatch(action: .settings(.resetPushToSpotifySettings))
@@ -260,7 +260,7 @@ struct SettingsSectionLayout: View {
     private var showImages: Binding<Bool> {
         return Binding<Bool>(
             get: {
-                return store.state.settings.showImages.value
+                return store.state.settings.showImages
             },
             set: {
                 store.dispatch(action: .settings(.setShowImages($0)))
@@ -271,7 +271,7 @@ struct SettingsSectionLayout: View {
     private var hideCancelled: Binding<Bool> {
         return Binding<Bool>(
             get: {
-                return store.state.settings.hideCancelled.value
+                return store.state.settings.hideCancelled
             },
             set: {
                 store.dispatch(action: .settings(.setHideCancelled($0)))

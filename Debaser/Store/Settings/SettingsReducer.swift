@@ -10,49 +10,48 @@ import Foundation
 
 // MARK: Initial state
 
-struct SettingsState {
-    var showImages = CurrentValueSubject<Bool, Never>(true)
-    var systemColorScheme = CurrentValueSubject<Bool, Never>(true)
-    var darkMode = CurrentValueSubject<Bool, Never>(false)
-    var hideCancelled = CurrentValueSubject<Bool, Never>(false)
-    var spotifyConnection: [String: Any]?
-    var pushToSpotifySettings = CurrentValueSubject<Bool, Never>(false)
+class SettingsState: ObservableObject {
+    @Published var showImages = true
+    @Published var systemColorScheme = true
+    @Published var darkMode = false
+    @Published var hideCancelled = false
+    @Published var spotifyConnection: [String: Any]?
+    @Published var pushToSpotifySettings = false
 }
 
 // MARK: Reducer
 
 func settingsReducer(state: inout SettingsState, action: SettingsAction) -> SettingsState {
-    let state = state
     
     switch action {
     case .getOverrideColorScheme:
         let overrideColorScheme = UserDefaults.standard.object(forKey: "overrideColorScheme") as? Bool ?? true
-        state.systemColorScheme.send(overrideColorScheme)
+        state.systemColorScheme = overrideColorScheme
     case .setOverrideColorScheme(let isOn):
         saveUserDefaults(value: isOn, forKey: "overrideColorScheme")
-        state.systemColorScheme.send(isOn)
+        state.systemColorScheme = isOn
     case .getDarkMode:
         let darkMode = UserDefaults.standard.object(forKey: "darkMode") as? Bool ?? false
-        state.darkMode.send(darkMode)
+        state.darkMode = darkMode
     case .setDarkMode(let isOn):
         saveUserDefaults(value: isOn, forKey: "darkMode")
-        state.darkMode.send(isOn)
+        state.darkMode = isOn
     case .getShowImages:
         let willShow = UserDefaults.standard.object(forKey: "showImages") as? Bool ?? true
-        state.showImages.send(willShow)
+        state.showImages = willShow
     case .setShowImages(let willShow):
         saveUserDefaults(value: willShow, forKey: "showImages")
-        state.showImages.send(willShow)
+        state.showImages = willShow
     case .getHideCancelled:
         let willHide = UserDefaults.standard.bool(forKey: "hideCancelled")
-        state.hideCancelled.send(willHide)
+        state.hideCancelled = willHide
     case .setHideCancelled(let willHide):
         saveUserDefaults(value: willHide, forKey: "hideCancelled")
-        state.hideCancelled.send(willHide)
+        state.hideCancelled = willHide
     case .pushToSpotifySettings:
-        state.pushToSpotifySettings.send(true)
+        state.pushToSpotifySettings = true
     case .resetPushToSpotifySettings:
-        state.pushToSpotifySettings.send(false)
+        state.pushToSpotifySettings = false
     }
     
     return state

@@ -72,7 +72,7 @@ struct CarouselItemContent: View {
                 dismissKeyboard()
             }) {
                 ZStack(alignment: .center) {
-                    if store.state.settings.showImages.value == true {
+                    if store.state.settings.showImages == true {
                         Image(uiImage: viewModel.image)
                             .resizable()
                             .scaledToFill()
