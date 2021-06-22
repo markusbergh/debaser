@@ -11,9 +11,17 @@ import Foundation
 // MARK: Initial state
 
 class SpotifyState: ObservableObject {
+    
+    /// User state
     @Published var isLoggedIn = false
+    
+    /// Data state
     @Published var isRequesting = false
+    
+    /// Error type
     @Published var requestError: SpotifyServiceError?
+    
+    /// Is set to `true` if a search for tracks is successful
     @Published var hasTracksForCurrentArtist = false
 }
 

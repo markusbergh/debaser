@@ -11,11 +11,23 @@ import Foundation
 // MARK: Initial state
 
 struct ListState {
+    
+    /// Is data being fetched?
     var isFetching = CurrentValueSubject<Bool, Never>(false)
+    
+    /// Request error
     var fetchError: String?
+    
+    /// Events in list
     var events: [EventViewModel]
+    
+    /// Events saved to favourites
     var favourites: [EventViewModel]
+    
+    /// If tab bar should be hidden
     var isShowingTabBar = true
+    
+    /// The current search term
     var currentSearch = ""
     
     init(events: [EventViewModel] = [], favourites: [EventViewModel] = []) {

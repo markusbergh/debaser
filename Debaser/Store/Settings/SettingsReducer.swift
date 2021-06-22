@@ -11,11 +11,23 @@ import Foundation
 // MARK: Initial state
 
 struct SettingsState {
+    
+    /// Set to `false` is events should not load images
     var showImages = CurrentValueSubject<Bool, Never>(true)
+    
+    /// Which color scheme the app should use
     var systemColorScheme = CurrentValueSubject<Bool, Never>(true)
+    
+    /// Dark mode
     var darkMode = CurrentValueSubject<Bool, Never>(false)
+    
+    /// Set to `true` if all cancelled events should be hidden
     var hideCancelled = CurrentValueSubject<Bool, Never>(false)
+    
+    /// Optional connection to Spotify
     var spotifyConnection: [String: Any]?
+    
+    /// Set to `true` if deep-linking from onboarding
     var pushToSpotifySettings = CurrentValueSubject<Bool, Never>(false)
 }
 

@@ -10,9 +10,15 @@ import Foundation
 
 // MARK: Initial state
 
-struct OnboardingState: Equatable {
+struct OnboardingState {
+
+    /// Determines if user has seen onboarding, defaults to `true`
     var seenOnboarding = CurrentValueSubject<Bool, Never>(true)
-    
+}
+
+// MARK: Equatable
+
+extension OnboardingState: Equatable {
     static func == (lhs: OnboardingState, rhs: OnboardingState) -> Bool {
         return lhs.seenOnboarding.value == rhs.seenOnboarding.value
     }
