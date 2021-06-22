@@ -194,7 +194,7 @@ struct DetailMainContentView: View {
             DetailMetaContainerView(
                 ageLimit: event.ageLimit,
                 admission: event.admission,
-                open: event.open
+                open: event.openHours
             )
 
             SeparatorView()

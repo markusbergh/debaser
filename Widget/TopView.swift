@@ -35,7 +35,7 @@ struct TopView : View {
                         MetaData(text: event.admission)
                     }
 
-                    MetaData(text: event.open)
+                    MetaData(text: event.openHours)
                 }
             } else if isPreview {
                 HStack {

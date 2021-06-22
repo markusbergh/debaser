@@ -220,7 +220,7 @@ struct MockEntry {
         ageLimit: "20 år",
         image: "https://debaser.se/img/10981.jpg",
         date: "2021-11-26",
-        open: "18:00",
+        openHours: "18:00",
         room: "",
         venue: "",
         slug: "",

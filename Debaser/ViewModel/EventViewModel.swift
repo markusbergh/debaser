@@ -20,7 +20,7 @@ struct EventViewModel: Codable, Hashable, Identifiable {
     let description: String
     let ageLimit: String
     let admission: String
-    let open: String
+    let openHours: String
     var slug: String?
     var ticketUrl: String?
     
@@ -38,7 +38,7 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         title = EventViewModel.parse(title: event.name)
         ageLimit = EventViewModel.parse(ageLimit: event.ageLimit)
         admission = EventViewModel.parse(admission: event.admission)
-        open = EventViewModel.parse(openHours: event.open)
+        openHours = EventViewModel.parse(openHours: event.openHours)
         
         // And these needs some trimming
         subHeader = EventViewModel.trimWithObscureCharacters(in: event.subHeader)
@@ -281,7 +281,7 @@ extension EventViewModel {
             ageLimit: "18 år",
             image: "https://debaser.se/img/10982.jpg",
             date: "2010-01-19",
-            open: "Öppnar kl 18:30",
+            openHours: "Öppnar kl 18:30",
             room: "Bar Brooklyn",
             venue: "Strand",
             slug: "",
