@@ -189,11 +189,11 @@ struct ListView: View {
                 dismissButton: .default(Text("OK"))
             )
         }
-        .onChange(of: store.state.list.fetchError, perform: { error in
+        .onChange(of: store.state.list.fetchError) { error in
             if let _ = error {
                 isShowingErrorAlert = true
             }
-        })
+        }
     }
 }
 

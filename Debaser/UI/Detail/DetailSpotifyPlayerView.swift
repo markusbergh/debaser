@@ -38,7 +38,7 @@ struct DetailSpotifyPlayerView: View {
                             )
                             .overlay(
                                 DetailStreamProgress(streamProgress: streamProgress)
-                                    .onReceive(streamPositionDidUpdate, perform: { notification in
+                                    .onReceive(streamPositionDidUpdate) { notification in
                                         guard let streamPositionObject = notification.object as? NSDictionary,
                                               let currentStreamPosition = streamPositionObject["current"] as? CGFloat else {
                                             return
@@ -46,7 +46,7 @@ struct DetailSpotifyPlayerView: View {
                                         
                                         // Update stream progress state
                                         streamProgress = currentStreamPosition / 100.0
-                                    })
+                                    }
                             )
                     }
                     

@@ -11,6 +11,8 @@ import Foundation
 func listMiddleware(service: EventService = EventService.shared) -> Middleware<AppState, AppAction> {
     return { state, action in
         switch action {
+        
+        /// Handles request of all events
         case .list(.getEventsRequest):
             guard let firstDate = ListMiddlewareDateHelper.today, let lastDate = ListMiddlewareDateHelper.dateInNearFuture else {
                 return Empty().eraseToAnyPublisher()
@@ -23,7 +25,8 @@ func listMiddleware(service: EventService = EventService.shared) -> Middleware<A
                     Just(AppAction.list(.getEventsError(error: error)))
                 }
                 .eraseToAnyPublisher()
-            
+        
+        /// Handles a search
         case .list(.searchEvent(let searchQuery)):
             if ListMiddlewareSearchHelper.events.isEmpty {
                 ListMiddlewareSearchHelper.events = state.list.events
@@ -48,6 +51,7 @@ func listMiddleware(service: EventService = EventService.shared) -> Middleware<A
                 }
                 .eraseToAnyPublisher()
         
+        /// Handles retrieval of all favourites
         case .list(.getFavouritesRequest):
             guard let events = ListMiddlewareFavouritesHelper.getAll() else {
                 return Just(AppAction.list(.getFavouritesError))
@@ -61,6 +65,7 @@ func listMiddleware(service: EventService = EventService.shared) -> Middleware<A
                 }
                 .eraseToAnyPublisher()
             
+        /// Handles removal or addition of a favourite
         case .list(.toggleFavourite(let event)):
             guard let events = ListMiddlewareFavouritesHelper.save(event) else {
                 return Just(AppAction.list(.toggleFavouriteError))
@@ -75,10 +80,8 @@ func listMiddleware(service: EventService = EventService.shared) -> Middleware<A
                 .eraseToAnyPublisher()
             
         default:
-            break
+            return Empty().eraseToAnyPublisher()
         }
-        
-        return Empty().eraseToAnyPublisher()
     }
 }
 

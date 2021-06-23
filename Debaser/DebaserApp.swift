@@ -71,7 +71,7 @@ struct DebaserApp: App {
                     case false: colorScheme = .light
                     }
                 }
-                .onChange(of: store.state.list.events, perform: { _ in
+                .onChange(of: store.state.list.events) { _ in
                     // Should open modal from previous link
                     if shouldOpenModal {
                         getEventForModalView()
@@ -79,7 +79,7 @@ struct DebaserApp: App {
                         // All done...
                         shouldOpenModal = false
                     }
-                })
+                }
                 .onOpenURL{ url in
                     /// URL might be Spotify related
                     if spotifyAuth.canHandle(spotifyAuth.redirectURL) &&

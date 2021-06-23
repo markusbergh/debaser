@@ -48,9 +48,9 @@ struct ContentView: View {
         .onReceive(store.state.onboarding.seenOnboarding) { hasSeen in
             isShowingOnboarding = !hasSeen
         }
-        .onReceive(store.state.list.isFetching, perform: { isFetching in
+        .onReceive(store.state.list.isFetching) { isFetching in
             isShowingActivityIndicator = isFetching
-        })
+        }
         .onReceive(store.state.settings.pushToSpotifySettings) { _ in
             if store.state.settings.pushToSpotifySettings.value == true {
                 tabViewRouter.currentTab = .settings

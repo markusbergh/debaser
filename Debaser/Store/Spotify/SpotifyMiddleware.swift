@@ -42,9 +42,7 @@ func spotifyMiddleware(service: SpotifyService = SpotifyService.shared) -> Middl
                 .eraseToAnyPublisher()
             
         default:
-            break
+            return Empty().eraseToAnyPublisher()
         }
-        
-        return Empty().eraseToAnyPublisher()
     }
 }

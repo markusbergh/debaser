@@ -40,13 +40,13 @@ struct SettingsSpotifyView: View {
                         Text(toggleLabel)
                             .foregroundColor(isConnected ? .green : .primary)
                     }
-                    .onChange(of: isConnectedToggle, perform: { isOn in
+                    .onChange(of: isConnectedToggle) { isOn in
                         if isOn {
                             store.dispatch(action: .spotify(.requestLogin))
                         } else {
                             store.dispatch(action: .spotify(.requestLogout))
                         }
-                    })
+                    }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
                 }
                 
@@ -116,9 +116,9 @@ struct SettingsSpotifyView: View {
                 toggleLabel = "Settings.Spotify.On"
             }
         }
-        .onReceive(streamingControllerReceivedError, perform: { notification in
+        .onReceive(streamingControllerReceivedError) { notification in
             handleDidReceiveSpotifyError(notification)
-        })
+        }
         .sheet(isPresented: $willShowSpotifyLogin, onDismiss: onDismissSpotifyLoginSheet) {
             if let auth = spotifyService.auth {
                 WebView(url: auth.spotifyWebAuthenticationURL()) {
