@@ -58,7 +58,7 @@ class MessagesTableViewCell: UITableViewCell {
         }
     }
 
-    func setup(withTitle title: String, date: String?, imagePath: String) {
+    func setup(with title: String, date: String?, imagePath: String) {
         eventTitle.text = title
         eventDate.text = date
         

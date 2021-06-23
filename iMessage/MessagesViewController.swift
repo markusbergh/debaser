@@ -27,10 +27,11 @@ class MessagesViewController: MSMessagesAppViewController {
     private var tapExpandExtensionView: UIView!
     private var tapExpandExtension: UITapGestureRecognizer?
     private var tableViewController: UITableViewController?
-
     private var isExpanded = false
     private var searchActive = false
+    
     private let viewModel = MessagesViewViewModel()
+    private static let cellHeight: CGFloat = 60
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +71,8 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called before the extension transitions to a new presentation style.
 
         // Use this method to prepare for the change in presentation style.
-        if presentationStyle == .compact {
+        switch presentationStyle {
+        case .compact:
             // Set state
             isExpanded = false
 
@@ -79,13 +81,15 @@ class MessagesViewController: MSMessagesAppViewController {
 
             // Enable tap for now
             tapExpandExtension?.isEnabled = true
-        } else if presentationStyle == .expanded {
+        case .expanded:
             // Hide label
             UIView.animate(withDuration: 0.3, animations: {
                 self.infoLabel.alpha = 0.0
             }, completion: { finished in
                 self.infoLabel.isHidden = true
             })
+        default:
+            break
         }
     }
 
@@ -93,10 +97,8 @@ class MessagesViewController: MSMessagesAppViewController {
         // Called after the extension transitions to a new presentation style.
 
         // Use this method to finalize any behaviors associated with the change in presentation style.
-        if presentationStyle == .expanded {
-            if tableViewController == nil {
-                getData()
-            }
+        if presentationStyle == .expanded, tableViewController == nil {
+            getData()
         }
     }
 
@@ -196,6 +198,7 @@ extension MessagesViewController {
 // MARK: - UITableView Delegate
 
 extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section:Int) -> Int {
         if searchActive {
             return viewModel.filteredEvents.count
@@ -211,8 +214,8 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
         
         let event = !searchBarIsEmpty() ? viewModel.filteredEvents[indexPath.row] : viewModel.events[indexPath.row]
         
-        cell.setup(withTitle: event.title,
-                   date: viewModel.getEventDateFormat(date: event.date),
+        cell.setup(with: event.title,
+                   date: viewModel.dateFormat(for: event.date),
                    imagePath: event.image)
         
         return cell
@@ -252,12 +255,15 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return MessagesViewController.cellHeight
     }
 
 }
 
+// MARK: - UISearchBarDelegate
+
 extension MessagesViewController: UISearchBarDelegate {
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchActive = true
     }
