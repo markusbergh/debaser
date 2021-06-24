@@ -104,6 +104,7 @@
 		85B5CDE3261F0F0800A55398 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDE2261F0F0800A55398 /* ListRowView.swift */; };
 		85BC0B27261658D600589240 /* FavouriteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B26261658D600589240 /* FavouriteRowView.swift */; };
 		85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* ImageViewModel.swift */; };
+		85C945ED26852F4D00B1CC6E /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C945EC26852F4D00B1CC6E /* TaskService.swift */; };
 		85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */; };
 		85D3AEB22639670F006A59A2 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */; };
 		85D3AED026398089006A59A2 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3AECF26398089006A59A2 /* CarouselView.swift */; };
@@ -261,6 +262,7 @@
 		85B5CDE2261F0F0800A55398 /* ListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
 		85BC0B26261658D600589240 /* FavouriteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteRowView.swift; sourceTree = "<group>"; };
 		85BC0B2B2616592600589240 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
+		85C945EC26852F4D00B1CC6E /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
 		85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
 		85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		85D3AECF26398089006A59A2 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
@@ -554,6 +556,7 @@
 				85D7D8012619F52C0073E3BA /* ImageService.swift */,
 				856926CF260BE24B004B1761 /* EventService.swift */,
 				85FCAF14263723FA00A0BC89 /* SpotifyService.swift */,
+				85C945EC26852F4D00B1CC6E /* TaskService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1035,6 +1038,7 @@
 				852E5031265AF8FD00B48DB6 /* ListRowImageView.swift in Sources */,
 				858E1E0B2634860C00C3E941 /* WebView.swift in Sources */,
 				8508E14C2634E1E0007FA049 /* DBSROnboardingLabel.swift in Sources */,
+				85C945ED26852F4D00B1CC6E /* TaskService.swift in Sources */,
 				852E502F265AF1A000B48DB6 /* ListProgressIndicatorView.swift in Sources */,
 				85094E9D265BA7FB001A5F4C /* ListViewModel.swift in Sources */,
 				851F7A042635E71700806FF8 /* DetailFavouriteButtonView.swift in Sources */,

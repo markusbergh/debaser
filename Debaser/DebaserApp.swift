@@ -5,6 +5,7 @@
 //  Created by Markus Bergh on 2021-03-12.
 //
 
+import BackgroundTasks
 import SwiftUI
 
 @main
@@ -52,6 +53,15 @@ struct DebaserApp: App {
         store.state.settings.systemColorScheme.value ? nil : colorScheme
     }
     
+    private let eventRefreshTaskRequest: BGAppRefreshTaskRequest = {
+        let refreshTaskRequest = BGAppRefreshTaskRequest(identifier: "se.ejzi.fetchEvents")
+        refreshTaskRequest.earliestBeginDate = Date(timeIntervalSinceNow: 60)
+        
+        return refreshTaskRequest
+    }()
+    
+    private let applicationBackgroundPublisher = NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -70,6 +80,9 @@ struct DebaserApp: App {
                     case true: colorScheme = .dark
                     case false: colorScheme = .light
                     }
+                }
+                .onReceive(applicationBackgroundPublisher) { _ in
+                    scheduleBackgroundEventFetch()
                 }
                 .onChange(of: store.state.list.events) { _ in
                     // Should open modal from previous link
@@ -119,6 +132,7 @@ extension DebaserApp {
     private func configure() {
         resetIfNeeded()
         skipOnbordingIfNeeded()
+        registerBackgroundTask()
     }
     
     /// Reset user defaults when running tests
@@ -153,6 +167,44 @@ extension DebaserApp {
         store.dispatch(action: .onboarding(.getOnboarding))
     }
     
+}
+
+// MARK: Background task
+
+extension DebaserApp {
+    
+    /// Registers a background task to fetch events
+    private func registerBackgroundTask() {
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: "se.ejzi.fetchEvents", using: nil) { task in
+            if let refreshTask = task as? BGAppRefreshTask {
+                handleEventRefreshTask(task: refreshTask)
+            }
+        }
+    }
+    
+    /// Schedules the background task to fetch events
+    private func scheduleBackgroundEventFetch() {
+        do {
+            try BGTaskScheduler.shared.submit(eventRefreshTaskRequest)
+        } catch {
+            print("Unable to submit task: \(error.localizedDescription)")
+        }
+    }
+    
+    ///
+    /// Handles the refresh task running in the background
+    ///
+    /// - Parameter task: The refresh task to handle
+    ///
+    private func handleEventRefreshTask(task: BGAppRefreshTask) {
+        task.expirationHandler = {
+            task.setTaskCompleted(success: false)
+        }
+        
+        DispatchQueue.global(qos: .background).async {
+            TaskService.shared.updateToLatestEvents(from: task)
+        }
+    }
 }
 
 // MARK: Spotify

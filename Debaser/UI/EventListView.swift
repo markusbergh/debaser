@@ -18,6 +18,8 @@ struct EventListView: View {
         return "List.Today"
     }
     
+    private let userDefaults = UserDefaults.standard
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -34,7 +36,13 @@ struct EventListView: View {
                 return
             }
             
-            if store.state.list.events.isEmpty {
+            // Did we have a previous update in the background?
+            let decoder = JSONDecoder()
+            
+            if let data = userDefaults.data(forKey: "se.ejzi.LatestEvents"),
+               let events = try? decoder.decode([EventViewModel].self, from: data) {
+                store.dispatch(action: .list(.getEventsComplete(events: events)))
+            } else if store.state.list.events.isEmpty {
                 store.dispatch(action: .list(.getEventsRequest))
             }
         }
