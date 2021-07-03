@@ -15,15 +15,17 @@ struct EventViewModel: Codable, Hashable, Identifiable {
     let date: String
     let venue: String
     let image: String
-    let title: String!
-    let subHeader: String
-    let description: String
-    let ageLimit: String
-    let admission: String
-    let openHours: String
     var slug: String?
     var ticketUrl: String?
     
+    @ParseUsingRegularExpression(pattern: .title) var title: String
+    @ParseUsingRegularExpression(pattern: .ageLimitOrOpenHours) var ageLimit: String
+    @ParseUsingRegularExpression(pattern: .admission) var admission: String
+    @ParseUsingRegularExpression(pattern: .openHours) var openHours: String
+    
+    @TrimObscureHTMLCharacter var subHeader: String
+    @TrimObscureHTMLCharacter var description: String
+
     // MARK: Initializer
     
     init(with event: Event) {
@@ -33,153 +35,209 @@ struct EventViewModel: Codable, Hashable, Identifiable {
         image = event.image
         slug = event.slug
         ticketUrl = event.ticketUrl
-        
-        // These needs some parsing unfortunately
-        title = EventViewModel.parse(title: event.name)
-        ageLimit = EventViewModel.parse(ageLimit: event.ageLimit)
-        admission = EventViewModel.parse(admission: event.admission)
-        openHours = EventViewModel.parse(openHours: event.openHours)
-        
-        // And these needs some trimming
-        subHeader = EventViewModel.trimWithObscureCharacters(in: event.subHeader)
-        description = EventViewModel.trimWithObscureCharacters(in: event.description)
+        title = event.name
+        ageLimit = event.ageLimit
+        admission = event.admission
+        openHours = event.openHours
+        subHeader = event.subHeader
+        description = event.description
     }
 }
 
 // MARK: - Parsing
 
-extension EventViewModel {
+@propertyWrapper
+struct TrimObscureHTMLCharacter: Codable, Hashable {
+    private(set) var value = ""
+    
+    var wrappedValue: String {
+        get { value }
+        set {
+            let elementsToReplace = [
+                "&amp;": "&",
+                "&gt;": ">",
+                "&nbsp;": " ",
+                "&quot;": "\""
+            ]
+            
+            // Make a copy of the value
+            var parsedValue = newValue
+            
+            // Iterate through each occurrance
+            for (element, replacement) in elementsToReplace {
+                parsedValue = parsedValue.replacingOccurrences(of: element, with: replacement)
+            }
+            
+            value = parsedValue
+        }
+    }
+}
+
+@propertyWrapper
+struct ParseUsingRegularExpression {
+    private(set) var value: String = ""
+    private(set) var pattern: RegularExpressionPattern?
     
     /// Admission type
     enum Admission: String {
         case free = "fri"
     }
     
-    /// Expression patterns
+    /// Pattern options
     enum RegularExpressionPattern: String {
-        case title = #"\S[^->|]+[^ \W]."#
         case admission = #"\d{1,3} kr"#
-        case ageLimitOpenHours = "\\d{1,2}"
+        case ageLimitOrOpenHours = "\\d{1,2}"
+        case title = #"\S[^->|]+[^ \W]."#
         case openHours = #"\d{1,2}[.:]\d{1,2}"#
     }
     
+    init(pattern: RegularExpressionPattern) {
+        self.pattern = pattern
+    }
+
+    var wrappedValue: String {
+        get { value }
+        set {
+            guard let parsedValue = parse(value: newValue) else {
+                return value = clean(value: newValue)
+            }
+            
+            value = clean(value: parsedValue)
+        }
+    }
+    
+    // MARK: Parse
+    
     ///
-    /// Searches and replaces a string by a provided regular expression
+    /// Parses a `value` with a set regular expression
     ///
     /// - Parameters:
-    ///     - value: The string to parse
-    ///     - pattern: The regular expression to use while parsing
-    /// - Returns: An optional string
+    ///   - value: The string value to parse
+    /// - Returns: An optional parsed string
     ///
-    private static func parse(value: String, withRegex pattern: EventViewModel.RegularExpressionPattern) -> String? {
-        let range = NSRange(value.startIndex..<value.endIndex, in: value)
-        var matchRange: Range<String.Index>?
+    private func parse(value: String) -> String? {
+        guard let pattern = pattern else { return nil }
+        
+        return parse(value: value, pattern: pattern)
+    }
+    
+    ///
+    /// Parses a `value` with a provided regular expression
+    ///
+    /// - Parameters:
+    ///   - value: The string value to parse
+    ///   - pattern: Regular expression to parse with
+    /// - Returns: An optional parsed string
+    ///
+    private func parse(value: String, pattern: RegularExpressionPattern) -> String? {
+        let value = value.lowercased()
         
         do {
-            let regex = try NSRegularExpression(pattern: pattern.rawValue)
-            
-            autoreleasepool {
-                guard let match = regex.firstMatch(in: value, options: [], range: range) else {
-                    return
-                }
-                
-                let range = match.range(at: 0)
-
-                guard let stringRange = Range(range, in: value) else {
-                    return
-                }
-                
-                matchRange = stringRange
-            }
-            
-            guard let matchRange = matchRange else {
+            let range = NSRange(value.startIndex..<value.endIndex, in: value)
+            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: [.caseInsensitive])
+        
+            guard let match = regex.firstMatch(in: value, options: [], range: range) else {
                 return nil
             }
+            
+            let matchRange = match.range(at: 0)
 
-            return String(value[matchRange])
+            guard let stringRange = Range(matchRange, in: value) else {
+                return nil
+            }
+            
+            return String(value[stringRange])
         } catch {
             return nil
         }
     }
-
-        
-    /// Parses title
-    private static func parse(title: String) -> String {
-        let trimmedTitle = trimWithObscureCharacters(in: title)
-
-        guard let parsedTitle = parse(value: trimmedTitle, withRegex: .title) else {
-            return ""
-        }
-        
-        return parsedTitle
-    }
     
-    /// Parses admission
-    private static func parse(admission: String) -> String {
-        let lowerAdmission = admission.lowercased()
+    // MARK: Clean
+    
+    ///
+    /// Cleans up a `value` after parsing is done
+    ///
+    /// - Parameters:
+    ///   - value: The string value to clean
+    /// - Returns: A string
+    ///
+    private func clean(value: String) -> String {
+        guard let pattern = pattern else { return value }
 
-        guard let parsedAdmission = parse(value: lowerAdmission, withRegex: .admission) else {
-            // Could it be that the admission is for free?
-            if lowerAdmission.lowercased().contains(Admission.free.rawValue) {
-                return NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission is for free")
+        var updatedValue = value
+        
+        switch pattern {
+        
+        /// Cleans up a string from occurrences of HTML references
+        case .title:
+            updatedValue = value.replacingOccurrences(of: "&amp;", with: "&")
+                .replacingOccurrences(of: "&gt;", with: ">")
+                .replacingOccurrences(of: "&nbsp;", with: " ")
+                .replacingOccurrences(of: "&quot;", with: "\"")
+                .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        /// Sets a formatted string for age limit
+        case .ageLimitOrOpenHours:
+            func formattedAgeLimit(_ value: String) -> String {
+                let localizedAgeLimit = NSLocalizedString("Detail.Age", comment: "Age limit")
+                
+                return String(format: localizedAgeLimit, value)
             }
             
-            // Otherwise just return an empty string, something is odd here
-            return ""
-        }
+            updatedValue = formattedAgeLimit(value)
         
-        return parsedAdmission
-    }
-    
-    /// Parses age limit
-    private static func parse(ageLimit: String) -> String {
-        let ageLimit = ageLimit.lowercased()
-        
-        guard let parsedAgeLimit = parse(value: ageLimit, withRegex: .ageLimitOpenHours) else {
-            return ""
-        }
-        
-        func formattedAgeLimit(_ value: String) -> String {
-            let localizedAgeLimit = NSLocalizedString("Detail.Age", comment: "Age limit")
+        /// Event admission might be for free
+        case .admission:
+            if value.contains(Admission.free.rawValue) {
+                updatedValue = NSLocalizedString("Detail.Meta.Admission.Free", comment: "Admission is for free")
+            }
             
-            return String(format: localizedAgeLimit, value)
-        }
-        
-        // Needs a formatted string with value
-        return formattedAgeLimit(parsedAgeLimit)
-    }
-    
-    /// Parses open hours
-    private static func parse(openHours: String) -> String {
-        guard let parsedOpenHours = parse(value: openHours, withRegex: .openHours) else {
+        /// Retry some parsing if needed
+        case .openHours:
             
             // I still do not trust you, try and parse once more
-            guard let parsedOpenHours = parse(value: openHours, withRegex: .ageLimitOpenHours) else {
-                return ""
+            guard let parsedOpenHours = parse(value: value, pattern: .ageLimitOrOpenHours) else {
+                updatedValue = value.replacingOccurrences(of: ".", with: ":")
+                break
             }
         
-            return "\(parsedOpenHours):00"
+            updatedValue = "\(parsedOpenHours):00"
         }
         
-        return parsedOpenHours.replacingOccurrences(of: ".", with: ":")
+        return updatedValue
+    }
+}
+
+extension ParseUsingRegularExpression: Codable {
+    init(from decoder: Decoder) throws {
+        var values = try decoder.unkeyedContainer()
+        value = try values.decode(String.self)
     }
     
-    /// Cleans up a string from occurrences of HTML references
-    private static func trimWithObscureCharacters(in value: String) -> String {
-        return value
-            .replacingOccurrences(of: "&amp;", with: "&")
-            .replacingOccurrences(of: "&gt;", with: ">")
-            .replacingOccurrences(of: "&nbsp;", with: " ")
-            .replacingOccurrences(of: "&quot;", with: "\"")
-            .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+    func encode(to encoder: Encoder) throws {
+        try wrappedValue.encode(to: encoder)
+    }
+}
+
+extension ParseUsingRegularExpression: Hashable {
+    static func == (lhs: ParseUsingRegularExpression, rhs: ParseUsingRegularExpression) -> Bool {
+        lhs.hashValue == rhs.hashValue
     }
 
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(value)
+    }
 }
 
 // MARK: - Status
 
 extension EventViewModel {
+    
+    /// Free admission string
+    enum Admission: String {
+        case free = "fri"
+    }
     
     /// Returns a Boolean based on if event is cancelled
     var isCancelled: Bool {
