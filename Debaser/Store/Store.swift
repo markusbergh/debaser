@@ -23,6 +23,7 @@ final class Store<State, Action>: ObservableObject {
     private let reducer: Reducer<State, Action>
     private let middlewares: [Middleware<State, Action>]
     private var cancellables: [AnyCancellable] = []
+    private let queue = DispatchQueue(label: "se.ejzi.Debaser.store", qos: .userInitiated)
 
     @Published private(set) var state: State
     
@@ -41,17 +42,19 @@ extension Store: StoreProtocol {
     /// - Parameter action: The action to dispatch
     ///
     func dispatch(action: Action) {
-        state = reducer(&state, action)
-        
-        for middleware in middlewares {
-            guard let middleware = middleware(state, action) else {
-                break
-            }
+        queue.sync {
+            state = reducer(&state, action)
             
-            middleware
-                .receive(on: RunLoop.main)
-                .sink(receiveValue: dispatch)
-                .store(in: &cancellables)
+            for middleware in middlewares {
+                guard let middleware = middleware(state, action) else {
+                    break
+                }
+                
+                middleware
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: dispatch)
+                    .store(in: &cancellables)
+            }
         }
     }
 }
