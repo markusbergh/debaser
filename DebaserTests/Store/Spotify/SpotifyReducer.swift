@@ -20,7 +20,7 @@ class SpotifyReducerTests: XCTestCase {
     func testSpotifyLoginError() {
         var initialState = SpotifyState()
         
-        let newState = spotifyReducer(state: &initialState, action: .requestLoginError(.authError))
+        let newState = spotifyReducer(state: &initialState, action: .requestLoginError(.auth))
         
         XCTAssertEqual(newState.isRequesting, false)
         XCTAssertNotNil(newState.requestError)
