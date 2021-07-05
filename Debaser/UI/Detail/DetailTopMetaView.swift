@@ -11,7 +11,8 @@ struct DetailTopMetaView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingMapView = false
-    
+    @State private var metaVenueButtonScale: CGFloat = 1.0
+
     private var cancelledLabel: String {
         return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
     }
@@ -65,7 +66,7 @@ struct DetailTopMetaView: View {
                             .strokeBorder(lineWidth: 1.0)
                     )
             }
-            
+                
             Button(action: {
                 isShowingMapView = true
             }) {
@@ -76,10 +77,21 @@ struct DetailTopMetaView: View {
                 )
             }
             .buttonStyle(PlainButtonStyle())
+            .modifier(DetailTopMetaHintEffect(to: metaVenueButtonScale) {
+                DispatchQueue.main.async {
+                    metaVenueButtonScale = 1.0
+                }
+            })
+            .animation(.easeInOut(duration: 0.25))
             .sheet(isPresented: $isShowingMapView) {
                 MapView()
                     .preferredColorScheme(colorScheme)
                     .ignoresSafeArea()
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    metaVenueButtonScale = 1.1
+                }
             }
             
             if isEventNextYear {
@@ -94,6 +106,35 @@ struct DetailTopMetaView: View {
                     )
             }
         }
+    }
+}
+
+struct DetailTopMetaHintEffect: AnimatableModifier {
+    var value: CGFloat
+    
+    private var target: CGFloat
+    private var onEneded: () -> ()
+    
+    init(to value: CGFloat, onEnded: @escaping () -> () = {}) {
+        self.value = value
+        self.target = value
+        self.onEneded = onEnded
+    }
+    
+    var animatableData: CGFloat {
+        get { value }
+        set {
+            value = newValue
+            
+            // When value has reached the target, we apply the provided callback
+            if newValue == target {
+                onEneded()
+            }
+        }
+    }
+    
+    func body(content: Content) -> some View {
+        content.scaleEffect(value)
     }
 }
 
