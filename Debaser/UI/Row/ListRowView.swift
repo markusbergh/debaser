@@ -49,7 +49,7 @@ struct ListRowView: View {
                         .environmentObject(viewModel)
                         .onAppear {
                             if showImagesIfNeeded {
-                                viewModel.loadImage(with: event.image)
+                                viewModel.load(with: event.image)
                             }
                         }
                         .modifier(

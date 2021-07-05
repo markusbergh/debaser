@@ -27,7 +27,7 @@ struct DetailView: View {
 
     @EnvironmentObject var store: AppStore
         
-    @StateObject private var viewModel = ImageViewModel()
+    @StateObject private var imageViewModel = ImageViewModel()
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
     @State private var isShowingAlertDateOverdue = false
@@ -47,7 +47,10 @@ struct DetailView: View {
                     ZStack(alignment: .topLeading) {
                         if store.state.settings.showImages.value {
                             DetailTopImageView()
-                                .environmentObject(viewModel)
+                                .environmentObject(imageViewModel)
+                                .onAppear {
+                                    imageViewModel.load(with: event.image)
+                                }
                         }
                         
                         if canNavigateBack {
@@ -89,34 +92,32 @@ struct DetailView: View {
                     do {
                         try spotifyService.playTrackForArtist()
                     } catch {
-                        // Error but not handled
+                        // Error is not handled
                     }
                 } else {
                     spotifyService.playPauseStream()
                 }
             }
             .onAppear {
-                // Load image
-                viewModel.loadImage(with: event.image)
-                
                 // Search for artist if eligible to do so
                 if store.state.spotify.isLoggedIn == true {
                     store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
                 }
                 
-                // Hide tab bar
+                // Always hide tab bar
                 if store.state.list.isShowingTabBar == true {
                     store.dispatch(action: .list(.hideTabBar))
                 }
                 
+                // Has this event already happened?
                 DispatchQueue.main.async {
-                    // Has this event already happened?
                     if event.isDateExpired {
                         isShowingAlertDateOverdue = true
                     }
                 }
             }
             .onDisappear {
+                // Always show tab bar
                 store.dispatch(action: .list(.showTabBar))
                 
                 if isStreaming {

@@ -91,7 +91,7 @@ struct FavouriteRowView: View {
                     .overlay(overlayStrokeGradient)
                     .onAppear {
                         if store.state.settings.showImages.value == true {
-                            viewModel.loadImage(with: event.image)
+                            viewModel.load(with: event.image)
                         }
                     }
                 }

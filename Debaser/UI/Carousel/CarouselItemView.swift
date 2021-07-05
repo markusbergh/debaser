@@ -85,7 +85,7 @@ struct CarouselItemContent: View {
                                 }
                             }
                             .onAppear {
-                                viewModel.loadImage(with: event.image)
+                                viewModel.load(with: event.image)
                             }
                     } else {
                         Rectangle()
