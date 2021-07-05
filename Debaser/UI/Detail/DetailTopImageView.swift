@@ -62,7 +62,7 @@ struct DetailImageAnimationModifier: ViewModifier {
     let isLoaded: Bool
     
     private var scaleEffect: CGFloat {
-        return isLoaded ? 1.0 : 0.75
+        return isLoaded ? 1.0 : 1.25
     }
     
     private var opacity: Double {
