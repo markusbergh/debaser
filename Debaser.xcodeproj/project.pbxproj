@@ -75,6 +75,7 @@
 		8587C2202647AF64005D622C /* DidAppearModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8587C21F2647AF64005D622C /* DidAppearModifier.swift */; };
 		858E1E0226346E6100C3E941 /* Debaser.plist in Resources */ = {isa = PBXBuildFile; fileRef = 858E1E0126346E6100C3E941 /* Debaser.plist */; };
 		858E1E0B2634860C00C3E941 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E1E0A2634860C00C3E941 /* WebView.swift */; };
+		85919EF5269500FF00AAF9A3 /* AppleMusicService in Frameworks */ = {isa = PBXBuildFile; productRef = 85919EF4269500FF00AAF9A3 /* AppleMusicService */; };
 		8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8599431E263434D800128A73 /* ListMiddlewares.swift */; };
 		85994326263434F500128A73 /* SettingsActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85994325263434F500128A73 /* SettingsActions.swift */; };
 		8599432B2634350F00128A73 /* ListActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8599432A2634350F00128A73 /* ListActions.swift */; };
@@ -294,6 +295,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85919EF5269500FF00AAF9A3 /* AppleMusicService in Frameworks */,
 				85FCAF11263723B800A0BC89 /* SpotifyAudioPlayback.framework in Frameworks */,
 				85FCAF13263723B800A0BC89 /* SpotifyMetadata.framework in Frameworks */,
 				85FCAF12263723B800A0BC89 /* SpotifyAuthentication.framework in Frameworks */,
@@ -822,6 +824,9 @@
 				85B4498E26383E9C00C095FA /* PBXTargetDependency */,
 			);
 			name = Debaser;
+			packageProductDependencies = (
+				85919EF4269500FF00AAF9A3 /* AppleMusicService */,
+			);
 			productName = Debaser;
 			productReference = 855B1A2A25FB5B5C00C7A219 /* Debaser.app */;
 			productType = "com.apple.product-type.application";
@@ -1592,6 +1597,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85919EF4269500FF00AAF9A3 /* AppleMusicService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppleMusicService;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 855B1A2225FB5B5C00C7A219 /* Project object */;
 }

@@ -5,6 +5,9 @@
 //  Created by Markus Bergh on 2021-04-04.
 //
 
+import AVFoundation
+import AppleMusicService
+import Combine
 import SwiftUI
 
 private enum Style {
@@ -31,6 +34,10 @@ struct DetailView: View {
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
     @State private var isShowingAlertDateOverdue = false
+    @State private var serviceCancellable: AnyCancellable?
+    @State private var audioPreview: URL?
+
+    private let audioPlayer = AVPlayer()
     
     let event: EventViewModel
     let canNavigateBack: Bool
@@ -115,6 +122,24 @@ struct DetailView: View {
                         isShowingAlertDateOverdue = true
                     }
                 }
+                
+                /*
+                // Search for an artist preview
+                serviceCancellable = AppleMusicService.shared.search(for: event.title)
+                    .subscribe(on: DispatchQueue.main)
+                    .sink(receiveCompletion: { response in
+                        switch response {
+                        case .failure(let error):
+                            print(error)
+                        case .finished:
+                            break
+                        }
+                    }, receiveValue: { preview in
+                        if let preview = preview, let previewUrl = URL(string: preview.url) {
+                            audioPreview = previewUrl
+                        }
+                    })
+                */
             }
             .onDisappear {
                 // Always show tab bar

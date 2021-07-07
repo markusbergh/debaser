@@ -4,5 +4,7 @@
 <dict>
 	<key>kDebaserApiURL</key>
 	<string>https://debaser.se/debaser/api/?version=2</string>
+	<key>kAppleMusicToken</key>
+	<string>eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IjdaNEFSWEhXRjMifQ.eyJpc3MiOiI1N01EUFVGR0M4IiwiZXhwIjoxNjQxMzY1OTI1LCJpYXQiOjE2MjU1OTQzMjV9.WDzGtU5uXMqP_2i4BiUZe91WoSLp1ZySsAdP1tw9K0Zy1vlb7G1wlnxE5ZPQmsN_hJ85H_OLT7m0RVJ3CUPSZg</string>
 </dict>
 </plist>
