@@ -1,0 +1,41 @@
+{
+  "images" : [
+    {
+      "filename" : "US-UK_Apple_Music_Pre_Lockup_blk_072720.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "US-UK_Apple_Music_Pre_Lockup_wht_072720.svg",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "SE_Apple_Music_Listen_on_Lockup_RGB_blk_083120.svg",
+      "idiom" : "universal",
+      "locale" : "sv"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "SE_Apple_Music_Listen_on_Lockup_RGB_wht_083120.svg",
+      "idiom" : "universal",
+      "locale" : "sv"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
+  }
+}

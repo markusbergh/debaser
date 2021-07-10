@@ -5,39 +5,36 @@
 //  Created by Markus Bergh on 2021-04-04.
 //
 
-import AVFoundation
 import AppleMusicService
 import Combine
 import SwiftUI
 
-private enum Style {
-    case padding
-    case cornerRadius
-    
-    var value: CGFloat {
-        switch self {
-        case .padding:
-            return 25
-        case .cornerRadius:
-            return 25
-        }
-    }
-}
-
 struct DetailView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    /// Services
     @Environment(\.spotifyService) var spotifyService
+    @Environment(\.appleMusicService) var appleMusicService
 
     @EnvironmentObject var store: AppStore
         
     @StateObject private var imageViewModel = ImageViewModel()
+    
+    /// Spotify
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
+    
+    /// Apple music
+    @State private var canPreviewArtistAppleMusic = false
+    @State private var songAttributes: SongAttributes?
+    
+    /// Date
     @State private var isShowingAlertDateOverdue = false
-    @State private var serviceCancellable: AnyCancellable?
-    @State private var audioPreview: URL?
-
-    private let audioPlayer = AVPlayer()
+    
+    private var shadowOpacity: Double {
+        return colorScheme == .light ? 0.25 : 0.1
+    }
     
     let event: EventViewModel
     let canNavigateBack: Bool
@@ -69,11 +66,27 @@ struct DetailView: View {
                             .padding(.horizontal, Style.padding.value)
                             .padding(.top, (Style.padding.value * 2))
                             .frame(maxWidth: .infinity)
-                        }
-                        
-                        if canPreviewArtist {
-                            DetailSpotifyPlayerView(isStreaming: $isStreaming)
-                        }
+                        }                        
+                    }
+                    
+                    // Apple Music
+                    if canPreviewArtistAppleMusic, let songAttributes = songAttributes {
+                        DetailAppleMusicPlayerView(
+                            artistName: songAttributes.name,
+                            albumTitle: songAttributes.albumName,
+                            artwork: songAttributes.artwork.url,
+                            isStreaming: $isStreaming
+                        )
+                        .padding(Style.padding.value)
+                        .background(Color.detailContentBackground)
+                        .cornerRadius(Style.cornerRadius.value)
+                        .shadow(
+                            color: .black.opacity(shadowOpacity),
+                            radius: 20,
+                            x: 0,
+                            y: -5
+                        )
+                        .padding([.leading, .top, .trailing], Style.padding.value)
                     }
                     
                     // Main content
@@ -95,14 +108,10 @@ struct DetailView: View {
                 }
             }
             .onChange(of: isStreaming) { shouldStream in
-                if shouldStream {
-                    do {
-                        try spotifyService.playTrackForArtist()
-                    } catch {
-                        // Error is not handled
-                    }
+                if shouldStream, let preview = songAttributes?.previews.first {
+                    appleMusicService.playSongPreview(with: preview)
                 } else {
-                    spotifyService.playPauseStream()
+                    appleMusicService.stop()
                 }
             }
             .onAppear {
@@ -123,23 +132,8 @@ struct DetailView: View {
                     }
                 }
                 
-                /*
-                // Search for an artist preview
-                serviceCancellable = AppleMusicService.shared.search(for: event.title)
-                    .subscribe(on: DispatchQueue.main)
-                    .sink(receiveCompletion: { response in
-                        switch response {
-                        case .failure(let error):
-                            print(error)
-                        case .finished:
-                            break
-                        }
-                    }, receiveValue: { preview in
-                        if let preview = preview, let previewUrl = URL(string: preview.url) {
-                            audioPreview = previewUrl
-                        }
-                    })
-                */
+                // Can we preview this event artist?
+                appleMusicPreviewAvailable()
             }
             .onDisappear {
                 // Always show tab bar
@@ -156,6 +150,16 @@ struct DetailView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+        }
+    }
+    
+    /// Check if preview is available in Apple Music for current event artist
+    private func appleMusicPreviewAvailable() {
+        appleMusicService.canPlaySongPreview(for: event.title) { songAttributes in
+            guard let songAttributes = songAttributes else { return }
+            
+            canPreviewArtistAppleMusic = true
+            self.songAttributes = songAttributes
         }
     }
 }
@@ -298,6 +302,22 @@ struct DetailDescriptionView: View {
         Text(description)
             .font(Font.Variant.body(weight: .regular).font)
             .lineSpacing(2)
+    }
+}
+
+// MARK: Style
+
+private enum Style {
+    case padding
+    case cornerRadius
+    
+    var value: CGFloat {
+        switch self {
+        case .padding:
+            return 25
+        case .cornerRadius:
+            return 25
+        }
     }
 }
 

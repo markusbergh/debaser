@@ -5,6 +5,7 @@
 //  Created by Markus Bergh on 2021-03-12.
 //
 
+import AppleMusicService
 import SwiftUI
 
 @main
@@ -271,14 +272,22 @@ extension DebaserApp {
     
 }
 
-// MARK: Spotify service environment key
+// MARK: Service environment keys
 
 private struct SpotifyServiceKey: EnvironmentKey {
     static var defaultValue = SpotifyService.shared
 }
 
+private struct AppleMusicServiceKey: EnvironmentKey {
+    static var defaultValue = AppleMusicService.shared
+}
+
 extension EnvironmentValues {
     var spotifyService: SpotifyService {
         get { self[SpotifyServiceKey.self] }
+    }
+    
+    var appleMusicService: AppleMusicService {
+        get { self[AppleMusicServiceKey.self] }
     }
 }

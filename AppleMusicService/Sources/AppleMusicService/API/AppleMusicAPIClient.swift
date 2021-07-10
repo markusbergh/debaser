@@ -1,15 +1,15 @@
 //
-//  AppleMusicService.swift
-//  AppleMusicService
+//  AppleMusicAPIClient.swift
+//  
 //
-//  Created by Markus Bergh on 2021-07-06.
+//  Created by Markus Bergh on 2021-07-08.
 //
 
 import Combine
 import Foundation
 import StoreKit
 
-public final class AppleMusicService {
+class AppleMusicAPIClient {
     
     // MARK: Static
     
@@ -26,8 +26,6 @@ public final class AppleMusicService {
         return token
     }
     
-    public static let shared = AppleMusicService()
-    
     // MARK: Private
     
     private let appleMusicController = SKCloudServiceController()
@@ -36,20 +34,14 @@ public final class AppleMusicService {
     private var path: String {
         return "/v1/catalog/\(storefrontId)/search"
     }
-
-    public enum AppleMusicServiceError: Error {
-        case invalidURL
-        case responseError
-        case requestError(String)
-    }
-
+    
 }
 
-// MARK: - Search
+// MARK: - Network
 
-extension AppleMusicService {
+extension AppleMusicAPIClient {
     
-    private func makeURL(with searchTerm: String, byLimit limit: Int = 1) -> String? {
+    private func makeURL(with searchTerm: String, byLimit limit: Int = 1, withType type: AppleMusicSearchTypes = .songs) -> String? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = host
@@ -57,7 +49,7 @@ extension AppleMusicService {
         
         components.queryItems = [
             URLQueryItem(name: "term", value: searchTerm.replacingOccurrences(of: " ", with: "+")),
-            URLQueryItem(name: "types", value: "songs"),
+            URLQueryItem(name: "types", value: type.rawValue),
             URLQueryItem(name: "limit", value: "\(limit)")
         ]
         
@@ -67,19 +59,25 @@ extension AppleMusicService {
     private func makeRequest(url: URL) -> URLRequest {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
-        urlRequest.addValue("Bearer \(AppleMusicService.developerToken)", forHTTPHeaderField: "Authorization")
+        urlRequest.addValue("Bearer \(AppleMusicAPIClient.developerToken)", forHTTPHeaderField: "Authorization")
         
         return urlRequest
     }
-        
-    public func search(for searchTerm: String) -> AnyPublisher<SongPreviews?, Error> {
-        guard let urlString = makeURL(with: searchTerm) else {
+    
+}
+
+// MARK: - Search
+
+extension AppleMusicAPIClient {
+    
+    private func search(for searchTerm: String, byType type: AppleMusicSearchTypes) -> AnyPublisher<Data, Error> {
+        guard let urlString = makeURL(with: searchTerm, withType: type) else {
             return Fail(error: AppleMusicServiceError.invalidURL)
                 .eraseToAnyPublisher()
         }
         
         guard let requestURL = URL(string: urlString) else {
-            return Fail(error: AppleMusicServiceError.invalidURL)
+            return Fail(error: AppleMusicServiceError.requestError)
                 .eraseToAnyPublisher()
         }
         
@@ -93,8 +91,25 @@ extension AppleMusicService {
                 
                 return data
             }
+            .eraseToAnyPublisher()
+    }
+}
+
+// MARK: - Queries
+
+extension AppleMusicAPIClient {
+    
+    func songAttributes(for searchTerm: String) -> AnyPublisher<SongAttributes?, Error> {
+        return search(for: searchTerm, byType: .songs)
             .decode(type: SearchArtistResponse.self, decoder: JSONDecoder())
-            .map { $0.results.songs.data.first?.attributes.previews.first }
+            .map { $0.results.songs.data.first?.attributes }
+            .eraseToAnyPublisher()
+    }
+    
+    func musicPlayParams(for searchTerm: String) -> AnyPublisher<String?, Error> {
+        return search(for: searchTerm, byType: .songs)
+            .decode(type: SearchArtistResponse.self, decoder: JSONDecoder())
+            .map { $0.results.songs.data.first?.attributes.playParams.id }
             .eraseToAnyPublisher()
     }
     
