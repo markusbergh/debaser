@@ -80,12 +80,7 @@ struct DetailView: View {
                         .padding(Style.padding.value)
                         .background(Color.detailContentBackground)
                         .cornerRadius(Style.cornerRadius.value)
-                        .shadow(
-                            color: .black.opacity(shadowOpacity),
-                            radius: 20,
-                            x: 0,
-                            y: -5
-                        )
+                        .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
                         .padding([.leading, .top, .trailing], Style.padding.value)
                     }
                     

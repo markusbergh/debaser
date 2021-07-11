@@ -9,10 +9,12 @@ import SwiftUI
 import UIKit
 
 struct DetailStreamProgress: UIViewRepresentable {
-    var streamProgress: CGFloat
+    let streamProgress: CGFloat
+    var strokeColor: CGColor = UIColor.green.cgColor
+    var lineWidth: CGFloat = 2.5
     
     func makeUIView(context: Context) -> UIView {
-        let progressView = DBSRUIStreamProgress()
+        let progressView = DBSRUIStreamProgress(using: strokeColor, lineWidth: lineWidth)
         
         return progressView
     }
@@ -39,16 +41,28 @@ struct DetailStreamProgress: UIViewRepresentable {
 }
 
 class DBSRUIStreamProgress: UIView {
+    var strokeColor: CGColor
+    var lineWidth: CGFloat
+    var percentage: CGFloat?
     var startAngle: CGFloat?
     var endAngle: CGFloat?
-    var percentage: CGFloat?
-    
+
     override init(frame: CGRect) {
+        strokeColor = UIColor.green.cgColor
+        lineWidth = 2.5
+        
         super.init(frame: frame)
         
         startAngle = CGFloat(Double.pi * 1.5)
         endAngle = CGFloat((Double.pi * 2)) + startAngle!
         percentage = 0.0
+    }
+    
+    convenience init(using strokeColor: CGColor, lineWidth: CGFloat) {
+        self.init()
+        
+        self.strokeColor = strokeColor
+        self.lineWidth = lineWidth
     }
     
     override func draw(_ rect: CGRect) {
@@ -67,12 +81,16 @@ class DBSRUIStreamProgress: UIView {
             let shapeView = CAShapeLayer()
             shapeView.path = bezierPath.cgPath
             shapeView.fillColor = nil
-            shapeView.strokeColor = UIColor.green.cgColor
-            shapeView.lineWidth = 2.5
+            shapeView.strokeColor = strokeColor
+            shapeView.lineWidth = lineWidth
             shapeView.strokeEnd = percentage
             
             layer.addSublayer(shapeView)
         }
+    }
+    
+    private func animateChange() {
+
     }
     
     required init?(coder aDecoder: NSCoder) {

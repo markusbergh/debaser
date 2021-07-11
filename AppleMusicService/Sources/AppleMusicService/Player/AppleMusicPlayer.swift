@@ -6,6 +6,7 @@
 //
 
 import AVFoundation
+import Combine
 import Foundation
 import MediaPlayer
 
@@ -18,10 +19,12 @@ class AppleMusicPlayer {
                   let storeIds = queue.storeIDs,
                   !storeIds.isEmpty else { return }
             
+            musicPlayer.qu
+            
             musicPlayer.setQueue(with: storeIds)
         }
     }
-    
+    private let durationDidChange = PassthroughSubject<[Double], Never>()
     private var audioPlayerItem: AVPlayerItem?
     private lazy var audioPlayer: AVPlayer = {
         let audioPlayer = AVPlayer(playerItem: audioPlayerItem)
@@ -29,6 +32,33 @@ class AppleMusicPlayer {
         return audioPlayer
     }()
 
+}
+
+// MARK: - Metadata
+
+extension AppleMusicPlayer {
+    
+    private func observeCurrentTime() {
+        guard let audioPlayerItem = audioPlayerItem else {
+            return
+        }
+
+        audioPlayer.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: DispatchQueue.main) { time in
+            guard self.audioPlayer.currentItem?.status == .readyToPlay else {
+                return
+            }
+            
+            let currentTime = ceil(self.audioPlayer.currentTime().seconds)
+            let totalTime = ceil(audioPlayerItem.duration.seconds)
+
+            self.durationDidChange.send([currentTime, totalTime])
+        }
+    }
+    
+    func subscribeCurrentTimeDidChange() -> AnyPublisher<[Double], Never> {
+        return durationDidChange.eraseToAnyPublisher()
+    }
+        
 }
 
 // MARK: - Player
@@ -55,6 +85,9 @@ extension AppleMusicPlayer {
         
         // Set item...
         audioPlayerItem = AVPlayerItem(url: url)
+        
+        // ... observe current time ...
+        observeCurrentTime()
         
         // ... and play
         audioPlayer.play()

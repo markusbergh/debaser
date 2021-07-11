@@ -65,4 +65,8 @@ extension AppleMusicService {
         self.musicPlayer.stop()
     }
     
+    public var currentTimePublisher: AnyPublisher<[Double], Never> {
+        return musicPlayer.subscribeCurrentTimeDidChange()
+    }
+    
 }

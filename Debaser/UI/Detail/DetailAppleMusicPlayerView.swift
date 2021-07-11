@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct DetailAppleMusicPlayerView: View {
-    
+    @Environment(\.appleMusicService) var appleMusicService
+
     let artistName: String
     let albumTitle: String
-    var artwork: String
+    let artwork: String
 
     @Binding var isStreaming: Bool
+    
+    @State private var streamProgress: CGFloat = 0.0
     
     var body: some View {
         HStack(spacing: 10) {
@@ -32,6 +35,24 @@ struct DetailAppleMusicPlayerView: View {
                             .offset(x: isStreaming ? 0 : 2)
                             .animation(nil)
                     )
+                    .overlay(
+                        DetailStreamProgress(
+                            streamProgress: streamProgress,
+                            strokeColor: UIColor.red.cgColor,
+                            lineWidth: 1.5
+                        )
+                    )
+                    .onReceive(appleMusicService.currentTimePublisher) { progress in
+                        let currentTime = progress[0]
+                        let totalTime = progress[1]
+                        
+                        streamProgress = CGFloat(currentTime / totalTime)
+                        
+                        if streamProgress >= 1.0 {
+                            isStreaming = false
+                            streamProgress = 0.0
+                        }
+                    }
             }
             
             VStack(alignment: .leading) {
