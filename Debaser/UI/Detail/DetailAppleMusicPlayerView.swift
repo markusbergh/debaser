@@ -20,7 +20,7 @@ struct DetailAppleMusicPlayerView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Preview")
+            Text("Detail.Preview.Artist")
                 .font(Font.Variant.tiny.font)
                 .fontWeight(.semibold)
             
