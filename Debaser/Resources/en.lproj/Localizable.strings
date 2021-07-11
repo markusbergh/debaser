@@ -23,6 +23,7 @@
 "Detail.Age" = "Age %@";
 "Detail.Event.Overdue.Title" = "Oops!";
 "Detail.Event.Overdue.Message" = "This event has already happened!";
+"Detail.Preview.Artist" = "Preview";
 
 /// Favourites
 "Favourites" = "Favourites";

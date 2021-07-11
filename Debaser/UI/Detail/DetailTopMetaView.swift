@@ -77,21 +77,10 @@ struct DetailTopMetaView: View {
                 )
             }
             .buttonStyle(PlainButtonStyle())
-            .modifier(DetailTopMetaHintEffect(to: metaVenueButtonScale) {
-                DispatchQueue.main.async {
-                    metaVenueButtonScale = 1.0
-                }
-            })
-            .animation(.easeInOut(duration: 0.25))
             .sheet(isPresented: $isShowingMapView) {
                 MapView()
                     .preferredColorScheme(colorScheme)
                     .ignoresSafeArea()
-            }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    metaVenueButtonScale = 1.1
-                }
             }
             
             if isEventNextYear {

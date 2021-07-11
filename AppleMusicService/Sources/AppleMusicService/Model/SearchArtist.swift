@@ -30,6 +30,7 @@ struct Song: Codable {
 public struct SongAttributes: Codable {
     public let name: String
     public let albumName: String
+    public let artistName: String
     public let artwork: SongArtwork
     public let playParams: SongPlayParameters
     public let previews: [SongPreview]

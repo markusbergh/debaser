@@ -40,16 +40,20 @@ extension AppleMusicPlayer {
         guard let audioPlayerItem = audioPlayerItem else {
             return
         }
+        
+        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
 
-        audioPlayer.addPeriodicTimeObserver(forInterval: CMTime(seconds: 1, preferredTimescale: 1), queue: DispatchQueue.main) { time in
-            guard self.audioPlayer.currentItem?.status == .readyToPlay else {
+        audioPlayer.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let strongSelf = self else { return }
+            
+            guard strongSelf.audioPlayer.currentItem?.status == .readyToPlay else {
                 return
             }
             
-            let currentTime = ceil(self.audioPlayer.currentTime().seconds)
+            let currentTime = ceil(strongSelf.audioPlayer.currentTime().seconds)
             let totalTime = ceil(audioPlayerItem.duration.seconds)
 
-            self.durationDidChange.send([currentTime, totalTime])
+            strongSelf.durationDidChange.send([currentTime, totalTime])
         }
     }
     

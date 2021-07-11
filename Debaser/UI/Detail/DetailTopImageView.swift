@@ -10,6 +10,8 @@ import SwiftUI
 struct DetailTopImageView: View {
     @EnvironmentObject var imageViewModel: ImageViewModel
     
+    private let imageHeight: CGFloat = 275
+    
     var body: some View {
         GeometryReader { geometry -> DetailImageView in
             var width =  geometry.size.width
@@ -30,7 +32,7 @@ struct DetailTopImageView: View {
                 offset: offsetY
             )
         }
-        .frame(height: 300)
+        .frame(height: imageHeight)
     }
 }
 

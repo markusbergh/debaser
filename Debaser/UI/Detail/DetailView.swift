@@ -72,8 +72,8 @@ struct DetailView: View {
                     // Apple Music
                     if canPreviewArtistAppleMusic, let songAttributes = songAttributes {
                         DetailAppleMusicPlayerView(
-                            artistName: songAttributes.name,
-                            albumTitle: songAttributes.albumName,
+                            songTitle: songAttributes.name,
+                            artistName: songAttributes.artistName,
                             artwork: songAttributes.artwork.url,
                             isStreaming: $isStreaming
                         )
@@ -82,11 +82,13 @@ struct DetailView: View {
                         .cornerRadius(Style.cornerRadius.value)
                         .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
                         .padding([.leading, .top, .trailing], Style.padding.value)
+                        .transition(.move(edge: .top).combined(with: .opacity))
                     }
                     
                     // Main content
                     DetailMainContentView(event: event)
                 }
+                .animation(.easeInOut)
             }
             .background(Color.detailBackground)
             .ignoresSafeArea()

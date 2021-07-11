@@ -36,6 +36,8 @@
 		85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */; };
 		85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303380262E1EF200C93D1B /* OnboardingView.swift */; };
 		85321D5326990E5C00E51985 /* DetailAppleMusicPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85321D5226990E5C00E51985 /* DetailAppleMusicPlayerView.swift */; };
+		85459107269B98B80023B2F1 /* DetailStreamAnimatableProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85459106269B97990023B2F1 /* DetailStreamAnimatableProgress.swift */; };
+		85459108269B98C70023B2F1 /* DetailStreamProgressAnimatableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85459105269B97960023B2F1 /* DetailStreamProgressAnimatableView.swift */; };
 		85498DF526659C2800132D92 /* SafeAreaInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85498DF426659C2800132D92 /* SafeAreaInsets.swift */; };
 		854E2980262CB3C0003AC567 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		854F3A352651627F00FC6BD9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
@@ -204,6 +206,8 @@
 		85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingViewController.swift; sourceTree = "<group>"; };
 		85303380262E1EF200C93D1B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		85321D5226990E5C00E51985 /* DetailAppleMusicPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAppleMusicPlayerView.swift; sourceTree = "<group>"; };
+		85459105269B97960023B2F1 /* DetailStreamProgressAnimatableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStreamProgressAnimatableView.swift; sourceTree = "<group>"; };
+		85459106269B97990023B2F1 /* DetailStreamAnimatableProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStreamAnimatableProgress.swift; sourceTree = "<group>"; };
 		85498DF426659C2800132D92 /* SafeAreaInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaInsets.swift; sourceTree = "<group>"; };
 		854E296B262CB0C0003AC567 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		854E2970262CB0C4003AC567 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 		8519D278262DEDF700806839 /* UIRepresentable */ = {
 			isa = PBXGroup;
 			children = (
+				85459103269B97770023B2F1 /* AnimatableStreamProgress */,
 				85FCAF41263767BC00A0BC89 /* DetailStreamProgress */,
 				85303364262E1D4B00C93D1B /* Onboarding */,
 				85303368262E1D7F00C93D1B /* TitleView */,
@@ -433,6 +438,23 @@
 				8530336E262E1E2400C93D1B /* DBSROnboardingView.swift */,
 				85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */,
 				85303370262E1E2400C93D1B /* Onboarding.storyboard */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		85459103269B97770023B2F1 /* AnimatableStreamProgress */ = {
+			isa = PBXGroup;
+			children = (
+				85459104269B97960023B2F1 /* UIKit */,
+				85459106269B97990023B2F1 /* DetailStreamAnimatableProgress.swift */,
+			);
+			path = AnimatableStreamProgress;
+			sourceTree = "<group>";
+		};
+		85459104269B97960023B2F1 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				85459105269B97960023B2F1 /* DetailStreamProgressAnimatableView.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -1039,6 +1061,7 @@
 				850FB558260CB4DD001AD034 /* FavouritesView.swift in Sources */,
 				8599433F2634355A00128A73 /* SettingsReducer.swift in Sources */,
 				85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */,
+				85459108269B98C70023B2F1 /* DetailStreamProgressAnimatableView.swift in Sources */,
 				85D3AED026398089006A59A2 /* CarouselView.swift in Sources */,
 				852E5031265AF8FD00B48DB6 /* ListRowImageView.swift in Sources */,
 				858E1E0B2634860C00C3E941 /* WebView.swift in Sources */,
@@ -1076,6 +1099,7 @@
 				8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */,
 				852E5033265AFB8E00B48DB6 /* FavouriteRowImageView.swift in Sources */,
 				85616EDE262992E50018C955 /* ListHeaderView.swift in Sources */,
+				85459107269B98B80023B2F1 /* DetailStreamAnimatableProgress.swift in Sources */,
 				8599436426344FD900128A73 /* OnboardingReducer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
