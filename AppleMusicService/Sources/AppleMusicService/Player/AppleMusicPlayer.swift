@@ -19,8 +19,6 @@ class AppleMusicPlayer {
                   let storeIds = queue.storeIDs,
                   !storeIds.isEmpty else { return }
             
-            musicPlayer.qu
-            
             musicPlayer.setQueue(with: storeIds)
         }
     }
