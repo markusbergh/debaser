@@ -71,7 +71,7 @@ class SpotifyService: NSObject {
     static let sessionStorageKey = "spotifyCurrentSession"
     
     /// Search API
-    static let baseURL = "https://api.spotify.com/v1"
+    static let baseURL = "https://api.spotify.com/v1/artists"
     static let currentMarket = "SE"
     
     /// Cancellable for top tracks search
@@ -502,8 +502,11 @@ extension SpotifyService {
     /// - Returns: A publisher holding a result object of type `SpotifyResult`
     ///
     private func searchTopTracks(for uri: String, accessToken: String) -> AnyPublisher<SpotifyResult, SpotifyServiceError> {
-        var urlRequest = URLRequest(url: URL(string: "\(SpotifyService.baseURL)/\(uri)/top-tracks?market=\(SpotifyService.currentMarket)")!)
+        guard let url = URL(string: "\(SpotifyService.baseURL)/\(uri)/top-tracks?market=\(SpotifyService.currentMarket)") else {
+            return Fail(error: SpotifyServiceError.unknownError).eraseToAnyPublisher()
+        }
         
+        var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
                                     

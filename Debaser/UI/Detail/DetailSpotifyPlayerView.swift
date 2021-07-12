@@ -38,7 +38,7 @@ struct DetailSpotifyPlayerView: View {
                 }) {
                     Circle()
                         .fill(Color.white)
-                        .frame(width: 32, height: 32)
+                        .frame(width: 35, height: 35)
                         .shadow(color: .black.opacity(0.35), radius: 5, x: 0, y: 0)
                         .overlay(
                             Image(systemName: isStreaming ? "pause.fill" : "play.fill")
@@ -65,6 +65,8 @@ struct DetailSpotifyPlayerView: View {
                 VStack(alignment: .leading, spacing: 5) {
                     Text(songTitle)
                         .font(.subheadline)
+                        .lineLimit(2)
+                    
                     Text(artistName)
                         .font(.subheadline)
                         .fontWeight(.semibold)

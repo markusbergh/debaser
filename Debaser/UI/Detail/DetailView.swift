@@ -75,25 +75,28 @@ struct DetailView: View {
                         }
                     }
                     
-                    if canPreviewArtist, let track = artistTopTrack {
-                        DetailSpotifyPlayerView(
-                            songTitle: track.name,
-                            artistName: track.artists.first?.name ?? "Unknown artist",
-                            albumName: track.album.name,
-                            artwork: "",
-                            isStreaming: $isStreaming
-                        )
-                        .padding(Style.padding.value)
-                        .background(Color.detailContentBackground)
-                        .cornerRadius(Style.cornerRadius.value)
-                        .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
-                        .padding([.leading, .top, .trailing], Style.padding.value)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                    Group {
+                        if canPreviewArtist, let track = artistTopTrack {
+                            DetailSpotifyPlayerView(
+                                songTitle: track.name,
+                                artistName: track.artists.first?.name ?? "Unknown artist",
+                                albumName: track.album.name,
+                                artwork: "",
+                                isStreaming: $isStreaming
+                            )
+                            .padding(Style.padding.value)
+                            .background(Color.detailContentBackground)
+                            .cornerRadius(Style.cornerRadius.value)
+                            .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
+                            .padding([.leading, .top, .trailing], Style.padding.value)
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        }
+                        
+                        // Main content
+                        DetailMainContentView(event: event)
+                            .animation(.easeInOut)
                     }
-                    
-                    // Main content
-                    DetailMainContentView(event: event)
-                        .animation(.easeInOut)
+                    .offset(y: -50.0)
                 }
             }
             .background(Color.detailBackground)
