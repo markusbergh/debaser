@@ -87,4 +87,21 @@ class MockStore: ObservableObject {
         
         return store
     }
+    
+    static func store(withTopTracks topTracks: [SpotifyTrack]) -> Store<AppState, AppAction> {
+        let spotifyState = SpotifyState(topTracks: topTracks)
+        
+        let store = Store(
+            initialState: AppState(
+                list: ListState(),
+                settings: SettingsState(),
+                onboarding: OnboardingState(),
+                spotify: spotifyState
+            ),
+            reducer: appReducer
+        )
+        
+        return store
+    }
+    
 }

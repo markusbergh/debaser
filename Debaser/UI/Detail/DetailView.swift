@@ -22,7 +22,9 @@ private enum Style {
 }
 
 struct DetailView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     @Environment(\.spotifyService) var spotifyService
 
     @EnvironmentObject var store: AppStore
@@ -31,6 +33,14 @@ struct DetailView: View {
     @State private var canPreviewArtist = false
     @State private var isStreaming = false
     @State private var isShowingAlertDateOverdue = false
+    
+    private var shadowOpacity: Double {
+        return colorScheme == .light ? 0.25 : 0.1
+    }
+    
+    private var artistTopTrack: SpotifyTrack? {
+        return store.state.spotify.topTracks?.first
+    }
     
     let event: EventViewModel
     let canNavigateBack: Bool
@@ -63,14 +73,27 @@ struct DetailView: View {
                             .padding(.top, (Style.padding.value * 2))
                             .frame(maxWidth: .infinity)
                         }
-                        
-                        if canPreviewArtist {
-                            DetailSpotifyPlayerView(isStreaming: $isStreaming)
-                        }
+                    }
+                    
+                    if canPreviewArtist, let track = artistTopTrack {
+                        DetailSpotifyPlayerView(
+                            songTitle: track.name,
+                            artistName: track.artists.first?.name ?? "Unknown artist",
+                            albumName: track.album.name,
+                            artwork: "",
+                            isStreaming: $isStreaming
+                        )
+                        .padding(Style.padding.value)
+                        .background(Color.detailContentBackground)
+                        .cornerRadius(Style.cornerRadius.value)
+                        .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
+                        .padding([.leading, .top, .trailing], Style.padding.value)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                     
                     // Main content
                     DetailMainContentView(event: event)
+                        .animation(.easeInOut)
                 }
             }
             .background(Color.detailBackground)
@@ -79,16 +102,10 @@ struct DetailView: View {
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
             .onChange(of: store.state.spotify.hasTracksForCurrentArtist) { hasTracks in
-                if hasTracks {
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            canPreviewArtist = true
-                        }
-                    }
-                }
+                canPreviewArtist = hasTracks
             }
             .onChange(of: isStreaming) { shouldStream in
-                if shouldStream {
+                if shouldStream {                    
                     do {
                         try spotifyService.playTrackForArtist()
                     } catch {
@@ -278,7 +295,11 @@ struct DetailDescriptionView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let store = MockStore.store
+        let artist = SpotifyArtist(name: "Artist name")
+        let album = SpotifyAlbum(name: "This is an album name", releaseDate: "2018-09-28", images: [], uri: "")
+        let track = SpotifyTrack(name: "Test", uri: "", album: album, artists: [artist])
+
+        let store = MockStore.store(withTopTracks: [track])
         let event = EventViewModel.mock
         
         DetailView(event: event)

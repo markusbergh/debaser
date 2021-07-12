@@ -22,7 +22,6 @@ enum SpotifyNotification: String {
 enum SpotifyServiceError: Equatable, Error {
     /// Service
     case auth
-    case unknown
     case requestError(String)
     case userNotFound
     case tracksNotFoundForArtist
@@ -30,6 +29,7 @@ enum SpotifyServiceError: Equatable, Error {
     case streamURLUnavailable
     case couldNotStartStream(String)
     case premiumAccountRequired
+    case decodingError
     
     /// Session
     case invalidSession
@@ -51,7 +51,7 @@ class SpotifyService: NSObject {
     var player: SPTAudioStreamingController?
     var session: SPTSession?
     var currentUser: SPTUser?
-    var currentArtistURI: String?
+    var currentArtistTrack: SpotifyTrack?
 
     /// Is user logged in?
     var userState: SpotifyUser = .inactive
@@ -61,7 +61,7 @@ class SpotifyService: NSObject {
     
     /// Is stream active?
     var streaming = false
-
+    
     /// Singleton instance
     static let shared = SpotifyService()
     
@@ -69,6 +69,13 @@ class SpotifyService: NSObject {
     static let cliendID = "bebe3d1ed01a4d9ba8d9fe2351d20936"
     static let redirectURL = "debaser-spotify-login://callback"
     static let sessionStorageKey = "spotifyCurrentSession"
+    
+    /// Search API
+    static let baseURL = "https://api.spotify.com/v1"
+    static let currentMarket = "SE"
+    
+    /// Cancellable for top tracks search
+    private var topTracksRequestCancellable: AnyCancellable?
 
     override private init() {
         super.init()
@@ -256,7 +263,7 @@ extension SpotifyService {
         SpotifyService.log(message: "Previous token has probably expired")
         
         guard let auth = self.auth, auth.hasTokenRefreshService else {
-            throw SpotifyServiceError.unknown
+            throw SpotifyServiceError.unknownError
         }
         
         return try renewSession()
@@ -447,45 +454,77 @@ extension SpotifyService {
     /// Handles a search for the requested artist
     ///
     /// - Parameter query: The string to search for
-    /// - Returns: A publisher that outputs an error of type `SpotifyServiceError`
+    /// - Returns: A publisher that can fail with an error of type `SpotifyServiceError`
     ///
-    func searchTrackForEventArtist(query: String) -> AnyPublisher<Void, SpotifyServiceError> {
+    func searchTrackForEventArtist(query: String) -> AnyPublisher<SpotifyResult, SpotifyServiceError> {
         SpotifyService.log(message: "Performing search for: \(query)")
 
         guard let session = self.session else {
             return Fail(error: SpotifyServiceError.invalidSession).eraseToAnyPublisher()
         }
         
-        return Future<Void, SpotifyServiceError> { promise in
+        return Future<SpotifyResult, SpotifyServiceError> { promise in
             SPTSearch.perform(withQuery: query, queryType: .queryTypeArtist, accessToken: session.accessToken) { (error, object) in
-                let result = Result { () throws in
-                    if let error = error {
-                        SpotifyService.log(message: "Error when performing search: \(error.localizedDescription)")
-                        
-                        throw SpotifyServiceError.tracksNotFoundForArtist
-                    }
+                guard let list = object as? SPTListPage, let items = list.items, let artist = items.first as? SPTPartialArtist else {
+                    promise(.failure(.tracksNotFoundForArtist))
                     
-                    // No errors, will try and stream
-                    if let list = object as? SPTListPage, let items = list.items, let firstArtist = items.first as? SPTPartialArtist {
-                        SpotifyService.log(message: "Setting current track: \(firstArtist.uri.absoluteString)")
+                    return
+                }
+
+                // Artist found in Spotify, now try and get top tracks
+                SpotifyService.log(message: "Found artist in Spotify: \(artist.uri.absoluteString) [\(query)]")
+                
+                self.topTracksRequestCancellable = self.searchTopTracks(for: artist.identifier, accessToken: session.accessToken)
+                    .sink(receiveCompletion: { result in
+                        switch result {
+                        case .failure(let error):
+                            promise(.failure(error))
+                        case .finished:
+                            break
+                        }
+                    }, receiveValue: { result in
+                        self.currentArtistTrack = result.tracks.first
                         
-                        // Save reference to playable artist
-                        self.currentArtistURI = firstArtist.uri.absoluteString
-                    } else {
-                        // Zero search result
-                        SpotifyService.log(message: "There was a successful search, but no tracks would be found")
-                        
-                        throw SpotifyServiceError.tracksNotFoundForArtist
-                    }
-                }.mapError { error in
-                    return SpotifyServiceError.tracksNotFoundForArtist
+                        promise(.success(result))
+                    })
+            }
+        }.eraseToAnyPublisher()
+    }
+        
+    ///
+    /// Searches for an artists top tracks
+    ///
+    /// - Throws: An error of type `SpotifyServiceError`
+    ///
+    /// - Parameters:
+    ///   - uri: The identifier to search for
+    ///   - accessToken: Users access token for request
+    /// - Returns: A publisher holding a result object of type `SpotifyResult`
+    ///
+    private func searchTopTracks(for uri: String, accessToken: String) -> AnyPublisher<SpotifyResult, SpotifyServiceError> {
+        var urlRequest = URLRequest(url: URL(string: "\(SpotifyService.baseURL)/\(uri)/top-tracks?market=\(SpotifyService.currentMarket)")!)
+        
+        urlRequest.httpMethod = "GET"
+        urlRequest.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+                                    
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+            .tryMap { data, response in
+                guard let httpResponse = response as? HTTPURLResponse, 200..<300 ~= httpResponse.statusCode else {
+                    throw SpotifyServiceError.requestError("Response error")
                 }
                 
-                // Call promise with result
-                promise(result)
+                return data
             }
-
-        }.eraseToAnyPublisher()
+            .decode(type: SpotifyResult.self, decoder: JSONDecoder())
+            .mapError { error -> SpotifyServiceError in
+                switch error {
+                case is Decodable:
+                    return SpotifyServiceError.decodingError
+                default:
+                    return SpotifyServiceError.unknownError
+                }
+            }
+            .eraseToAnyPublisher()
     }
 
     ///
@@ -495,7 +534,7 @@ extension SpotifyService {
     ///
     func playTrackForArtist() throws {
         guard let player = self.player else { throw SpotifyServiceError.playerUnavailable }
-        guard let streamURL = currentArtistURI else { throw SpotifyServiceError.streamURLUnavailable }
+        guard let streamURL = currentArtistTrack?.uri else { throw SpotifyServiceError.streamURLUnavailable }
 
         player.playSpotifyURI(streamURL, startingWith: 0, startingWithPosition: 0) { error in
             if let error = error {
