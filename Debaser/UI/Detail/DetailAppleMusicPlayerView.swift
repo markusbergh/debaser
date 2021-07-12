@@ -77,7 +77,7 @@ struct DetailAppleMusicPlayerView: View {
                 Image("AppleMusicIcon")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 32)
+                    .frame(width: 35)
             }
         }
     }

@@ -31,6 +31,19 @@ struct SettingsView: View {
         return darkMode.wrappedValue
     }
     
+    private var shouldShowSpotifySetting: Bool {
+        guard let infoDictPath = Bundle.main.path(forResource: "Debaser", ofType: "plist"),
+              let infoDict = NSDictionary(contentsOfFile: infoDictPath) as? [String: Any] else {
+            fatalError("Found no property list for app")
+        }
+        
+        guard let shouldShowSpotifySetting = infoDict["kSpotifyConnectionEnabled"] as? Bool else {
+            return false
+        }
+        
+        return shouldShowSpotifySetting
+    }
+    
     init() {
         UITableView.appearance().backgroundColor = .clear
     }
@@ -40,7 +53,10 @@ struct SettingsView: View {
             Form {
                 Group {
                     SettingsSectionAbout()
-                    SettingsSectionSpotify()
+                    
+                    if shouldShowSpotifySetting {
+                        SettingsSectionSpotify()
+                    }
                     
                     // For some weird reason, this section crashes if being a subview like
                     // the rest, possibly due to an animated removal/insertion of the row.

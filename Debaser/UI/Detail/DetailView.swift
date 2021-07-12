@@ -52,6 +52,7 @@ struct DetailView: View {
                         if store.state.settings.showImages.value {
                             DetailTopImageView()
                                 .environmentObject(imageViewModel)
+                                .animation(nil)
                                 .onAppear {
                                     imageViewModel.load(with: event.image)
                                 }
@@ -87,8 +88,8 @@ struct DetailView: View {
                     
                     // Main content
                     DetailMainContentView(event: event)
+                        .animation(.easeInOut)
                 }
-                .animation(.easeInOut)
             }
             .background(Color.detailBackground)
             .ignoresSafeArea()
@@ -214,9 +215,13 @@ struct DetailMainContentView: View {
             }
             .padding(.bottom, 35)
 
-            TitleView(title: event.title, width: titleWidth, calculatedHeight: $titleHeight)
-                .frame(height: titleHeight)
-                .padding(.bottom, 10)
+            TitleView(
+                title: event.title,
+                width: titleWidth,
+                calculatedHeight: $titleHeight
+            )
+            .frame(height: titleHeight)
+            .padding(.bottom, 10)
 
             DetailMetaContainerView(
                 ageLimit: event.ageLimit,
