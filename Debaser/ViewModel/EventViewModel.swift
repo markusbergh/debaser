@@ -170,7 +170,13 @@ struct ParseUsingRegularExpression {
     private func parse(value: String) -> String? {
         guard let pattern = pattern else { return nil }
         
-        return parse(value: value, pattern: pattern)
+        var options: NSRegularExpression.Options = []
+        
+        if pattern == .admission {
+            options = [.caseInsensitive]
+        }
+        
+        return parse(value: value, pattern: pattern, options: options)
     }
     
     ///
@@ -181,12 +187,12 @@ struct ParseUsingRegularExpression {
     ///   - pattern: Regular expression to parse with
     /// - Returns: An optional parsed string
     ///
-    private func parse(value: String, pattern: RegularExpressionPattern) -> String? {
+    private func parse(value: String, pattern: RegularExpressionPattern, options: NSRegularExpression.Options = []) -> String? {
         let value = value
         
         do {
             let range = NSRange(value.startIndex..<value.endIndex, in: value)
-            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: [])
+            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: options)
 
             guard let match = regex.firstMatch(in: value, options: [], range: range) else {
                 return nil
