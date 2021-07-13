@@ -35,6 +35,7 @@
 		85303376262E1E2400C93D1B /* DBSROnboardingStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303371262E1E2400C93D1B /* DBSROnboardingStepViewController.swift */; };
 		85303377262E1E2400C93D1B /* DBSROnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */; };
 		85303381262E1EF200C93D1B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85303380262E1EF200C93D1B /* OnboardingView.swift */; };
+		8537BF3A269E170F00E02E0C /* DetailSpotifyPlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8537BF39269E170F00E02E0C /* DetailSpotifyPlayButtonView.swift */; };
 		85498DF526659C2800132D92 /* SafeAreaInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85498DF426659C2800132D92 /* SafeAreaInsets.swift */; };
 		854E2980262CB3C0003AC567 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
 		854F3A352651627F00FC6BD9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 854E296C262CB0C0003AC567 /* Localizable.strings */; };
@@ -202,6 +203,7 @@
 		85303371262E1E2400C93D1B /* DBSROnboardingStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingStepViewController.swift; sourceTree = "<group>"; };
 		85303372262E1E2400C93D1B /* DBSROnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBSROnboardingViewController.swift; sourceTree = "<group>"; };
 		85303380262E1EF200C93D1B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		8537BF39269E170F00E02E0C /* DetailSpotifyPlayButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSpotifyPlayButtonView.swift; sourceTree = "<group>"; };
 		85498DF426659C2800132D92 /* SafeAreaInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaInsets.swift; sourceTree = "<group>"; };
 		854E296B262CB0C0003AC567 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		854E2970262CB0C4003AC567 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -741,6 +743,7 @@
 				851F7A032635E71700806FF8 /* DetailFavouriteButtonView.swift */,
 				851F7A082635E73B00806FF8 /* DetailBuyTicketButtonView.swift */,
 				858EB21D269C2CDF00A970A1 /* DetailSpotifyPlayerView.swift */,
+				8537BF39269E170F00E02E0C /* DetailSpotifyPlayButtonView.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1051,6 +1054,7 @@
 				85FCAF3D26375F4B00A0BC89 /* DetailStreamProgress.swift in Sources */,
 				85A8BAEB2634C2BC00E591A1 /* SettingsAboutView.swift in Sources */,
 				8530336A262E1D9700C93D1B /* TitleView.swift in Sources */,
+				8537BF3A269E170F00E02E0C /* DetailSpotifyPlayButtonView.swift in Sources */,
 				85B0607B2627A96E006D2D9D /* Reducer.swift in Sources */,
 				855CF38F2646DC5D007876D3 /* MapView.swift in Sources */,
 				85EEB96B2620404000DFC238 /* View+Extension.swift in Sources */,

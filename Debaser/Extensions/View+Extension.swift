@@ -35,4 +35,21 @@ extension View {
         return modifier(AnimationCompletionObserverModifier(observedValue: value, completion: completion))
     }
     
+    ///
+    /// Conditionally adds a modifier to a view depending on a condition
+    ///
+    /// - Parameters:
+    ///   - condition: The condition to decide on.
+    ///   - transform: The transforming modifier.
+    /// - Returns: A modified `View` instance.
+    ///
+    @ViewBuilder
+    func `if`<T>(_ condition: Bool, transform: (Self) -> T) -> some View where T : View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+    
 }

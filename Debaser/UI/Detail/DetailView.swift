@@ -7,20 +7,6 @@
 
 import SwiftUI
 
-private enum Style {
-    case padding
-    case cornerRadius
-    
-    var value: CGFloat {
-        switch self {
-        case .padding:
-            return 25
-        case .cornerRadius:
-            return 25
-        }
-    }
-}
-
 struct DetailView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -155,32 +141,7 @@ struct DetailView: View {
     }
 }
 
-// MARK: Back button
-
-struct DetailBackButtonView: View {
-    @EnvironmentObject var store: AppStore
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var isStreaming: Bool
-
-    var body: some View {
-        Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-            isStreaming = false
-        }) {
-            Image(systemName: "chevron.left.circle.fill")
-                .resizable()
-                .foregroundColor(Color.detailBackButtonTint)
-                .frame(width: 40, height: 40)
-                .background(
-                    Circle()
-                        .frame(width: 40, height: 40)
-                )
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
-
-// MARK: Main content
+// MARK: - Main content
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -245,7 +206,7 @@ struct DetailMainContentView: View {
     }
 }
 
-// MARK: Metadata
+// MARK: - Metadata
 
 struct DetailMetaContainerView: View {
     var ageLimit: String
@@ -277,7 +238,7 @@ struct DetailMetaContainerView: View {
     }
 }
 
-// MARK: Description
+// MARK: - Description
 
 struct DetailDescriptionView: View {
     var subHeader: String?
@@ -293,6 +254,47 @@ struct DetailDescriptionView: View {
         Text(description)
             .font(Font.Variant.body(weight: .regular).font)
             .lineSpacing(2)
+    }
+}
+
+// MARK: - Back button
+
+struct DetailBackButtonView: View {
+    @EnvironmentObject var store: AppStore
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var isStreaming: Bool
+
+    var body: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+            isStreaming = false
+        }) {
+            Image(systemName: "chevron.left.circle.fill")
+                .resizable()
+                .foregroundColor(Color.detailBackButtonTint)
+                .frame(width: 40, height: 40)
+                .background(
+                    Circle()
+                        .frame(width: 40, height: 40)
+                )
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Style
+
+private enum Style {
+    case padding
+    case cornerRadius
+    
+    var value: CGFloat {
+        switch self {
+        case .padding:
+            return 25
+        case .cornerRadius:
+            return 25
+        }
     }
 }
 
