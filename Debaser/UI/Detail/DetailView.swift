@@ -76,12 +76,12 @@ struct DetailView: View {
                     }
                     
                     Group {
-                        if canPreviewArtist, let track = artistTopTrack {
+                        if canPreviewArtist, let track = artistTopTrack {                            
                             DetailSpotifyPlayerView(
                                 songTitle: track.name,
                                 artistName: track.artists.first?.name ?? "Unknown artist",
                                 albumName: track.album.name,
-                                artwork: "",
+                                artworkURL: track.album.images.first?.url,
                                 isStreaming: $isStreaming
                             )
                             .padding(Style.padding.value)
