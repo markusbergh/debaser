@@ -8,13 +8,19 @@
 import SwiftUI
 
 struct DetailSpotifyPlayButtonView: View {
+    
+    /// Audio stream progress
     @State private var streamProgress: CGFloat = 0.0
     
+    /// Publisher for updates on audio stream progress
     private var streamPositionDidUpdate: NotificationCenter.Publisher {
         return NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamDidChangePosition"))
     }
     
+    /// Flag for audio streaming state
     @Binding var isStreaming: Bool
+    
+    /// Optional album artwork
     let artworkURL: String?
 
     var body: some View {
@@ -42,15 +48,16 @@ struct DetailSpotifyPlayButtonView: View {
                     .frame(width: 11, height: 11)
                     .offset(x: isStreaming ? 0 : 2)
             )
-            .if(isStreaming) { view in
-                view.overlay(
-                    DetailStreamProgress(streamProgress: streamProgress)
-                        .onReceive(streamPositionDidUpdate) { notification in
-                            handleStreamPositionDidUpdate(notification: notification)
-                        }
-                )
-            }
+            .overlay(isStreaming ? AnyView(streamProgressView) : AnyView(EmptyView()))
         }
+    }
+    
+    /// Circular progress view
+    private var streamProgressView: some View {
+        DetailStreamProgress(streamProgress: streamProgress)
+            .onReceive(streamPositionDidUpdate) { notification in
+                handleStreamPositionDidUpdate(notification: notification)
+            }
     }
     
     ///
@@ -71,9 +78,13 @@ struct DetailSpotifyPlayButtonView: View {
 
 struct DetailSpotifyArtworkView: View {
 
+    /// Album artwork
     let artworkURL: String
+    
+    /// Flag for audio streaming state
     let isStreaming: Bool
 
+    /// Handles album artwork
     @StateObject private var imageViewModel = ImageViewModel()
     
     private var rotationAnimation: Animation {
@@ -82,6 +93,15 @@ struct DetailSpotifyArtworkView: View {
             return .linear(duration: 2).repeatForever(autoreverses: false)
         case false:
             return .default
+        }
+    }
+    
+    private var degreesToRotate: Double {
+        switch isStreaming {
+        case true:
+            return 360
+        case false:
+            return 0
         }
     }
     
@@ -98,11 +118,11 @@ struct DetailSpotifyArtworkView: View {
                 imageViewModel.load(with: artworkURL)
             }
             .clipShape(Circle())
-            .rotationEffect(.degrees(isStreaming ? 360 : 0))
+            .rotationEffect(.degrees(degreesToRotate))
             .animation(rotationAnimation, value: isStreaming)
             .overlay(
                 Circle().fill(
-                    Color.white.opacity(0.5)
+                    Color.black.opacity(0.25)
                 )
             )
     }
