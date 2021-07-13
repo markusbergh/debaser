@@ -29,6 +29,9 @@ struct DetailView: View {
     /// Determines if alert should be shown or not when event is overdue
     @State private var isShowingAlertDateOverdue = false
     
+    /// Determine if toolbar with back button should be shown
+    @State private var isShowingToolbar = false
+    
     /// Return shadow opacity depending on current color scheme
     private var shadowOpacity: Double {
         return colorScheme == .light ? 0.25 : 0.1
@@ -44,6 +47,7 @@ struct DetailView: View {
     
     /// Flag if view can be navigated back, will be false for a modal
     let canNavigateBack: Bool
+    
 
     init(event: EventViewModel, canNavigateBack: Bool = true) {
         self.event = event
@@ -52,7 +56,12 @@ struct DetailView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ScrollView(showsIndicators: false) {
+            ScrollView(
+                showsIndicators: false,
+                offsetDidChange: { offset in
+                    isShowingToolbar = offset.y < -150
+                }
+            ) {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack(alignment: .topLeading) {
                         if store.state.settings.showImages.value {
@@ -76,7 +85,7 @@ struct DetailView: View {
                     }
                     
                     Group {
-                        if canPreviewArtist, let track = artistTopTrack {                            
+                        if canPreviewArtist, let track = artistTopTrack {
                             DetailSpotifyPlayerView(
                                 songTitle: track.name,
                                 artistName: track.artists.first?.name ?? "Unknown artist",

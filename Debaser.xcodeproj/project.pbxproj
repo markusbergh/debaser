@@ -106,6 +106,8 @@
 		85B5CDE3261F0F0800A55398 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDE2261F0F0800A55398 /* ListRowView.swift */; };
 		85BC0B27261658D600589240 /* FavouriteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B26261658D600589240 /* FavouriteRowView.swift */; };
 		85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* ImageViewModel.swift */; };
+		85BC1DDF269E45F9007735B0 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */; };
+		85BC1DE1269E49B9007735B0 /* DetailToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC1DE0269E49B9007735B0 /* DetailToolbarView.swift */; };
 		85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */; };
 		85D3AEB22639670F006A59A2 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */; };
 		85D3AED026398089006A59A2 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3AECF26398089006A59A2 /* CarouselView.swift */; };
@@ -265,6 +267,8 @@
 		85B5CDE2261F0F0800A55398 /* ListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
 		85BC0B26261658D600589240 /* FavouriteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteRowView.swift; sourceTree = "<group>"; };
 		85BC0B2B2616592600589240 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
+		85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
+		85BC1DE0269E49B9007735B0 /* DetailToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbarView.swift; sourceTree = "<group>"; };
 		85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
 		85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		85D3AECF26398089006A59A2 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
@@ -737,6 +741,7 @@
 			isa = PBXGroup;
 			children = (
 				85D7D7F72619F4550073E3BA /* DetailView.swift */,
+				85BC1DE0269E49B9007735B0 /* DetailToolbarView.swift */,
 				855CF3882646DC1F007876D3 /* DetailTopMetaView.swift */,
 				8528213F262787C0007B83EC /* DetailMetaView.swift */,
 				855CF3872646DC1F007876D3 /* DetailTopImageView.swift */,
@@ -756,6 +761,7 @@
 				852FBE9D26275CF200060A7E /* WillDisappearModifier.swift */,
 				8587C21F2647AF64005D622C /* DidAppearModifier.swift */,
 				85D3AED32639A1CC006A59A2 /* AnimationCompletionObserverModifier.swift */,
+				85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1015,6 +1021,7 @@
 				85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */,
 				856F547F26487AEF004203ED /* FavouriteListEmptyView.swift in Sources */,
 				85994326263434F500128A73 /* SettingsActions.swift in Sources */,
+				85BC1DDF269E45F9007735B0 /* ScrollViewOffset.swift in Sources */,
 				851F7A092635E73B00806FF8 /* DetailBuyTicketButtonView.swift in Sources */,
 				856F547D26487A8E004203ED /* FavouriteListView.swift in Sources */,
 				855CF38B2646DC1F007876D3 /* DetailTopMetaView.swift in Sources */,
@@ -1061,6 +1068,7 @@
 				8587C2202647AF64005D622C /* DidAppearModifier.swift in Sources */,
 				85EEAB22262B25F70000B85E /* EventViewModel.swift in Sources */,
 				85303374262E1E2400C93D1B /* DBSROnboardingButton.swift in Sources */,
+				85BC1DE1269E49B9007735B0 /* DetailToolbarView.swift in Sources */,
 				85D3AED42639A1CC006A59A2 /* AnimationCompletionObserverModifier.swift in Sources */,
 				85B060762627A927006D2D9D /* Actions.swift in Sources */,
 				85B5CDE3261F0F0800A55398 /* ListRowView.swift in Sources */,
