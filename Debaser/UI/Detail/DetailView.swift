@@ -207,9 +207,9 @@ struct DetailMainContentView: View {
                 DetailFavouriteButtonView(event: event)
             }
             .padding(.bottom, 35)
-
-            TitleView(title: event.title, width: titleWidth, calculatedHeight: $titleHeight)
-                .frame(height: titleHeight)
+            
+            Text(event.title)
+                .font(Font.Family.title.of(size: 49))
                 .padding(.bottom, 10)
 
             DetailMetaContainerView(

@@ -52,7 +52,6 @@ struct DetailSpotifyPlayerView: View {
                             .foregroundColor(.green)
                             .frame(width: 11, height: 11)
                             .offset(x: isStreaming ? 0 : 2)
-                            //.animation(nil, value: streamProgress > 0.0)
                     )
                     .overlay(
                         isStreaming ?
@@ -101,7 +100,12 @@ struct DetailSpotifyArtworkView: View {
     @StateObject private var imageViewModel = ImageViewModel()
     
     private var rotationAnimation: Animation {
-        return .linear(duration: 2).repeatForever(autoreverses: false)
+        switch isStreaming {
+        case true:
+            return .linear(duration: 2).repeatForever(autoreverses: false)
+        case false:
+            return .default
+        }
     }
     
     private var artworkImage: UIImage {
@@ -118,7 +122,7 @@ struct DetailSpotifyArtworkView: View {
             }
             .clipShape(Circle())
             .rotationEffect(.degrees(isStreaming ? 360 : 0))
-            //.animation(isStreaming ? rotationAnimation : .default)
+            .animation(rotationAnimation, value: isStreaming)
             .overlay(
                 Circle().fill(
                     Color.white.opacity(0.5)
