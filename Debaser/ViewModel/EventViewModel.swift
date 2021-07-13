@@ -88,7 +88,7 @@ struct ParseUsingRegularExpression {
     enum RegularExpressionPattern: String {
         case admission = #"\d{1,3} kr"#
         case ageLimitOrOpenHours = "\\d{1,2}"
-        case title = #"\S[^->|]+[^ \W]."#
+        case title = #"[\w()\s.\-]+(?=.--|.\|)"#
         case openHours = #"\d{1,2}[.:]\d{1,2}"#
     }
     
@@ -99,8 +99,20 @@ struct ParseUsingRegularExpression {
     var wrappedValue: String {
         get { value }
         set {
-            guard let parsedValue = parse(value: newValue) else {
-                return value = clean(value: newValue)
+            var updatedValue = newValue
+            
+            // Do some basic replacements
+            [
+                "&amp;": "&",
+                "&gt;": ">",
+                "&nbsp;": " ",
+                "&quot;": "\"",
+            ].forEach { key, value in
+                updatedValue = updatedValue.replacingOccurrences(of: key, with: value)
+            }
+            
+            guard let parsedValue = parse(value: updatedValue) else {
+                return value = clean(value: updatedValue)
             }
             
             value = clean(value: parsedValue)
@@ -136,7 +148,7 @@ struct ParseUsingRegularExpression {
         do {
             let range = NSRange(value.startIndex..<value.endIndex, in: value)
             let regex = try NSRegularExpression(pattern: pattern.rawValue, options: [.caseInsensitive])
-        
+
             guard let match = regex.firstMatch(in: value, options: [], range: range) else {
                 return nil
             }
@@ -169,15 +181,16 @@ struct ParseUsingRegularExpression {
         
         switch pattern {
         
-        /// Cleans up a string from occurrences of HTML references
+        /// Trimming HTML and whitespace characters
         case .title:
-            updatedValue = value.replacingOccurrences(of: "&amp;", with: "&")
-                .replacingOccurrences(of: "&gt;", with: ">")
-                .replacingOccurrences(of: "&nbsp;", with: " ")
-                .replacingOccurrences(of: "&quot;", with: "\"")
-                .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-        
+            updatedValue = updatedValue.replacingOccurrences(
+                of: "<[^>]+>",
+                with: "",
+                options: .regularExpression,
+                range: nil
+            )
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
         /// Sets a formatted string for age limit
         case .ageLimitOrOpenHours:
             func formattedAgeLimit(_ value: String) -> String {
