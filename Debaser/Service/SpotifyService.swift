@@ -90,6 +90,7 @@ class SpotifyService: NSObject {
     /// Custom log helper
     ///
     /// - Parameter message: The message to log
+    ///
     static func log(message: String) {
         print("🎹 [SpotifyService]: \(message)")
     }

@@ -11,24 +11,38 @@ struct DetailView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    /// Services
     @Environment(\.spotifyService) var spotifyService
 
+    /// Store
     @EnvironmentObject var store: AppStore
         
+    /// Handling image loading
     @StateObject private var imageViewModel = ImageViewModel()
+    
+    /// If there is an audio stream for current artist
     @State private var canPreviewArtist = false
+    
+    /// Sets the audio streaming state
     @State private var isStreaming = false
+    
+    /// Determines if alert should be shown or not when event is overdue
     @State private var isShowingAlertDateOverdue = false
     
+    /// Return shadow opacity depending on current color scheme
     private var shadowOpacity: Double {
         return colorScheme == .light ? 0.25 : 0.1
     }
     
+    /// Returns top tracks for current artist, if any
     private var artistTopTrack: SpotifyTrack? {
         return store.state.spotify.topTracks?.first
     }
     
+    /// Current event
     let event: EventViewModel
+    
+    /// Flag if view can be navigated back, will be false for a modal
     let canNavigateBack: Bool
 
     init(event: EventViewModel, canNavigateBack: Bool = true) {
@@ -82,7 +96,7 @@ struct DetailView: View {
                         DetailMainContentView(event: event)
                             .animation(.easeInOut)
                     }
-                    .offset(y: -50.0)
+                    .offset(y: Style.offset.value)
                 }
             }
             .background(Color.detailBackground)
@@ -196,13 +210,9 @@ struct DetailMainContentView: View {
         .padding(Style.padding.value)
         .background(Color.detailContentBackground)
         .cornerRadius(Style.cornerRadius.value)
-        .shadow(
-            color: .black.opacity(shadowOpacity),
-            radius: 20,
-            x: 0,
-            y: -5
-        )
-        .padding(Style.padding.value)
+        .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
+        .padding([.leading, .top, .trailing], Style.padding.value)
+        .padding(.bottom, Style.offset.value + Style.padding.value)
     }
 }
 
@@ -287,6 +297,7 @@ struct DetailBackButtonView: View {
 private enum Style {
     case padding
     case cornerRadius
+    case offset
     
     var value: CGFloat {
         switch self {
@@ -294,6 +305,8 @@ private enum Style {
             return 25
         case .cornerRadius:
             return 25
+        case .offset:
+            return -50
         }
     }
 }
