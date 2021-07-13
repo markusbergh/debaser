@@ -10,7 +10,7 @@ jobs:
   test:
     name: Unit testing [Swift]
 
-    runs-on: macos-11
+    runs-on: macos-latest
 
     strategy:
       matrix:
