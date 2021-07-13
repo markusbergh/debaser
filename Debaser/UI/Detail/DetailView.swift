@@ -84,7 +84,8 @@ struct DetailView: View {
                                 artworkURL: track.album.images.first?.url,
                                 isStreaming: $isStreaming
                             )
-                            .padding(Style.padding.value)
+                            .padding(.horizontal, Style.padding.value)
+                            .padding(.vertical, Style.padding.value - 5)
                             .background(Color.detailContentBackground)
                             .cornerRadius(Style.cornerRadius.value)
                             .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
@@ -181,10 +182,12 @@ struct DetailMainContentView: View {
                 
                 DetailFavouriteButtonView(event: event)
             }
-            .padding(.bottom, 35)
+            .padding(.bottom, 20)
             
             Text(event.title)
                 .font(Font.Family.title.of(size: 49))
+                .lineLimit(3)
+                .minimumScaleFactor(0.5)
                 .padding(.bottom, 10)
 
             DetailMetaContainerView(

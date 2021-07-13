@@ -122,7 +122,7 @@ struct DetailSpotifyArtworkView: View {
             .animation(rotationAnimation, value: isStreaming)
             .overlay(
                 Circle().fill(
-                    Color.black.opacity(0.25)
+                    Color.black.opacity(0.5)
                 )
             )
     }
