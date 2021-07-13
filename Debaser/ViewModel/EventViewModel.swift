@@ -79,14 +79,22 @@ struct TrimObscureHTMLCharacter: Codable, Hashable {
             
             // Strip any anchor links
             parsedValue = parsedValue.replacingOccurrences(
-                of: #"<a[^>]*>([^<]+)<\/a>"#,
+                of: #"<(?:a\b[^>]*>|\/a>)"#,
+                with: "",
+                options: .regularExpression,
+                range: nil
+            )
+            
+            // And any text links
+            parsedValue = parsedValue.replacingOccurrences(
+                of: #"http\S+"#,
                 with: "",
                 options: .regularExpression,
                 range: nil
             )
             
             // Finally trim any potential whitespace characters
-            value = parsedValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            value = parsedValue.trimmingCharacters(in: .whitespaces)
         }
     }
     
