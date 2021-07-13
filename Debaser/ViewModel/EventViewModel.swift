@@ -56,6 +56,7 @@ struct TrimObscureHTMLCharacter: Codable, Hashable {
             let elementsToReplace = [
                 "&amp;": "&",
                 "&gt;": ">",
+                "&lt;": "<",
                 "&nbsp;": " ",
                 "&quot;": "\""
             ]
@@ -68,10 +69,27 @@ struct TrimObscureHTMLCharacter: Codable, Hashable {
                 parsedValue = parsedValue.replacingOccurrences(of: element, with: replacement)
             }
             
+            // Replace `<br>` with new lines
+            parsedValue = parsedValue.replacingOccurrences(
+                of: #"<br[^>]+>|<br>"#,
+                with: "\n",
+                options: .regularExpression,
+                range: nil
+            )
+            
+            // Strip any anchor links
+            parsedValue = parsedValue.replacingOccurrences(
+                of: #"<a[^>]*>([^<]+)<\/a>"#,
+                with: "",
+                options: .regularExpression,
+                range: nil
+            )
+            
             // Finally trim any potential whitespace characters
             value = parsedValue.trimmingCharacters(in: .whitespacesAndNewlines)
         }
     }
+    
 }
 
 @propertyWrapper
@@ -84,12 +102,17 @@ struct ParseUsingRegularExpression {
         case free = "fri"
     }
     
+    enum Venue: String {
+        case pontonen = "Pontonen"
+    }
+    
     /// Pattern options
     enum RegularExpressionPattern: String {
         case admission = #"\d{1,3} kr"#
         case ageLimitOrOpenHours = "\\d{1,2}"
-        case title = #"[\w()\s.\-]+(?=.--|.\|)"#
+        case title = #".+?(?=\||--|\+)"#
         case openHours = #"\d{1,2}[.:]\d{1,2}"#
+        case titleForPontonen = #"[^(?:Pontonen\s\|)].*"#
     }
     
     init(pattern: RegularExpressionPattern) {
@@ -105,12 +128,28 @@ struct ParseUsingRegularExpression {
             [
                 "&amp;": "&",
                 "&gt;": ">",
+                "&lt;": "<",
                 "&nbsp;": " ",
                 "&quot;": "\"",
             ].forEach { key, value in
                 updatedValue = updatedValue.replacingOccurrences(of: key, with: value)
             }
             
+            // Is event at `Pontonen`?
+            if updatedValue.contains(Venue.pontonen.rawValue) {
+
+                // Try one final parsing
+                guard let parsedValue = parse(value: updatedValue, pattern: .titleForPontonen) else {
+                    return value = clean(value: updatedValue)
+                }
+                
+                value = clean(value: parsedValue)
+                
+                // No need to fall through here
+                return
+            }
+            
+            // Otherwise just parse as normal
             guard let parsedValue = parse(value: updatedValue) else {
                 return value = clean(value: updatedValue)
             }
@@ -147,7 +186,7 @@ struct ParseUsingRegularExpression {
         
         do {
             let range = NSRange(value.startIndex..<value.endIndex, in: value)
-            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: [.caseInsensitive])
+            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: [])
 
             guard let match = regex.firstMatch(in: value, options: [], range: range) else {
                 return nil
@@ -217,6 +256,9 @@ struct ParseUsingRegularExpression {
             }
         
             updatedValue = "\(parsedOpenHours):00"
+            
+        default:
+            break
         }
         
         return updatedValue
