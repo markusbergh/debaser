@@ -50,8 +50,6 @@ func spotifyReducer(state: inout SpotifyState, action: SpotifyAction) -> Spotify
     case .requestLoginComplete:
         state.isRequesting = false
         state.isLoggedIn = true
-    case .requestLogout:
-        state.isRequesting = true
     case .requestLogoutComplete:
         state.isRequesting = false
         state.requestError = nil
@@ -67,6 +65,8 @@ func spotifyReducer(state: inout SpotifyState, action: SpotifyAction) -> Spotify
         state.isRequesting = false
         state.hasTracksForCurrentArtist = true
         state.topTracks = result.tracks
+    default:
+        ()
     }
     
     return state
