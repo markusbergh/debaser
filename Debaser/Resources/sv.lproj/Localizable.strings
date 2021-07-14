@@ -23,6 +23,7 @@
 "Detail.Age" = "%@ år";
 "Detail.Event.Overdue.Title" = "Ojdå!";
 "Detail.Event.Overdue.Message" = "Det här eventet har redan varit!";
+"Detail.Preview.Artist" = "Förhandslyssna";
 
 /// Favourites
 "Favourites" = "Favoriter";

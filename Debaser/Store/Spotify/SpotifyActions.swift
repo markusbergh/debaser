@@ -16,5 +16,5 @@ enum SpotifyAction: Equatable {
     case requestLogoutComplete
     case requestSearchArtist(String)
     case requestSearchArtistError(SpotifyServiceError)
-    case requestSearchArtistComplete
+    case requestSearchArtistComplete(SpotifyResult)
 }

@@ -198,7 +198,7 @@ extension DebaserApp {
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
-                store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+                store.dispatch(action: .spotify(.requestLoginError(.unknownError)))
             }
             
             // Fire away notification

@@ -57,7 +57,7 @@ struct DetailTopMetaView: View {
                 )
             } else {
                 Text(event.shortDate)
-                    .font(Font.Variant.tiny.font)
+                    .font(Font.Variant.tiny(weight: .regular).font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)
@@ -77,26 +77,15 @@ struct DetailTopMetaView: View {
                 )
             }
             .buttonStyle(PlainButtonStyle())
-            .modifier(DetailTopMetaHintEffect(to: metaVenueButtonScale) {
-                DispatchQueue.main.async {
-                    metaVenueButtonScale = 1.0
-                }
-            })
-            .animation(.easeInOut(duration: 0.25))
             .sheet(isPresented: $isShowingMapView) {
                 MapView()
                     .preferredColorScheme(colorScheme)
                     .ignoresSafeArea()
             }
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    metaVenueButtonScale = 1.1
-                }
-            }
-            
+
             if isEventNextYear {
                 Text(event.shortYear)
-                    .font(Font.Variant.tiny.font)
+                    .font(Font.Variant.tiny(weight: .regular).font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)

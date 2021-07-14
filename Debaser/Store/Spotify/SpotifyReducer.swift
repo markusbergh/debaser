@@ -23,6 +23,13 @@ class SpotifyState: ObservableObject {
     
     /// Is set to `true` if a search for tracks is successful
     @Published var hasTracksForCurrentArtist = false
+    
+    /// Artist top trcks
+    var topTracks: [SpotifyTrack]?
+    
+    init(topTracks: [SpotifyTrack]? = nil) {
+        self.topTracks = topTracks
+    }
 }
 
 // MARK: Reducer
@@ -56,9 +63,10 @@ func spotifyReducer(state: inout SpotifyState, action: SpotifyAction) -> Spotify
         state.isRequesting = false
         state.requestError = error
         state.hasTracksForCurrentArtist = false
-    case .requestSearchArtistComplete:
+    case .requestSearchArtistComplete(let result):
         state.isRequesting = false
         state.hasTracksForCurrentArtist = true
+        state.topTracks = result.tracks
     }
     
     return state

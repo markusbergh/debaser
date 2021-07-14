@@ -33,9 +33,8 @@ func spotifyMiddleware(service: SpotifyService = SpotifyService.shared) -> Middl
             
         /// Handles a search for artist tracks
         case .spotify(.requestSearchArtist(let query)):
-            
             return service.searchTrackForEventArtist(query: query)
-                .map { AppAction.spotify(.requestSearchArtistComplete) }
+                .map { AppAction.spotify(.requestSearchArtistComplete($0)) }
                 .catch { (error: SpotifyServiceError) -> Just<AppAction> in
                     Just(AppAction.spotify(.requestSearchArtistError(error)))
                 }

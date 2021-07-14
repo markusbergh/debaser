@@ -7,34 +7,50 @@
 
 import SwiftUI
 
-private enum Style {
-    case padding
-    case cornerRadius
-    
-    var value: CGFloat {
-        switch self {
-        case .padding:
-            return 25
-        case .cornerRadius:
-            return 25
-        }
-    }
-}
-
 struct DetailView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    /// Services
     @Environment(\.spotifyService) var spotifyService
 
+    /// Store
     @EnvironmentObject var store: AppStore
-        
-    @StateObject private var imageViewModel = ImageViewModel()
+            
+    /// If there is an audio stream for current artist
     @State private var canPreviewArtist = false
+    
+    /// Sets the audio streaming state
     @State private var isStreaming = false
+    
+    /// Determines if alert should be shown or not when event is overdue
     @State private var isShowingAlertDateOverdue = false
     
+    /// Determine if toolbar with back button should be shown
+    @State private var isShowingToolbar = false
+    
+    /// Is event saved in favourites or not
+    @State private var isEventFavourite = false
+    
+    /// Return shadow opacity depending on current color scheme
+    private var shadowOpacity: Double {
+        return colorScheme == .light ? 0.25 : 0.1
+    }
+    
+    /// Returns top tracks for current artist, if any
+    private var artistTopTrack: SpotifyTrack? {
+        return store.state.spotify.topTracks?.first
+    }
+    
+    /// Offset threshold for displaying toolbar
+    private let thresholdOffsetToolbar: CGFloat = -250
+    
+    /// Current event
     let event: EventViewModel
+    
+    /// Flag if view can be navigated back, will be false for a modal
     let canNavigateBack: Bool
-
+    
     init(event: EventViewModel, canNavigateBack: Bool = true) {
         self.event = event
         self.canNavigateBack = canNavigateBack
@@ -42,130 +58,191 @@ struct DetailView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 0) {
-                    ZStack(alignment: .topLeading) {
-                        if store.state.settings.showImages.value {
-                            DetailTopImageView()
-                                .environmentObject(imageViewModel)
-                                .onAppear {
-                                    imageViewModel.load(with: event.image)
-                                }
-                        }
+            ZStack(alignment: .topLeading) {
+                ScrollView(
+                    showsIndicators: false,
+                    offsetDidChange: { offset in
+                        isShowingToolbar = offset.y < thresholdOffsetToolbar
+                    }
+                ) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        DetailHeroView(
+                            canNavigateBack: canNavigateBack,
+                            eventImage: event.image,
+                            isStreaming: $isStreaming
+                        )
                         
-                        if canNavigateBack {
-                            HStack {
-                                DetailBackButtonView(isStreaming: $isStreaming)
-                                
-                                Spacer()
+                        Group {
+                            // Music player
+                            if canPreviewArtist, let track = artistTopTrack {
+                                DetailSpotifyPlayerView(
+                                    songTitle: track.name,
+                                    artistName: track.artists.first?.name ?? "Unknown artist",
+                                    albumName: track.album.name,
+                                    artworkURL: track.album.images.first?.url,
+                                    isStreaming: $isStreaming
+                                )
+                                .padding(.horizontal, Style.padding.value)
+                                .padding(.vertical, Style.padding.value - 5)
+                                .background(Color.detailContentBackground)
+                                .cornerRadius(Style.cornerRadius.value)
+                                .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
+                                .padding([.leading, .top, .trailing], Style.padding.value)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
                             }
-                            .padding(.horizontal, Style.padding.value)
-                            .padding(.top, (Style.padding.value * 2))
-                            .frame(maxWidth: .infinity)
+                            
+                            // Main content
+                            DetailMainContentView(isFavourite: $isEventFavourite, event: event)
+                                .animation(.easeInOut)
                         }
-                        
-                        if canPreviewArtist {
-                            DetailSpotifyPlayerView(isStreaming: $isStreaming)
-                        }
-                    }
-                    
-                    // Main content
-                    DetailMainContentView(event: event)
-                }
-            }
-            .background(Color.detailBackground)
-            .ignoresSafeArea()
-            .frame(height: geometry.size.height)
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .onChange(of: store.state.spotify.hasTracksForCurrentArtist) { hasTracks in
-                if hasTracks {
-                    DispatchQueue.main.async {
-                        withAnimation {
-                            canPreviewArtist = true
-                        }
+                        .offset(y: Style.offset.value)
                     }
                 }
-            }
-            .onChange(of: isStreaming) { shouldStream in
-                if shouldStream {
-                    do {
-                        try spotifyService.playTrackForArtist()
-                    } catch {
-                        // Error is not handled
-                    }
-                } else {
-                    spotifyService.playPauseStream()
+                .background(Color.detailBackground)
+                .ignoresSafeArea()
+                .frame(height: geometry.size.height)
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .onChange(of: store.state.spotify.hasTracksForCurrentArtist) { hasTracks in
+                    canPreviewArtist = hasTracks
                 }
-            }
-            .onAppear {
-                // Search for artist if eligible to do so
-                if store.state.spotify.isLoggedIn == true {
-                    store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
+                .onChange(of: isStreaming) { shouldStream in
+                    if shouldStream {
+                        do {
+                            try spotifyService.playTrackForArtist()
+                        } catch {
+                            // Error is not handled
+                        }
+                    } else {
+                        spotifyService.playPauseStream()
+                    }
+                }
+                .onAppear {
+                    onAppear()
+                }
+                .onDisappear {
+                    onDisappear()
+                }
+                .alert(isPresented: $isShowingAlertDateOverdue) {
+                    Alert(
+                        title: Text("Detail.Event.Overdue.Title"),
+                        message: Text("Detail.Event.Overdue.Message"),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
                 
-                // Always hide tab bar
-                if store.state.list.isShowingTabBar == true {
-                    store.dispatch(action: .list(.hideTabBar))
-                }
-                
-                // Has this event already happened?
-                DispatchQueue.main.async {
-                    if event.isDateExpired {
-                        isShowingAlertDateOverdue = true
-                    }
+                if canNavigateBack, isShowingToolbar {
+                    DetailToolbarView(isFavourite: $isEventFavourite, event: event)
+                        .transition(.move(edge: .top))
+                        .animation(.easeInOut(duration: 0.5))
+                        .zIndex(1)
                 }
             }
-            .onDisappear {
-                // Always show tab bar
-                store.dispatch(action: .list(.showTabBar))
-                
-                if isStreaming {
-                    spotifyService.playPauseStream()
-                }
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+    }
+    
+    private func onAppear() {
+        // Search for artist if eligible to do so
+        searchForArtistTopTracks()
+        
+        // Always hide tab bar
+        hideTabBar()
+        
+        // Has this event already happened?
+        checkEventDueDate()
+        
+        // Is event saved?
+        checkEventFavouriteState()
+    }
+    
+    private func onDisappear() {
+        // Always show tab bar
+        showTabBar()
+        
+        if isStreaming {
+            spotifyService.playPauseStream()
+        }
+    }
+    
+    private func checkEventDueDate() {
+        DispatchQueue.main.async {
+            if event.isDateExpired {
+                isShowingAlertDateOverdue = true
             }
-            .alert(isPresented: $isShowingAlertDateOverdue) {
-                Alert(
-                    title: Text("Detail.Event.Overdue.Title"),
-                    message: Text("Detail.Event.Overdue.Message"),
-                    dismissButton: .default(Text("OK"))
-                )
-            }
+        }
+    }
+    
+    private func checkEventFavouriteState() {
+        isEventFavourite = store.state.list.favourites.contains(event)
+    }
+    
+    private func hideTabBar() {
+        if store.state.list.isShowingTabBar == true {
+            store.dispatch(action: .list(.hideTabBar))
+        }
+    }
+    
+    private func showTabBar() {
+        store.dispatch(action: .list(.showTabBar))
+    }
+    
+    private func searchForArtistTopTracks() {
+        if store.state.spotify.isLoggedIn == true {
+            store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
         }
     }
 }
 
-// MARK: Back button
+// MARK: - Hero
 
-struct DetailBackButtonView: View {
+struct DetailHeroView: View {
+
+    /// Store
     @EnvironmentObject var store: AppStore
-    @Environment(\.presentationMode) var presentationMode
+    
+    /// Handling image loading
+    @StateObject private var imageViewModel = ImageViewModel()
+    
+    /// Flag if view can be navigated back, will be false for a modal
+    let canNavigateBack: Bool
+    
+    /// Image
+    let eventImage: String
+    
+    /// Audio streaming state
     @Binding var isStreaming: Bool
 
     var body: some View {
-        Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
-            isStreaming = false
-        }) {
-            Image(systemName: "chevron.left.circle.fill")
-                .resizable()
-                .foregroundColor(Color.detailBackButtonTint)
-                .frame(width: 40, height: 40)
-                .background(
-                    Circle()
-                        .frame(width: 40, height: 40)
-                )
+        ZStack(alignment: .topLeading) {
+            if store.state.settings.showImages.value {
+                DetailTopImageView()
+                    .environmentObject(imageViewModel)
+                    .onAppear {
+                        imageViewModel.load(with: eventImage)
+                    }
+            }
+            
+            if canNavigateBack {
+                HStack {
+                    DetailBackButtonView(isStreaming: $isStreaming)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, Style.padding.value)
+                .padding(.top, (Style.padding.value * 2))
+                .frame(maxWidth: .infinity)
+            }
         }
-        .buttonStyle(PlainButtonStyle())
     }
 }
 
-// MARK: Main content
+// MARK: - Main content
 
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var isFavourite = false
+    @Binding var isFavourite: Bool
     @State private var titleHeight: CGFloat = 0.0
     
     // TODO: Consider look into this issue with setting width
@@ -184,12 +261,14 @@ struct DetailMainContentView: View {
 
                 Spacer()
                 
-                DetailFavouriteButtonView(event: event)
+                DetailFavouriteButtonView(isFavourite: $isFavourite, event: event)
             }
-            .padding(.bottom, 35)
-
-            TitleView(title: event.title, width: titleWidth, calculatedHeight: $titleHeight)
-                .frame(height: titleHeight)
+            .padding(.bottom, 20)
+            
+            Text(event.title)
+                .font(Font.Family.title.of(size: 49))
+                .lineLimit(3)
+                .minimumScaleFactor(0.5)
                 .padding(.bottom, 10)
 
             DetailMetaContainerView(
@@ -215,17 +294,13 @@ struct DetailMainContentView: View {
         .padding(Style.padding.value)
         .background(Color.detailContentBackground)
         .cornerRadius(Style.cornerRadius.value)
-        .shadow(
-            color: .black.opacity(shadowOpacity),
-            radius: 20,
-            x: 0,
-            y: -5
-        )
-        .padding(Style.padding.value)
+        .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
+        .padding([.leading, .top, .trailing], Style.padding.value)
+        .padding(.bottom, Style.offset.value + Style.padding.value)
     }
 }
 
-// MARK: Metadata
+// MARK: - Metadata
 
 struct DetailMetaContainerView: View {
     var ageLimit: String
@@ -257,7 +332,7 @@ struct DetailMetaContainerView: View {
     }
 }
 
-// MARK: Description
+// MARK: - Description
 
 struct DetailDescriptionView: View {
     var subHeader: String?
@@ -276,9 +351,58 @@ struct DetailDescriptionView: View {
     }
 }
 
+// MARK: - Back button
+
+struct DetailBackButtonView: View {
+    @EnvironmentObject var store: AppStore
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var isStreaming: Bool
+
+    var body: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+            isStreaming = false
+        }) {
+            Image(systemName: "chevron.left")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 20)
+                .offset(x: -2.0)
+                .frame(width: 40, height: 40)
+                .background(Color.detailBackButtonTint)
+                .clipShape(Circle())
+                .shadow(radius: 5)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Style
+
+private enum Style {
+    case padding
+    case cornerRadius
+    case offset
+    
+    var value: CGFloat {
+        switch self {
+        case .padding:
+            return 25
+        case .cornerRadius:
+            return 25
+        case .offset:
+            return -50
+        }
+    }
+}
+
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        let store = MockStore.store
+        let artist = SpotifyArtist(name: "Artist name")
+        let album = SpotifyAlbum(name: "This is an album name", releaseDate: "2018-09-28", images: [], uri: "")
+        let track = SpotifyTrack(name: "Test", uri: "", album: album, artists: [artist])
+
+        let store = MockStore.store(withTopTracks: [track])
         let event = EventViewModel.mock
         
         DetailView(event: event)

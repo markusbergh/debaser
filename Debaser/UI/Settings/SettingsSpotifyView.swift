@@ -128,7 +128,7 @@ struct SettingsSpotifyView: View {
                     if isConnected {
                         toggleLabel = "Settings.Spotify.On"
                     } else {
-                        store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+                        store.dispatch(action: .spotify(.requestLoginError(.unknownError)))
                     }
                 }
                 .ignoresSafeArea()
@@ -145,7 +145,7 @@ struct SettingsSpotifyView: View {
     
     private func handleDidReceiveSpotifyError(_ notification: NotificationCenter.Publisher.Output) {
         guard let error = notification.object as? NSError else {
-            store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+            store.dispatch(action: .spotify(.requestLoginError(.unknownError)))
             
             return
         }

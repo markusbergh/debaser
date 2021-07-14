@@ -31,7 +31,7 @@ struct SettingsAboutView: View {
     }
     
     var body: some View {
-        ScrollView(.vertical) {
+        SwiftUI.ScrollView(.vertical) {
             VStack(alignment: .leading) {
                 Text(historyLabel)
                     .font(.footnote)

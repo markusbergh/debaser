@@ -10,8 +10,7 @@ import SwiftUI
 struct DetailFavouriteButtonView: View {
     @EnvironmentObject var store: AppStore
     
-    @State private var isFavourite = false
-    
+    @Binding var isFavourite: Bool
     let event: EventViewModel
 
     var body: some View {
@@ -34,7 +33,7 @@ struct DetailFavouriteButtonView: View {
                         removal: transition(removalFor: isFavourite)
                     )
                 )
-                .id("is_favourite_active_\(isFavourite)")
+                .id("is_favourite_\(isFavourite ? "active" : "inactive")")
         }
         .frame(width: 60, height: 40)
         .foregroundColor(.red)
@@ -45,15 +44,6 @@ struct DetailFavouriteButtonView: View {
                 .offset(x: 0, y: -25)
         )
         .offset(x: 0)
-        .onAppear {
-            let match = store.state.list.favourites.firstIndex(where: { event -> Bool in
-                return self.event.id == event.id
-            })
-            
-            if match != nil {
-                isFavourite = true
-            }
-        }
         .buttonStyle(PlainButtonStyle())
     }
     
@@ -90,7 +80,7 @@ struct DetailFavouriteButtonView_Previews: PreviewProvider {
         let store = MockStore.store
         let event = EventViewModel.mock
 
-        DetailFavouriteButtonView(event: event)
+        DetailFavouriteButtonView(isFavourite: .constant(false), event: event)
             .environmentObject(store)
     }
 }

@@ -56,6 +56,7 @@ struct TrimObscureHTMLCharacter: Codable, Hashable {
             let elementsToReplace = [
                 "&amp;": "&",
                 "&gt;": ">",
+                "&lt;": "<",
                 "&nbsp;": " ",
                 "&quot;": "\""
             ]
@@ -68,10 +69,35 @@ struct TrimObscureHTMLCharacter: Codable, Hashable {
                 parsedValue = parsedValue.replacingOccurrences(of: element, with: replacement)
             }
             
+            // Replace `<br>` with new lines
+            parsedValue = parsedValue.replacingOccurrences(
+                of: #"<br[^>]+>|<br>"#,
+                with: "\n",
+                options: .regularExpression,
+                range: nil
+            )
+            
+            // Strip any anchor links
+            parsedValue = parsedValue.replacingOccurrences(
+                of: #"<(?:a\b[^>]*>|\/a>)"#,
+                with: "",
+                options: .regularExpression,
+                range: nil
+            )
+            
+            // And any text links
+            parsedValue = parsedValue.replacingOccurrences(
+                of: #"http\S+"#,
+                with: "",
+                options: .regularExpression,
+                range: nil
+            )
+            
             // Finally trim any potential whitespace characters
-            value = parsedValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            value = parsedValue.trimmingCharacters(in: .whitespaces)
         }
     }
+    
 }
 
 @propertyWrapper
@@ -84,12 +110,17 @@ struct ParseUsingRegularExpression {
         case free = "fri"
     }
     
+    enum Venue: String {
+        case pontonen = "Pontonen"
+    }
+    
     /// Pattern options
     enum RegularExpressionPattern: String {
         case admission = #"\d{1,3} kr"#
         case ageLimitOrOpenHours = "\\d{1,2}"
-        case title = #"\S[^->|]+[^ \W]."#
+        case title = #".+?(?=\||--|\+)"#
         case openHours = #"\d{1,2}[.:]\d{1,2}"#
+        case titleForPontonen = #"[^(?:Pontonen\s\|)].*"#
     }
     
     init(pattern: RegularExpressionPattern) {
@@ -99,8 +130,36 @@ struct ParseUsingRegularExpression {
     var wrappedValue: String {
         get { value }
         set {
-            guard let parsedValue = parse(value: newValue) else {
-                return value = clean(value: newValue)
+            var updatedValue = newValue
+            
+            // Do some basic replacements
+            [
+                "&amp;": "&",
+                "&gt;": ">",
+                "&lt;": "<",
+                "&nbsp;": " ",
+                "&quot;": "\"",
+            ].forEach { key, value in
+                updatedValue = updatedValue.replacingOccurrences(of: key, with: value)
+            }
+            
+            // Is event at `Pontonen`?
+            if updatedValue.contains(Venue.pontonen.rawValue) {
+
+                // Try one final parsing
+                guard let parsedValue = parse(value: updatedValue, pattern: .titleForPontonen) else {
+                    return value = clean(value: updatedValue)
+                }
+                
+                value = clean(value: parsedValue)
+                
+                // No need to fall through here
+                return
+            }
+            
+            // Otherwise just parse as normal
+            guard let parsedValue = parse(value: updatedValue) else {
+                return value = clean(value: updatedValue)
             }
             
             value = clean(value: parsedValue)
@@ -119,7 +178,13 @@ struct ParseUsingRegularExpression {
     private func parse(value: String) -> String? {
         guard let pattern = pattern else { return nil }
         
-        return parse(value: value, pattern: pattern)
+        var options: NSRegularExpression.Options = []
+        
+        if pattern == .admission {
+            options = [.caseInsensitive]
+        }
+        
+        return parse(value: value, pattern: pattern, options: options)
     }
     
     ///
@@ -130,13 +195,13 @@ struct ParseUsingRegularExpression {
     ///   - pattern: Regular expression to parse with
     /// - Returns: An optional parsed string
     ///
-    private func parse(value: String, pattern: RegularExpressionPattern) -> String? {
+    private func parse(value: String, pattern: RegularExpressionPattern, options: NSRegularExpression.Options = []) -> String? {
         let value = value
         
         do {
             let range = NSRange(value.startIndex..<value.endIndex, in: value)
-            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: [.caseInsensitive])
-        
+            let regex = try NSRegularExpression(pattern: pattern.rawValue, options: options)
+
             guard let match = regex.firstMatch(in: value, options: [], range: range) else {
                 return nil
             }
@@ -169,15 +234,16 @@ struct ParseUsingRegularExpression {
         
         switch pattern {
         
-        /// Cleans up a string from occurrences of HTML references
+        /// Trimming HTML and whitespace characters
         case .title:
-            updatedValue = value.replacingOccurrences(of: "&amp;", with: "&")
-                .replacingOccurrences(of: "&gt;", with: ">")
-                .replacingOccurrences(of: "&nbsp;", with: " ")
-                .replacingOccurrences(of: "&quot;", with: "\"")
-                .replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-        
+            updatedValue = updatedValue.replacingOccurrences(
+                of: "<[^>]+>",
+                with: "",
+                options: .regularExpression,
+                range: nil
+            )
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
         /// Sets a formatted string for age limit
         case .ageLimitOrOpenHours:
             func formattedAgeLimit(_ value: String) -> String {
@@ -204,6 +270,9 @@ struct ParseUsingRegularExpression {
             }
         
             updatedValue = "\(parsedOpenHours):00"
+            
+        default:
+            break
         }
         
         return updatedValue
@@ -212,8 +281,7 @@ struct ParseUsingRegularExpression {
 
 extension ParseUsingRegularExpression: Codable {
     init(from decoder: Decoder) throws {
-        var values = try decoder.unkeyedContainer()
-        value = try values.decode(String.self)
+        value = try String(from: decoder)
     }
     
     func encode(to encoder: Encoder) throws {

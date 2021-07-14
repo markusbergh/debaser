@@ -2,81 +2,59 @@
 //  DetailSpotifyPlayerView.swift
 //  Debaser
 //
-//  Created by Markus Bergh on 2021-05-08.
+//  Created by Markus Bergh on 2021-07-12.
 //
 
 import SwiftUI
 
 struct DetailSpotifyPlayerView: View {
+    @Environment(\.spotifyService) var spotifyService
+    
+    let songTitle: String
+    let artistName: String
+    let albumName: String
+    let artworkURL: String?
+
     @Binding var isStreaming: Bool
     
-    @State private var streamProgress: CGFloat = 0.0
-    
-    private var streamPositionDidUpdate: NotificationCenter.Publisher {
-        return NotificationCenter.default.publisher(for: NSNotification.Name("spotifyStreamDidChangePosition"))
-    }
-
     var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                ZStack {
-                    Button(action: {
-                        isStreaming.toggle()
-                        streamProgress = 0.0
-                    }) {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 60, height: 60)
-                            .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
-                            .overlay(
-                                Image(systemName: isStreaming ? "pause.fill" : "play.fill")
-                                    .resizable()
-                                    .foregroundColor(.green)
-                                    .frame(width: 22, height: 22)
-                                    .offset(x: isStreaming ? 0 : 2)
-                                    .animation(nil)
-                            )
-                            .overlay(
-                                DetailStreamProgress(streamProgress: streamProgress)
-                                    .onReceive(streamPositionDidUpdate) { notification in
-                                        guard let streamPositionObject = notification.object as? NSDictionary,
-                                              let currentStreamPosition = streamPositionObject["current"] as? CGFloat else {
-                                            return
-                                        }
-                                        
-                                        // Update stream progress state
-                                        streamProgress = currentStreamPosition / 100.0
-                                    }
-                            )
-                    }
-                    
-                }
-                .scaleEffect(isStreaming ? 1.05 : 1)
-                .animation(.easeInOut(duration: 0.35))
+        VStack(alignment: .leading) {
+            Text("Detail.Preview.Artist")
+                .font(Font.Variant.tiny(weight: .regular).font)
+                .fontWeight(.semibold)
+            
+            HStack(spacing: 15) {
+                DetailSpotifyPlayButtonView(isStreaming: $isStreaming, artworkURL: artworkURL)
                 
-                HStack {
-                    Text("Powered by")
-                        .textCase(.uppercase)
-                        .font(Font.Variant.mini(weight: .heavy).font)
-                        .foregroundColor(.white)
-                        .shadow(color: Color.black.opacity(0.5), radius: 10, x: 0, y: 0)
-
-                    Image("SpotifyLogotype")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 25)
-
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(songTitle)
+                        .font(.subheadline)
+                        .lineLimit(2)
+                    
+                    Text(artistName)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
                 }
-                .frame(maxWidth: .infinity)
+                                
+                Spacer()
+
+                Image("SpotifyIcon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 35)
             }
         }
-        .transition(.opacity)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 struct DetailSpotifyPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailSpotifyPlayerView(isStreaming: .constant(false))
+        DetailSpotifyPlayerView(
+            songTitle: "Song title",
+            artistName: "Artist name",
+            albumName: "Album name",
+            artworkURL: "",
+            isStreaming: .constant(false)
+        )
     }
 }

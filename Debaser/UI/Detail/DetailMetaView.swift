@@ -31,7 +31,7 @@ struct DetailMetaView: View {
             
             Text(label)
                 .foregroundColor(labelColor)
-                .font(Font.Variant.tiny.font)
+                .font(Font.Variant.tiny(weight: .regular).font)
         }
         .frame(minHeight: 20)
         .foregroundColor(tintColor)
