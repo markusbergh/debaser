@@ -56,111 +56,134 @@ struct DetailView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ScrollView(
-                showsIndicators: false,
-                offsetDidChange: { offset in
-                    isShowingToolbar = offset.y < -150
-                }
-            ) {
-                VStack(alignment: .leading, spacing: 0) {
-                    ZStack(alignment: .topLeading) {
-                        if store.state.settings.showImages.value {
-                            DetailTopImageView()
-                                .environmentObject(imageViewModel)
-                                .onAppear {
-                                    imageViewModel.load(with: event.image)
-                                }
+            ZStack(alignment: .topLeading) {
+                ScrollView(
+                    showsIndicators: false,
+                    offsetDidChange: { offset in
+                        if offset.y < -150 {
+                            isShowingToolbar = true
+                        } else {
+                            isShowingToolbar = false
                         }
-                        
-                        if canNavigateBack {
-                            HStack {
-                                DetailBackButtonView(isStreaming: $isStreaming)
-                                
-                                Spacer()
+                    }
+                ) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ZStack(alignment: .topLeading) {
+                            if store.state.settings.showImages.value {
+                                DetailTopImageView()
+                                    .environmentObject(imageViewModel)
+                                    .onAppear {
+                                        imageViewModel.load(with: event.image)
+                                    }
                             }
-                            .padding(.horizontal, Style.padding.value)
-                            .padding(.top, (Style.padding.value * 2))
-                            .frame(maxWidth: .infinity)
-                        }
-                    }
-                    
-                    Group {
-                        if canPreviewArtist, let track = artistTopTrack {
-                            DetailSpotifyPlayerView(
-                                songTitle: track.name,
-                                artistName: track.artists.first?.name ?? "Unknown artist",
-                                albumName: track.album.name,
-                                artworkURL: track.album.images.first?.url,
-                                isStreaming: $isStreaming
-                            )
-                            .padding(.horizontal, Style.padding.value)
-                            .padding(.vertical, Style.padding.value - 5)
-                            .background(Color.detailContentBackground)
-                            .cornerRadius(Style.cornerRadius.value)
-                            .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
-                            .padding([.leading, .top, .trailing], Style.padding.value)
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            
+                            if canNavigateBack {
+                                HStack {
+                                    DetailBackButtonView(isStreaming: $isStreaming)
+                                    
+                                    Spacer()
+                                }
+                                .padding(.horizontal, Style.padding.value)
+                                .padding(.top, (Style.padding.value * 2))
+                                .frame(maxWidth: .infinity)
+                            }
                         }
                         
-                        // Main content
-                        DetailMainContentView(event: event)
-                            .animation(.easeInOut)
-                    }
-                    .offset(y: Style.offset.value)
-                }
-            }
-            .background(Color.detailBackground)
-            .ignoresSafeArea()
-            .frame(height: geometry.size.height)
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .onChange(of: store.state.spotify.hasTracksForCurrentArtist) { hasTracks in
-                canPreviewArtist = hasTracks
-            }
-            .onChange(of: isStreaming) { shouldStream in
-                if shouldStream {                    
-                    do {
-                        try spotifyService.playTrackForArtist()
-                    } catch {
-                        // Error is not handled
-                    }
-                } else {
-                    spotifyService.playPauseStream()
-                }
-            }
-            .onAppear {
-                // Search for artist if eligible to do so
-                if store.state.spotify.isLoggedIn == true {
-                    store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
-                }
-                
-                // Always hide tab bar
-                if store.state.list.isShowingTabBar == true {
-                    store.dispatch(action: .list(.hideTabBar))
-                }
-                
-                // Has this event already happened?
-                DispatchQueue.main.async {
-                    if event.isDateExpired {
-                        isShowingAlertDateOverdue = true
+                        Group {
+                            // Music player
+                            if canPreviewArtist, let track = artistTopTrack {
+                                DetailSpotifyPlayerView(
+                                    songTitle: track.name,
+                                    artistName: track.artists.first?.name ?? "Unknown artist",
+                                    albumName: track.album.name,
+                                    artworkURL: track.album.images.first?.url,
+                                    isStreaming: $isStreaming
+                                )
+                                .padding(.horizontal, Style.padding.value)
+                                .padding(.vertical, Style.padding.value - 5)
+                                .background(Color.detailContentBackground)
+                                .cornerRadius(Style.cornerRadius.value)
+                                .shadow(color: .black.opacity(shadowOpacity), radius: 20, x: 0, y: -5)
+                                .padding([.leading, .top, .trailing], Style.padding.value)
+                                .transition(.move(edge: .bottom).combined(with: .opacity))
+                            }
+                            
+                            // Main content
+                            DetailMainContentView(event: event)
+                                .animation(.easeInOut)
+                        }
+                        .offset(y: Style.offset.value)
                     }
                 }
-            }
-            .onDisappear {
-                // Always show tab bar
-                store.dispatch(action: .list(.showTabBar))
+                .background(Color.detailBackground)
+                .ignoresSafeArea()
+                .frame(height: geometry.size.height)
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+                .onChange(of: store.state.spotify.hasTracksForCurrentArtist) { hasTracks in
+                    canPreviewArtist = hasTracks
+                }
+                .onChange(of: isStreaming) { shouldStream in
+                    if shouldStream {
+                        do {
+                            try spotifyService.playTrackForArtist()
+                        } catch {
+                            // Error is not handled
+                        }
+                    } else {
+                        spotifyService.playPauseStream()
+                    }
+                }
+                .onAppear {
+                    onAppear()
+                }
+                .onDisappear {
+                    onDisappear()
+                }
+                .alert(isPresented: $isShowingAlertDateOverdue) {
+                    Alert(
+                        title: Text("Detail.Event.Overdue.Title"),
+                        message: Text("Detail.Event.Overdue.Message"),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
                 
-                if isStreaming {
-                    spotifyService.playPauseStream()
+                if canNavigateBack, isShowingToolbar {
+                    DetailToolbarView(event: event)
+                        .transition(.move(edge: .top))
+                        .animation(.easeInOut(duration: 0.5))
+                        .zIndex(1)
                 }
             }
-            .alert(isPresented: $isShowingAlertDateOverdue) {
-                Alert(
-                    title: Text("Detail.Event.Overdue.Title"),
-                    message: Text("Detail.Event.Overdue.Message"),
-                    dismissButton: .default(Text("OK"))
-                )
+            .frame(width: geometry.size.width, height: geometry.size.height)
+        }
+    }
+    
+    private func onAppear() {
+        // Search for artist if eligible to do so
+        if store.state.spotify.isLoggedIn == true {
+            store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
+        }
+        
+        // Always hide tab bar
+        if store.state.list.isShowingTabBar == true {
+            store.dispatch(action: .list(.hideTabBar))
+        }
+        
+        // Has this event already happened?
+        DispatchQueue.main.async {
+            if event.isDateExpired {
+                isShowingAlertDateOverdue = true
             }
+        }
+    }
+    
+    private func onDisappear() {
+        // Always show tab bar
+        store.dispatch(action: .list(.showTabBar))
+        
+        if isStreaming {
+            spotifyService.playPauseStream()
         }
     }
 }
@@ -291,14 +314,15 @@ struct DetailBackButtonView: View {
             self.presentationMode.wrappedValue.dismiss()
             isStreaming = false
         }) {
-            Image(systemName: "chevron.left.circle.fill")
+            Image(systemName: "chevron.left")
                 .resizable()
-                .foregroundColor(Color.detailBackButtonTint)
+                .scaledToFit()
+                .frame(height: 20)
+                .offset(x: -2.0)
                 .frame(width: 40, height: 40)
-                .background(
-                    Circle()
-                        .frame(width: 40, height: 40)
-                )
+                .background(Color.detailBackButtonTint)
+                .clipShape(Circle())
+                .shadow(radius: 5)
         }
         .buttonStyle(PlainButtonStyle())
     }

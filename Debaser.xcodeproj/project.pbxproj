@@ -108,6 +108,7 @@
 		85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* ImageViewModel.swift */; };
 		85BC1DDF269E45F9007735B0 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */; };
 		85BC1DE1269E49B9007735B0 /* DetailToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC1DE0269E49B9007735B0 /* DetailToolbarView.swift */; };
+		85BC1DE4269E6911007735B0 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC1DE3269E6911007735B0 /* VisualEffectView.swift */; };
 		85CB6BCB261F964D0065B897 /* UITabBarController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */; };
 		85D3AEB22639670F006A59A2 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */; };
 		85D3AED026398089006A59A2 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D3AECF26398089006A59A2 /* CarouselView.swift */; };
@@ -269,6 +270,7 @@
 		85BC0B2B2616592600589240 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
 		85BC1DE0269E49B9007735B0 /* DetailToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailToolbarView.swift; sourceTree = "<group>"; };
+		85BC1DE3269E6911007735B0 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		85CB6BCA261F964C0065B897 /* UITabBarController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extension.swift"; sourceTree = "<group>"; };
 		85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		85D3AECF26398089006A59A2 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 		8519D278262DEDF700806839 /* UIRepresentable */ = {
 			isa = PBXGroup;
 			children = (
+				85BC1DE2269E68FC007735B0 /* VisualEffect */,
 				85FCAF41263767BC00A0BC89 /* DetailStreamProgress */,
 				85303364262E1D4B00C93D1B /* Onboarding */,
 				85303368262E1D7F00C93D1B /* TitleView */,
@@ -707,6 +710,14 @@
 			path = iMessage;
 			sourceTree = "<group>";
 		};
+		85BC1DE2269E68FC007735B0 /* VisualEffect */ = {
+			isa = PBXGroup;
+			children = (
+				85BC1DE3269E6911007735B0 /* VisualEffectView.swift */,
+			);
+			path = VisualEffect;
+			sourceTree = "<group>";
+		};
 		85C2ED91262AE7C900CA5CDF /* List */ = {
 			isa = PBXGroup;
 			children = (
@@ -1056,6 +1067,7 @@
 				855B1A2E25FB5B5C00C7A219 /* DebaserApp.swift in Sources */,
 				85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */,
 				85D3AED22639886C006A59A2 /* CarouselItemView.swift in Sources */,
+				85BC1DE4269E6911007735B0 /* VisualEffectView.swift in Sources */,
 				8599431F263434D800128A73 /* ListMiddlewares.swift in Sources */,
 				85303373262E1E2400C93D1B /* DBSROnboardingView.swift in Sources */,
 				85FCAF3D26375F4B00A0BC89 /* DetailStreamProgress.swift in Sources */,
