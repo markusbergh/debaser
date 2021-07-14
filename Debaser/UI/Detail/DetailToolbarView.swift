@@ -32,7 +32,6 @@ struct DetailToolbarView: View {
                     Text(event.title)
                         .font(Font.Variant.body(weight: .regular).font)
                         .lineLimit(1)
-                        .foregroundColor(.white)
                     
                     Text("Debaser Strand")
                         .font(Font.Variant.micro(weight: .bold).font)
