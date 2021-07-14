@@ -70,7 +70,7 @@ struct ListHeaderView: View {
                         
                         VStack(alignment: .leading, spacing: 5) {
                             Text(label)
-                                .font(Font.Variant.tiny.font)
+                                .font(Font.Variant.tiny(weight: .regular).font)
                             Text(headline)
                                 .font(Font.Variant.large(weight: .bold).font)
                         }

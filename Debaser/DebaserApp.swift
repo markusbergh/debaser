@@ -21,27 +21,32 @@ struct DebaserApp: App {
         ),
         reducer: appReducer,
         middlewares: [
-            listMiddleware(service: EventService.shared)
+            listMiddleware(),
+            spotifyMiddleware()
         ]
     )
-    
-    @StateObject var tabViewRouter = TabViewRouter()
+        
+    @StateObject var router = TabViewRouter()
     @StateObject var carouselState = CarouselState()
     
     @State private var colorScheme: ColorScheme = .light
-    @State private var eventReceivedFromURL: EventViewModel? = nil
+    @State private var eventReceivedFromURL: EventViewModel?
     @State private var eventIdReceivedFromURL: String?
     @State private var shouldOpenModal = false
 
     private let spotifyAuth: SPTAuth = {
         let spotifyAuth = SPTAuth()
-        spotifyAuth.redirectURL = URL(string: "debaser-spotify-login://callback")
-        spotifyAuth.sessionUserDefaultsKey = "spotifyCurrentSession"
+        spotifyAuth.redirectURL = URL(string: SpotifyService.redirectURL)
+        spotifyAuth.sessionUserDefaultsKey = SpotifyService.sessionStorageKey
         
         return spotifyAuth
     }()
     
-    private let spotifyUserRetrieved = NotificationCenter.default.publisher(for: NSNotification.Name("spotifyUserRetrieved"))
+    private let spotifyUserRetrieved: NotificationCenter.Publisher = {
+        let notificationName = Notification.Name(SpotifyNotification.userRetrieved.rawValue)
+        
+        return NotificationCenter.default.publisher(for: notificationName)
+    }()
     
     private var preferredColorScheme: ColorScheme? {
         store.state.settings.systemColorScheme.value ? nil : colorScheme
@@ -66,7 +71,7 @@ struct DebaserApp: App {
                     case false: colorScheme = .light
                     }
                 }
-                .onChange(of: store.state.list.events, perform: { _ in
+                .onChange(of: store.state.list.events) { _ in
                     // Should open modal from previous link
                     if shouldOpenModal {
                         getEventForModalView()
@@ -74,7 +79,7 @@ struct DebaserApp: App {
                         // All done...
                         shouldOpenModal = false
                     }
-                })
+                }
                 .onOpenURL{ url in
                     /// URL might be Spotify related
                     if spotifyAuth.canHandle(spotifyAuth.redirectURL) &&
@@ -99,7 +104,7 @@ struct DebaserApp: App {
                     presentModalView(with: event)
                 }
                 .environmentObject(store)
-                .environmentObject(tabViewRouter)
+                .environmentObject(router)
                 .environmentObject(carouselState)
                 .preferredColorScheme(preferredColorScheme)
         }
@@ -157,7 +162,7 @@ extension DebaserApp {
     ///
     /// Tries to handle a Spotify login action
     ///
-    /// - parameters:
+    /// - Parameters:
     ///     - url: Received authentication url
     ///     - userDefaults: User defaults to store session in
     ///
@@ -167,11 +172,11 @@ extension DebaserApp {
                 print("We have an error: ", error)
                 
                 // Fire away notification
-                let notificationName = Notification.Name(rawValue: SpotifyNotification.AuthError.rawValue)
+                let notificationName = Notification.Name(rawValue: SpotifyNotification.authError.rawValue)
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
-                store.dispatch(action: .spotify(.requestLoginError(.authError)))
+                store.dispatch(action: .spotify(.requestLoginError(.auth)))
                 
                 return
             }
@@ -189,15 +194,15 @@ extension DebaserApp {
                 print("Error while reading session data")
                 
                 // Fire away notification
-                let notificationName = Notification.Name(rawValue: SpotifyNotification.Error.rawValue)
+                let notificationName = Notification.Name(rawValue: SpotifyNotification.error.rawValue)
                 NotificationCenter.default.post(name: notificationName, object: nil)
                 
                 // Dispatch
-                store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+                store.dispatch(action: .spotify(.requestLoginError(.unknownError)))
             }
             
             // Fire away notification
-            let notificationName = Notification.Name(rawValue: SpotifyNotification.LoginSuccessful.rawValue)
+            let notificationName = Notification.Name(rawValue: SpotifyNotification.loginSuccessful.rawValue)
             NotificationCenter.default.post(name: notificationName, object: nil)
         })
     }
@@ -210,8 +215,8 @@ extension DebaserApp {
     ///
     /// Checks if extension url can be handled
     ///
-    /// - parameter url: Received extension url
-    /// - returns: A boolean
+    /// - Parameter url: Received extension url
+    /// - Returns: A boolean whether if url can be handled or not
     ///
     private func canHandleEvent(withURL url: URL) -> Bool {
         guard let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
@@ -253,8 +258,8 @@ extension DebaserApp {
     ///
     /// Presents a modal view with the event
     ///
-    /// - parameter event: The event to present
-    /// - returns: A `DetailView` to present modally
+    /// - Parameter event: The event to present
+    /// - Returns: A `DetailView` to present modally
     ///
     private func presentModalView(with event: EventViewModel) -> some View {
         let colorScheme = store.state.settings.systemColorScheme.value ? nil : colorScheme
@@ -264,4 +269,16 @@ extension DebaserApp {
             .environmentObject(store)
     }
     
+}
+
+// MARK: Spotify service environment key
+
+private struct SpotifyServiceKey: EnvironmentKey {
+    static var defaultValue = SpotifyService.shared
+}
+
+extension EnvironmentValues {
+    var spotifyService: SpotifyService {
+        get { self[SpotifyServiceKey.self] }
+    }
 }

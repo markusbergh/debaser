@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsSpotifyView: View {
     @EnvironmentObject var store: AppStore
+    @Environment(\.spotifyService) var spotifyService
 
     @State private var willShowSpotifyLogin = false
     @State private var isConnectedToggle = false
@@ -39,13 +40,13 @@ struct SettingsSpotifyView: View {
                         Text(toggleLabel)
                             .foregroundColor(isConnected ? .green : .primary)
                     }
-                    .onChange(of: isConnectedToggle, perform: { isOn in
+                    .onChange(of: isConnectedToggle) { isOn in
                         if isOn {
                             store.dispatch(action: .spotify(.requestLogin))
                         } else {
                             store.dispatch(action: .spotify(.requestLogout))
                         }
-                    })
+                    }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))
                 }
                 
@@ -64,7 +65,7 @@ struct SettingsSpotifyView: View {
                     if !isConnected {
                         Text(noConnectionLabel)
                             .foregroundColor(.gray)
-                    } else if let currentUser = SpotifyService.shared.currentUser {
+                    } else if let currentUser = spotifyService.currentUser {
                         Text(currentUser.displayName)
                     } else {
                         Text("")
@@ -115,19 +116,19 @@ struct SettingsSpotifyView: View {
                 toggleLabel = "Settings.Spotify.On"
             }
         }
-        .onReceive(streamingControllerReceivedError, perform: { notification in
+        .onReceive(streamingControllerReceivedError) { notification in
             handleDidReceiveSpotifyError(notification)
-        })
+        }
         .sheet(isPresented: $willShowSpotifyLogin, onDismiss: onDismissSpotifyLoginSheet) {
-            if let auth = SpotifyService.shared.auth {
+            if let auth = spotifyService.auth {
                 WebView(url: auth.spotifyWebAuthenticationURL()) {
                     // Maybe this can be checked somewhere else?
-                    isConnected = SpotifyService.shared.isLoggedIn
+                    isConnected = spotifyService.userState == .active
                     
                     if isConnected {
                         toggleLabel = "Settings.Spotify.On"
                     } else {
-                        store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+                        store.dispatch(action: .spotify(.requestLoginError(.unknownError)))
                     }
                 }
                 .ignoresSafeArea()
@@ -144,7 +145,7 @@ struct SettingsSpotifyView: View {
     
     private func handleDidReceiveSpotifyError(_ notification: NotificationCenter.Publisher.Output) {
         guard let error = notification.object as? NSError else {
-            store.dispatch(action: .spotify(.requestLoginError(.unknown)))
+            store.dispatch(action: .spotify(.requestLoginError(.unknownError)))
             
             return
         }

@@ -85,7 +85,7 @@ struct CarouselItemContent: View {
                                 }
                             }
                             .onAppear {
-                                viewModel.loadImage(with: event.image)
+                                viewModel.load(with: event.image)
                             }
                     } else {
                         Rectangle()
@@ -107,7 +107,7 @@ struct CarouselItemContent: View {
                                     }
                                 }
                                 .foregroundColor(.white)
-                                .font(Font.Variant.tiny.font)
+                                .font(Font.Variant.tiny(weight: .regular).font)
                                 .padding(.vertical, 5)
                                 .padding(.horizontal, 8)
                                 .background(Capsule().fill(Color.listRowBackground))

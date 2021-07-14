@@ -14,7 +14,7 @@ struct Event: Codable, Hashable, Identifiable {
     let ageLimit: String
     let image: String
     let date: String
-    let open: String
+    let openHours: String
     let room: String
     let venue: String
     let slug: String?
@@ -32,7 +32,7 @@ extension Event {
         case ageLimit = "Age"
         case image = "ImageUrl"
         case date = "EventDate"
-        case open = "Open"
+        case openHours = "Open"
         case room = "Room"
         case venue = "Venue"
         case slug = "VenueSlug"

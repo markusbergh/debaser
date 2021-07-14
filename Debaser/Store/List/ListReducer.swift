@@ -11,11 +11,23 @@ import Foundation
 // MARK: Initial state
 
 struct ListState {
+    
+    /// Is data being fetched?
     var isFetching = CurrentValueSubject<Bool, Never>(false)
+    
+    /// Request error
     var fetchError: String?
+    
+    /// Events in list
     var events: [EventViewModel]
+    
+    /// Events saved to favourites
     var favourites: [EventViewModel]
+    
+    /// If tab bar should be hidden
     var isShowingTabBar = true
+    
+    /// The current search term
     var currentSearch = ""
     
     init(events: [EventViewModel] = [], favourites: [EventViewModel] = []) {
@@ -40,8 +52,6 @@ func listReducer(state: inout ListState, action: ListAction) -> ListState {
         state.events = events
     case .searchEvent(let query):
         state.currentSearch = query
-    case .toggleFavourite:
-        break
     case .toggleFavouriteComplete(let events):
         state.isFetching.send(false)
         state.favourites = events

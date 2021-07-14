@@ -43,7 +43,7 @@ struct DetailBuyTicketButtonView: View {
 
 struct DetailBuyTicketButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
 
         DetailBuyTicketButtonView(event: event)
     }

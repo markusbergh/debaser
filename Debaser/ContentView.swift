@@ -17,7 +17,7 @@ struct ContentView: View {
     
     // MARK: Private
 
-    @State private var selectedTab: String = "music.note.house"
+    @State private var selectedTab = "music.note.house"
     @State private var isShowingOnboarding = false
     @State private var isShowingActivityIndicator = false
 
@@ -48,9 +48,9 @@ struct ContentView: View {
         .onReceive(store.state.onboarding.seenOnboarding) { hasSeen in
             isShowingOnboarding = !hasSeen
         }
-        .onReceive(store.state.list.isFetching, perform: { isFetching in
+        .onReceive(store.state.list.isFetching) { isFetching in
             isShowingActivityIndicator = isFetching
-        })
+        }
         .onReceive(store.state.settings.pushToSpotifySettings) { _ in
             if store.state.settings.pushToSpotifySettings.value == true {
                 tabViewRouter.currentTab = .settings
@@ -73,7 +73,7 @@ extension ContentView {
     ///
     /// Presents onboarding
     ///
-    /// - returns: A `OnboardingView` to present modally
+    /// - Returns: A `OnboardingView` to present modally
     ///
     private func presentOnboarding() -> some View {
         return OnboardingView()

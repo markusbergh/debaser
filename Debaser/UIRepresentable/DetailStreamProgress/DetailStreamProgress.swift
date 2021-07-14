@@ -67,7 +67,7 @@ class DBSRUIStreamProgress: UIView {
             let shapeView = CAShapeLayer()
             shapeView.path = bezierPath.cgPath
             shapeView.fillColor = nil
-            shapeView.strokeColor = UIColor.green.cgColor
+            shapeView.strokeColor = UIColor(Color.green).cgColor
             shapeView.lineWidth = 2.5
             shapeView.strokeEnd = percentage
             

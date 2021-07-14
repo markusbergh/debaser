@@ -26,7 +26,7 @@ struct FavouritesView: View {
 
 struct FavouritesView_Previews: PreviewProvider {
     static var previews: some View {
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         
         let listState = ListState(favourites: [event])
         let emptyListStae = ListState(favourites: [])

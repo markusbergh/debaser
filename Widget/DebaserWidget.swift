@@ -9,6 +9,8 @@ import SwiftUI
 import WidgetKit
 
 struct EventProvider: TimelineProvider {
+    
+    /// Date format used when requesting events
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
@@ -16,10 +18,18 @@ struct EventProvider: TimelineProvider {
         return dateFormatter
     }()
     
-    var eventService = EventService.shared
+    /// A placeholder event
+    private var placeholderEntry: DebaserWidgetEntry {
+        let today = Date()
+        
+        return DebaserWidgetEntry(date: today, isPreview: true)
+    }
+    
+    /// Event service
+    private let eventService = EventService.shared
     
     func placeholder(in context: Context) -> DebaserWidgetEntry {
-        DebaserWidgetEntry(date: Date(), event: nil, isPreview: true)
+        return placeholderEntry
     }
     
     func getSnapshot(in context: Context, completion: @escaping (DebaserWidgetEntry) -> Void) {
@@ -28,9 +38,7 @@ struct EventProvider: TimelineProvider {
         let formattedToday = dateFormatter.string(from: today)
         
         if context.isPreview {
-            let entry = DebaserWidgetEntry(date: today, event: nil, isPreview: true)
-            
-            completion(entry)
+            completion(placeholderEntry)
             
             return
         }
@@ -58,6 +66,14 @@ struct EventProvider: TimelineProvider {
         }
     }
     
+    ///
+    /// Get available events from a range of dates
+    ///
+    /// - Parameters:
+    ///   - from: The starting date
+    ///   - to: The ending date
+    ///   - completion: The callback when result has been recevied
+    ///
     private func getEvents(fromDate from: String, toDate to: String, completion: @escaping (DebaserWidgetEntry) -> Void) {
         let today = Date()
         
@@ -71,7 +87,7 @@ struct EventProvider: TimelineProvider {
                 
                 entry = DebaserWidgetEntry(date: today, event: firstEvent)
             case .failure:
-                entry = DebaserWidgetEntry(date: today, event: nil)
+                entry = DebaserWidgetEntry(date: today)
             }
 
             completion(entry)
@@ -82,9 +98,11 @@ struct EventProvider: TimelineProvider {
 
 struct DebaserWidgetEntry: TimelineEntry {
     let date: Date
-    let event: EventViewModel?
-    var isPreview: Bool = false
+    var event: EventViewModel? = nil
+    var isPreview = false
 }
+
+// MARK: - Meta data
 
 struct MetaData : View {
     var text: String
@@ -101,141 +119,7 @@ struct MetaData : View {
     }
 }
 
-struct TopView : View {
-    @Environment(\.widgetFamily) var widgetFamily
-    
-    let event: EventViewModel?
-    let isPreview: Bool
-    
-    var isSmall: Bool {
-        return widgetFamily == .systemSmall
-    }
-    
-    var body: some View {
-        HStack(alignment: .center) {
-            Image("Icon")
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.white)
-                .frame(width: widgetFamily == .systemSmall ? 45 : 50)
-                .offset(x: -3)
-            
-            Spacer()
-            
-            if let event = event, !event.isCancelled, !event.isPostponed {
-                HStack {
-                    if !isSmall {
-                        MetaData(text: event.ageLimit)
-                        MetaData(text: event.admission)
-                    }
-
-                    MetaData(text: event.open)
-                }
-            } else if isPreview {
-                HStack {
-                    if !isSmall {
-                        MetaData(text: "Age")
-                        MetaData(text: "Admission")
-                    }
-
-                    MetaData(text: "Open")
-                }
-                .redacted(reason: .placeholder)
-            }
-        }
-    }
-}
-
-struct BottomView : View {
-    @Environment(\.widgetFamily) var widgetFamily
-
-    let event: EventViewModel?
-    let isPreview: Bool
-
-    var isSmall: Bool {
-        return widgetFamily == .systemSmall
-    }
-    
-    var shortTodayLabel: LocalizedStringKey {
-        return "Widget.Today.Short"
-    }
-
-    var longTodayLabel: LocalizedStringKey {
-        return "Widget.Today.Long"
-    }
-
-    var emptyResultLabel: LocalizedStringKey {
-        return "Widget.Result.Empty"
-    }
-    
-    var cancelledLabel: LocalizedStringKey {
-        return "Widget.Event.Cancelled"
-    }
-    
-    var postponedLabel: LocalizedStringKey {
-        return "Widget.Event.Postponed"
-    }
-    
-    var previewView: some View {
-        return HStack(alignment: .top, spacing: 0) {
-            Text("This is an event")
-                .font(Font.Family.title.of(size: 26))
-                .foregroundColor(.white)
-                .minimumScaleFactor(0.01)
-                .lineLimit(3)
-            
-            Spacer()
-        }
-    }
-    
-    var emptyView: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Text(emptyResultLabel)
-                .font(Font.Family.title.of(size: 26))
-                .foregroundColor(.white)
-                .minimumScaleFactor(0.01)
-                .lineLimit(3)
-            
-            Spacer()
-        }
-    }
-    
-    var body: some View {
-        if isPreview {
-            return AnyView(previewView)
-        }
-        
-        guard let event = event else {
-            return AnyView(emptyView)
-        }
-
-        return AnyView(
-            VStack(alignment: .leading, spacing: 0) {
-                Group {
-                    if event.isCancelled {
-                        Text(cancelledLabel)
-                    } else if event.isPostponed {
-                        Text(postponedLabel)
-                    } else {
-                        Text(isSmall ? shortTodayLabel : longTodayLabel)
-                    }
-                }
-                .foregroundColor(.white)
-                .font(.system(size: 13))
-                
-                HStack(alignment: .top, spacing: 0) {
-                    Text(event.title)
-                        .font(Font.Family.title.of(size: 26))
-                        .foregroundColor(.white)
-                        .minimumScaleFactor(0.01)
-                        .lineLimit(3)
-                    
-                    Spacer()
-                }
-            }
-        )
-    }
-}
+// MARK: - Background
 
 struct WidgetBackground: View {
     var entry: DebaserWidgetEntry
@@ -324,6 +208,8 @@ struct DebaserWidget: Widget {
     }
 }
 
+// MARK: - Entry mock
+
 struct MockEntry {
     private static let event = Event(
         id: "1234",
@@ -334,7 +220,7 @@ struct MockEntry {
         ageLimit: "20 år",
         image: "https://debaser.se/img/10981.jpg",
         date: "2021-11-26",
-        open: "18:00",
+        openHours: "18:00",
         room: "",
         venue: "",
         slug: "",

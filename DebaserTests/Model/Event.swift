@@ -26,7 +26,7 @@ class EventTests: XCTestCase {
         XCTAssertEqual(event.name, "The Xx")
         XCTAssertEqual(event.subHeader, " + New Look")
         XCTAssertEqual(event.ageLimit, "18 (20 efter konsert)")
-        XCTAssertEqual(event.open, "Inne 19-01")
+        XCTAssertEqual(event.openHours, "Inne 19-01")
         XCTAssertEqual(event.admission, "150 kr + förköpsavgift. Biljetter finns hos Tickster, Sound Pollution, Record Hunter, Pet Sounds.")
         XCTAssertEqual(event.venue, "Medis")
         XCTAssertEqual(event.slug, "medis-notix notix medis")

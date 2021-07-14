@@ -13,11 +13,11 @@ struct ListView: View {
         
     @State private var isShowingErrorAlert = false
     @State private var midY: CGFloat = .zero
+            
+    private let viewModel = ListViewModel()
     
     let headline: String
     let label: LocalizedStringKey
-        
-    private let viewModel = ListViewModel()
 
     private var listLabel: LocalizedStringKey {
         return store.state.list.currentSearch.isEmpty ? "List.All" : "List.Search.Result"
@@ -159,42 +159,15 @@ struct ListView: View {
                     let eventsInNearFuture = viewModel.getEventsInNearFuture(allEvents)
                     
                     LazyVGrid(columns: gridLayout, spacing: 20) {
-                        ForEach(0..<eventsForCurrentYear.count, id:\.self) { index in
-                            let event = eventsForCurrentYear[index]
-                            let total = eventsForCurrentYear.count
-                            
-                            ListRowView(
-                                event: event,
-                                mediaHeight: 150
-                            )
-                            .frame(maxHeight: .infinity, alignment: .top)
-                            .id(event.id)
-                            
-                            // Fill out list if needed, to push down section separator
-                            if index == total - 1, index % 2 == 0 {
-                                Color.clear
-                            }
-                        }
+                        ListViewNearbyEvents(events: eventsForCurrentYear)
                         
                         // Show also the events in the near future...
                         if !eventsInNearFuture.isEmpty {
-                            ForEach(0..<eventsInNearFuture.count, id:\.self) { index in
-                                if index == 0, store.state.list.currentSearch.isEmpty {
-                                    ListViewNextSection(
-                                        listWidth: listWidth,
-                                        nextYear: viewModel.getNextYear()
-                                    )
-                                }
-                                
-                                let event = eventsInNearFuture[index]
-                                
-                                ListRowView(
-                                    event: event,
-                                    mediaHeight: 150
-                                )
-                                .frame(maxHeight: .infinity, alignment: .top)
-                                .id(event.id)
-                            }
+                            ListViewFutureEvents(
+                                events: eventsInNearFuture,
+                                listWidth: listWidth,
+                                nextYear: viewModel.getNextYear()
+                            )
                         }
                     }
                     .padding(.bottom, listBottomPadding)
@@ -210,15 +183,72 @@ struct ListView: View {
         .background(Color.listBackground)
         .edgesIgnoringSafeArea(.bottom)
         .alert(isPresented: $isShowingErrorAlert) {
-            Alert(title: Text("List.Error.Title"),
-                  message: Text("List.Error.Message"),
-                  dismissButton: .default(Text("OK")))
+            Alert(
+                title: Text("List.Error.Title"),
+                message: Text("List.Error.Message"),
+                dismissButton: .default(Text("OK"))
+            )
         }
-        .onChange(of: store.state.list.fetchError, perform: { error in
+        .onChange(of: store.state.list.fetchError) { error in
             if let _ = error {
                 isShowingErrorAlert = true
             }
-        })
+        }
+    }
+}
+
+// MARK: - Nearby events
+
+struct ListViewNearbyEvents: View {
+    let events: [EventViewModel]
+    
+    var body: some View {
+        ForEach(0..<events.count, id:\.self) { index in
+            let event = events[index]
+            let total = events.count
+            
+            ListRowView(
+                event: event,
+                mediaHeight: 150
+            )
+            .frame(maxHeight: .infinity, alignment: .top)
+            .id(event.id)
+            
+            // Fill out list if needed, to push down section separator
+            if index == total - 1, index % 2 == 0 {
+                Color.clear
+            }
+        }
+    }
+}
+
+// MARK: - Future events
+
+struct ListViewFutureEvents: View {
+    @EnvironmentObject var store: AppStore
+    
+    let events: [EventViewModel]
+    let listWidth: CGFloat
+    let nextYear: String?
+    
+    var body: some View {
+        ForEach(0..<events.count, id:\.self) { index in
+            if index == 0, store.state.list.currentSearch.isEmpty {
+                ListViewNextSection(
+                    listWidth: listWidth,
+                    nextYear: nextYear
+                )
+            }
+            
+            let event = events[index]
+            
+            ListRowView(
+                event: event,
+                mediaHeight: 150
+            )
+            .frame(maxHeight: .infinity, alignment: .top)
+            .id(event.id)
+        }
     }
 }
 
@@ -275,7 +305,7 @@ struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         let empty = MockStore.store
         
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         let store = MockStore.store(with: [event])
         
         ListView(

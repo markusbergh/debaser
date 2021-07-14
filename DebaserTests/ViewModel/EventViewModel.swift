@@ -43,7 +43,7 @@ class EventViewModelTests: XCTestCase {
     func testFormattedOpenHours() throws {
         let viewModel = try XCTUnwrap(viewModel, "There should be a view model available")
         
-        XCTAssertEqual(viewModel.open, "19:00")
+        XCTAssertEqual(viewModel.openHours, "19:00")
     }
     
     func testFormattedSubHeader() throws {

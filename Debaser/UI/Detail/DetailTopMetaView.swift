@@ -11,7 +11,8 @@ struct DetailTopMetaView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State private var isShowingMapView = false
-    
+    @State private var metaVenueButtonScale: CGFloat = 1.0
+
     private var cancelledLabel: String {
         return NSLocalizedString("List.Event.Cancelled", comment: "A cancelled event")
     }
@@ -56,7 +57,7 @@ struct DetailTopMetaView: View {
                 )
             } else {
                 Text(event.shortDate)
-                    .font(Font.Variant.tiny.font)
+                    .font(Font.Variant.tiny(weight: .regular).font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)
@@ -65,7 +66,7 @@ struct DetailTopMetaView: View {
                             .strokeBorder(lineWidth: 1.0)
                     )
             }
-            
+                
             Button(action: {
                 isShowingMapView = true
             }) {
@@ -81,10 +82,10 @@ struct DetailTopMetaView: View {
                     .preferredColorScheme(colorScheme)
                     .ignoresSafeArea()
             }
-            
+
             if isEventNextYear {
                 Text(event.shortYear)
-                    .font(Font.Variant.tiny.font)
+                    .font(Font.Variant.tiny(weight: .regular).font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)
@@ -97,9 +98,38 @@ struct DetailTopMetaView: View {
     }
 }
 
+struct DetailTopMetaHintEffect: AnimatableModifier {
+    var value: CGFloat
+    
+    private var target: CGFloat
+    private var onEneded: () -> ()
+    
+    init(to value: CGFloat, onEnded: @escaping () -> () = {}) {
+        self.value = value
+        self.target = value
+        self.onEneded = onEnded
+    }
+    
+    var animatableData: CGFloat {
+        get { value }
+        set {
+            value = newValue
+            
+            // When value has reached the target, we apply the provided callback
+            if newValue == target {
+                onEneded()
+            }
+        }
+    }
+    
+    func body(content: Content) -> some View {
+        content.scaleEffect(value)
+    }
+}
+
 struct DetailTopMetaView_Previews: PreviewProvider {
     static var previews: some View {
-        let event = MockEventViewModel.event
+        let event = EventViewModel.mock
         
         DetailTopMetaView(event: event)
             .previewLayout(.fixed(width: 390, height: 175))

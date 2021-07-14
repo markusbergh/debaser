@@ -8,9 +8,14 @@
 import Foundation
 
 class MessagesViewViewModel {
+    
+    // MARK: Private
+    
     private var dateComponents = Calendar.current.dateComponents([.year], from: Date())
     private let dateFormatter = DateFormatter()
     private let service: EventService
+    
+    // MARK: Public
     
     var events = [EventViewModel]()
     var filteredEvents = [EventViewModel]()
@@ -30,7 +35,10 @@ class MessagesViewViewModel {
     }
 }
 
+// MARK: - Date handling
+
 extension MessagesViewViewModel {
+    
     var lastDayOfYear: String? {
         guard let startDateOfYear = Calendar.current.date(from: dateComponents) else {
             return nil
@@ -49,7 +57,11 @@ extension MessagesViewViewModel {
     var today: String? {
         return dateFormatter.string(from: Date())
     }
+}
 
+// MARK: - Events
+
+extension MessagesViewViewModel {
     
     func getEvents(completion: @escaping () -> Void) {
         guard let today = today else { return }
@@ -78,7 +90,7 @@ extension MessagesViewViewModel {
         }
     }
     
-    func getEventDateFormat(date: String) -> String? {
+    func dateFormat(for date: String) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
 

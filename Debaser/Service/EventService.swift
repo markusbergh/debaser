@@ -50,6 +50,15 @@ final class EventService {
     
     static let shared = EventService()
     
+    ///
+    /// Custom log helper
+    ///
+    /// - Parameter message: The message to log
+    ///
+    static func log(message: String) {
+        print("🌐 [EventService]: \(message)")
+    }
+    
     // MARK: Private
     
     private var timeout: Timer?
@@ -82,13 +91,17 @@ extension EventService {
     ///
     /// Get a data task publisher to request events from date range
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - from: Starting date string
     ///   - to: Ending date string
-    /// - returns: A publisher that outputs a list of events
+    /// - Returns: A publisher that outputs a list of events
     ///
     func getPublisher(fromDate from: String, toDate to: String) -> AnyPublisher<[EventViewModel], ServiceError> {
+        EventService.log(message: "Fetching all events within range (\(from)) - \(to))")
+        
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
+            EventService.log(message: "There was an error while constructing url components")
+            
             return Fail(error: ServiceError.invalidURL)
                 .eraseToAnyPublisher()
         }
@@ -107,6 +120,8 @@ extension EventService {
         urlComponents.queryItems = queryItems
 
         guard let urlString = urlComponents.string, let url = URL(string: urlString) else {
+            EventService.log(message: "Invalid URL: \(urlComponents.string ?? "No URL available")")
+
             return Fail(error: ServiceError.invalidURL)
                 .eraseToAnyPublisher()
         }
@@ -129,6 +144,8 @@ extension EventService {
                 }
             }
             .map { events in
+                EventService.log(message: "Successfully received events")
+                
                 self.timeout?.invalidate()
                 
                 var list = [EventViewModel]()
@@ -145,7 +162,7 @@ extension EventService {
     ///
     /// Request events from date range
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - from: Starting date string
     ///   - to: Ending date string
     ///   - completion: A closure to call when the request has changed
@@ -154,8 +171,12 @@ extension EventService {
     func getEvents(fromDate from: String,
                    toDate to: String,
                    completion: @escaping (_ result: Result<[EventViewModel], ServiceError>) -> Void) {
-        
+
+        EventService.log(message: "Fetching all events within range (\(from)) - \(to))")
+
         guard var urlComponents = URLComponents(string: EventService.baseUrl) else {
+            EventService.log(message: "There was an error while constructing url components")
+
             completion(.failure(.invalidURL))
             return
         }
@@ -175,6 +196,8 @@ extension EventService {
         urlComponents.queryItems = queryItems
 
         guard let urlString = urlComponents.string, let url = URL(string: urlString) else {
+            EventService.log(message: "Invalid URL: \(urlComponents.string ?? "No URL available")")
+
             completion(.failure(.invalidURL))
             return
         }
@@ -209,6 +232,8 @@ extension EventService {
                     break
                 }
              }, receiveValue: { events in
+                EventService.log(message: "Successfully received events")
+
                 self.timeout?.invalidate()
                 
                 var list = [EventViewModel]()
@@ -224,7 +249,7 @@ extension EventService {
     ///
     /// Request data from url
     ///
-    /// - parameters:
+    /// - Parameters:
     ///   - url: The url to reqest from
     ///   - completion: A closure to call when the request has changed
     ///   - result: The request result

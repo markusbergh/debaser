@@ -12,7 +12,7 @@ class ImageViewModel: ObservableObject {
     
     // MARK: Private
     
-    private var cancellable: AnyCancellable? = nil
+    private var cancellable: AnyCancellable?
     
     // MARK: Public
 
@@ -29,11 +29,11 @@ class ImageViewModel: ObservableObject {
 extension ImageViewModel {
     
     ///
-    /// Tries to load an image
+    /// Will try to load an image
     ///
-    /// - parameter imageURL: The image url to load from
+    /// - Parameter imageURL: The image url to load from
     ///
-    func loadImage(with imageURL: String) {
+    func load(with imageURL: String) {
         guard let url = URL(string: imageURL) else { return }
         guard let imageService = imageService else { return }
 
