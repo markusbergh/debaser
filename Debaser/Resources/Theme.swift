@@ -134,10 +134,11 @@ extension Font {
 
     enum Variant {
         case large(weight: Font.Weight)
+        case big(weight: Font.Weight)
         case body(weight: Font.Weight)
         case small(weight: Font.Weight)
         case smaller(weight: Font.Weight)
-        case tiny
+        case tiny(weight: Font.Weight)
         case micro(weight: Font.Weight)
         case mini(weight: Font.Weight)
         
@@ -145,14 +146,16 @@ extension Font {
             switch self {
             case .large(let weight):
                 return .system(size: 29, weight: weight)
+            case .big(let weight):
+                return .system(size: 23, weight: weight)
             case .body(let weight):
                 return .system(size: 19, weight: weight)
             case .small(let weight):
                 return .system(size: 17, weight: weight)
             case .smaller(let weight):
                 return .system(size: 16, weight: weight)
-            case .tiny:
-                return .system(size: 15)
+            case .tiny(let weight):
+                return .system(size: 15, weight: weight)
             case .micro(let weight):
                 return .system(size: 12, weight: weight)
             case .mini(let weight):

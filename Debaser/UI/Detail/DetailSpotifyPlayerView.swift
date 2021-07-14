@@ -20,7 +20,7 @@ struct DetailSpotifyPlayerView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Detail.Preview.Artist")
-                .font(Font.Variant.tiny.font)
+                .font(Font.Variant.tiny(weight: .regular).font)
                 .fontWeight(.semibold)
             
             HStack(spacing: 15) {

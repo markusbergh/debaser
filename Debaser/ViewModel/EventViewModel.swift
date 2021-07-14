@@ -281,8 +281,7 @@ struct ParseUsingRegularExpression {
 
 extension ParseUsingRegularExpression: Codable {
     init(from decoder: Decoder) throws {
-        var values = try decoder.unkeyedContainer()
-        value = try values.decode(String.self)
+        value = try String(from: decoder)
     }
     
     func encode(to encoder: Encoder) throws {

@@ -16,8 +16,7 @@ struct DetailToolbarView: View {
         )?.windowScene?.statusBarManager?.statusBarFrame.height ?? 44
     }
     
-    @State private var isFavourite = false
-
+    @Binding var isFavourite: Bool
     var event: EventViewModel
     
     var body: some View {
@@ -29,9 +28,15 @@ struct DetailToolbarView: View {
                                 
                 Spacer()
                 
-                Text(event.title)
-                    .font(Font.Variant.body(weight: .regular).font)
-                    .foregroundColor(.white)
+                VStack {
+                    Text(event.title)
+                        .font(Font.Variant.body(weight: .regular).font)
+                        .lineLimit(1)
+                        .foregroundColor(.white)
+                    
+                    Text("Debaser Strand")
+                        .font(Font.Variant.micro(weight: .bold).font)
+                }
 
                 Spacer()
                 
@@ -54,9 +59,11 @@ struct DetailToolbarView: View {
                                 removal: transition(removalFor: isFavourite)
                             )
                         )
-                        .id("is_favourite_active_\(isFavourite)")
+                        .id("is_favourite_\(isFavourite ? "active" : "inactive")_toolbar")
                 }
                 .foregroundColor(.red)
+                .buttonStyle(PlainButtonStyle())
+
             }
             .frame(maxWidth: .infinity)
 
@@ -66,6 +73,7 @@ struct DetailToolbarView: View {
         .background(VisualEffectView(effect: UIBlurEffect(style: .regular)))
         .background(Color.detailBackground.opacity(0.75))
         .frame(minWidth: 0, maxWidth: .infinity)
+        .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
         .ignoresSafeArea()
         .offset(y: -statusBarHeight)
     }
@@ -103,6 +111,6 @@ struct DetailToolbarView_Previews: PreviewProvider {
     static var previews: some View {
         let event = EventViewModel.mock
 
-        DetailToolbarView(event: event)
+        DetailToolbarView(isFavourite: .constant(false), event: event)
     }
 }

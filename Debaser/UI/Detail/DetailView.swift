@@ -16,10 +16,7 @@ struct DetailView: View {
 
     /// Store
     @EnvironmentObject var store: AppStore
-        
-    /// Handling image loading
-    @StateObject private var imageViewModel = ImageViewModel()
-    
+            
     /// If there is an audio stream for current artist
     @State private var canPreviewArtist = false
     
@@ -32,6 +29,9 @@ struct DetailView: View {
     /// Determine if toolbar with back button should be shown
     @State private var isShowingToolbar = false
     
+    /// Is event saved in favourites or not
+    @State private var isEventFavourite = false
+    
     /// Return shadow opacity depending on current color scheme
     private var shadowOpacity: Double {
         return colorScheme == .light ? 0.25 : 0.1
@@ -42,13 +42,15 @@ struct DetailView: View {
         return store.state.spotify.topTracks?.first
     }
     
+    /// Offset threshold for displaying toolbar
+    private let thresholdOffsetToolbar: CGFloat = -250
+    
     /// Current event
     let event: EventViewModel
     
     /// Flag if view can be navigated back, will be false for a modal
     let canNavigateBack: Bool
     
-
     init(event: EventViewModel, canNavigateBack: Bool = true) {
         self.event = event
         self.canNavigateBack = canNavigateBack
@@ -60,34 +62,15 @@ struct DetailView: View {
                 ScrollView(
                     showsIndicators: false,
                     offsetDidChange: { offset in
-                        if offset.y < -150 {
-                            isShowingToolbar = true
-                        } else {
-                            isShowingToolbar = false
-                        }
+                        isShowingToolbar = offset.y < thresholdOffsetToolbar
                     }
                 ) {
                     VStack(alignment: .leading, spacing: 0) {
-                        ZStack(alignment: .topLeading) {
-                            if store.state.settings.showImages.value {
-                                DetailTopImageView()
-                                    .environmentObject(imageViewModel)
-                                    .onAppear {
-                                        imageViewModel.load(with: event.image)
-                                    }
-                            }
-                            
-                            if canNavigateBack {
-                                HStack {
-                                    DetailBackButtonView(isStreaming: $isStreaming)
-                                    
-                                    Spacer()
-                                }
-                                .padding(.horizontal, Style.padding.value)
-                                .padding(.top, (Style.padding.value * 2))
-                                .frame(maxWidth: .infinity)
-                            }
-                        }
+                        DetailHeroView(
+                            canNavigateBack: canNavigateBack,
+                            eventImage: event.image,
+                            isStreaming: $isStreaming
+                        )
                         
                         Group {
                             // Music player
@@ -109,7 +92,7 @@ struct DetailView: View {
                             }
                             
                             // Main content
-                            DetailMainContentView(event: event)
+                            DetailMainContentView(isFavourite: $isEventFavourite, event: event)
                                 .animation(.easeInOut)
                         }
                         .offset(y: Style.offset.value)
@@ -149,7 +132,7 @@ struct DetailView: View {
                 }
                 
                 if canNavigateBack, isShowingToolbar {
-                    DetailToolbarView(event: event)
+                    DetailToolbarView(isFavourite: $isEventFavourite, event: event)
                         .transition(.move(edge: .top))
                         .animation(.easeInOut(duration: 0.5))
                         .zIndex(1)
@@ -161,16 +144,28 @@ struct DetailView: View {
     
     private func onAppear() {
         // Search for artist if eligible to do so
-        if store.state.spotify.isLoggedIn == true {
-            store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
-        }
+        searchForArtistTopTracks()
         
         // Always hide tab bar
-        if store.state.list.isShowingTabBar == true {
-            store.dispatch(action: .list(.hideTabBar))
-        }
+        hideTabBar()
         
         // Has this event already happened?
+        checkEventDueDate()
+        
+        // Is event saved?
+        checkEventFavouriteState()
+    }
+    
+    private func onDisappear() {
+        // Always show tab bar
+        showTabBar()
+        
+        if isStreaming {
+            spotifyService.playPauseStream()
+        }
+    }
+    
+    private func checkEventDueDate() {
         DispatchQueue.main.async {
             if event.isDateExpired {
                 isShowingAlertDateOverdue = true
@@ -178,12 +173,66 @@ struct DetailView: View {
         }
     }
     
-    private func onDisappear() {
-        // Always show tab bar
+    private func checkEventFavouriteState() {
+        isEventFavourite = store.state.list.favourites.contains(event)
+    }
+    
+    private func hideTabBar() {
+        if store.state.list.isShowingTabBar == true {
+            store.dispatch(action: .list(.hideTabBar))
+        }
+    }
+    
+    private func showTabBar() {
         store.dispatch(action: .list(.showTabBar))
-        
-        if isStreaming {
-            spotifyService.playPauseStream()
+    }
+    
+    private func searchForArtistTopTracks() {
+        if store.state.spotify.isLoggedIn == true {
+            store.dispatch(action: .spotify(.requestSearchArtist(event.title)))
+        }
+    }
+}
+
+// MARK: - Hero
+
+struct DetailHeroView: View {
+
+    /// Store
+    @EnvironmentObject var store: AppStore
+    
+    /// Handling image loading
+    @StateObject private var imageViewModel = ImageViewModel()
+    
+    /// Flag if view can be navigated back, will be false for a modal
+    let canNavigateBack: Bool
+    
+    /// Image
+    let eventImage: String
+    
+    /// Audio streaming state
+    @Binding var isStreaming: Bool
+
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            if store.state.settings.showImages.value {
+                DetailTopImageView()
+                    .environmentObject(imageViewModel)
+                    .onAppear {
+                        imageViewModel.load(with: eventImage)
+                    }
+            }
+            
+            if canNavigateBack {
+                HStack {
+                    DetailBackButtonView(isStreaming: $isStreaming)
+                    
+                    Spacer()
+                }
+                .padding(.horizontal, Style.padding.value)
+                .padding(.top, (Style.padding.value * 2))
+                .frame(maxWidth: .infinity)
+            }
         }
     }
 }
@@ -193,7 +242,7 @@ struct DetailView: View {
 struct DetailMainContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @State private var isFavourite = false
+    @Binding var isFavourite: Bool
     @State private var titleHeight: CGFloat = 0.0
     
     // TODO: Consider look into this issue with setting width
@@ -212,7 +261,7 @@ struct DetailMainContentView: View {
 
                 Spacer()
                 
-                DetailFavouriteButtonView(event: event)
+                DetailFavouriteButtonView(isFavourite: $isFavourite, event: event)
             }
             .padding(.bottom, 20)
             

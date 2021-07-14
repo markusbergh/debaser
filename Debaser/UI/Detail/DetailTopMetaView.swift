@@ -57,7 +57,7 @@ struct DetailTopMetaView: View {
                 )
             } else {
                 Text(event.shortDate)
-                    .font(Font.Variant.tiny.font)
+                    .font(Font.Variant.tiny(weight: .regular).font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)
@@ -85,7 +85,7 @@ struct DetailTopMetaView: View {
 
             if isEventNextYear {
                 Text(event.shortYear)
-                    .font(Font.Variant.tiny.font)
+                    .font(Font.Variant.tiny(weight: .regular).font)
                     .frame(minHeight: 20)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 5)
