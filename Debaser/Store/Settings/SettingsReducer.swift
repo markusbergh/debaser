@@ -64,7 +64,7 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
     case .pushToSpotifySettings:
         state.pushToSpotifySettings.send(true)
     case .resetPushToSpotifySettings:
-        state.pushToSpotifySettings.send(false)
+        state.pushToSpotifySettings.value = false
     }
     
     return state
