@@ -118,7 +118,7 @@ extension DebaserApp {
     /// Initial configuration for app
     private func configure() {
         resetIfNeeded()
-        skipOnbordingIfNeeded()
+        handleOnbordingIfNeeded()
     }
     
     /// Reset user defaults when running tests
@@ -133,13 +133,15 @@ extension DebaserApp {
         UserDefaults.standard.removePersistentDomain(forName: defaultsName)
     }
     
-    /// Skip onboarding when running tests
-    private func skipOnbordingIfNeeded() {
-        guard CommandLine.arguments.contains("-skipOnboarding") else {
+    /// Handles onboarding when running tests
+    private func handleOnbordingIfNeeded() {
+        if CommandLine.arguments.contains("-skipOnboarding") {
             return
+        } else if CommandLine.arguments.contains("-testOnboarding") {
+            return store.dispatch(action: .onboarding(.getOnboarding))
+        } else {
+            UserDefaults.standard.setValue(false, forKey: "seenOnboarding")
         }
-        
-        UserDefaults.standard.setValue(false, forKey: "seenOnboarding")
     }
     
     /// Set state for store

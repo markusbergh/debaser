@@ -1,13 +1,13 @@
 //
-//  DebaserUITests.swift
+//  SettingsUITests.swift
 //  DebaserUITests
 //
-//  Created by Markus Bergh on 2021-05-06.
+//  Created by Markus Bergh on 2021-07-15.
 //
 
 import XCTest
 
-class DebaserUITests: XCTestCase {
+class SettingsUITests: XCTestCase {
     
     let app = XCUIApplication()
     
@@ -22,14 +22,8 @@ class DebaserUITests: XCTestCase {
         super.tearDown()
         app.terminate()
     }
-
-    func testList() {
-        XCTAssert(app.staticTexts["Today's events"].exists)
-        XCTAssert(app.staticTexts["Stockholm"].exists)
-        XCTAssert(app.staticTexts["All events"].exists)
-    }
     
-    func testSettings() {
+    func testSettingsUserCanOverrideTheme() throws {
         let tab = MainScreen.tabSettings.element
         XCTAssert(tab.exists)
         tab.tap()
@@ -47,19 +41,6 @@ class DebaserUITests: XCTestCase {
     }
 }
 
-enum MainScreen: String {
-    case tabList = "TabItemList"
-    case tabFavourites = "TabItemFavourites"
-    case tabSettings = "TabItemSettings"
-    
-    var element: XCUIElement {
-        switch self {
-        case .tabList, .tabFavourites, .tabSettings:
-            return XCUIApplication().buttons.matching(identifier: self.rawValue).element
-        }
-    }
-}
-
 enum SettingsScreen: String {
     case toggleThemeSystem = "ToggleSystemTheme"
     case toggleThemeUser = "ToggleUserTheme"
@@ -68,14 +49,6 @@ enum SettingsScreen: String {
         switch self {
         case .toggleThemeSystem, .toggleThemeUser:
             return XCUIApplication().switches.matching(identifier: self.rawValue).element
-        }
-    }
-}
-
-extension XCUIElement {
-    func tapUnhittable() {
-        XCTContext.runActivity(named: "Tap \(self) by coordinate") { _ in
-            coordinate(withNormalizedOffset: CGVector(dx: 0.0, dy: 0.0)).tap()
         }
     }
 }
