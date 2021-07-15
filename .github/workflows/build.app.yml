@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Unit testing [Swift]
+    name: Unit + UI testing [Swift]
 
     runs-on: macos-11
 

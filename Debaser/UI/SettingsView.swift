@@ -46,7 +46,7 @@ struct SettingsView: View {
                     // the rest, possibly due to an animated removal/insertion of the row.
                     Section(header: Text(themeLabel)) {
                         Toggle("System", isOn: systemColorScheme.animation(.easeInOut))
-                            .accessibilityIdentifier("ToggleSystemTheme")
+                            .accessibility(identifier: "ToggleSystemTheme")
                 
                         if !systemColorScheme.wrappedValue {
                             let spacing = isDarkMode ? CGFloat(10.0) : CGFloat(5.0)
@@ -62,7 +62,7 @@ struct SettingsView: View {
                                     }
                                 }
                             }
-                            .accessibilityIdentifier("ToggleUserTheme")
+                            .accessibility(identifier: "ToggleUserTheme")
                         }
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .toggleTint))

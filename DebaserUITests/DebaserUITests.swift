@@ -37,14 +37,13 @@ class DebaserUITests: XCTestCase {
         XCTAssert(app.staticTexts["Settings"].waitForExistence(timeout: 10))
 
         XCTAssert(SettingsScreen.toggleThemeSystem.element.waitForExistence(timeout: 10))
+        XCTAssert(SettingsScreen.toggleThemeSystem.element.isHittable)
         
-        expectation(for: NSPredicate(format: "hittable == 1"), evaluatedWith: SettingsScreen.toggleThemeSystem.element, handler: nil)
-        waitForExpectations(timeout: 10, handler: nil)
-        
+        SettingsScreen.toggleThemeSystem.element.tap(withNumberOfTaps: 1, numberOfTouches: 2)
+
         // Disable system theme should reveal user theme toggle
-        SettingsScreen.toggleThemeSystem.element.tap()
-        sleep(2)
         XCTAssert(SettingsScreen.toggleThemeUser.element.waitForExistence(timeout: 10))
+        XCTAssert(SettingsScreen.toggleThemeUser.element.isHittable)
     }
 }
 
@@ -68,7 +67,7 @@ enum SettingsScreen: String {
     var element: XCUIElement {
         switch self {
         case .toggleThemeSystem, .toggleThemeUser:
-            return XCUIApplication().toggles.matching(identifier: self.rawValue).element
+            return XCUIApplication().switches.matching(identifier: self.rawValue).element
         }
     }
 }
