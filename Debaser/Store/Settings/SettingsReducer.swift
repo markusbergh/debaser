@@ -63,6 +63,8 @@ func settingsReducer(state: inout SettingsState, action: SettingsAction) -> Sett
         state.hideCancelled.send(willHide)
     case .pushToSpotifySettings:
         state.pushToSpotifySettings.send(true)
+    case .resetPushToSpotifySettings:
+        state.pushToSpotifySettings.value = false
     }
     
     return state

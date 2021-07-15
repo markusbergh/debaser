@@ -239,7 +239,10 @@ struct SettingsSectionSpotify: View {
         if store.state.settings.pushToSpotifySettings.value == true {
             DispatchQueue.main.async {
                 showSpotifySettings = true
-            }
+
+                // Immediately reset
+                store.dispatch(action: .settings(.resetPushToSpotifySettings))
+            }            
         }
     }
 }
