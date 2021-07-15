@@ -11,9 +11,9 @@ struct FavouriteRowImageView: View {
     
     // MARK: Public
     
-    var image: UIImage
-    var height: CGFloat
-    
+    let imageURL: String
+    let height: CGFloat
+
     var overlayGradient: some View {
         return Rectangle()
             .fill(
@@ -31,15 +31,31 @@ struct FavouriteRowImageView: View {
     }
     
     var body: some View {
-        Image(uiImage: image)
-            .resizable()
-            .scaledToFill()
-            .frame(minWidth: 0, maxWidth: .infinity)
-            .frame(height: height)
-            .clipped()
-            .transition(
-                .opacity.animation(.easeInOut(duration: 0.2))
-            )
-            .overlay(overlayGradient)
+        AsyncImage(
+            url: URL(string: imageURL),
+            transaction: Transaction(animation: .easeOut(duration: 0.25))
+        ) { phase in
+            
+            switch phase {
+            case .empty:
+                EmptyView()
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .frame(height: height)
+                    .clipped()
+                    .transition(
+                        .opacity.animation(.linear(duration: 0.25))
+                    )
+                    .overlay(overlayGradient)
+            case .failure:
+                Image(systemName: "photo")
+            @unknown default:
+                // Handle all other cases that might be added in the future
+                EmptyView()
+            }
+        }
     }
 }

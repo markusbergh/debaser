@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct DetailTopImageView: View {
-    @EnvironmentObject var imageViewModel: ImageViewModel
+
+    /// Image url to load
+    let imageURL: String
     
     var body: some View {
         GeometryReader { geometry -> DetailImageView in
@@ -23,8 +25,7 @@ struct DetailTopImageView: View {
             }
             
             return DetailImageView(
-                image: imageViewModel.image,
-                isLoaded: imageViewModel.isLoaded,
+                imageURL: imageURL,
                 width: width,
                 height: height,
                 offset: offsetY
@@ -35,50 +36,56 @@ struct DetailTopImageView: View {
 }
 
 struct DetailImageView: View {
-    let image: UIImage
-    let isLoaded: Bool
+    
+    /// Image url to load
+    let imageURL: String
+    
+    /// Image width
     let width: CGFloat
+    
+    /// Image height
     let height: CGFloat
+    
+    /// Offset based on scroll
     let offset: CGFloat
         
-    private var offsetY: CGFloat {
-        return isLoaded ? offset : 0.0
-    }
-        
     var body: some View {
-        Image(uiImage: image)
-            .resizable()
-            .scaledToFill()
-            .frame(width: width, height: height)
-            .animation(nil, value: isLoaded)
-            .modifier(DetailImageAnimationModifier(isLoaded: isLoaded))
-            .mask(DetailImageMaskView())
-            .offset(y: offsetY)
-            .animation(nil, value: isLoaded)
-    }
-}
-
-struct DetailImageAnimationModifier: ViewModifier {
-    let isLoaded: Bool
-    
-    private var scaleEffect: CGFloat {
-        return isLoaded ? 1.0 : 1.25
-    }
-    
-    private var opacity: Double {
-        return isLoaded ? 1.0 : 0.0
-    }
-    
-    func body(content: Content) -> some View {
-        content
-            .scaleEffect(scaleEffect)
-            .opacity(opacity)
-            .animation(.easeOut(duration: 0.5), value: isLoaded)
+        AsyncImage(
+            url: URL(string: imageURL),
+            transaction: Transaction(animation: .easeOut(duration: 0.5))
+        ) { phase in
+            switch phase {
+            case .empty:
+                // TODO: Handle pending phase
+                ProgressView()
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .transition(
+                        .scale(scale: 1.25, anchor: .center).combined(
+                            with: .opacity
+                        )
+                    )
+            case .failure:
+                Image(systemName: "photo")
+            @unknown default:
+                // Handle all other cases that might be added in the future
+                EmptyView()
+            }
+        }
+       .mask(DetailImageMaskView())
+       .offset(y: offset)
     }
 }
 
 struct DetailImageMaskView: View {
+    
+    /// Corner radius
     private let radius: CGFloat = 50.0
+    
+    /// Applied corners
     private let corners: UIRectCorner = [.bottomLeft, .bottomRight]
     
     var body: some View {
@@ -92,8 +99,7 @@ struct DetailImageView_Previews: PreviewProvider {
     
     static var previews: some View {
         DetailImageView(
-            image: image,
-            isLoaded: true,
+            imageURL: "https://debaser.se/img/10982.jpg",
             width: 390,
             height: 250,
             offset: 0

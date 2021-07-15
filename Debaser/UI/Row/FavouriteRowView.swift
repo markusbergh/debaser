@@ -12,7 +12,6 @@ struct FavouriteRowView: View {
     
     // MARK: Private
     
-    @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView = false
     @State private var titleHeight: CGFloat = 0.0
     
@@ -58,7 +57,7 @@ struct FavouriteRowView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity)
 
                             if store.state.settings.showImages.value == true {
-                                FavouriteRowImageView(image: viewModel.image, height: topHeight)
+                                FavouriteRowImageView(imageURL: event.image, height: topHeight)
                             }
                                                         
                             TitleView(
@@ -89,11 +88,6 @@ struct FavouriteRowView: View {
                             .cornerRadius(15)
                     )
                     .overlay(overlayStrokeGradient)
-                    .onAppear {
-                        if store.state.settings.showImages.value == true {
-                            viewModel.load(with: event.image)
-                        }
-                    }
                 }
             }
             .buttonStyle(FavouriteRowButtonStyle())
