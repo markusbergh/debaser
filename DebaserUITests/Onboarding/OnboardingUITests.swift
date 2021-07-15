@@ -52,7 +52,9 @@ class OnboardingUITests: XCTestCase {
         XCTAssert(OnboardingScreen.spotifyButton.element.isHittable)
         OnboardingScreen.spotifyButton.element.tap()
         
-        
+        // User should end up in settings tab and pushed automatically to Spotify settings
+        XCTAssert(app.staticTexts["Spotify"].waitForExistence(timeout: 10.0))
+        XCTAssert(app.staticTexts["No active connection"].exists)
     }
         
 }

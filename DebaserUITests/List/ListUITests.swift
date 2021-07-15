@@ -23,10 +23,18 @@ class ListUITests: XCTestCase {
         app.terminate()
     }
 
-    func testListDidShow() {
+    func testListDidShow() throws {
         XCTAssert(app.staticTexts["Today's events"].exists)
         XCTAssert(app.staticTexts["Stockholm"].exists)
         XCTAssert(app.staticTexts["All events"].exists)
+    }
+    
+    func testListShouldShowNoSearchResults() throws {
+        let searchTextField =  app.otherElements.textFields["Search concert"]
+        searchTextField.tap()
+        searchTextField.typeText("Qwerty1234")
+        
+        XCTAssert(app.staticTexts["No events found"].exists)
     }
     
 }
