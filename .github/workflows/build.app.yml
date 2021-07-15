@@ -16,6 +16,7 @@ jobs:
       matrix:
         run-config:
           - { scheme: "DebaserTests", destination: "platform=iOS Simulator,OS=14.5,name=iPhone 12 Pro" }
+          - { scheme: "DebaserUITests", destination: "platform=iOS Simulator,OS=14.5,name=iPhone 12 Pro" }
 
     steps:
       - name: Checkout repository
