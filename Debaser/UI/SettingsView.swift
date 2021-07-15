@@ -237,9 +237,9 @@ struct SettingsSectionSpotify: View {
     
     private func handlePushToSpotifySettings() {
         if store.state.settings.pushToSpotifySettings.value == true {
-            showSpotifySettings = true
-            
-            store.dispatch(action: .settings(.resetPushToSpotifySettings))
+            DispatchQueue.main.async {
+                showSpotifySettings = true
+            }
         }
     }
 }

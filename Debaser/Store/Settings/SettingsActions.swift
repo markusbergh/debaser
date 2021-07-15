@@ -17,5 +17,4 @@ enum SettingsAction {
     case getHideCancelled
     case setHideCancelled(Bool)
     case pushToSpotifySettings
-    case resetPushToSpotifySettings
 }
