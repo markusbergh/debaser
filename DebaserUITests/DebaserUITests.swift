@@ -26,7 +26,7 @@ class DebaserUITests: XCTestCase {
     func testList() {
         XCTAssert(app.staticTexts["Today's events"].exists)
         XCTAssert(app.staticTexts["Stockholm"].exists)
-        XCTAssert(app.staticTexts["All concerts"].exists)
+        XCTAssert(app.staticTexts["All events"].exists)
     }
     
     func testSettings() {
@@ -68,7 +68,7 @@ enum SettingsScreen: String {
     var element: XCUIElement {
         switch self {
         case .toggleThemeSystem, .toggleThemeUser:
-            return XCUIApplication().switches.matching(identifier: self.rawValue).element
+            return XCUIApplication().toggles.matching(identifier: self.rawValue).element
         }
     }
 }
