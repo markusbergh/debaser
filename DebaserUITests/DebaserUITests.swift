@@ -24,7 +24,7 @@ class DebaserUITests: XCTestCase {
     }
 
     func testList() {
-        XCTAssert(app.staticTexts["Today's concerts"].exists)
+        XCTAssert(app.staticTexts["Today's events"].exists)
         XCTAssert(app.staticTexts["Stockholm"].exists)
         XCTAssert(app.staticTexts["All concerts"].exists)
     }
