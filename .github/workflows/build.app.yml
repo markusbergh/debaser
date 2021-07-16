@@ -4,7 +4,7 @@ on:
   push:
     branches: [develop]
     paths-ignore:
-      - '*.xcodeproj'
+      - '*.xcodeproj/project.pbxproj'
   pull_request:
     branches: [develop]
 
