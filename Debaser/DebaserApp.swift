@@ -129,6 +129,9 @@ extension DebaserApp {
             return
         }
         
+        // Since we are testing, disable animations while running
+        UIView.setAnimationsEnabled(false)
+        
         let defaultsName = Bundle.main.bundleIdentifier!
         UserDefaults.standard.removePersistentDomain(forName: defaultsName)
     }
