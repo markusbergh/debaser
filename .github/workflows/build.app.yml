@@ -1,14 +1,14 @@
-name: Debaser CI
+name: Debaser [Development]
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
 
 jobs:
-  test:
-    name: Unit + UI testing [Swift]
+  unit_tests:
+    name: Unit testing [Swift] (${{ matrix.run-config['scheme'] }})
 
     runs-on: macos-11
 
@@ -16,6 +16,22 @@ jobs:
       matrix:
         run-config:
           - { scheme: "DebaserTests", destination: "platform=iOS Simulator,OS=14.5,name=iPhone 12 Pro" }
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run tests
+        run: set -o pipefail && xcodebuild clean test -scheme "${{ matrix.run-config['scheme'] }}" -destination "${{ matrix.run-config['destination'] }}" -showBuildTimingSummary | xcpretty --color
+
+  ui_tests:
+    name: UI testing [Swift] (${{ matrix.run-config['scheme'] }})
+
+    runs-on: macos-11
+
+    strategy:
+      matrix:
+        run-config:
           - { scheme: "DebaserUITests", destination: "platform=iOS Simulator,OS=14.5,name=iPhone 12 Pro" }
 
     steps:
