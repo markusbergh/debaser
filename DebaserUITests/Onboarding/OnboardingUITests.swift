@@ -30,7 +30,7 @@ class OnboardingUITests: XCTestCase {
         XCTAssert(OnboardingScreen.onboardingStep1Title.element.waitForExistence(timeout: 10.0))
     }
     
-    func testOnboardingHasPages() throws {
+    func testOnboardingHasExpectedPages() throws {
         app.swipeLeft()
         XCTAssert(OnboardingScreen.onboardingStep2Title.element.exists)
         
