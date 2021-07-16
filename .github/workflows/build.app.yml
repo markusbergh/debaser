@@ -3,6 +3,8 @@ name: Debaser [Development]
 on:
   push:
     branches: [develop]
+    paths-ignore:
+      - '*.xcodeproj'
   pull_request:
     branches: [develop]
 
