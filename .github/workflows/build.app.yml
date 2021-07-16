@@ -8,7 +8,7 @@ on:
 
 jobs:
   unit_tests:
-    name: Unit testing [Swift] (${{ matrix.scheme }})
+    name: Unit testing [Swift] (${{ matrix.run-config['scheme'] }})
 
     runs-on: macos-11
 
@@ -25,7 +25,7 @@ jobs:
         run: set -o pipefail && xcodebuild clean test -scheme "${{ matrix.run-config['scheme'] }}" -destination "${{ matrix.run-config['destination'] }}" -showBuildTimingSummary | xcpretty --color
 
   ui_tests:
-    name: UI testing [Swift] (${{ matrix.scheme }})
+    name: UI testing [Swift] (${{ matrix.run-config['scheme'] }})
 
     runs-on: macos-11
 
