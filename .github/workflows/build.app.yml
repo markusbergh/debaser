@@ -1,4 +1,4 @@
-name: Debaser CI
+name: Debaser [Development]
 
 on:
   push:
