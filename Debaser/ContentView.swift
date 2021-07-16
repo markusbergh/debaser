@@ -53,6 +53,7 @@ struct ContentView: View {
         }
         .onReceive(store.state.settings.pushToSpotifySettings) { _ in
             if store.state.settings.pushToSpotifySettings.value == true {
+                selectedTab = "gearshape"
                 tabViewRouter.currentTab = .settings
             }
         }

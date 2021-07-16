@@ -32,7 +32,6 @@ struct DetailToolbarView: View {
                     Text(event.title)
                         .font(Font.Variant.body(weight: .regular).font)
                         .lineLimit(1)
-                        .foregroundColor(.white)
                     
                     Text("Debaser Strand")
                         .font(Font.Variant.micro(weight: .bold).font)
@@ -70,8 +69,7 @@ struct DetailToolbarView: View {
             Spacer().frame(height: 20)
         }
         .padding(.horizontal, 25)
-        .background(VisualEffectView(effect: UIBlurEffect(style: .regular)))
-        .background(Color.detailBackground.opacity(0.75))
+        .background(VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial)))
         .frame(minWidth: 0, maxWidth: .infinity)
         .cornerRadius(30, corners: [.bottomLeft, .bottomRight])
         .ignoresSafeArea()
