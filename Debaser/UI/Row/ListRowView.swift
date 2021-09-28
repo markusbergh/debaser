@@ -12,7 +12,6 @@ struct ListRowView: View {
     
     // MARK: Private
     
-    @StateObject private var viewModel = ImageViewModel()
     @State private var isShowingDetailView = false
     
     private var isFavourite: Bool {
@@ -45,15 +44,9 @@ struct ListRowView: View {
                 dismissKeyboard()
             }) {
                 VStack(alignment: .leading, spacing: 0) {
-                    ListRowImageView(mediaHeight: mediaHeight)
-                        .environmentObject(viewModel)
-                        .onAppear {
-                            if showImagesIfNeeded {
-                                viewModel.load(with: event.image)
-                            }
-                        }
+                    ListRowImageView(imageURL: event.image, mediaHeight: mediaHeight)
                         .modifier(
-                            ListRowImageViewModifier(
+                            ListRowImageStatusViewModifier(
                                 isCancelled: event.isCancelled,
                                 isPostponed: event.isPostponed,
                                 maxHeight: mediaHeight

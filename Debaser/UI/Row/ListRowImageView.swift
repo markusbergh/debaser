@@ -9,48 +9,76 @@ import SwiftUI
 
 struct ListRowImageView: View {
     @EnvironmentObject var store: AppStore
-    @EnvironmentObject var viewModel: ImageViewModel
     
     // MARK: Private
 
-    @State private var opacity: Double = 0
-    
     private var showImagesIfNeeded: Bool {
         return store.state.settings.showImages.value == true
     }
     
     // MARK: Public
 
+    let imageURL: String
     let mediaHeight: CGFloat?
 
     var body: some View {
         if showImagesIfNeeded {
-            Image(uiImage: viewModel.image)
-                .resizable()
-                .scaledToFill()
-                .frame(minWidth: 0, maxWidth: .infinity)
-                .frame(height: mediaHeight)
-                .cornerRadius(15)
-                .opacity(opacity)
-                .onReceive(viewModel.$isLoaded) { isLoaded in
-                    if isLoaded {
-                        withAnimation {
-                            opacity = 1.0
-                        }
+            AsyncImage(
+                url: URL(string: imageURL),
+                transaction: Transaction(animation: .easeOut(duration: 0.45))
+            ) { phase in
+                
+                Group {
+                    switch phase {
+                    case .empty:
+                        // TODO: Handle pending state
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .transition(.opacity.combined(
+                                with: .scale(scale: 0.8))
+                            )
+                    case .failure:
+                        Image(systemName: "photo")
+                    @unknown default:
+                        // Handle all other cases that might be added in the future
+                        EmptyView()
                     }
                 }
+                .modifier(
+                    ListRowImageSizeViewModifier(mediaHeight: mediaHeight)
+                )
+            }
+            
         } else {
             Rectangle()
                 .fill(Color.listRowBackground)
-                .frame(height: mediaHeight)
-                .cornerRadius(15)
+                .modifier(
+                    ListRowImageSizeViewModifier(mediaHeight: mediaHeight)
+                )
         }
     }
 }
 
-// MARK: - View modifier
+// MARK: - Size view modifier
 
-struct ListRowImageViewModifier: ViewModifier {
+struct ListRowImageSizeViewModifier: ViewModifier {
+    
+    let mediaHeight: CGFloat?
+    
+    func body(content: Content) -> some View {
+        content
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .frame(height: mediaHeight)
+            .cornerRadius(15)
+    }
+}
+
+// MARK: - Status view modifier
+
+struct ListRowImageStatusViewModifier: ViewModifier {
     @EnvironmentObject var store: AppStore
     
     // MARK: Public

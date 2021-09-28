@@ -68,7 +68,7 @@ struct DetailView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         DetailHeroView(
                             canNavigateBack: canNavigateBack,
-                            eventImage: event.image,
+                            eventImageURL: event.image,
                             isStreaming: $isStreaming
                         )
                         
@@ -201,26 +201,19 @@ struct DetailHeroView: View {
     /// Store
     @EnvironmentObject var store: AppStore
     
-    /// Handling image loading
-    @StateObject private var imageViewModel = ImageViewModel()
-    
     /// Flag if view can be navigated back, will be false for a modal
     let canNavigateBack: Bool
     
     /// Image
-    let eventImage: String
+    let eventImageURL: String
     
     /// Audio streaming state
     @Binding var isStreaming: Bool
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            if store.state.settings.showImages.value {
-                DetailTopImageView()
-                    .environmentObject(imageViewModel)
-                    .onAppear {
-                        imageViewModel.load(with: eventImage)
-                    }
+            if store.state.settings.showImages.value == true {
+                DetailTopImageView(imageURL: eventImageURL)
             }
             
             if canNavigateBack {
