@@ -303,8 +303,6 @@ struct ListViewTopRectangle: View {
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
-        let empty = MockStore.store
-        
         let event = EventViewModel.mock
         let store = MockStore.store(with: [event])
         
