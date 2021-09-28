@@ -104,6 +104,7 @@
 		85B44A0A26384EEE00C095FA /* DelaGothicOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852821272627716F007B83EC /* DelaGothicOne-Regular.ttf */; };
 		85B44A1926385A2200C095FA /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B44A1826385A2200C095FA /* MessagesViewController.swift */; };
 		85B5CDE3261F0F0800A55398 /* ListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B5CDE2261F0F0800A55398 /* ListRowView.swift */; };
+		85B66D592703BE0D00AFF7D1 /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B66D582703BE0D00AFF7D1 /* UIApplication+Extension.swift */; };
 		85BC0B27261658D600589240 /* FavouriteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B26261658D600589240 /* FavouriteRowView.swift */; };
 		85BC0B2C2616592600589240 /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC0B2B2616592600589240 /* ImageViewModel.swift */; };
 		85BC1DDF269E45F9007735B0 /* ScrollViewOffset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */; };
@@ -269,6 +270,7 @@
 		85B449DE2638485200C095FA /* MessagesViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewViewModel.swift; sourceTree = "<group>"; };
 		85B44A1826385A2200C095FA /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		85B5CDE2261F0F0800A55398 /* ListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRowView.swift; sourceTree = "<group>"; };
+		85B66D582703BE0D00AFF7D1 /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		85BC0B26261658D600589240 /* FavouriteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteRowView.swift; sourceTree = "<group>"; };
 		85BC0B2B2616592600589240 /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		85BC1DDE269E45F9007735B0 /* ScrollViewOffset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewOffset.swift; sourceTree = "<group>"; };
@@ -744,6 +746,7 @@
 				8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */,
 				85EEB96A2620404000DFC238 /* View+Extension.swift */,
 				85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */,
+				85B66D582703BE0D00AFF7D1 /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1131,6 +1134,7 @@
 				8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */,
 				852E5033265AFB8E00B48DB6 /* FavouriteRowImageView.swift in Sources */,
 				85616EDE262992E50018C955 /* ListHeaderView.swift in Sources */,
+				85B66D592703BE0D00AFF7D1 /* UIApplication+Extension.swift in Sources */,
 				8599436426344FD900128A73 /* OnboardingReducer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
