@@ -6,7 +6,7 @@ This application for iOS uses Debaser's open public API to list upcoming concert
 Development environment
 -----------------------
 Requirements:
-- iOS 14.5
+- iOS 15.0
 - Swift 5.4
 - SwiftUI 2.0
 
