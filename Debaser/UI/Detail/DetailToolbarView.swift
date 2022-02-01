@@ -11,9 +11,11 @@ struct DetailToolbarView: View {
     @EnvironmentObject var store: AppStore
 
     private var statusBarHeight: CGFloat {
-        return UIApplication.shared.windows.first(
-            where: { $0.isKeyWindow }
-        )?.windowScene?.statusBarManager?.statusBarFrame.height ?? 44
+        UIApplication.shared
+            .keyWindow?
+            .windowScene?
+            .statusBarManager?
+            .statusBarFrame.height ?? 44
     }
     
     @Binding var isFavourite: Bool

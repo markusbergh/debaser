@@ -130,6 +130,7 @@
 		85FCAF2A26372E2000A0BC89 /* SpotifyActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */; };
 		85FCAF2F26372E2900A0BC89 /* SpotifyReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */; };
 		85FCAF3D26375F4B00A0BC89 /* DetailStreamProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FCAF3C26375F4B00A0BC89 /* DetailStreamProgress.swift */; };
+		C0DADF1127A940FA00F92B6F /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DADF1027A940FA00F92B6F /* UIApplication+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -296,6 +297,7 @@
 		85FCAF2926372E2000A0BC89 /* SpotifyActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyActions.swift; sourceTree = "<group>"; };
 		85FCAF2E26372E2900A0BC89 /* SpotifyReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyReducer.swift; sourceTree = "<group>"; };
 		85FCAF3C26375F4B00A0BC89 /* DetailStreamProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStreamProgress.swift; sourceTree = "<group>"; };
+		C0DADF1027A940FA00F92B6F /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -744,6 +746,7 @@
 				8528211D26276BF8007B83EC /* UINavigationController+Extension.swift */,
 				85EEB96A2620404000DFC238 /* View+Extension.swift */,
 				85D3AEB12639670F006A59A2 /* Calendar+Extension.swift */,
+				C0DADF1027A940FA00F92B6F /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1131,6 +1134,7 @@
 				8528211E26276BF8007B83EC /* UINavigationController+Extension.swift in Sources */,
 				852E5033265AFB8E00B48DB6 /* FavouriteRowImageView.swift in Sources */,
 				85616EDE262992E50018C955 /* ListHeaderView.swift in Sources */,
+				C0DADF1127A940FA00F92B6F /* UIApplication+Extension.swift in Sources */,
 				8599436426344FD900128A73 /* OnboardingReducer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
